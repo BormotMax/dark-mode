@@ -1,7 +1,8 @@
 import Head from "next/head"
 import { AboveTheFold } from "../components/AboveTheFold"
+import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react"
 
-export default function Home() {
+function Home() {
   return (
     <div className="container">
       <Head>
@@ -11,9 +12,12 @@ export default function Home() {
 
       <div className="columns is-centered">
         <div className="column is-half">
+          <AmplifySignOut />
           <AboveTheFold />
         </div>
       </div>
     </div>
   )
 }
+
+export default Home
