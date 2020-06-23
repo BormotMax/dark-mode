@@ -1,0 +1,192 @@
+.header {
+  padding: 30px;
+  height: 346px;
+  text-align: center;
+  background-color: #1a9dff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__company {
+    color: white;
+    font-family: Roboto, sans-serif;
+
+    &__name {
+      font-size: 48px;
+      line-height: 64px;
+    }
+
+    &__url {
+      font-size: 24px;
+      line-height: 28px;
+    }
+  }
+
+  &__logo {
+    position: absolute;
+    left: 30px;
+    top: 30px;
+  }
+
+  &__avatar {
+    height: 60px;
+    border: 3px solid white;
+    border-radius: 50%;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+  }
+}
+
+.content {
+  padding: 62px;
+}
+
+.list {
+  margin-left: 30px;
+  &__item {
+    list-style-image: url("../img/unchecked.svg") !important;
+    list-style-position: outside;
+
+    &--checked {
+      list-style-image: url("../img/checkmark.svg") !important;
+    }
+  }
+}
+
+.tasks {
+  margin-bottom: 50px;
+}
+
+.notes {
+  margin-bottom: 45px;
+  &__text {
+    white-space: pre-line;
+  }
+}
+
+.comments {
+  margin-top: 52px;
+
+  &__header {
+    font-family: Roboto, sans-serif;
+    display: flex;
+    font-size: 36px;
+    line-height: 42px;
+    margin-bottom: 27px;
+
+    &__line {
+      border: 1px solid #8093a6;
+      opacity: 0.3;
+      margin-left: 15px;
+      flex: 1;
+      height: 0;
+      align-self: center;
+    }
+  }
+}
+
+.comment {
+  &--light {
+    background: #faf8f7;
+  }
+  &--dark {
+    background: #f5f8ff;
+  }
+  margin: 17px 0 17px 60px;
+  padding: 33px;
+  position: relative;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__body {
+    margin-top: 7px;
+  }
+
+  &__avatar {
+    height: 72px;
+    border-radius: 50%;
+    position: absolute;
+    left: -60px;
+    top: 21px;
+  }
+}
+
+.quote {
+  background: white;
+  margin-top: 24px;
+  border: 1px solid #c1cdd9;
+  border-radius: 8px;
+  padding: 52px;
+
+  &__time {
+    margin-top: 28px;
+    font-size: 30px;
+    line-height: 37px;
+  }
+
+  &__header {
+    margin-top: 17px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 62px;
+    line-height: 76px;
+
+    &__squiggle {
+      text-align: center;
+      margin-bottom: 41px;
+    }
+  }
+
+  &__grid {
+    text-align: center;
+    width: 100%;
+    margin-top: 15px;
+
+    &__prices {
+      color: white;
+      display: flex;
+
+      &--express {
+        padding: 85px 0;
+        background: #3c78fb;
+        border-radius: 8px 0 0 0;
+        flex: 1;
+      }
+
+      &--standard {
+        padding: 85px 0;
+        background: #5fa9ff;
+        border-radius: 0 8px 0 0;
+        flex: 1;
+      }
+    }
+
+    &__acceptance {
+      padding: 60px 27px;
+      background: #f5f8ff;
+      border-radius: 0 0 8px 8px;
+
+      &__button {
+        margin-top: 60px;
+        text-align: right;
+
+        span {
+          font-family: Poppins;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+          letter-spacing: 1.61539px;
+          text-transform: uppercase;
+          color: #3c78fb;
+          border: 2px solid #3c78fb;
+          border-radius: 25.5px;
+          padding: 12px 80px;
+        }
+      }
+    }
+  }
+}

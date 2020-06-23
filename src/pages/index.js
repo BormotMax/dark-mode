@@ -1,6 +1,6 @@
 import Head from "next/head"
-import { AboveTheFold } from "../components/AboveTheFold"
 import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react"
+import Link from "next/link"
 
 function Home() {
   return (
@@ -11,9 +11,21 @@ function Home() {
       </Head>
 
       <div className="columns is-centered">
-        <div className="column is-half">
-          <AmplifySignOut />
-          <AboveTheFold />
+        <div
+          style={{
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+          className="column is-half"
+        >
+          <div>Continuum</div>
+          <Link href="/project">
+            <a>Project</a>
+          </Link>
+          {/* <AmplifySignOut /> */}
         </div>
       </div>
     </div>
