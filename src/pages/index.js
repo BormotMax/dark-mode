@@ -9,7 +9,6 @@ function Home() {
         <title>Continuum</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <div className="columns is-centered">
         <div
           style={{

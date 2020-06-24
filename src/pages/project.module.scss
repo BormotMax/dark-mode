@@ -42,18 +42,6 @@
   padding: 62px;
 }
 
-.list {
-  margin-left: 30px;
-  &__item {
-    list-style-image: url("../img/unchecked.svg") !important;
-    list-style-position: outside;
-
-    &--checked {
-      list-style-image: url("../img/checkmark.svg") !important;
-    }
-  }
-}
-
 .tasks {
   margin-bottom: 50px;
 }
@@ -172,21 +160,23 @@
 
       &__button {
         margin-top: 60px;
-        text-align: right;
-
-        span {
-          font-family: Poppins;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 21px;
-          letter-spacing: 1.61539px;
-          text-transform: uppercase;
-          color: #3c78fb;
-          border: 2px solid #3c78fb;
-          border-radius: 25.5px;
-          padding: 12px 80px;
-        }
       }
     }
   }
+}
+
+.button_container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.projectProgressHeader {
+  font-family: Roboto;
+  margin: 123px 0 38px 0;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 1.61539px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3c78fb;
 }

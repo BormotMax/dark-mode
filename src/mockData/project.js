@@ -6,14 +6,18 @@ export const data = {
   notes:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   tasks: [
-    { text: "Update logo design" },
-    { text: "Create new wireframes and user stories for website" },
-    { text: "New copy and brand messaging" },
+    { text: "Update logo design", completed: false },
+    {
+      text: "Create new wireframes and user stories for website",
+      completed: false,
+    },
+    { text: "New copy and brand messaging", completed: true },
     {
       text:
         "Add functionality for users to contact us for customer tennis balls",
+      completed: true,
     },
-    { text: "Ongoing dev support" },
+    { text: "Ongoing dev support", completed: true },
   ],
   comments: [
     {
@@ -41,4 +45,20 @@ export const data = {
       },
     },
   ],
+  tabs: [
+    {
+      name: "QUOTES",
+    },
+  ],
 }
+
+export const quotes = [
+  {
+    progress: 50,
+    tasks: data.tasks,
+  },
+  {
+    progress: 0,
+    tasks: data.tasks.slice(0, 2),
+  },
+]

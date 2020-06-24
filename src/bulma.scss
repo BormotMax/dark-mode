@@ -10,6 +10,14 @@
 // $fullhd: 2000px;
 
 $gap: 0px;
+$tabs-link-active-border-bottom-color: #3c78fb;
+$tabs-link-active-color: #3c78fb;
+$tabs-link-padding: 0 16px 16px 16px;
+$tabs-link-color: #8093a6;
+$tabs-border-bottom-width: 2px;
+$primary: #3c78fb;
+$progress-border-radius: 0;
+$progress-bar-background-color: #f5f8ff;
 
 // 3. Bulma enable Modularity, which allow you to import what you need
 // https://bulma.io/documentation/overview/modular/
@@ -23,6 +31,7 @@ $gap: 0px;
 @import "~bulma/sass/elements/icon.sass";
 @import "~bulma/sass/elements/image.sass";
 @import "~bulma/sass/elements/title.sass";
+@import "~bulma/sass/elements/progress.sass";
 // ====== forms
 @import "~bulma/sass/form/_all.sass";
 // ====== components
@@ -31,6 +40,7 @@ $gap: 0px;
 @import "~bulma/sass/components/level.sass";
 @import "~bulma/sass/components/menu.sass";
 @import "~bulma/sass/components/navbar.sass";
+@import "~bulma/sass/components/tabs.sass";
 // ====== grid
 // @import "~bulma/sass/grid/_all.sass";
 @import "~bulma/sass/grid/columns.sass";
@@ -38,3 +48,20 @@ $gap: 0px;
 // @import "~bulma/sass/layout/_all.sass";
 @import "~bulma/sass/layout/section.sass";
 @import "~bulma/sass/layout/footer.sass";
+
+.tabs {
+    display: block;
+    ul {
+        border: none;
+        font-family: Roboto, sans-serif;
+        font-size: 16px;
+        line-height: 19px;
+        font-weight: normal;
+        letter-spacing: 1.61539px;
+    }
+}
+
+.progress {
+    height: 40px !important;
+    margin-bottom: 0 !important;
+}

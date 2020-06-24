@@ -1,6 +1,6 @@
 // Add global styles here
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 body {
   line-height: 28px !important;
 }
@@ -9,6 +9,18 @@ body {
 *::before,
 *::after {
   box-sizing: border-box !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .header-2 {
@@ -31,7 +43,33 @@ body {
 }
 
 li {
+  display: flex;
   margin: 8px 0 !important;
+}
+
+.li__bullet {
+  padding-right: 17.5px;
+}
+
+.inline-input {
+  &--2 {
+    width: 24px;
+    margin: 0 5px;
+    border: none;
+    border-bottom: 1px solid #3c78fb;
+    &:focus {
+      outline: none;
+    }
+  }
+  &--4 {
+    width: 34px;
+    margin: 0 5px;
+    border: none;
+    border-bottom: 1px solid #3c78fb;
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .text-blue {
@@ -54,4 +92,42 @@ li {
 
 .text-small {
   font-size: 16px;
+}
+
+.oval-btn {
+  min-width: 200px;
+  padding: 12px 32px;
+  width: fit-content;
+  border-radius: 25.5px;
+  border: 2px solid #3c78fb;
+  color: #3c78fb;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  display: inline-block;
+  line-height: 21px;
+  letter-spacing: 1.61539px;
+  text-transform: uppercase;
+}
+
+.text-small-caps {
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 16px;
+  text-transform: uppercase;
+  line-height: 19px;
+  letter-spacing: 1.61539px;
+}
+
+.flex {
+  display: flex;
+  &_sb {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.strikethrough {
+  text-decoration-line: line-through;
 }

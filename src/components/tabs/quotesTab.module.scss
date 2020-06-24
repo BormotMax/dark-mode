@@ -1,0 +1,30 @@
+.editor {
+    margin-left: 10px;
+}
+
+.quoteLine {
+    &__upper {
+        display: flex;
+    }
+
+    margin: 75px 0 14px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: #8093a6;
+    text-align: center;
+
+    input {
+        font-size: 18px;
+        text-align: center;
+    }
+}
+
+.dollar_sign {
+    margin: 0 -5px 0 5px;
+}
+
+.button_container {
+    display: flex;
+    justify-content: center;
+}

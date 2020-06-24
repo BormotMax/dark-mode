@@ -2,8 +2,13 @@ import Head from "next/head"
 import { withAuthenticator } from "@aws-amplify/ui-react"
 import Logo from "../img/logo.svg"
 import Squiggle from "../img/squiggle.svg"
+import Checkmark from "../img/checkmark.svg"
+import Unchecked from "../img/unchecked.svg"
 import styles from "./project.module.scss"
-import { data } from "../mockData/project"
+import { data, quotes } from "../mockData/project"
+import { TabGroup, NotesTab, QuotesTab, FilesTab } from "../components/tabs"
+import { Quote } from "../components/quote"
+import { CreateAPassword } from "../components/createAPassword"
 
 function Project() {
   return (
@@ -25,21 +30,21 @@ function Project() {
         </div>
       </div>
       <div className={`${styles["content"]} container is-fullhd`}>
-        <div className="columns">
+        <div className="columns is-variable is-3-mobile is-3-tablet is-6-desktop is-8-widescreen is-8-fullhd">
           <div className="column is-8">
             <div className="header-2">
               First Contact from {data.client.name}
             </div>
             <div className={styles["tasks"]}>
               <div className="header-3">Tasks</div>
-              <ul className={styles["list"]}>
+              <ul>
                 {data.tasks.map((t) => (
-                  <div
-                    key={t.text}
-                    className={`${styles["list__item"]} ${styles["list__item--checked"]}`}
-                  >
-                    <li>{t.text}</li>
-                  </div>
+                  <li key={t.text}>
+                    <span className="li__bullet">
+                      <Checkmark />
+                    </span>
+                    {t.text}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -83,21 +88,24 @@ function Project() {
                         <div className={styles["tasks"]}>
                           <ul className={styles["list"]}>
                             {c.quote.tasks.map((t) => (
-                              <div
-                                key={t.text}
-                                className={`${styles["list__item"]} ${styles["list__item--checked"]}`}
-                              >
-                                <li>{t.text}</li>
-                              </div>
+                              <li key={t.text}>
+                                <span className="li__bullet">
+                                  <Checkmark />
+                                </span>
+                                {t.text}
+                              </li>
                             ))}
                           </ul>
                         </div>
                         <ul className={styles["list"]}>
-                          <div className={styles["list__item"]}>
-                            <li>
+                          <li>
+                            <span className="li__bullet">
+                              <Unchecked />
+                            </span>
+                            <span>
                               I agree to <a>terms & conditions</a>
-                            </li>
-                          </div>
+                            </span>
+                          </li>
                         </ul>
                         <div className={styles["quote__grid"]}>
                           <div className={styles["quote__grid__prices"]}>
@@ -134,12 +142,12 @@ function Project() {
                             <div className="text-small">
                               Who will be performing work for this project?
                             </div>
-                            <div
-                              className={
-                                styles["quote__grid__acceptance__button"]
-                              }
-                            >
-                              <span>SAVE</span>
+                            <div className={styles.button_container}>
+                              <div
+                                className={`${styles["quote__grid__acceptance__button"]} oval-btn`}
+                              >
+                                <span>SAVE</span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -150,7 +158,18 @@ function Project() {
               </div>
             </div>
           </div>
-          <div className="column">Right column</div>
+          <div className="column">
+            <TabGroup names={["QUOTES", "NOTES", "FILES"]}>
+              <QuotesTab data={{ tasks: data.tasks }} />
+              <NotesTab />
+              <FilesTab />
+            </TabGroup>
+            <div className={styles.projectProgressHeader}>PROJECT PROGRESS</div>
+            {quotes.map((quote, i) => (
+              <Quote key={i} i={i + 1} quote={quote} />
+            ))}
+            <CreateAPassword />
+          </div>
         </div>
       </div>
     </div>
