@@ -1,27 +1,17 @@
 .editableText {
-    flex: 1;
-    outline: none;
-    padding-bottom: 2px;
-    border-bottom: 2px solid transparent;
-    &:focus {
-        color: #a7b3c1;
-        border-bottom: 2px solid #a7b3c1;
-        cursor: text;
-        caret-color: #a7b3c1;
-    }
+  flex: 1;
+  outline: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  &:focus {
+    color: #a7b3c1;
+    border-bottom: 2px solid #a7b3c1;
+    cursor: text;
+    caret-color: #a7b3c1;
+  }
 }
 
 .addTask {
-    border: none;
-    font-size: 18px;
-    padding-bottom: 7px;
-    border-bottom: 2px solid #a7b3c1;
-    margin-left: 34px;
-    width: calc(100% - 34px);
-    color: #a7b3c1;
-    &:focus {
-        outline: none;
-        cursor: text;
-        caret-color: #a7b3c1;
-    }
+  margin-left: 34px;
+  width: calc(100% - 34px);
 }

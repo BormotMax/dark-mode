@@ -9,7 +9,7 @@ export function CheckList({ listItems }) {
           <span className="li__bullet">
             {t.completed ? <BlueCheckmark /> : <Unchecked />}
           </span>
-          <span className={t.completed && "strikethrough"}>{t.text}</span>
+          <span className={t.completed ? "strikethrough" : ""}>{t.text}</span>
         </li>
       ))}
     </ul>

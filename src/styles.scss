@@ -131,3 +131,21 @@ li {
 .strikethrough {
   text-decoration-line: line-through;
 }
+
+.mls {
+  margin-left: 8px;
+}
+
+.input-light {
+  border: none;
+  font-size: 18px;
+  padding-bottom: 7px;
+  border-bottom: 2px solid #a7b3c1;
+  color: #a7b3c1;
+
+  &:focus {
+    outline: none;
+    cursor: text;
+    caret-color: #a7b3c1;
+  }
+}

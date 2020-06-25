@@ -5,9 +5,9 @@ export function EditableList({ listItems }) {
   // todo: store initial list and last modified list in state
   return (
     <div>
-      <ul className={styles.ul}>
+      <ul>
         {listItems.map((item) => (
-          <li key={item.text} className={styles.li}>
+          <li key={item.text}>
             {/* todo: change key */}
             <div className="li__bullet">
               <GripLines />
@@ -23,7 +23,7 @@ export function EditableList({ listItems }) {
         <input
           type="text"
           placeholder="Type a new task here and hit Enter"
-          className={styles.addTask}
+          className={`${styles.addTask} input-light`}
         ></input>
       </div>
     </div>

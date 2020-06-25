@@ -10,7 +10,8 @@ export function TabGroup({ names, children }) {
           {names.map((name, i) => (
             <li
               key={name}
-              className={i === activeTabIndex && "is-active"}
+              className={i === activeTabIndex ? "is-active" : ""}
+              // className={i === 2 ? "is-active" : ""}
               onClick={() => setActiveTabIndex(i)}
             >
               <a>{name}</a>
@@ -21,6 +22,7 @@ export function TabGroup({ names, children }) {
       {/* todo: don't unmount hidden tabs */}
       {React.Children.map(children, (child, i) => {
         return i === activeTabIndex && child
+        return i === 2 && child
       })}
     </div>
   )

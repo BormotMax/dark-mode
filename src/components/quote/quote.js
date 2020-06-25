@@ -11,7 +11,7 @@ export function Quote({ quote, i }) {
       </div>
       <div className={styles.progressContainer}>
         <progress
-          class="progress is-large is-primary"
+          className="progress is-large is-primary"
           max="100"
           value={quote.progress}
         ></progress>

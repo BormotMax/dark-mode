@@ -1,0 +1,34 @@
+.filesTab {
+  margin-left: 10px;
+}
+
+.liText {
+  position: relative;
+  top: -5px;
+}
+
+.icons {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.upload {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 31px;
+
+  input {
+    height: fit-content;
+    align-self: center;
+    flex: 1;
+    margin-right: 24px;
+  }
+}
+
+.uploadText {
+  text-align: center;
+  margin: 12px 0 4px 0;
+  color: #8093a6;
+  opacity: 0.5;
+}

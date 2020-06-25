@@ -62,3 +62,36 @@ export const quotes = [
     tasks: data.tasks.slice(0, 2),
   },
 ]
+
+export const files = [
+  {
+    id: 1,
+    title: "Marketing Website & Style Guide",
+    application: "figma",
+  },
+  {
+    id: 2,
+    title: "Wireframes and Prototype",
+    application: "framer",
+  },
+  {
+    id: 3,
+    title: "Data for Tables",
+    application: "excel",
+  },
+  {
+    id: 4,
+    title: "User Stories",
+    application: "miro",
+  },
+  {
+    id: 5,
+    title: "Logo and Usage Rules",
+    application: "ai",
+  },
+  {
+    id: 6,
+    title: "Dropbox Assets",
+    application: "dropbox",
+  },
+]

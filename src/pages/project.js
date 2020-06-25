@@ -5,7 +5,7 @@ import Squiggle from "../img/squiggle.svg"
 import Checkmark from "../img/checkmark.svg"
 import Unchecked from "../img/unchecked.svg"
 import styles from "./project.module.scss"
-import { data, quotes } from "../mockData/project"
+import { data, quotes, files } from "../mockData/project"
 import { TabGroup, NotesTab, QuotesTab, FilesTab } from "../components/tabs"
 import { Quote } from "../components/quote"
 import { CreateAPassword } from "../components/createAPassword"
@@ -162,7 +162,7 @@ function Project() {
             <TabGroup names={["QUOTES", "NOTES", "FILES"]}>
               <QuotesTab data={{ tasks: data.tasks }} />
               <NotesTab />
-              <FilesTab />
+              <FilesTab files={files} />
             </TabGroup>
             <div className={styles.projectProgressHeader}>PROJECT PROGRESS</div>
             {quotes.map((quote, i) => (
