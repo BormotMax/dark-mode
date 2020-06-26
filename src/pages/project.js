@@ -1,5 +1,4 @@
 import Head from "next/head"
-import { withAuthenticator } from "@aws-amplify/ui-react"
 import Logo from "../img/logo.svg"
 import Squiggle from "../img/squiggle.svg"
 import Checkmark from "../img/checkmark.svg"

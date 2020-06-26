@@ -6,7 +6,6 @@ import awsconfig from "../aws-exports"
 Amplify.configure(awsconfig)
 
 function MyApp({ Component, pageProps }) {
-  console.log(Component)
   return <Component {...pageProps} />
 }
 

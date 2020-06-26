@@ -144,8 +144,17 @@ li {
   color: #a7b3c1;
 
   &:focus {
-    outline: none;
     cursor: text;
     caret-color: #a7b3c1;
+  }
+}
+
+input:focus {
+  outline: none;
+}
+
+body [class^="Section__sectionFooterSecondaryContent"] {
+  a {
+    text-decoration: underline;
   }
 }
