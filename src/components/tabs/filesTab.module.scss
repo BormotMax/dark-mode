@@ -30,6 +30,12 @@
   justify-content: space-between;
   margin-top: 31px;
 
+  label {
+    svg {
+      cursor: pointer;
+    }
+  }
+
   input {
     height: fit-content;
     align-self: center;
@@ -43,4 +49,13 @@
   margin: 12px 0 4px 0;
   color: #8093a6;
   opacity: 0.5;
+}
+
+.fileInput {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }

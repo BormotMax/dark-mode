@@ -14,7 +14,7 @@ export function CreateAPassword() {
   }
 
   return (
-    <div className={styles.createAPassword}>
+    <form onSubmit={handleSave} className={styles.createAPassword}>
       <Lock />
       <div className={styles.header}>CREATE A PASSWORD</div>
       <div>
@@ -23,23 +23,23 @@ export function CreateAPassword() {
           onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="Password"
+          autoComplete="new-password"
         ></input>
       </div>
-      <form onSubmit={handleSave}>
-        <div>
-          <input
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            type="password"
-            placeholder="Password again"
-          ></input>
-        </div>
-        <div className={styles.buttonContainer}>
-          <button onClick={handleSave} className="oval-btn">
-            SAVE
-          </button>
-        </div>
-      </form>
-    </div>
+      <div>
+        <input
+          autoComplete="new-password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          type="password"
+          placeholder="Password again"
+        ></input>
+      </div>
+      <div className={styles.buttonContainer}>
+        <button onClick={handleSave} className="oval-btn">
+          SAVE
+        </button>
+      </div>
+    </form>
   )
 }

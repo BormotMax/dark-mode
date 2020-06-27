@@ -27,8 +27,25 @@ export function FilesTab({ files }) {
   function handleAddFile(e) {
     if (e.keyCode === 13 && fileName) {
       console.log(`Adding file ${fileName}`)
+      fetch(e.target.value)
+        .then((res) => res.blob())
+        .then((res) => {
+          const urlCreator = window.URL || window.webkitURL
+          const objectUrl = urlCreator.createObjectURL(res)
+        })
       setFileName("")
     }
+  }
+
+  function handleFileDrop(e) {
+    e.preventDefault()
+    console.log("Dropping Files: ")
+    console.log(e.dataTransfer.files)
+  }
+
+  function handleFileInputChange(e) {
+    console.log("Adding files: ")
+    console.log(e.target.files)
   }
 
   return (
@@ -58,17 +75,32 @@ export function FilesTab({ files }) {
         max="100"
         value={40}
       ></progress>
-      <div className={styles.upload}>
+      <form
+        className={styles.upload}
+        onDrop={handleFileDrop}
+        onDragOver={(e) => e.preventDefault()}
+        onSubmit={(e) => e.preventDefault()}
+      >
         <input
           type="text"
+          autoComplete="off"
           placeholder="Paste URL or Drag and Drop a File"
           className="input-light"
           onKeyDown={handleAddFile}
           onChange={({ target }) => setFileName(target.value)}
           value={fileName}
         />
-        <AddFileButton />
-      </div>
+        <label htmlFor="fileInput">
+          <input
+            type="file"
+            className={styles.fileInput}
+            id="fileInput"
+            multiple
+            onChange={handleFileInputChange}
+          />
+          <AddFileButton />
+        </label>
+      </form>
     </div>
   )
 }

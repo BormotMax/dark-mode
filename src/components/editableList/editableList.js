@@ -10,7 +10,7 @@ export function EditableList({ listItems }) {
   }
 
   return (
-    <div>
+    <form onSubmit={(e) => e.preventDefault()}>
       <ul>
         {listItems.map((item) => (
           <li key={item.text}>
@@ -27,12 +27,13 @@ export function EditableList({ listItems }) {
       </ul>
       <div>
         <input
+          autoComplete="off"
           type="text"
           placeholder="Type a new task here and hit Enter"
           className={`${styles.addTask} input-light`}
           onKeyDown={handleKeyPress}
         ></input>
       </div>
-    </div>
+    </form>
   )
 }

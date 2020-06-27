@@ -30,10 +30,7 @@ export function Agree() {
             </div>
           </div>
           <span className={styles.text}>
-            I agree to{" "}
-            <a href="/" onclick="return false">
-              terms & conditions
-            </a>
+            I agree to <a href="/">terms & conditions</a>
           </span>
         </label>
       </li>
