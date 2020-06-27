@@ -8,8 +8,27 @@ import { data, quotes, files } from "../mockData/project"
 import { TabGroup, NotesTab, QuotesTab, FilesTab } from "../components/tabs"
 import { Quote } from "../components/quote"
 import { CreateAPassword } from "../components/createAPassword"
+import { useState } from "react"
+import { CheckList } from "../components/checkList"
+import { Agree } from "../components/termsAndConditions"
 
 function Project() {
+  const [quoteSpeed, setQuoteSpeed] = useState("Express")
+
+  function selectExpressQuote() {
+    console.log("Selecting Express quote.")
+    setQuoteSpeed("Express")
+  }
+
+  function selectStandardQuote() {
+    console.log("Selecting Standard quote.")
+    setQuoteSpeed("Standard")
+  }
+
+  function handleSaveQuoteSpeed() {
+    console.log(`Confirming ${quoteSpeed} quote.`)
+  }
+
   return (
     <div className="text-slate">
       <Head>
@@ -96,19 +115,11 @@ function Project() {
                             ))}
                           </ul>
                         </div>
-                        <ul className={styles["list"]}>
-                          <li>
-                            <span className="li__bullet">
-                              <Unchecked />
-                            </span>
-                            <span>
-                              I agree to <a>terms & conditions</a>
-                            </span>
-                          </li>
-                        </ul>
+                        <Agree />
                         <div className={styles["quote__grid"]}>
                           <div className={styles["quote__grid__prices"]}>
                             <div
+                              onClick={selectExpressQuote}
                               className={styles["quote__grid__prices--express"]}
                             >
                               <div className="text-xsmall text-normal">
@@ -121,6 +132,7 @@ function Project() {
                               </div>
                             </div>
                             <div
+                              onClick={selectStandardQuote}
                               className={
                                 styles["quote__grid__prices--standard"]
                               }
@@ -142,11 +154,12 @@ function Project() {
                               Who will be performing work for this project?
                             </div>
                             <div className={styles.button_container}>
-                              <div
+                              <button
+                                onClick={handleSaveQuoteSpeed}
                                 className={`${styles["quote__grid__acceptance__button"]} oval-btn`}
                               >
-                                <span>SAVE</span>
-                              </div>
+                                SAVE
+                              </button>
                             </div>
                           </div>
                         </div>

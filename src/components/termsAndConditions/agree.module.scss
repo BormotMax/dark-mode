@@ -1,0 +1,29 @@
+.listItem {
+    .text {
+        margin-left: 17.5px;
+    }
+
+    input[type="checkbox"] {
+        display: none;
+    }
+
+    label {
+        cursor: pointer;
+        display: flex;
+    }
+
+    input + label {
+        .checked {
+            display: none;
+        }
+    }
+
+    input:checked + label {
+        .checked {
+            display: initial;
+        }
+        .unchecked {
+            display: none;
+        }
+    }
+}

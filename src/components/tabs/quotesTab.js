@@ -3,6 +3,10 @@ import styles from "./quotesTab.module.scss"
 import { EditableList } from "../editableList"
 
 export function QuotesTab({ data }) {
+  function handleSaveAndSendQuote() {
+    console.log(`Saving and sending quote`)
+  }
+
   return (
     <div className={tabStyle.genericTab}>
       <div className={styles.editor}>
@@ -31,9 +35,9 @@ export function QuotesTab({ data }) {
           </div>
         </div>
         <div className={styles.button_container}>
-          <div className="oval-btn">
-            <span>SAVE & SEND QUOTE</span>
-          </div>
+          <button onClick={handleSaveAndSendQuote} className="oval-btn">
+            SAVE & SEND QUOTE
+          </button>
         </div>
       </div>
     </div>

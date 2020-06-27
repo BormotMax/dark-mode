@@ -11,8 +11,26 @@ import EditIcon from "../../img/editIcon.svg"
 import DeleteIcon from "../../img/deleteIcon.svg"
 import AddFileButton from "../../img/addFileButton.svg"
 import styles from "./filesTab.module.scss"
+import { useState } from "react"
 
 export function FilesTab({ files }) {
+  const [fileName, setFileName] = useState("")
+
+  function handleDeleteFile(id) {
+    console.log(`Deleting file with ID: ${id}`)
+  }
+
+  function handleEditFile(id) {
+    console.log(`Editing file with ID: ${id}`)
+  }
+
+  function handleAddFile(e) {
+    if (e.keyCode === 13 && fileName) {
+      console.log(`Adding file ${fileName}`)
+      setFileName("")
+    }
+  }
+
   return (
     <div className={`${tabStyle.genericTab} ${styles.filesTab}`}>
       <ul>
@@ -23,8 +41,10 @@ export function FilesTab({ files }) {
             </div>
             <div className={styles.liText}>{file.title}</div>
             <div className={styles.icons}>
-              <EditIcon />
-              <div className="mls">
+              <div onClick={() => handleEditFile(file.id)}>
+                <EditIcon />
+              </div>
+              <div onClick={() => handleDeleteFile(file.id)} className="mls">
                 <DeleteIcon />
               </div>
             </div>
@@ -43,6 +63,9 @@ export function FilesTab({ files }) {
           type="text"
           placeholder="Paste URL or Drag and Drop a File"
           className="input-light"
+          onKeyDown={handleAddFile}
+          onChange={({ target }) => setFileName(target.value)}
+          value={fileName}
         />
         <AddFileButton />
       </div>

@@ -1,5 +1,13 @@
 .filesTab {
   margin-left: 10px;
+
+  li {
+    &:hover {
+      .icons {
+        visibility: visible;
+      }
+    }
+  }
 }
 
 .liText {
@@ -8,9 +16,13 @@
 }
 
 .icons {
+  * {
+    cursor: pointer;
+  }
   display: flex;
   flex: 1;
   justify-content: flex-end;
+  visibility: hidden;
 }
 
 .upload {

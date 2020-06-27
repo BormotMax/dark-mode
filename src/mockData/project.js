@@ -6,18 +6,20 @@ export const data = {
   notes:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   tasks: [
-    { text: "Update logo design", completed: false },
+    { id: 0, text: "Update logo design", completed: false },
     {
+      id: 1,
       text: "Create new wireframes and user stories for website",
       completed: false,
     },
-    { text: "New copy and brand messaging", completed: true },
+    { id: 2, text: "New copy and brand messaging", completed: true },
     {
+      id: 3,
       text:
         "Add functionality for users to contact us for customer tennis balls",
       completed: true,
     },
-    { text: "Ongoing dev support", completed: true },
+    { id: 4, text: "Ongoing dev support", completed: true },
   ],
   comments: [
     {

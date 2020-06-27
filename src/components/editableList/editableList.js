@@ -3,6 +3,12 @@ import GripLines from "../../img/gripLines.svg"
 
 export function EditableList({ listItems }) {
   // todo: store initial list and last modified list in state
+  function handleKeyPress(e) {
+    if (e.keyCode == 13) {
+      console.log(`Adding task: ${e.target.value}`)
+    }
+  }
+
   return (
     <div>
       <ul>
@@ -24,6 +30,7 @@ export function EditableList({ listItems }) {
           type="text"
           placeholder="Type a new task here and hit Enter"
           className={`${styles.addTask} input-light`}
+          onKeyDown={handleKeyPress}
         ></input>
       </div>
     </div>

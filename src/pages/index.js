@@ -3,7 +3,7 @@ import { withAuthenticator, SignOut } from "aws-amplify-react"
 import Link from "next/link"
 import AuthTheme from "../authTheme.ts"
 
-function Home(props) {
+function Home() {
   return (
     <div className="container">
       <Head>
@@ -31,8 +31,6 @@ function Home(props) {
     </div>
   )
 }
-
-// export default withAuthenticator(Home)
 
 export default withAuthenticator(Home, {
   theme: AuthTheme,
