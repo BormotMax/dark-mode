@@ -1,1 +1,1 @@
-export * from "./agree"
+export * from './agree';

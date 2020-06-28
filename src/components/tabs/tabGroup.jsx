@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState } from 'react';
 
 export function TabGroup({ names, children }) {
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
     <div>
@@ -10,8 +10,7 @@ export function TabGroup({ names, children }) {
           {names.map((name, i) => (
             <li
               key={name}
-              className={i === activeTabIndex ? "is-active" : ""}
-              // className={i === 2 ? "is-active" : ""}
+              className={i === activeTabIndex ? 'is-active' : ''}
               onClick={() => setActiveTabIndex(i)}
             >
               <a>{name}</a>
@@ -20,10 +19,7 @@ export function TabGroup({ names, children }) {
         </ul>
       </div>
       {/* todo: don't unmount hidden tabs */}
-      {React.Children.map(children, (child, i) => {
-        return i === activeTabIndex && child
-        return i === 2 && child
-      })}
+      {React.Children.map(children, (child, i) => i === activeTabIndex && child)}
     </div>
-  )
+  );
 }

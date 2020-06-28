@@ -1,12 +1,12 @@
-import styles from "./agree.module.scss"
-import Unchecked from "../../img/unchecked.svg"
-import BlueCheckmark from "../../img/blueCheckmark.svg"
+import styles from './agree.module.scss';
+import Unchecked from '../../img/unchecked.svg';
+import BlueCheckmark from '../../img/blueCheckmark.svg';
 
 export function Agree() {
   function toggleTermsAndConditionsAgreement({ target }) {
     console.log(
-      `Terms and conditions ${target.checked ? "accepted" : "not accepted"}`
-    )
+      `Terms and conditions ${target.checked ? 'accepted' : 'not accepted'}`,
+    );
   }
 
   return (
@@ -30,10 +30,12 @@ export function Agree() {
             </div>
           </div>
           <span className={styles.text}>
-            I agree to <a href="/">terms & conditions</a>
+            I agree to
+            {' '}
+            <a href="/">terms & conditions</a>
           </span>
         </label>
       </li>
     </ul>
-  )
+  );
 }

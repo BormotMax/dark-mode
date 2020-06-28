@@ -1,1 +1,1 @@
-export * from "./editableList"
+export * from './editableList';

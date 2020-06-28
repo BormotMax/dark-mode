@@ -1,10 +1,10 @@
-import tabStyle from "./tab.module.scss"
-import styles from "./quotesTab.module.scss"
-import { EditableList } from "../editableList"
+import tabStyle from './tab.module.scss';
+import styles from './quotesTab.module.scss';
+import { EditableList } from '../editableList';
 
 export function QuotesTab({ data }) {
   function handleSaveAndSendQuote() {
-    console.log(`Saving and sending quote`)
+    console.log('Saving and sending quote');
   }
 
   return (
@@ -18,7 +18,7 @@ export function QuotesTab({ data }) {
               <input
                 type="number"
                 className="inline-input--2 text-blue"
-              ></input>
+              />
             </div>
             <div>billable&nbsp;hours&nbsp;</div>
           </div>
@@ -29,17 +29,17 @@ export function QuotesTab({ data }) {
               <input
                 type="number"
                 className="inline-input--4 text-blue"
-              ></input>
+              />
             </div>
             <div>per&nbsp;hour.</div>
           </div>
         </div>
         <div className={styles.button_container}>
-          <button onClick={handleSaveAndSendQuote} className="oval-btn">
+          <button type="button" onClick={handleSaveAndSendQuote} className="oval-btn">
             SAVE & SEND QUOTE
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

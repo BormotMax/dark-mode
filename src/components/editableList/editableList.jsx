@@ -1,11 +1,11 @@
-import styles from "./editableList.module.scss"
-import GripLines from "../../img/gripLines.svg"
+import styles from './editableList.module.scss';
+import GripLines from '../../img/gripLines.svg';
 
 export function EditableList({ listItems }) {
   // todo: store initial list and last modified list in state
   function handleKeyPress(e) {
-    if (e.keyCode == 13) {
-      console.log(`Adding task: ${e.target.value}`)
+    if (e.keyCode === 13) {
+      // do something
     }
   }
 
@@ -32,8 +32,8 @@ export function EditableList({ listItems }) {
           placeholder="Type a new task here and hit Enter"
           className={`${styles.addTask} input-light`}
           onKeyDown={handleKeyPress}
-        ></input>
+        />
       </div>
     </form>
-  )
+  );
 }
