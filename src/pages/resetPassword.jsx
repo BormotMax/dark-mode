@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Logo from '../img/logo.svg';
-import styles from './resetPassword.module.scss';
+import styles from './authPage.module.scss';
 
 function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ function ResetPassword() {
   }
 
   return (
-    <div className={styles.resetPassword}>
+    <div className={styles.authPage}>
       <div className="mtl mbl"><Logo /></div>
       <h1 className="h1 mbl">Reset your password</h1>
       <form className={styles.body}>

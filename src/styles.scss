@@ -11,6 +11,11 @@ body {
   box-sizing: border-box !important;
 }
 
+.flash-message {
+  background: #1d3557;
+  color: white;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Logo from '../img/logo.svg';
-import styles from './confirmSignUp.module.scss';
+import styles from './authPage.module.scss';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ function SignUp() {
   }
 
   return (
-    <div className={styles.confirmSignUp}>
+    <div className={styles.authPage}>
       <div className="mtl mbl"><Logo /></div>
       <h1 className="h1 mbl">Confirm Sign Up</h1>
       <form className={styles.body}>
@@ -20,7 +20,7 @@ function SignUp() {
         <input value={code} onChange={({ target }) => setCode(target.value)} placeholder="Enter your code" className="input-1" />
         <button onClick={handleConfirmClick} type="button" className="oval-btn-2 mbm">Confirm</button>
         <div>
-          <Link href="/signIn">Back to Sign In</Link>
+          <Link href="/signIn"><a href="/signIn">Back to Sign In</a></Link>
         </div>
       </form>
     </div>

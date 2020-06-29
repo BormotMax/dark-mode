@@ -1,4 +1,4 @@
-.resetPassword {
+.authPage {
     text-align: center;
 
     .body {
@@ -8,5 +8,13 @@
 
     a {
         text-decoration: underline;
+    }
+}
+
+.error {
+    border: 1px solid red !important;
+
+    &::placeholder {
+        color: red !important;
     }
 }

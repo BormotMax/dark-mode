@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styles from './signIn.module.scss';
+import pageStyles from './authPage.module.scss';
 import Logo from '../img/logo.svg';
 import ForgotPassword from '../img/forgotPassword.svg';
 import { GoogleAuthButton } from '../components/googleAuthButton';
@@ -13,29 +14,17 @@ function SignIn() {
     e.preventDefault();
   }
 
+  function handleSignInClick(e) {
+    e.preventDefault();
+  }
+
   return (
-    <div className={styles.signIn}>
-      <div className={styles.logo}><Logo /></div>
-      <div className={styles.signInText}>Sign in to Continuum</div>
-      <div className={styles.body}>
-        <div>
-          <input
-            className="input-1"
-            type="email"
-            value={email}
-            placeholder="Email"
-            onChange={({ target }) => setEmail(target.value)}
-          />
-        </div>
-        <div>
-          <input
-            className="input-1"
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
+    <div className={pageStyles.authPage}>
+      <div className="mtl mbl"><Logo /></div>
+      <h1 className="h1 mbl">Sign in to Continuum</h1>
+      <div className={pageStyles.body}>
+        <input type="email" value={email} onChange={({ target }) => setEmail(target.value)} placeholder="Email" className="input-1" />
+        <input type="password" value={password} onChange={({ target }) => setPassword(target.value)} placeholder="Password" className="input-1" />
         <div className={styles.forgotPassword}>
           <Link href="/resetPassword">
             <a href="resetPassword">
@@ -43,10 +32,8 @@ function SignIn() {
             </a>
           </Link>
         </div>
-        <div className={styles.signInButton}>
-          <button type="button" className="oval-btn-2">Sign In</button>
-        </div>
-        <div className={styles.or}>Or...</div>
+        <button onClick={handleSignInClick} type="button" className="oval-btn-2 mbm">Sign In</button>
+        <div className="text-1 text-gray">Or...</div>
         <GoogleAuthButton onClick={handleGoogleSignInClick}>Sign in to Continuum</GoogleAuthButton>
         <div>
           No account?
