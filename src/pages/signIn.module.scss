@@ -1,0 +1,65 @@
+.signIn {
+    text-align: center;
+    font-family: Roboto, sans-serif;
+
+    .logo {
+        margin: 50px 0;
+    }
+
+    .or {
+        color: #828282;
+        letter-spacing: 0.271875px;
+    }
+
+    .signInText {
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 42px;
+        color: #1d3557;
+        margin-bottom: 51px;
+    }
+
+    input {
+        margin-bottom: 20px;
+    }
+
+    .signInButton {
+        margin-bottom: 20px;
+    }
+
+    .googleButtonContainer {
+        margin: 20px 0;
+        button {
+            background: white;
+            color: #8093a6;
+            border: 1px solid #bdbdbd;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .googleButtonText {
+        margin-left: 26px;
+    }
+
+    .googleButtonContent {
+        display: flex;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+}
+
+.body {
+    margin: auto;
+    max-width: 336px;
+}
+
+.forgotPassword {
+    svg {
+        width: initial;
+    }
+    text-align: left;
+    margin-bottom: 18px;
+}

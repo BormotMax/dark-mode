@@ -220,7 +220,6 @@ const AuthTheme = {
   strikeContent: StrikeContent,
   actionRow: ActionRow,
   a: A,
-
   hint: Hint,
   radio: Radio,
   inputLabel: InputLabel,
