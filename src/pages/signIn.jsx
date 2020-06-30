@@ -22,14 +22,18 @@ function SignIn() {
     return temp;
   }
 
-  function checkContact(user) {
-    Auth.verifiedContact(user).then((data) => {
+  async function checkContact(user) {
+    try {
+      const data = await Auth.verifiedContact(user);
       if (data.verified.email) {
         Router.push('/');
       } else {
         Router.push('/confirmSignUp');
       }
-    });
+    } catch (err) {
+      setRequestPending(false);
+      setError(err.message);
+    }
   }
 
   async function handleGoogleSignInClick(e) {
@@ -61,7 +65,7 @@ function SignIn() {
       if (err.code === 'UserNotConfirmedException') {
         Router.push('/confirmSignUp');
       } else if (err.code === 'PasswordResetRequiredException') {
-        Router.push('/resetPassword');
+        Router.push('/forgotPassword');
       }
     }
   }
@@ -75,8 +79,8 @@ function SignIn() {
         <input name="email" className={`${pageStyles[invalids.email]} input-1`} type="email" placeholder="Email" />
         <input name="password" className={`${pageStyles[invalids.password]} input-1`} type="password" placeholder="Password" />
         <div className={styles.forgotPassword}>
-          <Link href="/resetPassword">
-            <a href="resetPassword">
+          <Link href="/forgotPassword">
+            <a href="/forgotPassword">
               <ForgotPassword />
             </a>
           </Link>

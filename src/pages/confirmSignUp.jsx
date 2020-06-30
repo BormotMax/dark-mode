@@ -38,7 +38,7 @@ function SignUp() {
 
     try {
       await Auth.confirmSignUp(email, code);
-      Router.push('/');
+      Router.push('/signIn');
     } catch (err) {
       setError(err.message);
       setRequestPending(false);

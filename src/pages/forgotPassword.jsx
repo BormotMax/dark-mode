@@ -6,21 +6,19 @@ import Router from 'next/router';
 import Logo from '../img/logo.svg';
 import styles from './authPage.module.scss';
 
-function ResetPassword() {
+function ForgotPassword() {
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState({});
 
-  function validate({ email, code, password }) {
+  function validate({ email }) {
     const temp = {};
 
     if (!email) temp.email = 'error';
-    if (!code) temp.code = 'error';
-    if (!password) temp.password = 'error';
     return temp;
   }
 
-  async function handleSubmit(e) {
+  async function handleSendCodeClick(e) {
     e.preventDefault();
 
     setRequestPending(true);
@@ -28,7 +26,6 @@ function ResetPassword() {
     setInvalids({});
 
     const formData = serialize(e.target, { hash: true });
-    const { email, code, password } = formData;
     const validation = validate(formData);
 
     if (Object.keys(validation).length) {
@@ -38,8 +35,8 @@ function ResetPassword() {
     }
 
     try {
-      await Auth.forgotPasswordSubmit(email, code, password);
-      Router.push('/signIn');
+      await Auth.forgotPassword(formData.email);
+      Router.push('/resetPassword');
     } catch (err) {
       setError(err.message);
       setRequestPending(false);
@@ -51,13 +48,9 @@ function ResetPassword() {
       <div className="flash-message">{error}</div>
       <div className="mtl mbl"><Logo /></div>
       <h1 className="h1 mbl">Reset your password</h1>
-      <form onSubmit={handleSubmit} className={styles.body}>
+      <form onSubmit={handleSendCodeClick} className={styles.body}>
         <input name="email" className={`${styles[invalids.email]} input-1`} type="email" placeholder="Email" />
-        <input name="code" className={`${styles[invalids.code]} input-1`} type="text" placeholder="Code" />
-        <input name="password" className={`${styles[invalids.password]} input-1`} type="password" placeholder="New Password" autoComplete="new-password" />
-        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>
-          Reset Password
-        </button>
+        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>Send Code</button>
         <div>
           <Link href="/signIn"><a href="/signIn">Back to Sign In</a></Link>
         </div>
@@ -66,4 +59,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword;
+export default ForgotPassword;
