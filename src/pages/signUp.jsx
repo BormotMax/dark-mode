@@ -46,11 +46,10 @@ function SignUp() {
     };
 
     try {
-      const data = await Auth.signUp(signupInfo);
+      await Auth.signUp(signupInfo);
       Router.push('/confirmSignUp');
     } catch (err) {
       setError(err.message);
-    } finally {
       setRequestPending(false);
     }
   }
@@ -70,14 +69,14 @@ function SignUp() {
         </GoogleAuthButton>
         <div className="text-1 text-gray mbm">Or, sign up with Email</div>
         <input className={`${styles[invalids.name]} input-1`} type="text" value={name} onChange={({ target }) => setName(target.value)} placeholder="Name" />
-        <input type="email" value={email} onChange={({ target }) => setEmail(target.value)} placeholder="Email" className="input-1" />
-        <input type="password" value={password} onChange={({ target }) => setPassword(target.value)} placeholder="Password" className="input-1" />
+        <input className={`${styles[invalids.email]} input-1`} type="email" value={email} onChange={({ target }) => setEmail(target.value)} placeholder="Email" />
+        <input className={`${styles[invalids.password]} input-1`} type="password" value={password} onChange={({ target }) => setPassword(target.value)} placeholder="Password" />
         <div className="text-1 mbm">
           By signing up I agree to the
           {' '}
           <Link href="/termsOfService"><a href="/termsOfService">Terms of Service</a></Link>
         </div>
-        <button disabled={isRequestPending} type="submit" className="oval-btn-2 mbm">Create a Free Account</button>
+        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>Create a Free Account</button>
         <div>
           <Link href="/signIn"><a href="/signIn">Sign In</a></Link>
           {' '}
