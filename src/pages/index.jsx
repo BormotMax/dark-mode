@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import { withAuthenticator, SignOut } from 'aws-amplify-react';
+import { SignOut } from 'aws-amplify-react';
 import Link from 'next/link';
-import AuthTheme from '../authTheme.ts';
 
 function Home() {
   return (
@@ -22,6 +21,11 @@ function Home() {
           className="column is-half"
         >
           <div>Continuum</div>
+          <Link href="/signIn">
+            <a href="/signIn">
+              Sign In
+            </a>
+          </Link>
           <Link href="/project">
             <a href="/project">Project</a>
           </Link>
@@ -32,29 +36,4 @@ function Home() {
   );
 }
 
-export default withAuthenticator(Home, {
-  theme: AuthTheme,
-  usernameAttributes: 'email',
-  signUpConfig: {
-    hiddenDefaults: ['phone_number'],
-    header: 'Sign Up for Continuum',
-    signUpFields: [
-      {
-        label: 'Name',
-        key: 'name',
-        placeholder: 'Carl Sagan',
-        required: true,
-        type: 'string',
-        displayOrder: -2,
-      },
-      {
-        label: 'Email',
-        key: 'email',
-        required: true,
-        placeholder: 'your@email.com',
-        type: 'email',
-        displayOrder: -1,
-      },
-    ],
-  },
-});
+export default Home;
