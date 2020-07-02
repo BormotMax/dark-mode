@@ -44,6 +44,7 @@ function SignUp() {
       password,
       attributes: {
         name,
+        'custom:group': 'freelancer',
       },
     };
 

@@ -14,6 +14,11 @@
         "categories": {
             "auth": {
                 "continuumc2c2dfc9": {}
+            },
+            "function": {
+                "continuumc2c2dfc9PostConfirmation": {
+                    "GROUP": "freelancer"
+                }
             }
         }
     }

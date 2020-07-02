@@ -9,6 +9,18 @@ Parameters:
     Type: String
   
   
+  
+  
+  functioncontinuumc2c2dfc9PostConfirmationArn: 
+    Type: String
+    Default: functioncontinuumc2c2dfc9PostConfirmationArn
+  
+  functioncontinuumc2c2dfc9PostConfirmationName: 
+    Type: String
+    Default: functioncontinuumc2c2dfc9PostConfirmationName
+  
+  
+  
 
     
   identityPoolName:
@@ -91,10 +103,34 @@ Parameters:
               
   userPoolGroupList:
     Type: CommaDelimitedList
-                          
+              
   dependsOn:
     Type: CommaDelimitedList
-    
+        
+  userPoolGroups:
+    Type: String
+              
+  adminQueries:
+    Type: String
+            
+  triggers:
+    Type: String
+                
+  hostedUI:
+    Type: String
+                  
+  parentStack:
+    Type: String
+                
+  permissions:
+    Type: CommaDelimitedList
+        
+  thirdPartyAuth:
+    Type: String
+                    
+  authProviders:
+    Type: CommaDelimitedList
+                
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 
@@ -145,8 +181,26 @@ Resources:
           Name: email
           Required: true
           Mutable: true
+
+        - Name: group
+          Required: false
+          Mutable: true
+          AttributeDataType: String
         
       
+      
+      LambdaConfig:
+        
+        
+        
+        
+        
+          PostConfirmation: !Ref functioncontinuumc2c2dfc9PostConfirmationArn
+        
+        
+        
+        
+        
       
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
@@ -171,6 +225,59 @@ Resources:
         SnsCallerArn: !GetAtt SNSRole.Arn
         ExternalId: continc2c2dfc9_role_external_id
     
+  
+    
+    
+  
+    
+  
+  UserPoolPostConfirmationLambdaInvokePermission: 
+    Type: "AWS::Lambda::Permission"
+    DependsOn: UserPool
+    Properties: 
+      Action: "lambda:invokeFunction"
+      Principal: "cognito-idp.amazonaws.com"
+      FunctionName: !Ref functioncontinuumc2c2dfc9PostConfirmationName
+      SourceArn: !GetAtt UserPool.Arn
+    
+  
+  
+   
+    
+  # Updating lambda role with permissions to Cognito
+  
+  
+  continuumc2c2dfc9PostConfirmationAddToGroupCognito:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: continuumc2c2dfc9PostConfirmationAddToGroupCognito
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+            
+              - cognito-idp:AdminAddUserToGroup
+            
+              - cognito-idp:GetGroup
+            
+              - cognito-idp:CreateGroup
+            
+            
+            
+            Resource: !GetAtt
+            
+              - UserPool
+            
+              - Arn
+            
+            
+            
+
+      Roles:
+        - !Join ['',["continuumc2c2dfc9PostConfirmation", '-', !Ref env]]
+  
+  
   
   UserPoolClientWeb:
   # Created provide application access to user pool

@@ -72,6 +72,7 @@ function Project() {
             </div>
             <div className="text-blue">
               Submitted
+              {' '}
               {data.submittedAt}
             </div>
             <div className={styles.comments}>
