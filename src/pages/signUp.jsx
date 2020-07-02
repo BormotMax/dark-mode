@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
-import Router from 'next/router';
 import serialize from 'form-serialize';
+import { ConfirmSignUp } from '../components/confirmSignUp';
 import Logo from '../img/logo.svg';
 import styles from './authPage.module.scss';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 
 function SignUp() {
+  const [emailInState, setEmailInState] = useState('');
+  const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState({});
@@ -45,9 +47,13 @@ function SignUp() {
       },
     };
 
+    setEmailInState(email);
+
     try {
       await Auth.signUp(signupInfo);
-      Router.push('/confirmSignUp');
+      setError('');
+      setRequestPending(false);
+      setConfirming(true);
     } catch (err) {
       setError(err.message);
       setRequestPending(false);
@@ -58,7 +64,7 @@ function SignUp() {
     e.preventDefault();
   }
 
-  return (
+  return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} /> : (
     <div className={styles.authPage}>
       <div className="flash-message">{error}</div>
       <div className="mtl mbl"><Logo /></div>
@@ -76,7 +82,9 @@ function SignUp() {
           {' '}
           <Link href="/termsOfService"><a href="/termsOfService">Terms of Service</a></Link>
         </div>
-        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>Create a Free Account</button>
+        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>
+          Create a Free Account
+        </button>
         <div>
           <Link href="/signIn"><a href="/signIn">Sign In</a></Link>
           {' '}

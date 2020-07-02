@@ -3,18 +3,17 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import Router from 'next/router';
-import Logo from '../img/logo.svg';
-import styles from './authPage.module.scss';
+import Logo from '../../img/logo.svg';
+import styles from '../../pages/authPage.module.scss';
 
-function ResetPassword() {
+function ResetPassword({ email }) {
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState({});
 
-  function validate({ email, code, password }) {
+  function validate({ code, password }) {
     const temp = {};
 
-    if (!email) temp.email = 'error';
     if (!code) temp.code = 'error';
     if (!password) temp.password = 'error';
     return temp;
@@ -28,7 +27,7 @@ function ResetPassword() {
     setInvalids({});
 
     const formData = serialize(e.target, { hash: true });
-    const { email, code, password } = formData;
+    const { code, password } = formData;
     const validation = validate(formData);
 
     if (Object.keys(validation).length) {
@@ -52,7 +51,7 @@ function ResetPassword() {
       <div className="mtl mbl"><Logo /></div>
       <h1 className="h1 mbl">Reset your password</h1>
       <form onSubmit={handleSubmit} className={styles.body}>
-        <input name="email" className={`${styles[invalids.email]} input-1`} type="email" placeholder="Email" />
+        <input readOnly value={email} name="email" className={`${styles[invalids.email]} input-1`} type="email" placeholder="Email" />
         <input name="code" className={`${styles[invalids.code]} input-1`} type="text" placeholder="Code" />
         <input name="password" className={`${styles[invalids.password]} input-1`} type="password" placeholder="New Password" autoComplete="new-password" />
         <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>

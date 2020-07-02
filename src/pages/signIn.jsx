@@ -6,10 +6,13 @@ import serialize from 'form-serialize';
 import styles from './signIn.module.scss';
 import pageStyles from './authPage.module.scss';
 import Logo from '../img/logo.svg';
+import { ConfirmSignUp } from '../components/confirmSignUp';
 import ForgotPassword from '../img/forgotPassword.svg';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 
 function SignIn() {
+  const [emailInState, setEmailInState] = useState('');
+  const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState({});
@@ -28,11 +31,13 @@ function SignIn() {
       if (data.verified.email) {
         Router.push('/');
       } else {
-        Router.push('/confirmSignUp');
+        setError('');
+        setRequestPending(false);
+        setConfirming(true);
       }
     } catch (err) {
-      setRequestPending(false);
       setError(err.message);
+      setRequestPending(false);
     }
   }
 
@@ -47,6 +52,8 @@ function SignIn() {
     setInvalids({});
 
     const formData = serialize(e.target, { hash: true });
+    const { email, password } = formData;
+
     const validation = validate(formData);
 
     if (Object.keys(validation).length) {
@@ -55,22 +62,25 @@ function SignIn() {
       return;
     }
 
+    setEmailInState(email);
+
     try {
-      const user = await Auth.signIn(formData.email, formData.password);
+      const user = await Auth.signIn(email, password);
       checkContact(user);
     } catch (err) {
       setError(err.message);
       setRequestPending(false);
 
       if (err.code === 'UserNotConfirmedException') {
-        Router.push('/confirmSignUp');
+        setError('');
+        setConfirming(true);
       } else if (err.code === 'PasswordResetRequiredException') {
         Router.push('/forgotPassword');
       }
     }
   }
 
-  return (
+  return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signIn" setConfirming={setConfirming} /> : (
     <div className={pageStyles.authPage}>
       <div className="flash-message">{error}</div>
       <div className="mtl mbl"><Logo /></div>
