@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import Logo from '../img/logo.svg';
+import Logo from '../img/white_logo.svg';
 import Squiggle from '../img/squiggle.svg';
 import Checkmark from '../img/checkmark.svg';
 import styles from './project.module.scss';
@@ -10,6 +10,7 @@ import {
 } from '../components/tabs';
 import { Quote } from '../components/quote';
 import { Agree } from '../components/termsAndConditions';
+import { WithAuthentication } from '../components/withAuthentication';
 
 function Project() {
   const [quoteSpeed, setQuoteSpeed] = useState('Express');
@@ -191,4 +192,4 @@ function Project() {
   );
 }
 
-export default Project;
+export default WithAuthentication(Project);
