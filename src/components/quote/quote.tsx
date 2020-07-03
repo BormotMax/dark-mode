@@ -1,31 +1,41 @@
-import { useState } from 'react';
-import { CheckList } from '../checkList';
-import styles from './quote.module.scss';
+import { useState } from 'react'
+import { CheckList } from '../checkList'
+import styles from './quote.module.scss'
 
-export function Quote({ quote, i }) {
-  const [isShowing, setShowing] = useState(true);
-  const [percentDone, setPercentDone] = useState(calcPercentDone(quote.tasks));
+function calcPercentDone(tasks: Array<Task>) {
+  let total = 0
+  let done = 0
 
-  function calcPercentDone(tasks) {
-    let total = 0;
-    let done = 0;
-
-    for (const task of tasks) {
-      if (task.completed) {
-        done++;
-      }
-
-      total++;
+  for (const task of tasks) {
+    if (task.completed) {
+      done++
     }
 
-    return total === 0 ? 0 : done / total;
+    total++
   }
 
-  function handleQuoteProgressUpdate(task, tasks, quoteId) {
-    setPercentDone(calcPercentDone(tasks));
+  return total === 0 ? 0 : done / total
+}
+interface Task {
+  id: number
+  completed: boolean
+  text: string
+}
+
+interface QuoteProps {
+  quote: { tasks: Array<Task> }
+  i: number
+}
+
+export function Quote({ quote, i }: QuoteProps) {
+  const [isShowing, setShowing] = useState(true)
+  const [percentDone, setPercentDone] = useState(calcPercentDone(quote.tasks))
+
+  function handleQuoteProgressUpdate(task: Task, tasks: Array<Task>, quoteId: number) {
+    setPercentDone(calcPercentDone(tasks))
     console.log(
       `Updating completion status of task with ID: ${task.id} to completed: ${task.completed} (within quote with ID: ${quoteId})`,
-    );
+    )
   }
 
   return (
@@ -37,6 +47,9 @@ export function Quote({ quote, i }) {
         </div>
         <div
           onClick={() => setShowing(!isShowing)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={() => setShowing(!isShowing)}
           className={`${styles.hideTasksButton} text-small-caps text-blue`}
         >
           {isShowing ? 'Hide Tasks' : 'Show Tasks'}
@@ -54,7 +67,7 @@ export function Quote({ quote, i }) {
         <form>
           <CheckList
             name={`quote-${i}`}
-            callback={(task, tasks) => handleQuoteProgressUpdate(task, tasks, i)}
+            callback={(task: Task, tasks: Array<Task>) => handleQuoteProgressUpdate(task, tasks, i)}
             listItems={quote.tasks.map((t) => ({
               id: t.id,
               completed: t.completed,
@@ -64,5 +77,5 @@ export function Quote({ quote, i }) {
         </form>
       </div>
     </div>
-  );
+  )
 }

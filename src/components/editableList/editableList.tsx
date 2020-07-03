@@ -1,9 +1,14 @@
-import styles from './editableList.module.scss';
-import GripLines from '../../img/gripLines.svg';
+import styles from './editableList.module.scss'
+import GripLines from '../../img/gripLines.svg'
+import { KeyboardEvent } from 'react'
 
-export function EditableList({ listItems }) {
+interface EditableListProps {
+  listItems: Array<{ text: string }>
+}
+
+export function EditableList({ listItems }: EditableListProps) {
   // todo: store initial list and last modified list in state
-  function handleKeyPress(e) {
+  function handleKeyPress(e: KeyboardEvent) {
     if (e.keyCode === 13) {
       // do something
     }
@@ -35,5 +40,5 @@ export function EditableList({ listItems }) {
         />
       </div>
     </form>
-  );
+  )
 }

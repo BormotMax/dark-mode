@@ -1,30 +1,30 @@
-import Head from 'next/head';
-import { useState } from 'react';
-import Logo from '../img/white_logo.svg';
-import Squiggle from '../img/squiggle.svg';
-import Checkmark from '../img/checkmark.svg';
-import styles from './project.module.scss';
-import { data, quotes, files } from '../mockData/project';
+import Head from 'next/head'
+import { useState } from 'react'
+import styles from './project.module.scss'
+import { data, quotes, files } from '../mockData/project'
 import {
   TabGroup, NotesTab, QuotesTab, FilesTab,
-} from '../components/tabs';
-import { Quote } from '../components/quote';
-import { Agree } from '../components/termsAndConditions';
-import { WithAuthentication } from '../components/withAuthentication';
+} from '../components/tabs'
+import { Quote } from '../components/quote'
+import { Agree } from '../components/termsAndConditions'
+import { WithAuthentication } from '../components/withAuthentication'
+import Logo from '../img/white_logo.svg'
+import Squiggle from '../img/squiggle.svg'
+import Checkmark from '../img/checkmark.svg'
 
 function Project() {
-  const [quoteSpeed, setQuoteSpeed] = useState('Express');
+  const [quoteSpeed, setQuoteSpeed] = useState('Express')
 
   function selectExpressQuote() {
-    setQuoteSpeed('Express');
+    setQuoteSpeed('Express')
   }
 
   function selectStandardQuote() {
-    setQuoteSpeed('Standard');
+    setQuoteSpeed('Standard')
   }
 
   function handleSaveQuoteSpeed() {
-    console.log(`Confirming ${quoteSpeed} quote.`);
+    console.log(`Confirming ${quoteSpeed} quote.`)
   }
 
   return (
@@ -87,7 +87,7 @@ function Project() {
                       i % 2 === 1
                         ? styles['comment--light']
                         : styles['comment--dark']
-                    }`}
+                      }`}
                     key={c.text}
                   >
                     <div className={styles.comment__header}>
@@ -124,6 +124,9 @@ function Project() {
                         <div className={styles.quote__grid}>
                           <div className={styles.quote__grid__prices}>
                             <div
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={selectExpressQuote}
                               onClick={selectExpressQuote}
                               className={styles['quote__grid__prices--express']}
                             >
@@ -137,6 +140,9 @@ function Project() {
                               </div>
                             </div>
                             <div
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={selectStandardQuote}
                               onClick={selectStandardQuote}
                               className={
                                 styles['quote__grid__prices--standard']
@@ -184,13 +190,14 @@ function Project() {
             </TabGroup>
             <div className={styles.projectProgressHeader}>PROJECT PROGRESS</div>
             {quotes.map((quote, i) => (
+              // eslint-disable-next-line react/no-array-index-key
               <Quote key={i} i={i + 1} quote={quote} />
             ))}
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default WithAuthentication(Project);
+export default WithAuthentication(Project)

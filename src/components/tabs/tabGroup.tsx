@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import React from 'react'
 
-export function TabGroup({ names, children }) {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+interface TabGroupProps {
+  names: Array<string>
+  children: Element
+}
+
+export function TabGroup({ names, children }: TabGroupProps) {
+  const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   return (
     <div>
@@ -9,6 +15,7 @@ export function TabGroup({ names, children }) {
         <ul>
           {names.map((name, i) => (
             <li
+              onKeyDown={() => setActiveTabIndex(i)}
               key={name}
               className={i === activeTabIndex ? 'is-active' : ''}
               onClick={() => setActiveTabIndex(i)}
@@ -21,5 +28,5 @@ export function TabGroup({ names, children }) {
       {/* todo: don't unmount hidden tabs */}
       {React.Children.map(children, (child, i) => i === activeTabIndex && child)}
     </div>
-  );
+  )
 }

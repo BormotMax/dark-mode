@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import tabStyle from './tab.module.scss';
+import { useState, KeyboardEvent, ChangeEvent, DragEvent } from 'react'
+import tabStyle from './tab.module.scss'
 import {
   AiIcon,
   DropboxIcon,
@@ -7,51 +7,61 @@ import {
   MiroIcon,
   ExcelIcon,
   FigmaIcon,
-} from '../../img/icons';
-import EditIcon from '../../img/editIcon.svg';
-import DeleteIcon from '../../img/deleteIcon.svg';
-import AddFileButton from '../../img/addFileButton.svg';
-import AddFileButtonHover from '../../img/addFileButtonHover.svg';
-import styles from './filesTab.module.scss';
+} from '../../img/icons'
+import styles from './filesTab.module.scss'
+import EditIcon from '../../img/editIcon.svg'
+import DeleteIcon from '../../img/deleteIcon.svg'
+import AddFileButton from '../../img/addFileButton.svg'
+import AddFileButtonHover from '../../img/addFileButtonHover.svg'
 
-const applicationToIcon = {
+const applicationToIcon: any = {
   figma: <FigmaIcon />,
   framer: <FramerIcon />,
   excel: <ExcelIcon />,
   miro: <MiroIcon />,
   ai: <AiIcon />,
   dropbox: <DropboxIcon />,
-};
+}
 
-export function FilesTab({ files }) {
-  const [fileName, setFileName] = useState('');
+interface File {
+  id: number
+  application: string
+  title: string
+}
 
-  function handleDeleteFile(id) {
-    console.log(`Deleting file with ID: ${id}`);
+interface FilesTabProps {
+  files: Array<File>
+}
+
+export function FilesTab({ files }: FilesTabProps) {
+  const [fileName, setFileName] = useState('')
+
+  function handleDeleteFile(id: number) {
+    console.log(`Deleting file with ID: ${id}`)
   }
 
-  function handleEditFile(id) {
-    console.log(`Editing file with ID: ${id}`);
+  function handleEditFile(id: number) {
+    console.log(`Editing file with ID: ${id}`)
   }
 
-  function handleAddFile(e) {
+  function handleAddFile(e: KeyboardEvent) {
     if (e.keyCode === 13 && fileName) {
-      fetch(e.target.value)
+      fetch(fileName)
         .then((res) => res.blob())
         .then((res) => {
-          const urlCreator = window.URL || window.webkitURL;
-          const objectUrl = urlCreator.createObjectURL(res);
-        });
-      setFileName('');
+          const urlCreator = window.URL || window.webkitURL
+          const objectUrl = urlCreator.createObjectURL(res)
+        })
+      setFileName('')
     }
   }
 
-  function handleFileDrop(e) {
-    e.preventDefault();
+  function handleFileDrop(e: DragEvent) {
+    e.preventDefault()
   }
 
-  function handleFileInputChange(e) {
-    console.log(e.target.files);
+  function handleFileInputChange(e: ChangeEvent<HTMLInputElement>) {
+    console.log(e.target.files)
   }
 
   return (
@@ -64,10 +74,10 @@ export function FilesTab({ files }) {
             </div>
             <div className={styles.liText}>{file.title}</div>
             <div className={styles.icons}>
-              <div onClick={() => handleEditFile(file.id)}>
+              <div onKeyDown={() => handleEditFile(file.id)} tabIndex={0} role="button" onClick={() => handleEditFile(file.id)}>
                 <EditIcon />
               </div>
-              <div onClick={() => handleDeleteFile(file.id)} className="mls">
+              <div onKeyDown={() => handleDeleteFile(file.id)} tabIndex={0} role="button" onClick={() => handleDeleteFile(file.id)} className="mls">
                 <DeleteIcon />
               </div>
             </div>
@@ -75,7 +85,7 @@ export function FilesTab({ files }) {
         ))}
       </ul>
 
-      <div className={styles.uploadText}>Uploading 'Ideas.sketch'...</div>
+      <div className={styles.uploadText}>Uploading &apos;Ideas.sketch&apos;...</div>
       <progress
         className="progress is-large is-primary"
         max="100"
@@ -115,5 +125,5 @@ export function FilesTab({ files }) {
         </label>
       </form>
     </div>
-  );
+  )
 }

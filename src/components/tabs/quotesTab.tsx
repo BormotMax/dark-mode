@@ -1,10 +1,13 @@
-import tabStyle from './tab.module.scss';
-import styles from './quotesTab.module.scss';
-import { EditableList } from '../editableList';
+import tabStyle from './tab.module.scss'
+import styles from './quotesTab.module.scss'
+import { EditableList } from '../editableList'
 
-export function QuotesTab({ data }) {
+interface QuotesTabProps {
+  data: { tasks: any }
+}
+export function QuotesTab({ data }: QuotesTabProps) {
   function handleSaveAndSendQuote() {
-    console.log('Saving and sending quote');
+    console.log('Saving and sending quote')
   }
 
   return (
@@ -41,5 +44,5 @@ export function QuotesTab({ data }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

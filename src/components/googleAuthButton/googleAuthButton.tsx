@@ -1,7 +1,12 @@
-import GoogleLogo from '../../img/googleLogo.svg';
-import styles from './googleAuthButton.module.scss';
+import GoogleLogo from '../../img/googleLogo.svg'
+import styles from './googleAuthButton.module.scss'
 
-export function GoogleAuthButton({ children, onClick }) {
+interface GoogleAuthButtonProps {
+  children: Element
+  onClick: Function
+}
+
+export function GoogleAuthButton({ children, onClick }: GoogleAuthButtonProps) {
   return (
     <div className={styles.googleButtonContainer}>
       <button onClick={(e) => onClick(e)} type="button" className="oval-btn-2">
@@ -13,5 +18,5 @@ export function GoogleAuthButton({ children, onClick }) {
         </div>
       </button>
     </div>
-  );
+  )
 }
