@@ -1,30 +1,16 @@
-.editor {
-    margin-left: 10px;
+.upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22.5px;
 }
 
 .quoteLine {
-    &__upper {
-        display: flex;
-    }
-
-    margin: 75px 0 14px 0;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    align-items: center;
+    font-family: Roboto, sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 28px;
     color: #8093a6;
-    text-align: center;
-
-    input {
-        font-size: 18px;
-        text-align: center;
-    }
-}
-
-.dollar_sign {
-    margin: 0 -5px 0 5px;
-}
-
-.button_container {
-    display: flex;
-    justify-content: center;
 }

@@ -1,203 +1,48 @@
-import Head from 'next/head'
-import { useState } from 'react'
-import styles from './project.module.scss'
-import { data, quotes, files } from '../mockData/project'
+import Head from 'next/head';
+import styles from './project.module.scss';
+import { data, quotes, files } from '../mockData/project';
 import {
   TabGroup, NotesTab, QuotesTab, FilesTab,
-} from '../components/tabs'
-import { Quote } from '../components/quote'
-import { Agree } from '../components/termsAndConditions'
-import { WithAuthentication } from '../components/withAuthentication'
-import Logo from '../img/white_logo.svg'
-import Squiggle from '../img/squiggle.svg'
-import Checkmark from '../img/checkmark.svg'
+} from '../components/tabs';
+import { WithAuthentication } from '../components/withAuthentication';
+import { FirstContact } from '../components/firstContact';
+import { Comments } from '../components/comments';
+import { Footer } from '../components/footer';
+import { ProjectHeader } from '../components/projectHeader';
+import { Quote } from '../components/quote';
 
-function Project() {
-  const [quoteSpeed, setQuoteSpeed] = useState('Express')
-
-  function selectExpressQuote() {
-    setQuoteSpeed('Express')
-  }
-
-  function selectStandardQuote() {
-    setQuoteSpeed('Standard')
-  }
-
-  function handleSaveQuoteSpeed() {
-    console.log(`Confirming ${quoteSpeed} quote.`)
-  }
-
-  return (
-    <div className="text-slate">
-      <Head>
-        <title>Continuum</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className={styles.header}>
-        <Logo className={styles.header__logo} />
-        <img alt="avatar" className={styles.header__avatar} src="/avatar.jpg" />
-        <div className={styles.header__company}>
-          <div className={styles.header__company__name}>
-            {data.company.name}
-          </div>
-          <div className={styles.header__company__url}>
-            {data.company.email}
+const Project: React.FC = () => (
+  <div className={styles.page}>
+    <Head>
+      <title>Continuum</title>
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
+    <main className={`${styles.body} container is-desktop`}>
+      <ProjectHeader headerText={data.company.name} avatar="/avatar.jpg" />
+      <div className={`${styles.columns} columns`}>
+        <div className={`${styles.leftColumn} column is-two-thirds-desktop`}>
+          <div className={styles.container}>
+            <FirstContact name={data.client.name} message={data.notes} submittedAt={data.submittedAt} />
+            <Comments comments={data.comments} />
           </div>
         </div>
-      </div>
-      <div className={`${styles.content} container is-fullhd`}>
-        <div className="columns is-variable is-3-mobile is-3-tablet is-6-desktop is-8-widescreen is-8-fullhd">
-          <div className="column is-8">
-            <div className="header-2">
-              First Contact from
-              {' '}
-              {data.client.name}
-            </div>
-            <div className={styles.tasks}>
-              <div className="header-3">Tasks</div>
-              <ul>
-                {data.tasks.map((t) => (
-                  <li key={t.text}>
-                    <span className="li__bullet">
-                      <Checkmark />
-                    </span>
-                    {t.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className={styles.notes}>
-              <div className="header-3">Notes</div>
-              <div className={styles.notes__text}>{data.notes}</div>
-            </div>
-            <div className="text-blue">
-              Submitted
-              {' '}
-              {data.submittedAt}
-            </div>
-            <div className={styles.comments}>
-              <div className={`${styles.comments__header} text-blue`}>
-                <div>Comments</div>
-                <div className={styles.comments__header__line} />
-              </div>
-              <div>
-                {data.comments.map((c, i) => (
-                  <div
-                    className={`${styles.comment} ${
-                      i % 2 === 1
-                        ? styles['comment--light']
-                        : styles['comment--dark']
-                      }`}
-                    key={c.text}
-                  >
-                    <div className={styles.comment__header}>
-                      <div className="text-blue text-normal">{c.name}</div>
-                      <div className="text-small">{c.createdAt}</div>
-                    </div>
-                    <img
-                      alt="avatar"
-                      className={styles.comment__avatar}
-                      src={i % 2 === 1 ? '/avatar.jpg' : '/avatar_2.png'}
-                    />
-                    <div className={styles.comment__body}>{c.text}</div>
-                    {c.quote && (
-                      <div className={styles.quote}>
-                        <div className={`${styles.quote__header} text-blue`}>
-                          <div>Quote</div>
-                        </div>
-                        <div className={styles.quote__header__squiggle}>
-                          <Squiggle />
-                        </div>
-                        <div className={styles.tasks}>
-                          <ul className={styles.list}>
-                            {c.quote.tasks.map((t) => (
-                              <li key={t.text}>
-                                <span className="li__bullet">
-                                  <Checkmark />
-                                </span>
-                                {t.text}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <Agree />
-                        <div className={styles.quote__grid}>
-                          <div className={styles.quote__grid__prices}>
-                            <div
-                              role="button"
-                              tabIndex={0}
-                              onKeyDown={selectExpressQuote}
-                              onClick={selectExpressQuote}
-                              className={styles['quote__grid__prices--express']}
-                            >
-                              <div className="text-xsmall text-normal">
-                                EXPRESS
-                              </div>
-                              <div className={styles.quote__time}>
-                                <div>48 hours</div>
-
-                                <div>$285</div>
-                              </div>
-                            </div>
-                            <div
-                              role="button"
-                              tabIndex={0}
-                              onKeyDown={selectStandardQuote}
-                              onClick={selectStandardQuote}
-                              className={
-                                styles['quote__grid__prices--standard']
-                              }
-                            >
-                              <div className="text-xsmall text-normal">
-                                STANDARD
-                              </div>
-                              <div className={styles.quote__time}>
-                                <div>7 days</div>
-                                <div>$95</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className={styles.quote__grid__acceptance}>
-                            <div className="text-blue text-normal">
-                              Standard Accepted for $95
-                            </div>
-                            <div className="text-small">
-                              Who will be performing work for this project?
-                            </div>
-                            <div className={styles.button_container}>
-                              <button
-                                type="button"
-                                onClick={handleSaveQuoteSpeed}
-                                className={`${styles.quote__grid__acceptance__button} oval-btn`}
-                              >
-                                SAVE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="column">
+        <div className="column">
+          <div className={styles.container}>
             <TabGroup names={['QUOTES', 'NOTES', 'FILES']}>
-              <QuotesTab data={{ tasks: data.tasks }} />
+              <QuotesTab quotes={quotes} />
               <NotesTab />
               <FilesTab files={files} />
             </TabGroup>
             <div className={styles.projectProgressHeader}>PROJECT PROGRESS</div>
             {quotes.map((quote, i) => (
-              // eslint-disable-next-line react/no-array-index-key
               <Quote key={i} i={i + 1} quote={quote} />
             ))}
           </div>
         </div>
       </div>
-    </div>
-  )
-}
+    </main>
+    <Footer />
+  </div>
+);
 
-export default WithAuthentication(Project)
+export default WithAuthentication(Project);

@@ -27,20 +27,21 @@
 
 .upload {
   display: flex;
-  justify-content: space-between;
-  margin-top: 31px;
+  flex-wrap: wrap;
 
+  justify-content: space-between;
+  margin: 0 -10px;
+  
   label {
-    svg {
-      cursor: pointer;
-    }
+    margin-top: 31px;
   }
 
   input {
+    margin-top: 31px;
     height: fit-content;
     align-self: center;
     flex: 1;
-    margin-right: 24px;
+    margin: 31px 10px 0px 10px;
   }
 }
 
@@ -58,24 +59,10 @@
   overflow: hidden;
   position: absolute;
   z-index: -1;
+  flex: 1;
 }
 
-.addFileButtonGroup {
-  .addFileButton {
-    display: initial;
-  }
-
-  .addFileButtonHover {
-    display: none;
-  }
-
-  &:hover {
-    .addFileButton {
-      display: none;
-    }
-
-    .addFileButtonHover {
-      display: initial;
-    }
-  }
+.browseButton {
+  flex: 1;
+  margin: 31px 10px 0px 10px;
 }

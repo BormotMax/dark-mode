@@ -1,14 +1,14 @@
-import '../styles.scss'
-import '../bulma.scss'
-import Amplify from 'aws-amplify'
-import awsconfig from '../aws-exports'
-import { AppProps } from 'next/app'
+import '../styles.scss';
+import '../bulma.scss';
+import Amplify from 'aws-amplify';
+import { AppProps } from 'next/app';
+import awsconfig from '../aws-exports';
 
-Amplify.configure(awsconfig)
+Amplify.configure(awsconfig);
 
 function MyApp({ Component, pageProps }: AppProps) {
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
 
-export default MyApp
+export default MyApp;

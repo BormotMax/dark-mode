@@ -1,5 +1,7 @@
-import { useState, KeyboardEvent, ChangeEvent, DragEvent } from 'react'
-import tabStyle from './tab.module.scss'
+import {
+  useState, KeyboardEvent, ChangeEvent, DragEvent,
+} from 'react';
+import tabStyle from './tab.module.scss';
 import {
   AiIcon,
   DropboxIcon,
@@ -7,12 +9,12 @@ import {
   MiroIcon,
   ExcelIcon,
   FigmaIcon,
-} from '../../img/icons'
-import styles from './filesTab.module.scss'
-import EditIcon from '../../img/editIcon.svg'
-import DeleteIcon from '../../img/deleteIcon.svg'
-import AddFileButton from '../../img/addFileButton.svg'
-import AddFileButtonHover from '../../img/addFileButtonHover.svg'
+} from '../../img/icons';
+import styles from './filesTab.module.scss';
+import EditIcon from '../../img/editIcon.svg';
+import DeleteIcon from '../../img/deleteIcon.svg';
+import AddFileButton from '../../img/addFileButton.svg';
+import AddFileButtonHover from '../../img/addFileButtonHover.svg';
 
 const applicationToIcon: any = {
   figma: <FigmaIcon />,
@@ -21,7 +23,7 @@ const applicationToIcon: any = {
   miro: <MiroIcon />,
   ai: <AiIcon />,
   dropbox: <DropboxIcon />,
-}
+};
 
 interface File {
   id: number
@@ -34,14 +36,14 @@ interface FilesTabProps {
 }
 
 export function FilesTab({ files }: FilesTabProps) {
-  const [fileName, setFileName] = useState('')
+  const [fileName, setFileName] = useState('');
 
   function handleDeleteFile(id: number) {
-    console.log(`Deleting file with ID: ${id}`)
+    console.log(`Deleting file with ID: ${id}`);
   }
 
   function handleEditFile(id: number) {
-    console.log(`Editing file with ID: ${id}`)
+    console.log(`Editing file with ID: ${id}`);
   }
 
   function handleAddFile(e: KeyboardEvent) {
@@ -49,23 +51,23 @@ export function FilesTab({ files }: FilesTabProps) {
       fetch(fileName)
         .then((res) => res.blob())
         .then((res) => {
-          const urlCreator = window.URL || window.webkitURL
-          const objectUrl = urlCreator.createObjectURL(res)
-        })
-      setFileName('')
+          const urlCreator = window.URL || window.webkitURL;
+          const objectUrl = urlCreator.createObjectURL(res);
+        });
+      setFileName('');
     }
   }
 
   function handleFileDrop(e: DragEvent) {
-    e.preventDefault()
+    e.preventDefault();
   }
 
   function handleFileInputChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.files)
+    console.log(e.target.files);
   }
 
   return (
-    <div className={`${tabStyle.genericTab} ${styles.filesTab}`}>
+    <div className={`${tabStyle.genericTab} ${styles.filesTab} mbxl`}>
       <ul>
         {files.map((file) => (
           <li key={file.id}>
@@ -100,13 +102,13 @@ export function FilesTab({ files }: FilesTabProps) {
         <input
           type="text"
           autoComplete="off"
-          placeholder="Paste URL or Drag and Drop a File"
+          placeholder="Paste URL or Drag and Drop"
           className="input-light"
           onKeyDown={handleAddFile}
           onChange={({ target }) => setFileName(target.value)}
           value={fileName}
         />
-        <label htmlFor="fileInput">
+        <label className={styles.browseButton} htmlFor="fileInput">
           <input
             type="file"
             className={styles.fileInput}
@@ -114,16 +116,9 @@ export function FilesTab({ files }: FilesTabProps) {
             multiple
             onChange={handleFileInputChange}
           />
-          <div className={styles.addFileButtonGroup}>
-            <div className={styles.addFileButton}>
-              <AddFileButton />
-            </div>
-            <div className={styles.addFileButtonHover}>
-              <AddFileButtonHover />
-            </div>
-          </div>
+          <div className="oval-btn-3">Browse</div>
         </label>
       </form>
     </div>
-  )
+  );
 }

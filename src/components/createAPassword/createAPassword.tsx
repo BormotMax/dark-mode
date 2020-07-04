@@ -1,15 +1,15 @@
-import { useState, FormEvent } from 'react'
-import styles from './createAPassword.module.scss'
-import Lock from '../../img/lock.svg'
+import { useState, FormEvent } from 'react';
+import styles from './createAPassword.module.scss';
+import Lock from '../../img/lock.svg';
 
 export function CreateAPassword() {
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   function handleSave(e: FormEvent) {
-    e.preventDefault()
-    setPassword('')
-    setConfirmPassword('')
+    e.preventDefault();
+    setPassword('');
+    setConfirmPassword('');
   }
 
   return (
@@ -40,5 +40,5 @@ export function CreateAPassword() {
         </button>
       </div>
     </form>
-  )
+  );
 }

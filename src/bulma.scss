@@ -9,22 +9,25 @@
 // $primary: red;
 // $fullhd: 2000px;
 
-$gap: 0px;
+// $gap: 100px;
 $tabs-link-active-border-bottom-color: #3c78fb;
 $tabs-link-hover-color: #3c78fb;
 $tabs-link-active-color: #3c78fb;
 $tabs-link-hover-border-bottom-color: #3c78fb;
 $tabs-link-padding: 0 16px 16px 16px;
 $tabs-link-color: #8093a6;
-$tabs-border-bottom-width: 2px;
+$tabs-border-bottom-width: 4px;
 $primary: #3c78fb;
 $progress-border-radius: 0;
 $progress-bar-background-color: #f5f8ff;
 $button-background-color: white;
+$footer-background-color: #1d3557;
+$footer-color: white;
+$footer-padding: 60px 75px;
 
 // 3. Bulma enable Modularity, which allow you to import what you need
 // https://bulma.io/documentation/overview/modular/
-// @import "~bulma/bulma";
+@import "~bulma/bulma";
 @import "~bulma/sass/utilities/_all.sass";
 @import "~bulma/sass/base/_all";
 // ===== elements
@@ -67,4 +70,15 @@ $button-background-color: white;
 .progress {
     height: 40px !important;
     margin-bottom: 0 !important;
+}
+
+.columns {
+    margin: 0px;
+
+    .column {
+        padding: 0px;
+    }
+    &:last-child {
+        margin-bottom: 0px;
+    }
 }

@@ -1,6 +1,6 @@
-import styles from './editableList.module.scss'
-import GripLines from '../../img/gripLines.svg'
-import { KeyboardEvent } from 'react'
+import { KeyboardEvent } from 'react';
+import styles from './editableList.module.scss';
+import GripLines from '../../img/gripLines.svg';
 
 interface EditableListProps {
   listItems: Array<{ text: string }>
@@ -40,5 +40,5 @@ export function EditableList({ listItems }: EditableListProps) {
         />
       </div>
     </form>
-  )
+  );
 }

@@ -1,184 +1,36 @@
-.header {
-  padding: 30px;
-  height: 346px;
-  text-align: center;
-  background-color: #1a9dff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@use "src/mixins";
+@import "~bulma/sass/utilities/_all.sass";
 
-  &__company {
-    color: white;
-    font-family: Roboto, sans-serif;
+.page {
+    background: #d8d8d8;
 
-    &__name {
-      font-size: 48px;
-      line-height: 64px;
+    .body {
+        border-radius: 40px;
+        margin-bottom: 75px !important; // bulma container class override
+
+        .columns {
+            background: white;
+
+            @include desktop {
+                border-radius: 40px;
+            }
+
+            .container {
+                padding: 30px;
+            }
+
+            .leftColumn {
+                box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.05);
+            }
+        }
     }
-
-    &__url {
-      font-size: 24px;
-      line-height: 28px;
-    }
-  }
-
-  &__logo {
-    position: absolute;
-    left: 30px;
-    top: 30px;
-  }
-
-  &__avatar {
-    height: 60px;
-    border: 3px solid white;
-    border-radius: 50%;
-    position: absolute;
-    right: 30px;
-    top: 30px;
-  }
-}
-
-.content {
-  padding: 62px;
-}
-
-.tasks {
-  margin-bottom: 50px;
-}
-
-.notes {
-  margin-bottom: 45px;
-  &__text {
-    white-space: pre-line;
-  }
-}
-
-.comments {
-  margin-top: 52px;
-
-  &__header {
-    font-family: Roboto, sans-serif;
-    display: flex;
-    font-size: 36px;
-    line-height: 42px;
-    margin-bottom: 27px;
-
-    &__line {
-      border: 1px solid #8093a6;
-      opacity: 0.3;
-      margin-left: 15px;
-      flex: 1;
-      height: 0;
-      align-self: center;
-    }
-  }
-}
-
-.comment {
-  &--light {
-    background: #faf8f7;
-  }
-  &--dark {
-    background: #f5f8ff;
-  }
-  margin: 17px 0 17px 60px;
-  padding: 33px;
-  position: relative;
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__body {
-    margin-top: 7px;
-  }
-
-  &__avatar {
-    height: 72px;
-    border-radius: 50%;
-    position: absolute;
-    left: -60px;
-    top: 21px;
-  }
-}
-
-.quote {
-  background: white;
-  margin-top: 24px;
-  border: 1px solid #c1cdd9;
-  border-radius: 8px;
-  padding: 52px;
-
-  &__time {
-    margin-top: 28px;
-    font-size: 30px;
-    line-height: 37px;
-  }
-
-  &__header {
-    margin-top: 17px;
-    text-align: center;
-    font-weight: normal;
-    font-size: 62px;
-    line-height: 76px;
-
-    &__squiggle {
-      text-align: center;
-      margin-bottom: 41px;
-    }
-  }
-
-  &__grid {
-    text-align: center;
-    width: 100%;
-    margin-top: 15px;
-
-    &__prices {
-      color: white;
-      display: flex;
-
-      cursor: pointer;
-
-      &--express {
-        padding: 85px 0;
-        background: #3c78fb;
-        border-radius: 8px 0 0 0;
-        flex: 1;
-      }
-
-      &--standard {
-        padding: 85px 0;
-        background: #5fa9ff;
-        border-radius: 0 8px 0 0;
-        flex: 1;
-      }
-    }
-
-    &__acceptance {
-      padding: 60px 27px;
-      background: #f5f8ff;
-      border-radius: 0 0 8px 8px;
-
-      &__button {
-        margin-top: 60px;
-      }
-    }
-  }
-}
-
-.button_container {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .projectProgressHeader {
-  font-family: Roboto;
-  margin: 123px 0 38px 0;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: 1.61539px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #3c78fb;
+    @include mixins.header-1-sm;
+    text-align: center;
+    color: #3c78fb;
+    border-bottom: 4px solid #3c78fb;
+    padding-bottom: 17px;
+    margin-bottom: 17px;
 }

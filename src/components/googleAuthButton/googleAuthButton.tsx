@@ -1,22 +1,21 @@
-import GoogleLogo from '../../img/googleLogo.svg'
-import styles from './googleAuthButton.module.scss'
+import { MouseEvent } from 'react';
+import GoogleLogo from '../../img/googleLogo.svg';
+import styles from './googleAuthButton.module.scss';
 
 interface GoogleAuthButtonProps {
-  children: Element
-  onClick: Function
+  children: string
+  onClick: (e: MouseEvent) => void
 }
 
-export function GoogleAuthButton({ children, onClick }: GoogleAuthButtonProps) {
-  return (
-    <div className={styles.googleButtonContainer}>
-      <button onClick={(e) => onClick(e)} type="button" className="oval-btn-2">
-        <div className={styles.googleButtonContent}>
-          <GoogleLogo />
-          <div className={styles.googleButtonText}>
-            {children}
-          </div>
+export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({ children, onClick }) => (
+  <div className={styles.googleButtonContainer}>
+    <button onClick={onClick} type="button" className="oval-btn-2">
+      <div className={styles.googleButtonContent}>
+        <GoogleLogo />
+        <div className={styles.googleButtonText}>
+          {children}
         </div>
-      </button>
-    </div>
-  )
-}
+      </div>
+    </button>
+  </div>
+);

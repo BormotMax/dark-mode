@@ -1,20 +1,22 @@
-import { useState } from 'react'
-import { CheckList } from '../checkList'
-import styles from './quote.module.scss'
+import { useState } from 'react';
+import { CheckList } from '../checkList';
+import styles from './quote.module.scss';
+import DownChevron from '../../img/downChevron.svg';
+import UpChevron from '../../img/upChevron.svg';
 
 function calcPercentDone(tasks: Array<Task>) {
-  let total = 0
-  let done = 0
+  let total = 0;
+  let done = 0;
 
   for (const task of tasks) {
     if (task.completed) {
-      done++
+      done++;
     }
 
-    total++
+    total++;
   }
 
-  return total === 0 ? 0 : done / total
+  return total === 0 ? 0 : done / total;
 }
 interface Task {
   id: number
@@ -27,22 +29,23 @@ interface QuoteProps {
   i: number
 }
 
-export function Quote({ quote, i }: QuoteProps) {
-  const [isShowing, setShowing] = useState(true)
-  const [percentDone, setPercentDone] = useState(calcPercentDone(quote.tasks))
+export const Quote: React.FC<QuoteProps> = ({ quote, i }) => {
+  const [isShowing, setShowing] = useState(true);
+  const [percentDone, setPercentDone] = useState(calcPercentDone(quote.tasks));
 
   function handleQuoteProgressUpdate(task: Task, tasks: Array<Task>, quoteId: number) {
-    setPercentDone(calcPercentDone(tasks))
+    setPercentDone(calcPercentDone(tasks));
     console.log(
       `Updating completion status of task with ID: ${task.id} to completed: ${task.completed} (within quote with ID: ${quoteId})`,
-    )
+    );
   }
 
   return (
     <div className={styles.quote}>
       <div className={styles.header}>
-        <div className="text-small-caps">
-          QUOTE
+        <div className="header-1-sm">
+          TASKS FOR QUOTE
+          {' '}
           {i}
         </div>
         <div
@@ -52,7 +55,7 @@ export function Quote({ quote, i }: QuoteProps) {
           onKeyDown={() => setShowing(!isShowing)}
           className={`${styles.hideTasksButton} text-small-caps text-blue`}
         >
-          {isShowing ? 'Hide Tasks' : 'Show Tasks'}
+          {isShowing ? <DownChevron /> : <UpChevron />}
         </div>
       </div>
       <div className={`${isShowing ? '' : 'hidden'}`}>
@@ -62,9 +65,8 @@ export function Quote({ quote, i }: QuoteProps) {
             max="1"
             value={percentDone}
           />
-          <div className={styles.percent}>{`${percentDone * 100}%`}</div>
         </div>
-        <form>
+        <form className="text-1 text-gray">
           <CheckList
             name={`quote-${i}`}
             callback={(task: Task, tasks: Array<Task>) => handleQuoteProgressUpdate(task, tasks, i)}
@@ -77,5 +79,5 @@ export function Quote({ quote, i }: QuoteProps) {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};

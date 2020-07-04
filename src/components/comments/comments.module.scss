@@ -1,0 +1,19 @@
+.comments {
+  .header {
+    font-family: Roboto, sans-serif;
+    display: flex;
+    font-size: 36px;
+    line-height: 42px;
+    margin-bottom: 30px;
+    color: #3C78FB;
+
+    .line {
+      border: 1px solid #8093a6;
+      opacity: 0.3;
+      margin-left: 15px;
+      flex: 1;
+      height: 0;
+      align-self: center;
+    }
+  }
+}

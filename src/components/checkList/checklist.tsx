@@ -1,7 +1,7 @@
-import { BlueCheckmark } from '../../img/blueCheckmark.svg'
-import { Unchecked } from '../../img/unchecked.svg'
-import styles from './checklist.module.scss'
-import { ChangeEvent } from 'react'
+import { ChangeEvent } from 'react';
+import { BlueCheckmark } from '../../img/blueCheckmark.svg';
+import { Unchecked } from '../../img/unchecked.svg';
+import styles from './checklist.module.scss';
 
 interface CheckListProps {
   listItems: Array<{ id: number, completed: boolean, listItem: string }>
@@ -13,19 +13,18 @@ interface CheckListProps {
 export function CheckList({
   listItems, name, callback, editable = true,
 }: CheckListProps) {
-
   function handleCheckboxChange({ target }: ChangeEvent<HTMLInputElement>) {
-    const inputs: any = document.querySelectorAll<HTMLFormElement>(`.${name}`)
-    const items = []
+    const inputs: any = document.querySelectorAll<HTMLFormElement>(`.${name}`);
+    const items = [];
 
     for (const input of inputs) {
       items.push({
         id: input.value,
         completed: input.checked,
-      })
+      });
     }
 
-    callback({ id: target.value, completed: target.checked }, items)
+    callback({ id: target.value, completed: target.checked }, items);
   }
 
   return (
@@ -54,15 +53,15 @@ export function CheckList({
           </label>
         </li>
       ) : (
-          <li key={item.id}>
-            <span className="li__bullet">
-              {item.completed ? <BlueCheckmark /> : <Unchecked />}
-            </span>
-            <span className={item.completed ? 'strikethrough' : ''}>
-              {item.listItem}
-            </span>
-          </li>
-        )))}
+        <li key={item.id}>
+          <span className="li__bullet">
+            {item.completed ? <BlueCheckmark /> : <Unchecked />}
+          </span>
+          <span className={item.completed ? 'strikethrough' : ''}>
+            {item.listItem}
+          </span>
+        </li>
+      )))}
     </ul>
-  )
+  );
 }

@@ -1,0 +1,38 @@
+@import "~bulma/sass/utilities/_all.sass";
+
+.footer {
+    text-align: center;
+    font-family: Roboto, sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    color: #f1faee;
+
+    .logo {
+        margin: 15px 0px;
+    }
+
+    .left {
+        text-align: center;
+
+        @include tablet {
+            text-align: left;
+        }
+    }
+
+    .right {
+        display: flex;
+        justify-content: center;
+
+        @include tablet {
+            justify-content: flex-end;
+        }
+
+        .left {
+            margin-right: 15px;
+        }
+
+        a {
+            color: inherit;
+        }
+    }
+}

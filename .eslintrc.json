@@ -4,11 +4,17 @@
     "es2020": true
   },
   "extends": [
-    "plugin:react/recommended",
     "airbnb",
-    "@types/form-serialize"
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaFeatures": {
       "jsx": true
     },
@@ -16,12 +22,15 @@
     "sourceType": "module"
   },
   "plugins": [
+    "@typescript-eslint",
     "react"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "react/prop-types": "off",
+    "max-len": ["error", {"code": 140}]
   },
   "globals": {
     "React": "writable"

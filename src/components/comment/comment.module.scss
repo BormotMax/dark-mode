@@ -1,0 +1,27 @@
+.comment {
+  margin: 17px 0 17px 60px;
+  padding: 33px;
+  position: relative;
+  border-radius: 8px;
+
+  &Light {
+    background: #faf8f7;
+  }
+  &Dark {
+    background: #f5f8ff;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+  }
+
+  .avatar {
+    height: 72px;
+    border-radius: 50%;
+    position: absolute;
+    left: -60px;
+    top: 21px;
+  }
+}

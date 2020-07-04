@@ -1,3 +1,6 @@
-export function NotesTab() {
-  return <div>this is the notes tab</div>;
-}
+export const NotesTab: React.FC = () => (
+  <div className="mbxl">
+    <textarea className="textarea mbm" />
+    <button type="button" className="oval-btn-3 btn-block">Save</button>
+  </div>
+);
