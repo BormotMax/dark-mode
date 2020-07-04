@@ -9,7 +9,7 @@ import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
 import Logo from '../../img/logo.svg';
-import styles from '../../pages/authPage.module.scss';
+import styles from '../../pages/styles/authPage.module.scss';
 import s from './confirmSignUp.module.scss';
 
 interface ConfirmSignUpProps {
@@ -23,7 +23,7 @@ interface ValidationProps {
   email?: string
 }
 
-export function ConfirmSignUp({ email, parentPage, setConfirming }: ConfirmSignUpProps) {
+export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage, setConfirming }) => {
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
@@ -92,7 +92,13 @@ export function ConfirmSignUp({ email, parentPage, setConfirming }: ConfirmSignU
       <div className="mtl mbl"><Logo /></div>
       <h1 className="h1 mbl">Confirm Sign Up</h1>
       <form onSubmit={handleConfirmClick} className={styles.body}>
-        <input readOnly value={email} name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} placeholder="Email" />
+        <input
+          readOnly
+          value={email}
+          name="email"
+          className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
+          placeholder="Email"
+        />
         <input name="code" className={`${invalids.code ? styles[invalids.code] : ''} input-1`} placeholder="Enter your code" />
         <div
           onKeyDown={handleResendCode}
@@ -103,7 +109,11 @@ export function ConfirmSignUp({ email, parentPage, setConfirming }: ConfirmSignU
         >
           Resend code
         </div>
-        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>
+        <button
+          disabled={isRequestPending}
+          type="submit"
+          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+        >
           Confirm
         </button>
         <div>
@@ -116,4 +126,4 @@ export function ConfirmSignUp({ email, parentPage, setConfirming }: ConfirmSignU
       </form>
     </div>
   );
-}
+};

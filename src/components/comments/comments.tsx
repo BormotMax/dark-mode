@@ -20,9 +20,15 @@ export const Comments: React.FC<CommentsProps> = ({ comments }) => (
     </div>
     <div>
       {comments.map((c, i) => (
-        <Comment key={i} avatar={i % 2 === 1 ? '/avatar.jpg' : '/avatar_2.png'} text={c.text} name={c.name} createdAt={c.createdAt} even={i % 2 === 0} />
+        <Comment
+          key={i}
+          avatar={i % 2 === 1 ? '/avatar.jpg' : '/avatar_2.png'}
+          text={c.text}
+          name={c.name}
+          createdAt={c.createdAt}
+          even={i % 2 === 0}
+        />
       ))}
     </div>
   </div>
-
 );

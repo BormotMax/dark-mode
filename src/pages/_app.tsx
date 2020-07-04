@@ -6,9 +6,7 @@ import awsconfig from '../aws-exports';
 
 Amplify.configure(awsconfig);
 
-function MyApp({ Component, pageProps }: AppProps) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Component {...pageProps} />;
-}
+// eslint-disable-next-line react/jsx-props-no-spreading
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => <Component {...pageProps} />;
 
 export default MyApp;

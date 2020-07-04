@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import { ConfirmSignUp } from '../components/confirmSignUp';
-import styles from './authPage.module.scss';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import Logo from '../img/logo.svg';
+import styles from './styles/authPage.module.scss';
 
 interface ValidationProps {
   name?: string
@@ -13,7 +13,7 @@ interface ValidationProps {
   password?: string
 }
 
-function SignUp() {
+const SignUp: React.FC = () => {
   const [emailInState, setEmailInState] = useState('');
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
@@ -77,19 +77,29 @@ function SignUp() {
       <div className="mtl mbl"><Logo /></div>
       <h1 className="h1 mbl">Sign Up for Continuum</h1>
       <form onSubmit={handleCreateAccountClick} className={styles.body}>
-        <GoogleAuthButton onClick={handleSignUpwithGoogleClick}>
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>
           Sign Up with Google
         </GoogleAuthButton>
         <div className="text-1 text-gray mbm">Or, sign up with Email</div>
         <input name="name" className={`${invalids.name ? styles[invalids.name] : ''} input-1`} type="text" placeholder="Name" />
         <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
-        <input name="password" className={`${invalids.password ? styles[invalids.password] : ''} input-1`} type="password" placeholder="Password" />
+        <input
+          name="password"
+          className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
+          type="password"
+          placeholder="Password"
+        />
         <div className="text-1 mbm">
           By signing up I agree to the
           {' '}
           <Link href="/termsOfService"><a href="/termsOfService">Terms of Service</a></Link>
         </div>
-        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>
+        <button
+          disabled={isRequestPending}
+          type="submit"
+          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+        >
           Create a Free Account
         </button>
         <div>
@@ -100,6 +110,6 @@ function SignUp() {
       </form>
     </div>
   );
-}
+};
 
 export default SignUp;

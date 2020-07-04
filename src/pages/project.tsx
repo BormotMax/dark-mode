@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import styles from './project.module.scss';
+import styles from './styles/project.module.scss';
 import { data, quotes, files } from '../mockData/project';
 import {
   TabGroup, NotesTab, QuotesTab, FilesTab,

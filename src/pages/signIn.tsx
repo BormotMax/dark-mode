@@ -3,19 +3,19 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
-import styles from './signIn.module.scss';
-import pageStyles from './authPage.module.scss';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import ForgotPassword from '../img/forgotPassword.svg';
 import Logo from '../img/logo.svg';
+import styles from './styles/signIn.module.scss';
+import pageStyles from './styles/authPage.module.scss';
 
 interface ValidationProps {
   email?: string
   password?: string
 }
 
-function SignIn(): React.FC {
+const SignIn: React.FC = () => {
   const [emailInState, setEmailInState] = useState('');
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
@@ -113,7 +113,8 @@ function SignIn(): React.FC {
           Sign In
         </button>
         <div className="text-1 text-gray">Or...</div>
-        <GoogleAuthButton onClick={handleGoogleSignInClick}>Sign in to Continuum</GoogleAuthButton>
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton>
         <div>
           No account?
           {' '}
@@ -124,6 +125,6 @@ function SignIn(): React.FC {
       </form>
     </div>
   );
-}
+};
 
 export default SignIn;

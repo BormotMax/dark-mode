@@ -35,9 +35,6 @@ export const Quote: React.FC<QuoteProps> = ({ quote, i }) => {
 
   function handleQuoteProgressUpdate(task: Task, tasks: Array<Task>, quoteId: number) {
     setPercentDone(calcPercentDone(tasks));
-    console.log(
-      `Updating completion status of task with ID: ${task.id} to completed: ${task.completed} (within quote with ID: ${quoteId})`,
-    );
   }
 
   return (

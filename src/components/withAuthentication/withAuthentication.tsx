@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Router from 'next/router';
 import { Auth } from '@aws-amplify/auth';
 import React from 'react';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function WithAuthentication(WrappedComponent: React.ReactType) {
+  // eslint-disable-next-line react/display-name
   return class extends React.Component {
     constructor(props?: any) {
       super(props);

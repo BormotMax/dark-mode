@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
-import styles from '../../pages/authPage.module.scss';
 import Logo from '../../img/logo.svg';
+import styles from '../../pages/styles/authPage.module.scss';
 
 interface ResetPasswordProps {
   email: string
@@ -16,7 +16,7 @@ interface ValidationProps {
   password?: string
 }
 
-export function ResetPassword({ email }: ResetPasswordProps) {
+export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
@@ -77,7 +77,11 @@ export function ResetPassword({ email }: ResetPasswordProps) {
           placeholder="New Password"
           autoComplete="new-password"
         />
-        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>
+        <button
+          disabled={isRequestPending}
+          type="submit"
+          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+        >
           Reset Password
         </button>
         <div>
@@ -86,4 +90,4 @@ export function ResetPassword({ email }: ResetPasswordProps) {
       </form>
     </div>
   );
-}
+};

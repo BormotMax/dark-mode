@@ -13,8 +13,6 @@ import {
 import styles from './filesTab.module.scss';
 import EditIcon from '../../img/editIcon.svg';
 import DeleteIcon from '../../img/deleteIcon.svg';
-import AddFileButton from '../../img/addFileButton.svg';
-import AddFileButtonHover from '../../img/addFileButtonHover.svg';
 
 const applicationToIcon: any = {
   figma: <FigmaIcon />,
@@ -35,15 +33,13 @@ interface FilesTabProps {
   files: Array<File>
 }
 
-export function FilesTab({ files }: FilesTabProps) {
+export const FilesTab: React.FC<FilesTabProps> = ({ files }) => {
   const [fileName, setFileName] = useState('');
 
   function handleDeleteFile(id: number) {
-    console.log(`Deleting file with ID: ${id}`);
   }
 
   function handleEditFile(id: number) {
-    console.log(`Editing file with ID: ${id}`);
   }
 
   function handleAddFile(e: KeyboardEvent) {
@@ -63,7 +59,6 @@ export function FilesTab({ files }: FilesTabProps) {
   }
 
   function handleFileInputChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.files);
   }
 
   return (
@@ -79,7 +74,13 @@ export function FilesTab({ files }: FilesTabProps) {
               <div onKeyDown={() => handleEditFile(file.id)} tabIndex={0} role="button" onClick={() => handleEditFile(file.id)}>
                 <EditIcon />
               </div>
-              <div onKeyDown={() => handleDeleteFile(file.id)} tabIndex={0} role="button" onClick={() => handleDeleteFile(file.id)} className="mls">
+              <div
+                onKeyDown={() => handleDeleteFile(file.id)}
+                tabIndex={0}
+                role="button"
+                onClick={() => handleDeleteFile(file.id)}
+                className="mls"
+              >
                 <DeleteIcon />
               </div>
             </div>
@@ -121,4 +122,4 @@ export function FilesTab({ files }: FilesTabProps) {
       </form>
     </div>
   );
-}
+};

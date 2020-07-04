@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
-import styles from './authPage.module.scss';
+import styles from './styles/authPage.module.scss';
 import { ResetPassword } from '../components/resetPassword';
 import Logo from '../img/logo.svg';
 
@@ -10,7 +10,7 @@ interface ValidationProps {
   email?: string
 }
 
-function ForgotPassword() {
+const ForgotPassword : React.FC = () => {
   const [emailInState, setEmailInState] = useState('');
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
@@ -62,13 +62,19 @@ function ForgotPassword() {
       <h1 className="h1 mbl">Reset your password</h1>
       <form onSubmit={handleSendCodeClick} className={styles.body}>
         <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
-        <button disabled={isRequestPending} type="submit" className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}>Send Code</button>
+        <button
+          disabled={isRequestPending}
+          type="submit"
+          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+        >
+          Send Code
+        </button>
         <div>
           <Link href="/signIn"><a href="/signIn">Back to Sign In</a></Link>
         </div>
       </form>
     </div>
   );
-}
+};
 
 export default ForgotPassword;

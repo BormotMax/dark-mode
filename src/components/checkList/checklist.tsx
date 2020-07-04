@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
-import { BlueCheckmark } from '../../img/blueCheckmark.svg';
-import { Unchecked } from '../../img/unchecked.svg';
+import BlueCheckmark from '../../img/blueCheckmark.svg';
+import Unchecked from '../../img/unchecked.svg';
 import styles from './checklist.module.scss';
 
 interface CheckListProps {
@@ -10,9 +10,9 @@ interface CheckListProps {
   editable?: boolean
 }
 
-export function CheckList({
+export const CheckList:React.FC<CheckListProps> = ({
   listItems, name, callback, editable = true,
-}: CheckListProps) {
+}) => {
   function handleCheckboxChange({ target }: ChangeEvent<HTMLInputElement>) {
     const inputs: any = document.querySelectorAll<HTMLFormElement>(`.${name}`);
     const items = [];
@@ -64,4 +64,4 @@ export function CheckList({
       )))}
     </ul>
   );
-}
+};
