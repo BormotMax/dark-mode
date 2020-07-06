@@ -5,6 +5,7 @@ import serialize from 'form-serialize';
 import styles from './styles/authPage.module.scss';
 import { ResetPassword } from '../components/resetPassword';
 import Logo from '../img/logo.svg';
+import { WithAuthentication } from '../components/withAuthentication';
 
 interface ValidationProps {
   email?: string
@@ -77,4 +78,4 @@ const ForgotPassword : React.FC = () => {
   );
 };
 
-export default ForgotPassword;
+export default WithAuthentication(ForgotPassword, { signedOut: true });

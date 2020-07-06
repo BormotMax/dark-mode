@@ -6,6 +6,7 @@ import { ConfirmSignUp } from '../components/confirmSignUp';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import Logo from '../img/logo.svg';
 import styles from './styles/authPage.module.scss';
+import { WithAuthentication } from '../components/withAuthentication';
 
 interface ValidationProps {
   name?: string
@@ -112,4 +113,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default WithAuthentication(SignUp, { signedOut: true });

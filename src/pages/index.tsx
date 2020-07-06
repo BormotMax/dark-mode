@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import { SignOut } from 'aws-amplify-react';
 import Link from 'next/link';
+import { WithAuthentication } from '../components/withAuthentication';
+import { AuthProps } from '../types/custom';
 
-const Home: React.FC = () => (
+const Home: React.FC<AuthProps> = ({ user, signOut }) => (
   <div className="container">
     <Head>
       <title>Continuum</title>
@@ -20,18 +21,36 @@ const Home: React.FC = () => (
         className="column is-half"
       >
         <div>Continuum</div>
-        <Link href="/signIn">
-          <a href="/signIn">
-            Sign In
-          </a>
-        </Link>
-        <Link href="/project">
-          <a href="/project">Project</a>
-        </Link>
-        <SignOut />
+        {!user
+          && (
+          <>
+            <Link href="/signIn">
+              <a href="/signIn">
+                Sign In
+              </a>
+            </Link>
+            <Link href="/signUp">
+              <a href="/signUp">
+                Sign Up
+              </a>
+            </Link>
+          </>
+          )}
+        {user
+          && (
+          <>
+            <Link href="/dashboard">
+              <a href="/dashboard">
+                Dashboard
+              </a>
+            </Link>
+            <button type="button" onClick={signOut as any}>Sign Out</button>
+
+          </>
+          )}
       </div>
     </div>
   </div>
 );
 
-export default Home;
+export default WithAuthentication(Home, { noRedirect: true });

@@ -9,6 +9,7 @@ import ForgotPassword from '../img/forgotPassword.svg';
 import Logo from '../img/logo.svg';
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
+import { WithAuthentication } from '../components/withAuthentication';
 
 interface ValidationProps {
   email?: string
@@ -34,7 +35,7 @@ const SignIn: React.FC = () => {
     try {
       const data: { verified: { email?: string }, unverified: {} } = await Auth.verifiedContact(user);
       if (data.verified.email) {
-        Router.push('/');
+        Router.push('/dashboard');
       } else {
         setError('');
         setRequestPending(false);
@@ -127,4 +128,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default WithAuthentication(SignIn, { signedOut: true });
