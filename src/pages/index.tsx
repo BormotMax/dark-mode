@@ -23,30 +23,30 @@ const Home: React.FC<AuthProps> = ({ user, signOut }) => (
         <div>Continuum</div>
         {!user
           && (
-          <>
-            <Link href="/signIn">
-              <a href="/signIn">
-                Sign In
-              </a>
-            </Link>
-            <Link href="/signUp">
-              <a href="/signUp">
-                Sign Up
-              </a>
-            </Link>
-          </>
+            <>
+              <Link href="/signIn">
+                <a href="/signIn">
+                  Sign In
+                </a>
+              </Link>
+              <Link href="/signUp">
+                <a href="/signUp">
+                  Sign Up
+                </a>
+              </Link>
+            </>
           )}
         {user
           && (
-          <>
-            <Link href="/dashboard">
-              <a href="/dashboard">
-                Dashboard
-              </a>
-            </Link>
-            <button type="button" onClick={signOut as any}>Sign Out</button>
+            <>
+              <Link href="/dashboard">
+                <a href="/dashboard">
+                  Dashboard
+                </a>
+              </Link>
+              <button type="button" onClick={signOut as any}>Sign Out</button>
 
-          </>
+            </>
           )}
       </div>
     </div>

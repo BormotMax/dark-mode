@@ -4,7 +4,7 @@ interface FirstContactProps {
   submittedAt: Date
 }
 
-export const FirstContact:React.FC<FirstContactProps> = ({ name, message, submittedAt }) => (
+export const FirstContact: React.FC<FirstContactProps> = ({ name, message, submittedAt }) => (
   <div className="mbm">
     <div className="header-2-lg">
       First Contact from

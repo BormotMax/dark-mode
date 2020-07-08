@@ -10,7 +10,7 @@ interface WithAuthenticationOptions {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function WithAuthentication(WrappedComponent: React.ReactType, options :WithAuthenticationOptions = { signedIn: true }) {
+export function WithAuthentication(WrappedComponent: React.ReactType, options: WithAuthenticationOptions = { signedIn: true }) {
   // eslint-disable-next-line react/display-name
   return class extends React.Component {
     constructor(props?: any) {
@@ -38,7 +38,7 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options :W
         try {
           user = await Auth.currentAuthenticatedUser();
           Router.push('/');
-        // eslint-disable-next-line no-empty
+          // eslint-disable-next-line no-empty
         } catch (err) {
           this.setState({ pending: false });
         }
@@ -59,7 +59,7 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options :W
         await Auth.signOut();
         this.setState({ user: null });
         Router.push('/');
-      // eslint-disable-next-line no-empty
+        // eslint-disable-next-line no-empty
       } catch (err) { }
     }
 

@@ -25,6 +25,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "<root>/custom.d.ts"
+    "<root>/custom.d.ts",
+    "cypress/integration/*"
   ]
 }

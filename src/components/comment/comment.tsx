@@ -9,7 +9,8 @@ interface CommentProps {
 }
 
 export const Comment: React.FC<CommentProps> = ({
-  text, name, createdAt, avatar, even = false,
+  text, name, createdAt, avatar,
+  even = false,
 }) => (
   <div
     className={`${styles.comment} ${

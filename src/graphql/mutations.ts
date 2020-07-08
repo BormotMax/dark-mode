@@ -65,7 +65,7 @@ export const createUser = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateUser = /* GraphQL */ `
   mutation UpdateUser(
     $input: UpdateUserInput!
@@ -129,7 +129,7 @@ export const updateUser = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteUser = /* GraphQL */ `
   mutation DeleteUser(
     $input: DeleteUserInput!
@@ -193,7 +193,7 @@ export const deleteUser = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const createProject = /* GraphQL */ `
   mutation CreateProject(
     $input: CreateProjectInput!
@@ -323,7 +323,7 @@ export const createProject = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateProject = /* GraphQL */ `
   mutation UpdateProject(
     $input: UpdateProjectInput!
@@ -453,7 +453,7 @@ export const updateProject = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteProject = /* GraphQL */ `
   mutation DeleteProject(
     $input: DeleteProjectInput!
@@ -583,7 +583,7 @@ export const deleteProject = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const createQuote = /* GraphQL */ `
   mutation CreateQuote(
     $input: CreateQuoteInput!
@@ -606,7 +606,7 @@ export const createQuote = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateQuote = /* GraphQL */ `
   mutation UpdateQuote(
     $input: UpdateQuoteInput!
@@ -629,7 +629,7 @@ export const updateQuote = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteQuote = /* GraphQL */ `
   mutation DeleteQuote(
     $input: DeleteQuoteInput!
@@ -652,7 +652,7 @@ export const deleteQuote = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const createComment = /* GraphQL */ `
   mutation CreateComment(
     $input: CreateCommentInput!
@@ -704,7 +704,7 @@ export const createComment = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateComment = /* GraphQL */ `
   mutation UpdateComment(
     $input: UpdateCommentInput!
@@ -756,7 +756,7 @@ export const updateComment = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteComment = /* GraphQL */ `
   mutation DeleteComment(
     $input: DeleteCommentInput!
@@ -808,7 +808,7 @@ export const deleteComment = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const createTask = /* GraphQL */ `
   mutation CreateTask(
     $input: CreateTaskInput!
@@ -822,7 +822,7 @@ export const createTask = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const updateTask = /* GraphQL */ `
   mutation UpdateTask(
     $input: UpdateTaskInput!
@@ -836,7 +836,7 @@ export const updateTask = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`
 export const deleteTask = /* GraphQL */ `
   mutation DeleteTask(
     $input: DeleteTaskInput!
@@ -850,4 +850,4 @@ export const deleteTask = /* GraphQL */ `
       updatedAt
     }
   }
-`;
+`

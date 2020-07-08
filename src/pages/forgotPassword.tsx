@@ -11,7 +11,7 @@ interface ValidationProps {
   email?: string
 }
 
-const ForgotPassword : React.FC = () => {
+const ForgotPassword: React.FC = () => {
   const [emailInState, setEmailInState] = useState('');
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);

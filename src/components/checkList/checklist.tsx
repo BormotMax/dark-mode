@@ -4,13 +4,17 @@ import Unchecked from '../../img/unchecked.svg';
 import styles from './checklist.module.scss';
 
 interface CheckListProps {
-  listItems: Array<{ id: number, completed: boolean, listItem: string }>
+  listItems: Array<{
+    id: number,
+    completed: boolean,
+    listItem: string
+  }>
   name: string
   callback: Function
   editable?: boolean
 }
 
-export const CheckList:React.FC<CheckListProps> = ({
+export const CheckList: React.FC<CheckListProps> = ({
   listItems, name, callback, editable = true,
 }) => {
   function handleCheckboxChange({ target }: ChangeEvent<HTMLInputElement>) {
