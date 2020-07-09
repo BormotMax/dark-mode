@@ -68,7 +68,7 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options: W
       const showComponent = options.signedIn ? (!pending && user) : !pending;
       const propsWithUser = { user, signOut: this.handleSignOut.bind(this), ...this.props };
       // eslint-disable-next-line react/jsx-props-no-spreading
-      return showComponent ? <WrappedComponent {...propsWithUser} /> : null;
+      return showComponent ? <WrappedComponent {...propsWithUser} /> : <div>Loading...</div>;
     }
   };
 }

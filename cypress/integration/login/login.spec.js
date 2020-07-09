@@ -50,4 +50,20 @@ describe('signing in', () => {
       cy.contains('User does not exist')
     })
   })
+
+  context('user hits enter in password field', () => {
+    it('should not sign user in', () => {
+      cy.visit('/signIn')
+
+      cy.contains('Sign in to Continuum')
+
+      cy.get('input[placeholder="Email"]')
+        .type("matthew.watts.mw@gmail.com")
+
+      cy.get('input[placeholder="Password"]')
+        .type("password{enter}")
+
+      cy.url().should('equal', `${Cypress.config().baseUrl}/dashboard`)
+    })
+  })
 })

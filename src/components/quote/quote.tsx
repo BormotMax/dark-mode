@@ -3,38 +3,36 @@ import { CheckList } from '../checkList';
 import styles from './quote.module.scss';
 import DownChevron from '../../img/downChevron.svg';
 import UpChevron from '../../img/upChevron.svg';
+import { Quote, Task } from '../../types/custom';
+import { quotes } from '../../mockData/project';
 
 function calcPercentDone(tasks: Array<Task>) {
   let total = 0;
   let done = 0;
 
-  for (const task of tasks) {
+  tasks.forEach((task) => {
     if (task.completed) {
       done++;
     }
 
     total++;
-  }
+  });
 
   return total === 0 ? 0 : done / total;
 }
-interface Task {
-  id: number
-  completed: boolean
-  text: string
-}
 
 interface QuoteProps {
-  quote: { tasks: Array<Task> }
+  quote: Quote
   i: number
 }
 
-export const Quote: React.FC<QuoteProps> = ({ quote, i }) => {
+export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i }) => {
+  const tasks = (quote.tasks?.items || []) as Array<Task>;
   const [isShowing, setShowing] = useState(true);
-  const [percentDone, setPercentDone] = useState(calcPercentDone(quote.tasks));
+  const [percentDone, setPercentDone] = useState(calcPercentDone(tasks));
 
-  function handleQuoteProgressUpdate(task: Task, tasks: Array<Task>, quoteId: number) {
-    setPercentDone(calcPercentDone(tasks));
+  function handleQuoteProgressUpdate(tasksArg: Array<Task>) {
+    setPercentDone(calcPercentDone(tasksArg));
   }
 
   return (
@@ -66,8 +64,8 @@ export const Quote: React.FC<QuoteProps> = ({ quote, i }) => {
         <form className="text-1 text-gray">
           <CheckList
             name={`quote-${i}`}
-            callback={(task: Task, tasks: Array<Task>) => handleQuoteProgressUpdate(task, tasks, i)}
-            listItems={quote.tasks.map((t) => ({
+            callback={(ts: Array<Task>) => handleQuoteProgressUpdate(ts)}
+            listItems={tasks.filter(Boolean).map((t) => ({
               id: t.id,
               completed: t.completed,
               listItem: t.text,

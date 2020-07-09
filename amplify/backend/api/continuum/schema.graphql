@@ -1,7 +1,14 @@
 type User @model {
   id: ID!
   projects: [Project] @connection(keyName: "byFreelancer", fields: ["id"])
-  name: String
+  name: String!
+  role: UserRole!
+  avatarUrl: String
+}
+
+enum UserRole {
+  FREELANCER
+  CLIENT
 }
 
 type Project @model @key(name: "byFreelancer", fields: ["freelancerID"], queryField: "projectsByFreelancer") {
@@ -37,4 +44,5 @@ type Task @model @key(name: "byQuote", fields: ["quoteID"]) {
   id: ID!
   quoteID: ID!
   text: String!
+  completed: Boolean!
 }

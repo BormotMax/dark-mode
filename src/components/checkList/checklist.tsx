@@ -5,7 +5,7 @@ import styles from './checklist.module.scss';
 
 interface CheckListProps {
   listItems: Array<{
-    id: number,
+    id: string,
     completed: boolean,
     listItem: string
   }>
@@ -21,14 +21,14 @@ export const CheckList: React.FC<CheckListProps> = ({
     const inputs: any = document.querySelectorAll<HTMLFormElement>(`.${name}`);
     const items = [];
 
-    for (const input of inputs) {
+    inputs.forEach((input) => {
       items.push({
         id: input.value,
         completed: input.checked,
       });
-    }
+    });
 
-    callback({ id: target.value, completed: target.checked }, items);
+    callback(items);
   }
 
   return (

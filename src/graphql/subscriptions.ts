@@ -16,6 +16,8 @@ export const onCreateUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -26,6 +28,8 @@ export const onCreateUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -58,6 +62,8 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
       }
       name
+      role
+      avatarUrl
       createdAt
       updatedAt
     }
@@ -77,6 +83,8 @@ export const onUpdateUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -87,6 +95,8 @@ export const onUpdateUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -119,6 +129,8 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
       }
       name
+      role
+      avatarUrl
       createdAt
       updatedAt
     }
@@ -138,6 +150,8 @@ export const onDeleteUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -148,6 +162,8 @@ export const onDeleteUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -180,6 +196,8 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
       }
       name
+      role
+      avatarUrl
       createdAt
       updatedAt
     }
@@ -199,6 +217,8 @@ export const onCreateProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -206,6 +226,8 @@ export const onCreateProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -224,6 +246,8 @@ export const onCreateProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -237,6 +261,8 @@ export const onCreateProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -244,6 +270,8 @@ export const onCreateProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -262,6 +290,8 @@ export const onCreateProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -277,6 +307,8 @@ export const onCreateProject = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -294,6 +326,7 @@ export const onCreateProject = /* GraphQL */ `
               id
               quoteID
               text
+              completed
               createdAt
               updatedAt
             }
@@ -326,6 +359,8 @@ export const onUpdateProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -333,6 +368,8 @@ export const onUpdateProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -351,6 +388,8 @@ export const onUpdateProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -364,6 +403,8 @@ export const onUpdateProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -371,6 +412,8 @@ export const onUpdateProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -389,6 +432,8 @@ export const onUpdateProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -404,6 +449,8 @@ export const onUpdateProject = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -421,6 +468,7 @@ export const onUpdateProject = /* GraphQL */ `
               id
               quoteID
               text
+              completed
               createdAt
               updatedAt
             }
@@ -453,6 +501,8 @@ export const onDeleteProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -460,6 +510,8 @@ export const onDeleteProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -478,6 +530,8 @@ export const onDeleteProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -491,6 +545,8 @@ export const onDeleteProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -498,6 +554,8 @@ export const onDeleteProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -516,6 +574,8 @@ export const onDeleteProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -531,6 +591,8 @@ export const onDeleteProject = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -548,6 +610,7 @@ export const onDeleteProject = /* GraphQL */ `
               id
               quoteID
               text
+              completed
               createdAt
               updatedAt
             }
@@ -576,6 +639,7 @@ export const onCreateQuote = /* GraphQL */ `
           id
           quoteID
           text
+          completed
           createdAt
           updatedAt
         }
@@ -596,6 +660,7 @@ export const onUpdateQuote = /* GraphQL */ `
           id
           quoteID
           text
+          completed
           createdAt
           updatedAt
         }
@@ -616,6 +681,7 @@ export const onDeleteQuote = /* GraphQL */ `
           id
           quoteID
           text
+          completed
           createdAt
           updatedAt
         }
@@ -642,6 +708,8 @@ export const onCreateComment = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -649,6 +717,8 @@ export const onCreateComment = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -667,6 +737,8 @@ export const onCreateComment = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -691,6 +763,8 @@ export const onUpdateComment = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -698,6 +772,8 @@ export const onUpdateComment = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -716,6 +792,8 @@ export const onUpdateComment = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -740,6 +818,8 @@ export const onDeleteComment = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -747,6 +827,8 @@ export const onDeleteComment = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -765,6 +847,8 @@ export const onDeleteComment = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -779,6 +863,7 @@ export const onCreateTask = /* GraphQL */ `
       id
       quoteID
       text
+      completed
       createdAt
       updatedAt
     }
@@ -790,6 +875,7 @@ export const onUpdateTask = /* GraphQL */ `
       id
       quoteID
       text
+      completed
       createdAt
       updatedAt
     }
@@ -801,6 +887,7 @@ export const onDeleteTask = /* GraphQL */ `
       id
       quoteID
       text
+      completed
       createdAt
       updatedAt
     }

@@ -1,8 +1,22 @@
 import { render } from '@testing-library/react';
-import { Quote } from './quote';
+import { QuoteProgress } from './quote';
+import { Quote } from '../../types/custom';
+
+const quote: Quote = {
+  id: 'id',
+  projectID: 'projectId',
+  __typename: 'Quote',
+  tasks: {
+    items: [],
+    nextToken: '',
+    __typename: 'ModelTaskConnection',
+  },
+  createdAt: new Date().toDateString(),
+  updatedAt: new Date().toDateString(),
+};
 
 describe('Quote', () => {
   it('renders without crashing', async () => {
-    render(<Quote quote={{ tasks: [] }} i={1} />);
+    render(<QuoteProgress quote={quote} i={1} />);
   });
 });

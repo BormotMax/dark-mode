@@ -1,15 +1,9 @@
 import { Comment } from '../comment';
+import { Comment as CommentProps } from '../../types/custom';
 import styles from './comments.module.scss';
 
 interface CommentsProps {
-  comments: Array<Comment>
-}
-
-interface Comment {
-  text: string
-  name: string
-  createdAt: Date
-  avatar?: string
+  comments: Array<CommentProps>
 }
 
 export const Comments: React.FC<CommentsProps> = ({ comments }) => (
@@ -19,15 +13,8 @@ export const Comments: React.FC<CommentsProps> = ({ comments }) => (
       <div className={styles.line} />
     </div>
     <div>
-      {comments.map((c, i) => (
-        <Comment
-          key={i}
-          avatar={i % 2 === 1 ? '/avatar.jpg' : '/avatar_2.png'}
-          text={c.text}
-          name={c.name}
-          createdAt={c.createdAt}
-          even={i % 2 === 0}
-        />
+      {comments.filter(Boolean).map((c) => (
+        <Comment key={c.id} comment={c} />
       ))}
     </div>
   </div>

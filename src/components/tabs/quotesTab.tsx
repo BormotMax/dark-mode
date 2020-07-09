@@ -1,14 +1,10 @@
 import styles from './quotesTab.module.scss';
 import DocumentIcon from '../../img/document.svg';
 import Open from '../../img/openExternal.svg';
+import { Quote } from '../../types/custom';
 
 interface QuotesTabProps {
   quotes: Array<Quote>
-}
-
-interface Quote {
-  id: string
-  sequenceNumber: number
 }
 
 export const QuotesTab: React.FC<QuotesTabProps> = ({ quotes }: QuotesTabProps) => (
@@ -18,13 +14,13 @@ export const QuotesTab: React.FC<QuotesTabProps> = ({ quotes }: QuotesTabProps) 
       <button type="button" className="oval-btn-3">New Quote</button>
     </div>
     <div>
-      {quotes.map((quote: Quote) => (
+      {quotes.filter(Boolean).map((quote: Quote, i) => (
         <div className={styles.quoteLine} key={quote.id}>
           <DocumentIcon />
           <span className="mls">
             Quote
             {' '}
-            {quote.sequenceNumber}
+            {i + 1}
           </span>
         </div>
       ))}

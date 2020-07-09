@@ -16,6 +16,8 @@ export const getUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -26,6 +28,8 @@ export const getUser = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -58,6 +62,8 @@ export const getUser = /* GraphQL */ `
         nextToken
       }
       name
+      role
+      avatarUrl
       createdAt
       updatedAt
     }
@@ -79,6 +85,8 @@ export const listUsers = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -86,6 +94,8 @@ export const listUsers = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -104,6 +114,8 @@ export const listUsers = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -125,6 +137,8 @@ export const getProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -132,6 +146,8 @@ export const getProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -150,6 +166,8 @@ export const getProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -163,6 +181,8 @@ export const getProject = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -170,6 +190,8 @@ export const getProject = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -188,6 +210,8 @@ export const getProject = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -203,6 +227,8 @@ export const getProject = /* GraphQL */ `
               nextToken
             }
             name
+            role
+            avatarUrl
             createdAt
             updatedAt
           }
@@ -220,6 +246,7 @@ export const getProject = /* GraphQL */ `
               id
               quoteID
               text
+              completed
               createdAt
               updatedAt
             }
@@ -261,6 +288,8 @@ export const listProjects = /* GraphQL */ `
             nextToken
           }
           name
+          role
+          avatarUrl
           createdAt
           updatedAt
         }
@@ -278,6 +307,8 @@ export const listProjects = /* GraphQL */ `
             nextToken
           }
           name
+          role
+          avatarUrl
           createdAt
           updatedAt
         }
@@ -290,6 +321,8 @@ export const listProjects = /* GraphQL */ `
             creator {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -330,6 +363,7 @@ export const getQuote = /* GraphQL */ `
           id
           quoteID
           text
+          completed
           createdAt
           updatedAt
         }
@@ -355,6 +389,7 @@ export const listQuotes = /* GraphQL */ `
             id
             quoteID
             text
+            completed
             createdAt
             updatedAt
           }
@@ -383,6 +418,8 @@ export const getComment = /* GraphQL */ `
             freelancer {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -390,6 +427,8 @@ export const getComment = /* GraphQL */ `
             client {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
@@ -408,6 +447,8 @@ export const getComment = /* GraphQL */ `
           nextToken
         }
         name
+        role
+        avatarUrl
         createdAt
         updatedAt
       }
@@ -441,6 +482,8 @@ export const listComments = /* GraphQL */ `
             nextToken
           }
           name
+          role
+          avatarUrl
           createdAt
           updatedAt
         }
@@ -457,6 +500,7 @@ export const getTask = /* GraphQL */ `
       id
       quoteID
       text
+      completed
       createdAt
       updatedAt
     }
@@ -473,6 +517,7 @@ export const listTasks = /* GraphQL */ `
         id
         quoteID
         text
+        completed
         createdAt
         updatedAt
       }
@@ -511,6 +556,8 @@ export const projectsByFreelancer = /* GraphQL */ `
             nextToken
           }
           name
+          role
+          avatarUrl
           createdAt
           updatedAt
         }
@@ -528,6 +575,8 @@ export const projectsByFreelancer = /* GraphQL */ `
             nextToken
           }
           name
+          role
+          avatarUrl
           createdAt
           updatedAt
         }
@@ -540,6 +589,8 @@ export const projectsByFreelancer = /* GraphQL */ `
             creator {
               id
               name
+              role
+              avatarUrl
               createdAt
               updatedAt
             }
