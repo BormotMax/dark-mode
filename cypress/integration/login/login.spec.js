@@ -1,5 +1,5 @@
 describe('signing in', () => {
-  context('user exists', () => {
+  context('successful sign in', () => {
     // happy path
     it('should sign user in', () => {
       cy.visit('/signIn')
@@ -29,13 +29,23 @@ describe('signing in', () => {
 
       cy.url().should('equal', `${Cypress.config().baseUrl}/dashboard`)
     })
-  })
 
-  context('user does not exist', () => {
-    it('should not sign user in', () => {
+    it('works by hitting enter in password field', () => {
       cy.visit('/signIn')
 
-      cy.contains('Sign in to Continuum')
+      cy.get('input[placeholder="Email"]')
+        .type("matthew.watts.mw@gmail.com")
+
+      cy.get('input[placeholder="Password"]')
+        .type("password{enter}")
+
+      cy.url().should('equal', `${Cypress.config().baseUrl}/dashboard`)
+    })
+  })
+
+  context('unsuccessful sign in', () => {
+    it('user does not exist', () => {
+      cy.visit('/signIn')
 
       cy.get('input[placeholder="Email"]')
         .type("matt@continuum.works")
@@ -49,21 +59,22 @@ describe('signing in', () => {
 
       cy.contains('User does not exist')
     })
-  })
 
-  context('user hits enter in password field', () => {
-    it('should not sign user in', () => {
+    it('incorrect password', () => {
       cy.visit('/signIn')
-
-      cy.contains('Sign in to Continuum')
 
       cy.get('input[placeholder="Email"]')
         .type("matthew.watts.mw@gmail.com")
 
       cy.get('input[placeholder="Password"]')
-        .type("password{enter}")
+        .type("wrong password")
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/dashboard`)
+      cy.get('form')
+        .contains("Sign In")
+        .click()
+
+      cy.contains('Incorrect username or password.')
     })
   })
+
 })

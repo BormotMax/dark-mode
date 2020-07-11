@@ -7,6 +7,7 @@ import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import { ApolloProvider } from 'react-apollo';
 import { Rehydrated } from 'aws-appsync-react';
 import awsconfig from '../aws-exports';
+import { UserDataProvider } from '../hooks/useCurrentUser';
 
 Amplify.configure(awsconfig);
 
@@ -21,12 +22,14 @@ const client = new AWSAppSyncClient({
 });
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
-  <ApolloProvider client={client}>
-    <Rehydrated>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
-    </Rehydrated>
-  </ApolloProvider>
+  <UserDataProvider>
+    <ApolloProvider client={client}>
+      <Rehydrated>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
+      </Rehydrated>
+    </ApolloProvider>
+  </UserDataProvider>
 );
 
 export default MyApp;

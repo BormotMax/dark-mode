@@ -1,3 +1,6 @@
+![Jest Tests](https://github.com/continuumworks/continuum/workflows/Jest%20Tests/badge.svg?branch=master)
+![Cypress tests](https://github.com/continuumworks/continuum/workflows/Cypress%20tests/badge.svg)
+
 ## Developing locally
 
 Run the development server:

@@ -1,12 +1,12 @@
-import { useState, FormEvent } from 'react'
-import Link from 'next/link'
-import { Auth } from '@aws-amplify/auth'
-import serialize from 'form-serialize'
-import { ConfirmSignUp } from '../components/confirmSignUp'
-import { GoogleAuthButton } from '../components/googleAuthButton'
-import Logo from '../img/logo.svg'
-import styles from './styles/authPage.module.scss'
-import { WithAuthentication } from '../components/withAuthentication'
+import { useState, FormEvent } from 'react';
+import Link from 'next/link';
+import { Auth } from '@aws-amplify/auth';
+import serialize from 'form-serialize';
+import { ConfirmSignUp } from '../components/confirmSignUp';
+import { GoogleAuthButton } from '../components/googleAuthButton';
+import Logo from '../img/logo.svg';
+import styles from './styles/authPage.module.scss';
+import { WithAuthentication, RouteType } from '../components/withAuthentication';
 
 interface ValidationProps {
   name?: string
@@ -15,35 +15,35 @@ interface ValidationProps {
 }
 
 const SignUp: React.FC = () => {
-  const [emailInState, setEmailInState] = useState('')
-  const [isConfirming, setConfirming] = useState(false)
-  const [isRequestPending, setRequestPending] = useState(false)
-  const [error, setError] = useState('')
-  const [invalids, setInvalids] = useState<ValidationProps>({})
+  const [emailInState, setEmailInState] = useState('');
+  const [isConfirming, setConfirming] = useState(false);
+  const [isRequestPending, setRequestPending] = useState(false);
+  const [error, setError] = useState('');
+  const [invalids, setInvalids] = useState<ValidationProps>({});
 
   function validate({ name, email, password }: ValidationProps) {
-    const temp: ValidationProps = {}
+    const temp: ValidationProps = {};
 
-    if (!name) temp.name = 'error'
-    if (!email) temp.email = 'error'
-    if (!password) temp.password = 'error'
-    return temp
+    if (!name) temp.name = 'error';
+    if (!email) temp.email = 'error';
+    if (!password) temp.password = 'error';
+    return temp;
   }
 
   async function handleCreateAccountClick(e: FormEvent) {
-    e.preventDefault()
-    setRequestPending(true)
-    setError('')
-    setInvalids({})
+    e.preventDefault();
+    setRequestPending(true);
+    setError('');
+    setInvalids({});
 
-    const formData = serialize(e.target, { hash: true })
-    const { email, password, name } = formData
-    const validation = validate(formData)
+    const formData = serialize(e.target, { hash: true });
+    const { email, password, name } = formData;
+    const validation = validate(formData);
 
     if (Object.keys(validation).length) {
-      setRequestPending(false)
-      setInvalids(validation)
-      return
+      setRequestPending(false);
+      setInvalids(validation);
+      return;
     }
 
     const signupInfo = {
@@ -53,23 +53,23 @@ const SignUp: React.FC = () => {
         name,
         'custom:group': 'freelancer',
       },
-    }
+    };
 
-    setEmailInState(email)
+    setEmailInState(email);
 
     try {
-      await Auth.signUp(signupInfo)
-      setError('')
-      setRequestPending(false)
-      setConfirming(true)
+      await Auth.signUp(signupInfo);
+      setError('');
+      setRequestPending(false);
+      setConfirming(true);
     } catch (err) {
-      setError(err.message)
-      setRequestPending(false)
+      setError(err.message);
+      setRequestPending(false);
     }
   }
 
   function handleSignUpwithGoogleClick(e: MouseEvent) {
-    e.preventDefault()
+    e.preventDefault();
   }
 
   return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} /> : (
@@ -110,7 +110,7 @@ const SignUp: React.FC = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default WithAuthentication(SignUp, { signedOut: true })
+export default WithAuthentication(SignUp, { routeType: RouteType.SIGNED_OUT });

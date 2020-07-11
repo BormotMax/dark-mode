@@ -16,8 +16,12 @@ interface UserAttributes {
 }
 
 export interface AuthProps {
-  user: CognitoUserExt
+  currentUser: {
+    cognitoUser: CognitoUserExt
+    appsyncUser: any
+  }
   signOut: Function
+  signIn: Function
 }
 
 export type Project = GetProjectQuery['getProject'];

@@ -7,7 +7,7 @@ import { data as mockData, files } from '../../mockData/project';
 import {
   TabGroup, NotesTab, QuotesTab, FilesTab,
 } from '../../components/tabs';
-import { WithAuthentication } from '../../components/withAuthentication';
+import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { FirstContact } from '../../components/firstContact';
 import { Comments } from '../../components/comments';
 import { Footer } from '../../components/footer';
@@ -30,6 +30,7 @@ const ProjectPage: React.FC = () => {
         {({ loading, data, error }: QueryResult) => {
           if (loading) return <div>loading...</div>;
           if (error) return <div>{error.message}</div>;
+          if (!data.getProject) return <div>Not found</div>;
 
           const {
             initialContact, client, createdAt, comments: cs, quotes: qs,
@@ -73,4 +74,4 @@ const ProjectPage: React.FC = () => {
   );
 };
 
-export default WithAuthentication(ProjectPage);
+export default WithAuthentication(ProjectPage, { routeType: RouteType.SIGNED_IN });

@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { WithAuthentication } from '../components/withAuthentication';
+import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
 
-const Home: React.FC<AuthProps> = ({ user, signOut }) => (
+const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => (
   <div className="container">
     <Head>
       <title>Continuum</title>
@@ -21,7 +21,7 @@ const Home: React.FC<AuthProps> = ({ user, signOut }) => (
         className="column is-half"
       >
         <div>Continuum</div>
-        {!user
+        {!currentUser.cognitoUser
           && (
             <>
               <Link href="/signIn">
@@ -36,7 +36,7 @@ const Home: React.FC<AuthProps> = ({ user, signOut }) => (
               </Link>
             </>
           )}
-        {user
+        {currentUser.cognitoUser
           && (
             <>
               <Link href="/dashboard">
@@ -53,4 +53,4 @@ const Home: React.FC<AuthProps> = ({ user, signOut }) => (
   </div>
 );
 
-export default WithAuthentication(Home, { noRedirect: true });
+export default WithAuthentication(Home, { routeType: RouteType.NO_REDIRECT });

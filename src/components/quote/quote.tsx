@@ -4,7 +4,6 @@ import styles from './quote.module.scss';
 import DownChevron from '../../img/downChevron.svg';
 import UpChevron from '../../img/upChevron.svg';
 import { Quote, Task } from '../../types/custom';
-import { quotes } from '../../mockData/project';
 
 function calcPercentDone(tasks: Array<Task>) {
   let total = 0;

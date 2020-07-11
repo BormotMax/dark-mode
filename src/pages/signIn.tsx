@@ -1,6 +1,5 @@
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
-import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
 import { ConfirmSignUp } from '../components/confirmSignUp';
@@ -9,14 +8,15 @@ import ForgotPassword from '../img/forgotPassword.svg';
 import Logo from '../img/logo.svg';
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
-import { WithAuthentication } from '../components/withAuthentication';
+import { WithAuthentication, RouteType } from '../components/withAuthentication';
+import { AuthProps } from '../types/custom';
 
 interface ValidationProps {
   email?: string
   password?: string
 }
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   const [emailInState, setEmailInState] = useState('');
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
@@ -31,21 +31,22 @@ const SignIn: React.FC = () => {
     return temp;
   }
 
-  async function checkContact(user: object) {
-    try {
-      const data: { verified: { email?: string }, unverified: {} } = await Auth.verifiedContact(user);
-      if (data.verified.email) {
-        Router.push('/dashboard');
-      } else {
-        setError('');
-        setRequestPending(false);
-        setConfirming(true);
-      }
-    } catch (err) {
-      setError(err.message);
-      setRequestPending(false);
-    }
-  }
+  // async function checkContact(user: object) {
+  //   try {
+  //     const data: { verified: { email?: string }, unverified: {} } = await Auth.verifiedContact(user);
+  //     if (data.verified.email) {
+  //       currentUser.setCurrentUser({ cognitoUser: user, appSyncUser: {} });
+  //       Router.push('/dashboard');
+  //     } else {
+  //       setError('');
+  //       setRequestPending(false);
+  //       setConfirming(true);
+  //     }
+  //   } catch (err) {
+  //     setError(err.message);
+  //     setRequestPending(false);
+  //   }
+  // }
 
   function handleGoogleSignInClick(e: MouseEvent) {
     e.preventDefault();
@@ -71,9 +72,17 @@ const SignIn: React.FC = () => {
     setEmailInState(email);
 
     try {
-      const user = await Auth.signIn(email, password);
-      checkContact(user);
+      const isConfirmed = await signIn(email, password);
+      // If the user is confirmed, withAuthentication HOC will redirect to /dashboard
+      // and the following lines won't be executed
+      if (!isConfirmed) {
+        setError('');
+        setRequestPending(false);
+
+        setConfirming(true);
+      }
     } catch (err) {
+      // could not sign in
       setError(err.message);
       setRequestPending(false);
 
@@ -84,6 +93,21 @@ const SignIn: React.FC = () => {
         Router.push('/forgotPassword');
       }
     }
+
+    // try {
+    //   const user = await Auth.signIn(email, password);
+    //   checkContact(user);
+    // } catch (err) {
+    //   setError(err.message);
+    //   setRequestPending(false);
+
+    //   if (err.code === 'UserNotConfirmedException') {
+    //     setError('');
+    //     setConfirming(true);
+    //   } else if (err.code === 'PasswordResetRequiredException') {
+    //     Router.push('/forgotPassword');
+    //   }
+    // }
   }
 
   return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signIn" setConfirming={setConfirming} /> : (
@@ -128,4 +152,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default WithAuthentication(SignIn, { signedOut: true });
+export default WithAuthentication(SignIn, { routeType: RouteType.SIGNED_OUT });

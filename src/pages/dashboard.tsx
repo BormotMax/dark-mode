@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { WithAuthentication } from '../components/withAuthentication';
+import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
 
-const Dashboard: React.FC<AuthProps> = ({ user, signOut }) => (
+const Dashboard: React.FC<AuthProps> = ({ signOut, currentUser }) => (
   <div style={{ textAlign: 'center' }}>
     <div>
       Dashboard
@@ -10,7 +10,7 @@ const Dashboard: React.FC<AuthProps> = ({ user, signOut }) => (
     <div>
       Welcome,
       {' '}
-      {user.attributes.name}
+      {currentUser.cognitoUser.attributes.name}
     </div>
     <div>
       <Link href="/">
@@ -25,4 +25,4 @@ const Dashboard: React.FC<AuthProps> = ({ user, signOut }) => (
   </div>
 );
 
-export default WithAuthentication(Dashboard);
+export default WithAuthentication(Dashboard, { routeType: RouteType.SIGNED_IN });
