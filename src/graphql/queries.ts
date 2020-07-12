@@ -18,6 +18,20 @@ export const getUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -30,6 +44,20 @@ export const getUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -64,6 +92,26 @@ export const getUser = /* GraphQL */ `
       name
       role
       avatarUrl
+      avatar {
+        key
+      }
+      hireMeInfo {
+        id
+        freelancerID
+        name
+        title
+        buttonText
+        blurbText
+        aboutText
+        bannerImage {
+          key
+        }
+        portfolioImages {
+          key
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -116,6 +164,26 @@ export const listUsers = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -168,6 +236,26 @@ export const getProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -212,6 +300,26 @@ export const getProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -229,6 +337,20 @@ export const getProject = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -290,6 +412,26 @@ export const listProjects = /* GraphQL */ `
           name
           role
           avatarUrl
+          avatar {
+            key
+          }
+          hireMeInfo {
+            id
+            freelancerID
+            name
+            title
+            buttonText
+            blurbText
+            aboutText
+            bannerImage {
+              key
+            }
+            portfolioImages {
+              key
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
         }
@@ -309,6 +451,26 @@ export const listProjects = /* GraphQL */ `
           name
           role
           avatarUrl
+          avatar {
+            key
+          }
+          hireMeInfo {
+            id
+            freelancerID
+            name
+            title
+            buttonText
+            blurbText
+            aboutText
+            bannerImage {
+              key
+            }
+            portfolioImages {
+              key
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
         }
@@ -449,6 +611,26 @@ export const getComment = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -484,6 +666,26 @@ export const listComments = /* GraphQL */ `
           name
           role
           avatarUrl
+          avatar {
+            key
+          }
+          hireMeInfo {
+            id
+            freelancerID
+            name
+            title
+            buttonText
+            blurbText
+            aboutText
+            bannerImage {
+              key
+            }
+            portfolioImages {
+              key
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
         }
@@ -525,6 +727,55 @@ export const listTasks = /* GraphQL */ `
     }
   }
 `;
+export const getHireMeInfo = /* GraphQL */ `
+  query GetHireMeInfo($id: ID!) {
+    getHireMeInfo(id: $id) {
+      id
+      freelancerID
+      name
+      title
+      buttonText
+      blurbText
+      aboutText
+      bannerImage {
+        key
+      }
+      portfolioImages {
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listHireMeInfos = /* GraphQL */ `
+  query ListHireMeInfos(
+    $filter: ModelHireMeInfoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listHireMeInfos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        freelancerID
+        name
+        title
+        buttonText
+        blurbText
+        aboutText
+        bannerImage {
+          key
+        }
+        portfolioImages {
+          key
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const projectsByFreelancer = /* GraphQL */ `
   query ProjectsByFreelancer(
     $freelancerID: ID
@@ -558,6 +809,26 @@ export const projectsByFreelancer = /* GraphQL */ `
           name
           role
           avatarUrl
+          avatar {
+            key
+          }
+          hireMeInfo {
+            id
+            freelancerID
+            name
+            title
+            buttonText
+            blurbText
+            aboutText
+            bannerImage {
+              key
+            }
+            portfolioImages {
+              key
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
         }
@@ -577,6 +848,26 @@ export const projectsByFreelancer = /* GraphQL */ `
           name
           role
           avatarUrl
+          avatar {
+            key
+          }
+          hireMeInfo {
+            id
+            freelancerID
+            name
+            title
+            buttonText
+            blurbText
+            aboutText
+            bannerImage {
+              key
+            }
+            portfolioImages {
+              key
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
         }
@@ -613,6 +904,42 @@ export const projectsByFreelancer = /* GraphQL */ `
         }
         initialContact {
           message
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const hireMeInfoByFreelancer = /* GraphQL */ `
+  query HireMeInfoByFreelancer(
+    $freelancerID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelHireMeInfoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    hireMeInfoByFreelancer(
+      freelancerID: $freelancerID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        freelancerID
+        name
+        title
+        buttonText
+        blurbText
+        aboutText
+        bannerImage {
+          key
+        }
+        portfolioImages {
+          key
         }
         createdAt
         updatedAt

@@ -21,6 +21,20 @@ export const createUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -33,6 +47,20 @@ export const createUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -67,6 +95,26 @@ export const createUser = /* GraphQL */ `
       name
       role
       avatarUrl
+      avatar {
+        key
+      }
+      hireMeInfo {
+        id
+        freelancerID
+        name
+        title
+        buttonText
+        blurbText
+        aboutText
+        bannerImage {
+          key
+        }
+        portfolioImages {
+          key
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -91,6 +139,20 @@ export const updateUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -103,6 +165,20 @@ export const updateUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -137,6 +213,26 @@ export const updateUser = /* GraphQL */ `
       name
       role
       avatarUrl
+      avatar {
+        key
+      }
+      hireMeInfo {
+        id
+        freelancerID
+        name
+        title
+        buttonText
+        blurbText
+        aboutText
+        bannerImage {
+          key
+        }
+        portfolioImages {
+          key
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -161,6 +257,20 @@ export const deleteUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -173,6 +283,20 @@ export const deleteUser = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -207,6 +331,26 @@ export const deleteUser = /* GraphQL */ `
       name
       role
       avatarUrl
+      avatar {
+        key
+      }
+      hireMeInfo {
+        id
+        freelancerID
+        name
+        title
+        buttonText
+        blurbText
+        aboutText
+        bannerImage {
+          key
+        }
+        portfolioImages {
+          key
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -260,6 +404,26 @@ export const createProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -304,6 +468,26 @@ export const createProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -321,6 +505,20 @@ export const createProject = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -405,6 +603,26 @@ export const updateProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -449,6 +667,26 @@ export const updateProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -466,6 +704,20 @@ export const updateProject = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -550,6 +802,26 @@ export const deleteProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -594,6 +866,26 @@ export const deleteProject = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -611,6 +903,20 @@ export const deleteProject = /* GraphQL */ `
             name
             role
             avatarUrl
+            avatar {
+              key
+            }
+            hireMeInfo {
+              id
+              freelancerID
+              name
+              title
+              buttonText
+              blurbText
+              aboutText
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -769,6 +1075,26 @@ export const createComment = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -827,6 +1153,26 @@ export const updateComment = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -885,6 +1231,26 @@ export const deleteComment = /* GraphQL */ `
         name
         role
         avatarUrl
+        avatar {
+          key
+        }
+        hireMeInfo {
+          id
+          freelancerID
+          name
+          title
+          buttonText
+          blurbText
+          aboutText
+          bannerImage {
+            key
+          }
+          portfolioImages {
+            key
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -933,6 +1299,78 @@ export const deleteTask = /* GraphQL */ `
       quoteID
       text
       completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createHireMeInfo = /* GraphQL */ `
+  mutation CreateHireMeInfo(
+    $input: CreateHireMeInfoInput!
+    $condition: ModelHireMeInfoConditionInput
+  ) {
+    createHireMeInfo(input: $input, condition: $condition) {
+      id
+      freelancerID
+      name
+      title
+      buttonText
+      blurbText
+      aboutText
+      bannerImage {
+        key
+      }
+      portfolioImages {
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateHireMeInfo = /* GraphQL */ `
+  mutation UpdateHireMeInfo(
+    $input: UpdateHireMeInfoInput!
+    $condition: ModelHireMeInfoConditionInput
+  ) {
+    updateHireMeInfo(input: $input, condition: $condition) {
+      id
+      freelancerID
+      name
+      title
+      buttonText
+      blurbText
+      aboutText
+      bannerImage {
+        key
+      }
+      portfolioImages {
+        key
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteHireMeInfo = /* GraphQL */ `
+  mutation DeleteHireMeInfo(
+    $input: DeleteHireMeInfoInput!
+    $condition: ModelHireMeInfoConditionInput
+  ) {
+    deleteHireMeInfo(input: $input, condition: $condition) {
+      id
+      freelancerID
+      name
+      title
+      buttonText
+      blurbText
+      aboutText
+      bannerImage {
+        key
+      }
+      portfolioImages {
+        key
+      }
       createdAt
       updatedAt
     }
