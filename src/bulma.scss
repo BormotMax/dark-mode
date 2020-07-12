@@ -24,6 +24,8 @@ $button-background-color: white;
 $footer-background-color: #1d3557;
 $footer-color: white;
 $footer-padding: 60px 75px;
+$label-color: #828282;
+$label-weight: normal;
 
 // 3. Bulma enable Modularity, which allow you to import what you need
 // https://bulma.io/documentation/overview/modular/
@@ -75,10 +77,16 @@ $footer-padding: 60px 75px;
 .columns {
     margin: 0px;
 
-    .column {
-        padding: 0px;
-    }
     &:last-child {
         margin-bottom: 0px;
     }
+}
+
+.label {
+    margin-bottom: initial !important;
+}
+
+.input {
+    color: #8093a6;
+    width: initial;
 }

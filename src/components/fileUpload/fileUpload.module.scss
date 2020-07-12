@@ -1,0 +1,61 @@
+@import "~bulma/sass/utilities/_all.sass";
+
+.fileUpload {
+    width: 100%;
+    margin: 0 10px 20px 10px;
+
+    .dropArea {
+        border: 3px dashed #bdbdbd;
+        border-radius: 16px;
+        text-align: center;
+        background: #f2f2f2;
+        margin-bottom: 10px;
+        height: 145px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        & * {
+            pointer-events: none;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .dragOver {
+        border: 3px dashed #3c78fb;
+    }
+
+    .loading {
+        position: relative;
+        pointer-events: none;
+        opacity: 0.5;
+        border: 3px solid #bdbdbd;
+
+        svg {
+            visibility: hidden;
+        }
+
+        &:after {
+            @include loader;
+            position: absolute;
+            top: calc(50% - 2.5em);
+            left: calc(50% - 2.5em);
+            width: 5em;
+            height: 5em;
+            border-width: 0.25em;
+        }
+    }
+
+    .done {
+        border: 3px solid #bdbdbd;
+    }
+
+    .beneathDropArea {
+        text-align: right;
+        white-space: pre-wrap;
+    }
+}

@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Query, QueryResult } from 'react-apollo';
+import classnames from 'classnames';
 import styles from '../styles/project.module.scss';
 import { data as mockData, files } from '../../mockData/project';
 import {
@@ -44,13 +45,13 @@ const ProjectPage: React.FC = () => {
               <main className={`${styles.body} container is-desktop`}>
                 <ProjectHeader headerText={mockData.company.name} avatar="/avatar.jpg" />
                 <div className={`${styles.columns} columns`}>
-                  <div className={`${styles.leftColumn} column is-two-thirds-desktop`}>
+                  <div className={classnames(styles.leftColumn, styles.column, 'column', 'is-two-thirds-desktop')}>
                     <div className={styles.container}>
                       <FirstContact name={client?.name} message={initialContact?.message} submittedAt={new Date(createdAt)} />
                       <Comments comments={comments} />
                     </div>
                   </div>
-                  <div className="column">
+                  <div className={classnames('column', styles.column)}>
                     <div className={styles.container}>
                       <TabGroup names={['QUOTES', 'NOTES', 'FILES']}>
                         <QuotesTab quotes={quotes} />

@@ -121,7 +121,7 @@ li {
 
 .text-1 {
   font-family: Roboto, sans-serif;
-  font-weight: normal;
+  font-weight: normal !important;
   font-size: 16px;
   line-height: 33px;
   letter-spacing: 0.271875px;
@@ -133,6 +133,10 @@ li {
 
 .text-white {
   color: white;
+}
+
+.text-drkgray {
+  color: #828282;
 }
 
 .text-gray {
@@ -276,6 +280,11 @@ li {
   letter-spacing: 0.271875px;
   color: #ffffff;
   cursor: pointer;
+
+  &--inline {
+    width: initial;
+    min-width: 224px;
+  }
 }
 
 .oval-btn-3 {
@@ -289,7 +298,7 @@ li {
   letter-spacing: 0.271875px;
   text-align: center;
   outline: none;
-  padding: initial 25px;
+  padding: 0 25px;
   color: #3c78fb;
   cursor: pointer;
 

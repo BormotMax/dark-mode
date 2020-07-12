@@ -9,6 +9,10 @@
         margin-bottom: 75px !important; // bulma container class override
 
         .columns {
+            .column {
+                padding: 0px;
+            }
+
             background: white;
 
             @include desktop {

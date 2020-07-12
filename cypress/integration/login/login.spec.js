@@ -41,6 +41,19 @@ describe('signing in', () => {
 
       cy.url().should('equal', `${Cypress.config().baseUrl}/dashboard`)
     })
+
+
+    it('works by hitting enter in email field', () => {
+      cy.visit('/signIn')
+
+      cy.get('input[placeholder="Password"]')
+        .type("password")
+
+      cy.get('input[placeholder="Email"]')
+        .type("matthew.watts.mw@gmail.com{enter}")
+
+      cy.url().should('equal', `${Cypress.config().baseUrl}/dashboard`)
+    })
   })
 
   context('unsuccessful sign in', () => {
@@ -77,4 +90,17 @@ describe('signing in', () => {
     })
   })
 
+  context('navigation', () => {
+    it('navigates to forgot password page', () => {
+      cy.visit('/signIn')
+      cy.get('a[href="/forgotPassword"]').click()
+      cy.url().should('equal', `${Cypress.config().baseUrl}/forgotPassword`)
+    })
+
+    it('navigates to sign in page', () => {
+      cy.visit('/signIn')
+      cy.contains('Sign Up').click()
+      cy.url().should('equal', `${Cypress.config().baseUrl}/signUp`)
+    })
+  })
 })

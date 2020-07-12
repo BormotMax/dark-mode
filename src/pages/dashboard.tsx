@@ -20,6 +20,13 @@ const Dashboard: React.FC<AuthProps> = ({ signOut, currentUser }) => (
       </Link>
     </div>
     <div>
+      <Link href="/hire/edit">
+        <a href="/hire/edit">
+          Hire Editor
+        </a>
+      </Link>
+    </div>
+    <div>
       <button type="button" onClick={() => signOut()}>Sign Out</button>
     </div>
   </div>
