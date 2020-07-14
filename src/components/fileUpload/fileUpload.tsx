@@ -34,7 +34,6 @@ export const FileUpload:React.FC<FileUploadProps> = ({
 
   const handleFileDrop = (e) => {
     e.preventDefault();
-    setUploadState(UploadState.LOADING);
 
     let file;
 
@@ -50,10 +49,13 @@ export const FileUpload:React.FC<FileUploadProps> = ({
       }
     }
 
-    setFileSrc(URL.createObjectURL(file));
+    if (file) {
+      setFileSrc(URL.createObjectURL(file));
+      setUploadState(UploadState.DONE);
+      onChange(file);
+    }
+
     setDragOver(false);
-    setUploadState(UploadState.DONE);
-    onChange(file);
   };
 
   const handleFileInputChange = (e) => {

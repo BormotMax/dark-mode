@@ -9,7 +9,7 @@ import { ProjectHeader } from '../../components/projectHeader';
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { FileUpload } from '../../components/fileUpload';
 import styles from '../styles/hireEdit.module.scss';
-import { updateHireMeInfo } from '../../graphql/mutations';
+import { updateHireMeInfo, createHireMeInfo } from '../../graphql/mutations';
 import { hireMeInfoByFreelancer } from '../../graphql/queries';
 import { CreateHireMeInfoInput, HireMeInfoByFreelancerQuery } from '../../API';
 import { client } from '../_app';
@@ -29,16 +29,29 @@ const HirePageEditor = ({ currentUser }) => {
 
   useEffect(() => {
     const execute = async () => {
+      const freelancerID = currentUser.cognitoUser.username;
+
       try {
         const { data }: {data: HireMeInfoByFreelancerQuery} = await client.query({
           query: gql(hireMeInfoByFreelancer),
-          variables: { freelancerID: currentUser.cognitoUser.username },
+          variables: { freelancerID },
         });
 
-        const info = data?.hireMeInfoByFreelancer?.items[0];
+        let info = data?.hireMeInfoByFreelancer?.items[0];
+        if (!info) {
+          const newHireMeInfo = await client.mutate({
+            mutation: gql(createHireMeInfo),
+            variables: {
+              input: {
+                freelancerID,
+              },
+            },
+          });
+
+          info = newHireMeInfo?.data?.createHireMeInfo;
+        }
 
         if (info) {
-          // todo: handle image not found
           info.portfolioImages?.forEach(({ key, tag }) => {
             try {
               Storage.get(key).then((img) => setPortfolioImages({ ...portfolioImages, [tag]: img }));
@@ -58,6 +71,7 @@ const HirePageEditor = ({ currentUser }) => {
 
         setHireInfo(info);
       } catch (err) {
+        console.log(err);
         setError(err);
       } finally {
         setLoading(false);
@@ -140,6 +154,7 @@ const HirePageEditor = ({ currentUser }) => {
   };
 
   if (loading) return <div>Loading...</div>;
+  if (!hireInfo) return <div>Error, please try again later.</div>;
 
   return (
     <div>
