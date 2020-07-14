@@ -21,5 +21,28 @@
                 "continuum23ec4bac": {}
             }
         }
+    },
+    "test": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-continuum-test-234758-authRole",
+            "UnauthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-test-234758-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-test-234758-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-continuum-test-234758-deployment",
+            "UnauthRoleName": "amplify-continuum-test-234758-unauthRole",
+            "StackName": "amplify-continuum-test-234758",
+            "StackId": "arn:aws:cloudformation:us-east-1:757622401460:stack/amplify-continuum-test-234758/f4cb6850-c59d-11ea-b4f7-0a637f9cba95",
+            "AmplifyAppId": "d3ck2vgbiuqrmx"
+        },
+        "categories": {
+            "auth": {
+                "continuum23ec4bac": {}
+            },
+            "function": {
+                "continuum23ec4bacPostConfirmation": {
+                    "GROUP": "freelancer"
+                }
+            }
+        }
     }
 }
