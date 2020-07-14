@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './fileUpload.module.scss';
 import UploadImage from '../../img/upload.svg';
 import { FileInput } from '../fileInput';
@@ -7,6 +7,9 @@ import { FileInput } from '../fileInput';
 interface FileUploadProps {
   helpText: string
   name: string
+  image: string
+  onChange: Function
+  aspect?: string
 }
 
 enum UploadState {
@@ -15,10 +18,19 @@ enum UploadState {
   DONE
 }
 
-export const FileUpload:React.FC<FileUploadProps> = ({ helpText, name }) => {
+export const FileUpload:React.FC<FileUploadProps> = ({
+  helpText, name, image, onChange, aspect = 'square',
+}) => {
   const [fileSrc, setFileSrc] = useState('');
   const [isDragOver, setDragOver] = useState(false);
   const [uploadState, setUploadState] = useState(UploadState.BEGIN);
+
+  useEffect(() => {
+    if (image) {
+      setFileSrc(image);
+      setUploadState(UploadState.DONE);
+    }
+  }, [image]);
 
   const handleFileDrop = (e) => {
     e.preventDefault();
@@ -41,6 +53,7 @@ export const FileUpload:React.FC<FileUploadProps> = ({ helpText, name }) => {
     setFileSrc(URL.createObjectURL(file));
     setDragOver(false);
     setUploadState(UploadState.DONE);
+    onChange(file);
   };
 
   const handleFileInputChange = (e) => {
@@ -49,6 +62,7 @@ export const FileUpload:React.FC<FileUploadProps> = ({ helpText, name }) => {
     if (file) {
       setFileSrc(URL.createObjectURL(file));
       setUploadState(UploadState.DONE);
+      onChange(file);
     }
   };
 
@@ -60,7 +74,7 @@ export const FileUpload:React.FC<FileUploadProps> = ({ helpText, name }) => {
         onDragEnter={() => setDragOver(true)}
         onDragLeave={() => setDragOver(false)}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-        className={classnames(styles.dropArea,
+        className={classnames(styles.dropArea, styles[`dropArea--${aspect}`],
           {
             [styles.loading]: uploadState === UploadState.LOADING,
             [styles.dragOver]: isDragOver,

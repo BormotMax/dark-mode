@@ -5,7 +5,6 @@ type User @model {
   role: UserRole!
   avatarUrl: String
   avatar: S3Object
-  hireMeInfo: HireMeInfo
 }
 
 enum UserRole {
@@ -51,6 +50,7 @@ type Task @model @key(name: "byQuote", fields: ["quoteID"]) {
 
 type S3Object {
   key: String!
+  tag: String
 }
 
 type HireMeInfo @model @key(name: "byFreelancer", fields: ["freelancerID"], queryField: "hireMeInfoByFreelancer"){

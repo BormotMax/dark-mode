@@ -271,14 +271,14 @@ li {
   height: 64px !important;
   width: 100%;
   border-radius: 100px !important;
-  background-color: #3c78fb;
+  background-color: #3c78fb !important;
   outline: none;
   font-weight: 500;
   font-size: 21px !important;
   line-height: 25px;
   border: none;
   letter-spacing: 0.271875px;
-  color: #ffffff;
+  color: #ffffff !important;
   cursor: pointer;
 
   &--inline {
@@ -315,6 +315,12 @@ li {
 .flash-message {
   background: #1d3557;
   color: white;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
 
 // other helpers

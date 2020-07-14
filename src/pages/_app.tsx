@@ -11,7 +11,7 @@ import { UserDataProvider } from '../hooks/useCurrentUser';
 
 Amplify.configure(awsconfig);
 
-const client = new AWSAppSyncClient({
+export const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
   region: awsconfig.aws_appsync_region,
   disableOffline: true,

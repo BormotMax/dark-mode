@@ -20,17 +20,7 @@ export const onCreateUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -46,17 +36,7 @@ export const onCreateUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -94,23 +74,7 @@ export const onCreateUser = /* GraphQL */ `
       avatarUrl
       avatar {
         key
-      }
-      hireMeInfo {
-        id
-        freelancerID
-        name
-        title
-        buttonText
-        blurbText
-        aboutText
-        bannerImage {
-          key
-        }
-        portfolioImages {
-          key
-        }
-        createdAt
-        updatedAt
+        tag
       }
       createdAt
       updatedAt
@@ -135,17 +99,7 @@ export const onUpdateUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -161,17 +115,7 @@ export const onUpdateUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -209,23 +153,7 @@ export const onUpdateUser = /* GraphQL */ `
       avatarUrl
       avatar {
         key
-      }
-      hireMeInfo {
-        id
-        freelancerID
-        name
-        title
-        buttonText
-        blurbText
-        aboutText
-        bannerImage {
-          key
-        }
-        portfolioImages {
-          key
-        }
-        createdAt
-        updatedAt
+        tag
       }
       createdAt
       updatedAt
@@ -250,17 +178,7 @@ export const onDeleteUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -276,17 +194,7 @@ export const onDeleteUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -324,23 +232,7 @@ export const onDeleteUser = /* GraphQL */ `
       avatarUrl
       avatar {
         key
-      }
-      hireMeInfo {
-        id
-        freelancerID
-        name
-        title
-        buttonText
-        blurbText
-        aboutText
-        bannerImage {
-          key
-        }
-        portfolioImages {
-          key
-        }
-        createdAt
-        updatedAt
+        tag
       }
       createdAt
       updatedAt
@@ -394,23 +286,7 @@ export const onCreateProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -458,23 +334,7 @@ export const onCreateProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -495,17 +355,7 @@ export const onCreateProject = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -590,23 +440,7 @@ export const onUpdateProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -654,23 +488,7 @@ export const onUpdateProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -691,17 +509,7 @@ export const onUpdateProject = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -786,23 +594,7 @@ export const onDeleteProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -850,23 +642,7 @@ export const onDeleteProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -887,17 +663,7 @@ export const onDeleteProject = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -1047,23 +813,7 @@ export const onCreateComment = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -1122,23 +872,7 @@ export const onUpdateComment = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -1197,23 +931,7 @@ export const onDeleteComment = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -1271,9 +989,11 @@ export const onCreateHireMeInfo = /* GraphQL */ `
       aboutText
       bannerImage {
         key
+        tag
       }
       portfolioImages {
         key
+        tag
       }
       createdAt
       updatedAt
@@ -1292,9 +1012,11 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
       aboutText
       bannerImage {
         key
+        tag
       }
       portfolioImages {
         key
+        tag
       }
       createdAt
       updatedAt
@@ -1313,9 +1035,11 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
       aboutText
       bannerImage {
         key
+        tag
       }
       portfolioImages {
         key
+        tag
       }
       createdAt
       updatedAt

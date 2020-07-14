@@ -20,17 +20,7 @@ export const getUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -46,17 +36,7 @@ export const getUser = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -94,23 +74,7 @@ export const getUser = /* GraphQL */ `
       avatarUrl
       avatar {
         key
-      }
-      hireMeInfo {
-        id
-        freelancerID
-        name
-        title
-        buttonText
-        blurbText
-        aboutText
-        bannerImage {
-          key
-        }
-        portfolioImages {
-          key
-        }
-        createdAt
-        updatedAt
+        tag
       }
       createdAt
       updatedAt
@@ -166,23 +130,7 @@ export const listUsers = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -238,23 +186,7 @@ export const getProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -302,23 +234,7 @@ export const getProject = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -339,17 +255,7 @@ export const getProject = /* GraphQL */ `
             avatarUrl
             avatar {
               key
-            }
-            hireMeInfo {
-              id
-              freelancerID
-              name
-              title
-              buttonText
-              blurbText
-              aboutText
-              createdAt
-              updatedAt
+              tag
             }
             createdAt
             updatedAt
@@ -414,23 +320,7 @@ export const listProjects = /* GraphQL */ `
           avatarUrl
           avatar {
             key
-          }
-          hireMeInfo {
-            id
-            freelancerID
-            name
-            title
-            buttonText
-            blurbText
-            aboutText
-            bannerImage {
-              key
-            }
-            portfolioImages {
-              key
-            }
-            createdAt
-            updatedAt
+            tag
           }
           createdAt
           updatedAt
@@ -453,23 +343,7 @@ export const listProjects = /* GraphQL */ `
           avatarUrl
           avatar {
             key
-          }
-          hireMeInfo {
-            id
-            freelancerID
-            name
-            title
-            buttonText
-            blurbText
-            aboutText
-            bannerImage {
-              key
-            }
-            portfolioImages {
-              key
-            }
-            createdAt
-            updatedAt
+            tag
           }
           createdAt
           updatedAt
@@ -613,23 +487,7 @@ export const getComment = /* GraphQL */ `
         avatarUrl
         avatar {
           key
-        }
-        hireMeInfo {
-          id
-          freelancerID
-          name
-          title
-          buttonText
-          blurbText
-          aboutText
-          bannerImage {
-            key
-          }
-          portfolioImages {
-            key
-          }
-          createdAt
-          updatedAt
+          tag
         }
         createdAt
         updatedAt
@@ -668,23 +526,7 @@ export const listComments = /* GraphQL */ `
           avatarUrl
           avatar {
             key
-          }
-          hireMeInfo {
-            id
-            freelancerID
-            name
-            title
-            buttonText
-            blurbText
-            aboutText
-            bannerImage {
-              key
-            }
-            portfolioImages {
-              key
-            }
-            createdAt
-            updatedAt
+            tag
           }
           createdAt
           updatedAt
@@ -739,9 +581,11 @@ export const getHireMeInfo = /* GraphQL */ `
       aboutText
       bannerImage {
         key
+        tag
       }
       portfolioImages {
         key
+        tag
       }
       createdAt
       updatedAt
@@ -765,9 +609,11 @@ export const listHireMeInfos = /* GraphQL */ `
         aboutText
         bannerImage {
           key
+          tag
         }
         portfolioImages {
           key
+          tag
         }
         createdAt
         updatedAt
@@ -811,23 +657,7 @@ export const projectsByFreelancer = /* GraphQL */ `
           avatarUrl
           avatar {
             key
-          }
-          hireMeInfo {
-            id
-            freelancerID
-            name
-            title
-            buttonText
-            blurbText
-            aboutText
-            bannerImage {
-              key
-            }
-            portfolioImages {
-              key
-            }
-            createdAt
-            updatedAt
+            tag
           }
           createdAt
           updatedAt
@@ -850,23 +680,7 @@ export const projectsByFreelancer = /* GraphQL */ `
           avatarUrl
           avatar {
             key
-          }
-          hireMeInfo {
-            id
-            freelancerID
-            name
-            title
-            buttonText
-            blurbText
-            aboutText
-            bannerImage {
-              key
-            }
-            portfolioImages {
-              key
-            }
-            createdAt
-            updatedAt
+            tag
           }
           createdAt
           updatedAt
@@ -937,9 +751,11 @@ export const hireMeInfoByFreelancer = /* GraphQL */ `
         aboutText
         bannerImage {
           key
+          tag
         }
         portfolioImages {
           key
+          tag
         }
         createdAt
         updatedAt

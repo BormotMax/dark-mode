@@ -10,9 +10,10 @@ export const FileInput: React.FC<FileInputProps> = ({ name, onChange }) => (
   <label className={styles.browseButton} htmlFor={`${name}-fileInput`}>
     <input
       type="file"
+      name={name}
       className={styles.fileInput}
       id={`${name}-fileInput`}
-      multiple
+      accept="image/png, image/jpeg, image/gif, image/jpg"
       onChange={(e) => onChange(e)}
     />
     <div className="oval-btn-3">Browse</div>
