@@ -96,6 +96,7 @@ const HirePageEditor = ({ currentUser }) => {
     setError(null);
     const variables = serialize(e.target, { hash: true, empty: true });
     const portfolioImageS3Objects = [];
+    const uploadPromises = [];
 
     // eslint-disable-next-line no-restricted-syntax
     for (const name of imageInputNames) {
@@ -104,12 +105,16 @@ const HirePageEditor = ({ currentUser }) => {
 
       if (file) {
         if (existingImage) {
-          // delete s3 photo
-          console.log(`I should delete ${existingImage}`);
+          Storage.remove(existingImage.key);
         }
+
+        if (hireInfo.bannerImage) {
+          Storage.remove(hireInfo.bannerImage.key);
+        }
+
         const s3Key = `${uuid()}${file.name}`;
 
-        Storage.put(s3Key, file);
+        uploadPromises.push(Storage.put(s3Key, file));
         if (name === 'banner') {
           variables.bannerImage = { key: s3Key, tag: name };
         } else {
@@ -140,14 +145,18 @@ const HirePageEditor = ({ currentUser }) => {
       setHireInfo(info);
       setFileInputValues({});
 
-      setError('Your changes have been submitted. Images may take a few seconds to save.');
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
+      Promise.all(uploadPromises).then(() => {
+        setError('Your changes have been saved');
+      }).catch(() => {
+        setError('Some images may not have saved. Refresh the page to see.');
+      }).finally(() => {
+        setSaving(false);
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
+      });
     } catch (err) {
       setError(err);
-    } finally {
-      setSaving(false);
     }
 
     return true;
