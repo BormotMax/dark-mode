@@ -1,4 +1,4 @@
 {
-  "baseUrl": "https://continuum.vercel.app",
+  "baseUrl": "http://localhost:3000",
   "projectId": "tt6mmw"
 }

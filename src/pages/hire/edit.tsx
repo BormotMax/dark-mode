@@ -266,6 +266,7 @@ const HirePageEditor = ({ currentUser }) => {
             </div>
             <div className={styles.save}>
               <button
+                disabled={saving}
                 type="submit"
                 className={classnames('oval-btn-2', 'oval-btn-2--inline', 'button', { 'is-loading': saving })}
               >
