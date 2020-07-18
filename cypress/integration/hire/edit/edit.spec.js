@@ -1,7 +1,8 @@
 import { Auth } from '@aws-amplify/auth';
+import { Storage } from 'aws-amplify';
 import Amplify from 'aws-amplify';
 import awsconfig from '../../../../src/aws-exports.js';
-import { cleanup } from './cleanUp.js';
+import { getHireMeInfoByFreelancer, deleteHireMeInfoById } from './cleanUp.js';
 
 before(() => {
 	// This causes an error in the console "Cannot set property 'err' of undefined"
@@ -14,15 +15,30 @@ describe("hire page editor", () => {
 	let user;
 
 	beforeEach(() => {
-		Auth.signIn("matthew.watts.mw@gmail.com", "password").then(u => user = u)
+		return Auth.signIn("matthew.watts.mw@gmail.com", "password").then(u => user = u)
 	})
 
-	afterEach(() => {
+	afterEach(async () => {
 		// Delete the HireMeInfo entry that is created during this test
-		cy.exec(cleanup)
+		// First, find the object by the freelancerID
+		const getCmd = getHireMeInfoByFreelancer(user)
+		const getResult = await cy.exec(getCmd, {failOnNonZeroExit: false})
+		const hireMeInfo = JSON.parse(getResult.stdout).Items[0]
+		const hireMeInfoId = hireMeInfo.id.S
+
+		// Then, delete the object by primary key
+		const deleteCmd = deleteHireMeInfoById(hireMeInfoId)
+		await cy.exec(deleteCmd)
+
+		// Also, delete the images that were uploaded to S3
+		Storage.remove(hireMeInfo.bannerImage.M.key.S)
+
+		hireMeInfo.portfolioImages.L.forEach((img) => {
+			Storage.remove(img.M.key.S)
+		})
 	})
 
-	it("saves form information", () => {
+	it("saves form information and images", () => {
 		cy.visit('/hire/edit')
 		cy.contains('Hire Page Editor')
 
@@ -71,14 +87,28 @@ describe("hire page editor", () => {
 			.should("have.attr", "maxlength")
 			.and("equal", "1000")
 
-		// Click SAVE
+		// Select images
+		cy.get('input[name="banner"]').attachFile('images/hire.png');
+		cy.get('input[name="portfolio-1"]').attachFile('images/portfolio_1.png');
+		cy.get('input[name="portfolio-2"]').attachFile('images/portfolio_2.png');
+		cy.get('input[name="portfolio-3"]').attachFile('images/portfolio_3.png');
+		cy.get('input[name="portfolio-4"]').attachFile('images/portfolio_4.png');
+		cy.get('input[name="portfolio-5"]').attachFile('images/portfolio_5.png');
+		cy.get('input[name="portfolio-6"]').attachFile('images/portfolio_6.png');
+
+		checkImagesAreDisplayed();
+
 		cy.contains('SAVE')
-			.click().should("be.disabled")
+			.click()
+			.should("be.disabled")
 			.and("have.class", "is-loading")
+
+		// Waiting for S3 uploads
+		cy.wait(7000)
 
         cy.contains('Your changes have been saved')
 
-        // Reload the page and see that the data was persisted
+        // Reload the page and see that the data was persisted and populated in the form
 		cy.visit('/hire/edit')
 
 		cy.get('input[name="name"]')
@@ -95,5 +125,44 @@ describe("hire page editor", () => {
 
 		cy.get('textArea[name="aboutText"]')
 			.should("have.value", "This is everything about me.")
+
+		checkImagesAreDisplayed()
+
+		// Check that saving without changing the images keeps the images
+		cy.contains('SAVE').click()
+        cy.contains('Your changes have been saved')
+		cy.visit('/hire/edit')
+		checkImagesAreDisplayed()
 	})
 })
+
+
+const checkImagesAreDisplayed = () => {
+		cy.get('[data-cy="img-banner"]').and($img => {
+			expect($img[0].naturalWidth).to.be.greaterThan(0)
+		})
+
+		cy.get('[data-cy="img-portfolio-1"]').and($img => {
+			expect($img[0].naturalWidth).to.be.greaterThan(0)
+		})
+
+		cy.get('[data-cy="img-portfolio-2"]').and($img => {
+			expect($img[0].naturalWidth).to.be.greaterThan(0)
+		})
+
+		cy.get('[data-cy="img-portfolio-3"]').and($img => {
+			expect($img[0].naturalWidth).to.be.greaterThan(0)
+		}
+
+		cy.get('[data-cy="img-portfolio-4"]').and($img => {
+			expect($img[0].naturalWidth).to.be.greaterThan(0)
+		})
+
+		cy.get('[data-cy="img-portfolio-5"]').and($img => {
+			expect($img[0].naturalWidth).to.be.greaterThan(0)
+		})
+
+		cy.get('[data-cy="img-portfolio-6"]').and($img => {
+			expect($img[0].naturalWidth).to.be.greaterThan(0)
+		})
+}

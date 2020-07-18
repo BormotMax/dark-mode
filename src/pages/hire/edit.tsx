@@ -108,13 +108,13 @@ const HirePageEditor = ({ currentUser }) => {
           Storage.remove(existingImage.key);
         }
 
-        if (hireInfo.bannerImage) {
+        if (hireInfo.bannerImage && name === 'banner') {
           Storage.remove(hireInfo.bannerImage.key);
         }
 
         const s3Key = `${uuid()}${file.name}`;
-
         uploadPromises.push(Storage.put(s3Key, file));
+
         if (name === 'banner') {
           variables.bannerImage = { key: s3Key, tag: name };
         } else {

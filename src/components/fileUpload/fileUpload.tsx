@@ -84,7 +84,7 @@ export const FileUpload:React.FC<FileUploadProps> = ({
           })}
       >
 
-        {fileSrc && <img src={fileSrc} alt="hirepageimage" /> }
+        {fileSrc && <img src={fileSrc} alt="hirepageimage" data-cy={`img-${name}`}/> }
         {!fileSrc && <UploadImage />}
       </div>
       <div className={styles.beneathDropArea}>
