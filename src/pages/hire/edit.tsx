@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { useEffect, useState } from 'react';
 import serialize from 'form-serialize';
 import { ProjectHeader } from '../../components/projectHeader';
-import { WithAuthentication, RouteType } from '../../components/withAuthentication';
+import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { FileUpload } from '../../components/fileUpload';
 import styles from '../styles/hireEdit.module.scss';
 import { updateHireMeInfo, createHireMeInfo } from '../../graphql/mutations';
@@ -280,4 +280,4 @@ const HirePageEditor = ({ currentUser }) => {
   );
 };
 
-export default WithAuthentication(HirePageEditor, { routeType: RouteType.SIGNED_IN });
+export default WithAuthentication(HirePageEditor, { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.FREELANCER] });

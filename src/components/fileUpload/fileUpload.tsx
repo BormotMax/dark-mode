@@ -72,6 +72,7 @@ export const FileUpload:React.FC<FileUploadProps> = ({
     <div className={classnames(styles.fileUpload, 'text-1', 'text-drkgray')}>
       {helpText}
       <div
+        data-cy={`drop-area-${name}`}
         onDrop={handleFileDrop}
         onDragEnter={() => setDragOver(true)}
         onDragLeave={() => setDragOver(false)}

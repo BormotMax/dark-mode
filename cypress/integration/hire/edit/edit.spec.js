@@ -18,24 +18,22 @@ describe("hire page editor", () => {
 		return Auth.signIn("matthew.watts.mw@gmail.com", "password").then(u => user = u)
 	})
 
-	afterEach(async () => {
+	afterEach(() => {
 		// Delete the HireMeInfo entry that is created during this test
 		// First, find the object by the freelancerID
-		const getCmd = getHireMeInfoByFreelancer(user)
-		const getResult = await cy.exec(getCmd, {failOnNonZeroExit: false})
-		const hireMeInfo = JSON.parse(getResult.stdout).Items[0]
-		const hireMeInfoId = hireMeInfo.id.S
-
 		// Then, delete the object by primary key
-		const deleteCmd = deleteHireMeInfoById(hireMeInfoId)
-		await cy.exec(deleteCmd)
-
-		// Also, delete the images that were uploaded to S3
-		Storage.remove(hireMeInfo.bannerImage.M.key.S)
-
-		hireMeInfo.portfolioImages.L.forEach((img) => {
-			Storage.remove(img.M.key.S)
-		})
+		let hireMeInfo;
+		cy.exec(getHireMeInfoByFreelancer(user), {failOnNonZeroExit: false})
+			.then((getResult) => {
+				hireMeInfo = JSON.parse(getResult.stdout).Items[0]
+				const hireMeInfoId = hireMeInfo.id.S
+				return cy.exec(deleteHireMeInfoById(hireMeInfoId))
+			}).then(() => {
+				Storage.remove(hireMeInfo.bannerImage.M.key.S)
+				hireMeInfo.portfolioImages.L.forEach((img) => {
+					Storage.remove(img.M.key.S)
+				})
+			})
 	})
 
 	it("saves form information and images", () => {
@@ -106,8 +104,6 @@ describe("hire page editor", () => {
 		// Waiting for S3 uploads
 		cy.wait(7000)
 
-        cy.contains('Your changes have been saved')
-
         // Reload the page and see that the data was persisted and populated in the form
 		cy.visit('/hire/edit')
 
@@ -131,6 +127,26 @@ describe("hire page editor", () => {
 		// Check that saving without changing the images keeps the images
 		cy.contains('SAVE').click()
         cy.contains('Your changes have been saved')
+		cy.visit('/hire/edit')
+		checkImagesAreDisplayed()
+	})
+
+	it('works when using drag and drop', () => {
+		cy.visit('/hire/edit')
+
+		cy.get('[data-cy="drop-area-banner"]').attachFile('images/hire.png', { subjectType: 'drag-n-drop' });
+		cy.get('[data-cy="drop-area-portfolio-1"]').attachFile('images/portfolio_1.png', { subjectType: 'drag-n-drop' });
+		cy.get('[data-cy="drop-area-portfolio-2"]').attachFile('images/portfolio_2.png', { subjectType: 'drag-n-drop' });
+		cy.get('[data-cy="drop-area-portfolio-3"]').attachFile('images/portfolio_3.png', { subjectType: 'drag-n-drop' });
+		cy.get('[data-cy="drop-area-portfolio-4"]').attachFile('images/portfolio_4.png', { subjectType: 'drag-n-drop' });
+		cy.get('[data-cy="drop-area-portfolio-5"]').attachFile('images/portfolio_5.png', { subjectType: 'drag-n-drop' });
+		cy.get('[data-cy="drop-area-portfolio-6"]').attachFile('images/portfolio_6.png', { subjectType: 'drag-n-drop' });
+
+		checkImagesAreDisplayed();
+		cy.contains('SAVE').click()
+
+		// Waiting for S3 uploads
+		cy.wait(7000)
 		cy.visit('/hire/edit')
 		checkImagesAreDisplayed()
 	})

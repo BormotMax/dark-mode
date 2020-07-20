@@ -1,0 +1,110 @@
+$header-height: 100px;
+
+.hire {
+    font-family: Roboto, sans-serif;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 42px;
+    color: #8093A6;
+
+    .upper {
+        display: flex;
+        max-height: 640px;
+        justify-content: space-between;
+
+        .left {
+            padding: 60px;
+            background: #F5F8FF;
+            display: none;
+
+            .name {
+                color: #333333;
+                margin-bottom: 7px;
+            }
+
+            .title {
+                color: #4589AA;
+                margin-bottom: 32px;
+            }
+
+            .blurbText {
+                margin-bottom: 83px;
+            }
+
+            .button {
+                background: #1D3557;
+                border-radius: 100px;
+                color: white;
+                padding: 15px 30px;
+                outline: none;
+                border: none;
+                cursor: pointer;
+                font-family: Roboto, sans-serif;
+                font-weight: 500;
+                font-size: 18px;
+            }
+        }
+
+        .bannerImage {
+            object-fit: cover;
+            object-position: 0 0;
+        }
+    }
+
+    .optionsBar {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        padding: 32px 0;
+        color: #8093A6;
+        font-weight: bold;
+
+        * {
+            cursor: pointer;
+        }
+
+        .selected {
+            color: #1D3557;
+            border-bottom: 4px solid #1D3557;
+            padding-bottom: 12px;
+        }
+    }
+
+    .portfolioImages {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .portfolioImage {
+            margin: 25px;
+
+            img {
+                border-radius: 40px;
+            }
+        }
+    }
+
+    .about {
+        margin: 60px 0 150px 0;
+        white-space: pre-wrap;
+        padding: 20px;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 78px;
+
+        svg {
+            margin: 0 25px;
+        }
+
+        .copyright {
+            margin: 70px 0;
+            font-family: Roboto, sans-serif;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 28px;
+            color: #8093a6;
+        }
+    }
+}

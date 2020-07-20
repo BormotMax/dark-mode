@@ -51,7 +51,7 @@ const SignUp: React.FC = () => {
       password,
       attributes: {
         name,
-        'custom:group': 'freelancer',
+        'custom:group': 'FREELANCER',
       },
     };
 
