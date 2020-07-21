@@ -18,6 +18,10 @@ input:focus {
   outline: none;
 }
 
+img {
+  vertical-align: middle;
+}
+
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   opacity: 0.5;

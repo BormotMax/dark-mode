@@ -1,4 +1,4 @@
-$header-height: 100px;
+@import "~bulma/sass/utilities/_all.sass";
 
 .hire {
     font-family: Roboto, sans-serif;
@@ -10,12 +10,25 @@ $header-height: 100px;
     .upper {
         display: flex;
         max-height: 640px;
-        justify-content: space-between;
+        background: white;
+        justify-content: center;
+        background: #F5F8FF;
 
-        .left {
+        @include fullhd {
+            justify-content: space-between;
+        }
+
+        .leftContainer {
             padding: 60px;
-            background: #F5F8FF;
             display: none;
+            text-align: center;
+            width: 100%;
+
+            .left {
+                text-align: left;
+                width: fit-content;
+                margin: auto;
+            }
 
             .name {
                 color: #333333;
@@ -42,6 +55,16 @@ $header-height: 100px;
                 font-family: Roboto, sans-serif;
                 font-weight: 500;
                 font-size: 18px;
+            }
+        }
+
+        .bannerImageContainer {
+            overflow: hidden;
+
+            @include desktop {
+                height: 640px;
+                width: 1100px;
+                flex: 0 0 auto;
             }
         }
 
