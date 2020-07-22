@@ -2,7 +2,7 @@ import { Auth } from '@aws-amplify/auth';
 import { Storage } from 'aws-amplify';
 import Amplify from 'aws-amplify';
 import awsconfig from '../../../../src/aws-exports.js';
-import { getHireMeInfoByFreelancer, deleteHireMeInfoById } from './cleanUp.js';
+import { getHireMeInfoById, deleteHireMeInfoById } from './cleanUp.js';
 
 before(() => {
 	// This causes an error in the console "Cannot set property 'err' of undefined"
@@ -20,13 +20,13 @@ describe("hire page editor", () => {
 
 	afterEach(() => {
 		// Delete the HireMeInfo entry that is created during this test
-		// First, find the object by the freelancerID
-		// Then, delete the object by primary key
+		// Then, delete the associated images
 		let hireMeInfo;
-		cy.exec(getHireMeInfoByFreelancer(user), {failOnNonZeroExit: false})
+		cy.exec(getHireMeInfoById(user.username), {failOnNonZeroExit: false})
 			.then((getResult) => {
-				hireMeInfo = JSON.parse(getResult.stdout).Items[0]
-				const hireMeInfoId = hireMeInfo.id.S
+				console.log(getResult.stdout)
+				hireMeInfo = JSON.parse(getResult.stdout).Item
+				const hireMeInfoId = hireMeInfo.freelancerID.S
 				return cy.exec(deleteHireMeInfoById(hireMeInfoId))
 			}).then(() => {
 				Storage.remove(hireMeInfo.bannerImage.M.key.S)
@@ -100,9 +100,8 @@ describe("hire page editor", () => {
 			.click()
 			.should("be.disabled")
 			.and("have.class", "is-loading")
-
-		// Waiting for S3 uploads
-		cy.wait(7000)
+			
+        cy.contains('Your changes have been saved')
 
         // Reload the page and see that the data was persisted and populated in the form
 		cy.visit('/hire/edit')
@@ -144,9 +143,8 @@ describe("hire page editor", () => {
 
 		checkImagesAreDisplayed();
 		cy.contains('SAVE').click()
+		cy.contains('Your changes have been saved')
 
-		// Waiting for S3 uploads
-		cy.wait(7000)
 		cy.visit('/hire/edit')
 		checkImagesAreDisplayed()
 	})

@@ -980,7 +980,6 @@ export const onDeleteTask = /* GraphQL */ `
 export const onCreateHireMeInfo = /* GraphQL */ `
   subscription OnCreateHireMeInfo {
     onCreateHireMeInfo {
-      id
       freelancerID
       name
       title
@@ -1003,7 +1002,6 @@ export const onCreateHireMeInfo = /* GraphQL */ `
 export const onUpdateHireMeInfo = /* GraphQL */ `
   subscription OnUpdateHireMeInfo {
     onUpdateHireMeInfo {
-      id
       freelancerID
       name
       title
@@ -1026,7 +1024,6 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
 export const onDeleteHireMeInfo = /* GraphQL */ `
   subscription OnDeleteHireMeInfo {
     onDeleteHireMeInfo {
-      id
       freelancerID
       name
       title

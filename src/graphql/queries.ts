@@ -570,9 +570,8 @@ export const listTasks = /* GraphQL */ `
   }
 `;
 export const getHireMeInfo = /* GraphQL */ `
-  query GetHireMeInfo($id: ID!) {
-    getHireMeInfo(id: $id) {
-      id
+  query GetHireMeInfo($freelancerID: ID!) {
+    getHireMeInfo(freelancerID: $freelancerID) {
       freelancerID
       name
       title
@@ -594,13 +593,20 @@ export const getHireMeInfo = /* GraphQL */ `
 `;
 export const listHireMeInfos = /* GraphQL */ `
   query ListHireMeInfos(
+    $freelancerID: ID
     $filter: ModelHireMeInfoFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listHireMeInfos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listHireMeInfos(
+      freelancerID: $freelancerID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         freelancerID
         name
         title
@@ -718,44 +724,6 @@ export const projectsByFreelancer = /* GraphQL */ `
         }
         initialContact {
           message
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const hireMeInfoByFreelancer = /* GraphQL */ `
-  query HireMeInfoByFreelancer(
-    $freelancerID: ID
-    $sortDirection: ModelSortDirection
-    $filter: ModelHireMeInfoFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    hireMeInfoByFreelancer(
-      freelancerID: $freelancerID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        freelancerID
-        name
-        title
-        buttonText
-        blurbText
-        aboutText
-        bannerImage {
-          key
-          tag
-        }
-        portfolioImages {
-          key
-          tag
         }
         createdAt
         updatedAt

@@ -1028,7 +1028,6 @@ export const createHireMeInfo = /* GraphQL */ `
     $condition: ModelHireMeInfoConditionInput
   ) {
     createHireMeInfo(input: $input, condition: $condition) {
-      id
       freelancerID
       name
       title
@@ -1054,7 +1053,6 @@ export const updateHireMeInfo = /* GraphQL */ `
     $condition: ModelHireMeInfoConditionInput
   ) {
     updateHireMeInfo(input: $input, condition: $condition) {
-      id
       freelancerID
       name
       title
@@ -1080,7 +1078,6 @@ export const deleteHireMeInfo = /* GraphQL */ `
     $condition: ModelHireMeInfoConditionInput
   ) {
     deleteHireMeInfo(input: $input, condition: $condition) {
-      id
       freelancerID
       name
       title

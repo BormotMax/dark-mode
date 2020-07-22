@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "continuum",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcontinuum23ec4bac",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

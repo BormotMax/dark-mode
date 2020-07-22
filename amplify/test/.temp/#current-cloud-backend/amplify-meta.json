@@ -1,0 +1,110 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-continuum-test-234758-authRole",
+			"UnauthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-test-234758-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-test-234758-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "amplify-continuum-test-234758-deployment",
+			"UnauthRoleName": "amplify-continuum-test-234758-unauthRole",
+			"StackName": "amplify-continuum-test-234758",
+			"StackId": "arn:aws:cloudformation:us-east-1:757622401460:stack/amplify-continuum-test-234758/f4cb6850-c59d-11ea-b4f7-0a637f9cba95",
+			"AmplifyAppId": "d3ck2vgbiuqrmx"
+		}
+	},
+	"function": {
+		"continuum23ec4bacPostConfirmation": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"lastBuildTimeStamp": "2020-07-14T06:50:39.789Z",
+			"lastPackageTimeStamp": "2020-07-14T06:50:39.969Z",
+			"distZipFilename": "continuum23ec4bacPostConfirmation-53714f4d5a3365336c74-build.zip",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-continuum-test-234758-deployment/amplify-cfn-templates/function/continuum23ec4bacPostConfirmation-cloudformation-template.json",
+				"logicalId": "functioncontinuum23ec4bacPostConfirmation"
+			},
+			"lastPushTimeStamp": "2020-07-14T06:59:00.120Z",
+			"output": {
+				"Region": "us-east-1",
+				"Arn": "arn:aws:lambda:us-east-1:757622401460:function:continuum23ec4bacPostConfirmation-test",
+				"Name": "continuum23ec4bacPostConfirmation-test",
+				"LambdaExecutionRole": "continuum23ec4bacPostConfirmation-test"
+			},
+			"lastPushDirHash": "meoG/ZL8LDilhaf73Ojn0g9C26w="
+		}
+	},
+	"auth": {
+		"continuum23ec4bac": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "continuum23ec4bacPostConfirmation",
+					"triggerProvider": "Cognito",
+					"attributes": [
+						"Arn",
+						"Name"
+					]
+				}
+			],
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-continuum-test-234758-deployment/amplify-cfn-templates/auth/continuum23ec4bac-cloudformation-template.yml",
+				"logicalId": "authcontinuum23ec4bac"
+			},
+			"lastPushTimeStamp": "2020-07-14T06:59:00.120Z",
+			"output": {
+				"AppClientSecret": "17969pasjl4htuvq27p2s2jgoa9lj09touu7foc7u7fgp0e4p5gs",
+				"UserPoolId": "us-east-1_SMY6PqnwR",
+				"AppClientIDWeb": "m5kvrsusseujau64kjtnua1dk",
+				"AppClientID": "1pgbc67gmvgmirbutk3kdfaja9",
+				"IdentityPoolId": "us-east-1:606c6163-2b7a-4962-b778-624d4b3eec32",
+				"IdentityPoolName": "continuum23ec4bac_identitypool_23ec4bac__test",
+				"UserPoolName": "continuum23ec4bac_userpool_23ec4bac"
+			},
+			"lastPushDirHash": "yIPp97+PBY2C2+vQbhASmMwuO+g="
+		}
+	},
+	"storage": {
+		"imagestore": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-continuum-test-234758-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storageimagestore"
+			},
+			"lastPushTimeStamp": "2020-07-14T06:59:00.120Z",
+			"output": {
+				"BucketName": "continuumdf9bb4ffaa384fb39761c403a8428d85234758-test",
+				"Region": "us-east-1"
+			},
+			"lastPushDirHash": "9WyG0DNhtMdCyz5TeEtZx+ekn88="
+		}
+	},
+	"api": {
+		"continuum": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authcontinuum23ec4bac"
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "2p5zncsasjacbm5cs5udwv22xe",
+				"GraphQLAPIEndpointOutput": "https://4vc2ychs4vcojphcinzftoizye.appsync-api.us-east-1.amazonaws.com/graphql"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-continuum-test-234758-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apicontinuum"
+			},
+			"lastPushTimeStamp": "2020-07-14T06:59:00.120Z",
+			"lastPushDirHash": "7EkoiaxkPnJ0JoqGM+m8Yn3xwbw="
+		}
+	}
+}

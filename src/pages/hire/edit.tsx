@@ -1,18 +1,19 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import classnames from 'classnames';
-import gql from 'graphql-tag';
 import { Storage } from 'aws-amplify';
 import { v4 as uuid } from 'uuid';
 import { useEffect, useState } from 'react';
-import serialize from 'form-serialize';
 import { ProjectHeader } from '../../components/projectHeader';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { FileUpload } from '../../components/fileUpload';
-import styles from '../styles/hireEdit.module.scss';
 import { updateHireMeInfo, createHireMeInfo } from '../../graphql/mutations';
-import { hireMeInfoByFreelancer } from '../../graphql/queries';
-import { CreateHireMeInfoInput, HireMeInfoByFreelancerQuery } from '../../API';
+import { CreateHireMeInfoInput } from '../../API';
+import { GetHireMeInfoQuery } from '../../API';
+import { getHireMeInfo } from '../../graphql/queries';
 import { client } from '../_app';
+import styles from '../styles/hireEdit.module.scss';
+import serialize from 'form-serialize';
+import gql from 'graphql-tag';
 
 const imageInputNames = [
   'banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6',
@@ -26,30 +27,18 @@ const HirePageEditor = ({ currentUser }) => {
   const [portfolioImages, setPortfolioImages] = useState({});
   const [bannerImage, setBannerImage] = useState(null);
   const [fileInputValues, setFileInputValues] = useState({});
+  const freelancerID = currentUser.cognitoUser.username;
 
   useEffect(() => {
     const execute = async () => {
-      const freelancerID = currentUser.cognitoUser.username;
 
       try {
-        const { data }: {data: HireMeInfoByFreelancerQuery} = await client.query({
-          query: gql(hireMeInfoByFreelancer),
+        const res: {data: GetHireMeInfoQuery} = await client.query({
+          query: gql(getHireMeInfo),
           variables: { freelancerID },
         });
 
-        let info = data?.hireMeInfoByFreelancer?.items[0];
-        if (!info) {
-          const newHireMeInfo = await client.mutate({
-            mutation: gql(createHireMeInfo),
-            variables: {
-              input: {
-                freelancerID,
-              },
-            },
-          });
-
-          info = newHireMeInfo?.data?.createHireMeInfo;
-        }
+        const info = res.data.getHireMeInfo;
 
         if (info) {
           info.portfolioImages?.forEach(({ key, tag }) => {
@@ -71,8 +60,7 @@ const HirePageEditor = ({ currentUser }) => {
 
         setHireInfo(info);
       } catch (err) {
-        console.log(err);
-        setError(err);
+        setError("There was an error retreiving your Hire Page info. Please contact support");
       } finally {
         setLoading(false);
       }
@@ -86,12 +74,6 @@ const HirePageEditor = ({ currentUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!hireInfo) {
-      setError('Please try again later');
-      return false;
-    }
-
     setSaving(true);
     setError(null);
     const variables = serialize(e.target, { hash: true, empty: true });
@@ -101,14 +83,14 @@ const HirePageEditor = ({ currentUser }) => {
     // eslint-disable-next-line no-restricted-syntax
     for (const name of imageInputNames) {
       const file = fileInputValues[name];
-      const existingImage = hireInfo.portfolioImages?.find((img) => name === img.tag);
+      const existingImage = hireInfo?.portfolioImages?.find((img) => name === img.tag);
 
       if (file) {
         if (existingImage) {
           Storage.remove(existingImage.key);
         }
 
-        if (hireInfo.bannerImage && name === 'banner') {
+        if (hireInfo?.bannerImage && name === 'banner') {
           Storage.remove(hireInfo.bannerImage.key);
         }
 
@@ -132,16 +114,16 @@ const HirePageEditor = ({ currentUser }) => {
 
     try {
       const mutationResult = await client.mutate({
-        mutation: gql(updateHireMeInfo),
+        mutation: hireInfo ? gql(updateHireMeInfo) : gql(createHireMeInfo),
         variables: {
           input: {
-            id: hireInfo.id,
+            freelancerID: hireInfo ? hireInfo.freelancerID : freelancerID,
             ...variables,
           },
         },
       });
 
-      const info = mutationResult?.data?.updateHireMeInfo;
+      const info = hireInfo ? mutationResult?.data?.updateHireMeInfo : mutationResult?.data?.createHireMeInfo;
       setHireInfo(info);
       setFileInputValues({});
 
@@ -156,14 +138,12 @@ const HirePageEditor = ({ currentUser }) => {
         }, 3000);
       });
     } catch (err) {
-      setError(err);
+      console.log(err)
+      setError("There was an error updating your Hire Page info. Please contact support.");
     }
-
-    return true;
   };
 
   if (loading) return <div>Loading...</div>;
-  if (!hireInfo) return <div>Error, please try again later.</div>;
 
   return (
     <div>
@@ -177,13 +157,13 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className="field">
                   <label className="label">Name</label>
                   <div className="control">
-                    <input name="name" className="input" type="text" maxLength={48} size={35} defaultValue={hireInfo.name} />
+                    <input name="name" className="input" type="text" maxLength={48} size={35} defaultValue={hireInfo?.name} />
                   </div>
                 </div>
                 <div className="field">
                   <label className="label">Title</label>
                   <div className="control">
-                    <input name="title" className="input" type="text" maxLength={32} size={35} defaultValue={hireInfo.title} />
+                    <input name="title" className="input" type="text" maxLength={32} size={35} defaultValue={hireInfo?.title} />
                   </div>
                 </div>
                 <div className="field">
@@ -194,7 +174,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="text"
                       maxLength={24}
-                      defaultValue={hireInfo.buttonText}
+                      defaultValue={hireInfo?.buttonText}
                       placeholder="Start a Conversation"
                     />
                   </div>
@@ -202,13 +182,13 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className="field">
                   <label className="label">Blurb</label>
                   <div className="control">
-                    <textarea name="blurbText" maxLength={255} rows={3} className="textarea" defaultValue={hireInfo.blurbText} />
+                    <textarea name="blurbText" maxLength={255} rows={3} className="textarea" defaultValue={hireInfo?.blurbText} />
                   </div>
                 </div>
                 <div className="field">
                   <label className="label">About</label>
                   <div className="control">
-                    <textarea name="aboutText" maxLength={1000} rows={18} className="textarea" defaultValue={hireInfo.aboutText} />
+                    <textarea name="aboutText" maxLength={1000} rows={18} className="textarea" defaultValue={hireInfo?.aboutText} />
                   </div>
                 </div>
               </div>

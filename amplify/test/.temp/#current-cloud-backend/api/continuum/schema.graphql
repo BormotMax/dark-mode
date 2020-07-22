@@ -53,7 +53,8 @@ type S3Object {
   tag: String
 }
 
-type HireMeInfo @model @key(fields: ["freelancerID"]) {
+type HireMeInfo @model @key(name: "byFreelancer", fields: ["freelancerID"], queryField: "hireMeInfoByFreelancer"){
+  id: ID!
   freelancerID: ID!
   name: String
   title: String

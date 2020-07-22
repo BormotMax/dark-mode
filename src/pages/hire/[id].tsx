@@ -7,8 +7,8 @@ import { useRouter } from 'next/router';
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
 import { useState, useEffect, useContext } from 'react';
-import { HireMeInfoByFreelancerQuery } from '../../API';
-import { hireMeInfoByFreelancer } from '../../graphql/queries';
+import { GetHireMeInfoQuery } from '../../API';
+import { getHireMeInfo } from '../../graphql/queries';
 import { ApolloContext } from 'react-apollo';
 
 const images = [
@@ -42,12 +42,12 @@ const Hire: React.FC = () => {
     const execute = async () => {
       if(!id) return;
       try {
-        const { data }: {data: HireMeInfoByFreelancerQuery} = await client.query({
-          query: gql(hireMeInfoByFreelancer),
+        const { data }: {data: GetHireMeInfoQuery} = await client.query({
+          query: gql(getHireMeInfo),
           variables: { freelancerID: id },
         });
 
-        const info = data?.hireMeInfoByFreelancer?.items[0];
+        const info = data?.getHireMeInfo;
 
         if (info) {
           const map = {};

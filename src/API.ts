@@ -216,7 +216,6 @@ export type DeleteTaskInput = {
 };
 
 export type CreateHireMeInfoInput = {
-  id?: string | null,
   freelancerID: string,
   name?: string | null,
   title?: string | null,
@@ -228,7 +227,6 @@ export type CreateHireMeInfoInput = {
 };
 
 export type ModelHireMeInfoConditionInput = {
-  freelancerID?: ModelIDInput | null,
   name?: ModelStringInput | null,
   title?: ModelStringInput | null,
   buttonText?: ModelStringInput | null,
@@ -240,8 +238,7 @@ export type ModelHireMeInfoConditionInput = {
 };
 
 export type UpdateHireMeInfoInput = {
-  id: string,
-  freelancerID?: string | null,
+  freelancerID: string,
   name?: string | null,
   title?: string | null,
   buttonText?: string | null,
@@ -252,7 +249,7 @@ export type UpdateHireMeInfoInput = {
 };
 
 export type DeleteHireMeInfoInput = {
-  id?: string | null,
+  freelancerID: string,
 };
 
 export type ModelUserFilterInput = {
@@ -303,7 +300,6 @@ export type ModelTaskFilterInput = {
 };
 
 export type ModelHireMeInfoFilterInput = {
-  id?: ModelIDInput | null,
   freelancerID?: ModelIDInput | null,
   name?: ModelStringInput | null,
   title?: ModelStringInput | null,
@@ -1538,7 +1534,6 @@ export type CreateHireMeInfoMutationVariables = {
 export type CreateHireMeInfoMutation = {
   createHireMeInfo:  {
     __typename: "HireMeInfo",
-    id: string,
     freelancerID: string,
     name: string | null,
     title: string | null,
@@ -1568,7 +1563,6 @@ export type UpdateHireMeInfoMutationVariables = {
 export type UpdateHireMeInfoMutation = {
   updateHireMeInfo:  {
     __typename: "HireMeInfo",
-    id: string,
     freelancerID: string,
     name: string | null,
     title: string | null,
@@ -1598,7 +1592,6 @@ export type DeleteHireMeInfoMutationVariables = {
 export type DeleteHireMeInfoMutation = {
   deleteHireMeInfo:  {
     __typename: "HireMeInfo",
-    id: string,
     freelancerID: string,
     name: string | null,
     title: string | null,
@@ -2305,13 +2298,12 @@ export type ListTasksQuery = {
 };
 
 export type GetHireMeInfoQueryVariables = {
-  id: string,
+  freelancerID: string,
 };
 
 export type GetHireMeInfoQuery = {
   getHireMeInfo:  {
     __typename: "HireMeInfo",
-    id: string,
     freelancerID: string,
     name: string | null,
     title: string | null,
@@ -2334,9 +2326,11 @@ export type GetHireMeInfoQuery = {
 };
 
 export type ListHireMeInfosQueryVariables = {
+  freelancerID?: string | null,
   filter?: ModelHireMeInfoFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListHireMeInfosQuery = {
@@ -2344,7 +2338,6 @@ export type ListHireMeInfosQuery = {
     __typename: "ModelHireMeInfoConnection",
     items:  Array< {
       __typename: "HireMeInfo",
-      id: string,
       freelancerID: string,
       name: string | null,
       title: string | null,
@@ -2477,43 +2470,6 @@ export type ProjectsByFreelancerQuery = {
         __typename: "InitialContact",
         message: string,
       } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken: string | null,
-  } | null,
-};
-
-export type HireMeInfoByFreelancerQueryVariables = {
-  freelancerID?: string | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelHireMeInfoFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type HireMeInfoByFreelancerQuery = {
-  hireMeInfoByFreelancer:  {
-    __typename: "ModelHireMeInfoConnection",
-    items:  Array< {
-      __typename: "HireMeInfo",
-      id: string,
-      freelancerID: string,
-      name: string | null,
-      title: string | null,
-      buttonText: string | null,
-      blurbText: string | null,
-      aboutText: string | null,
-      bannerImage:  {
-        __typename: "S3Object",
-        key: string,
-        tag: string | null,
-      } | null,
-      portfolioImages:  Array< {
-        __typename: "S3Object",
-        key: string,
-        tag: string | null,
-      } | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -3658,7 +3614,6 @@ export type OnDeleteTaskSubscription = {
 export type OnCreateHireMeInfoSubscription = {
   onCreateHireMeInfo:  {
     __typename: "HireMeInfo",
-    id: string,
     freelancerID: string,
     name: string | null,
     title: string | null,
@@ -3683,7 +3638,6 @@ export type OnCreateHireMeInfoSubscription = {
 export type OnUpdateHireMeInfoSubscription = {
   onUpdateHireMeInfo:  {
     __typename: "HireMeInfo",
-    id: string,
     freelancerID: string,
     name: string | null,
     title: string | null,
@@ -3708,7 +3662,6 @@ export type OnUpdateHireMeInfoSubscription = {
 export type OnDeleteHireMeInfoSubscription = {
   onDeleteHireMeInfo:  {
     __typename: "HireMeInfo",
-    id: string,
     freelancerID: string,
     name: string | null,
     title: string | null,
