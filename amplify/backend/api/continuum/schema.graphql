@@ -1,18 +1,29 @@
-type User @model {
+type User @model @auth (
+    rules: [
+      # allow all authenticated users ability to create
+      # allow owners ability to update and delete
+      { allow: owner },
+
+      # allow all authenticated users to read
+      { allow: private, operations: [read] },
+
+      # allow all guest users (not authenticated) to read
+      { allow: public, provider: iam }
+    ]
+  ) {
   id: ID!
   projects: [Project] @connection(keyName: "byFreelancer", fields: ["id"])
   name: String!
   role: UserRole!
-  avatarUrl: String
-  avatar: S3Object
 }
 
-enum UserRole {
-  FREELANCER
-  CLIENT
-}
-
-type Project @model @key(name: "byFreelancer", fields: ["freelancerID"], queryField: "projectsByFreelancer") {
+type Project @model @key(name: "byFreelancer", fields: ["freelancerID"], queryField: "projectsByFreelancer")  @auth (
+    rules: [
+      { allow: owner },
+      { allow: private, operations: [read] },
+      { allow: public, provider: iam }
+    ]
+  ){
   id: ID!
   freelancerID: ID!
   freelancer: User @connection(fields: ["freelancerID"])
@@ -27,13 +38,25 @@ type InitialContact {
   message: String!
 }
 
-type Quote @model @key(name: "byProject", fields: ["projectID"]) {
+type Quote @model @key(name: "byProject", fields: ["projectID"])  @auth (
+    rules: [
+      { allow: owner },
+      { allow: private, operations: [read] },
+      { allow: public, provider: iam }
+    ]
+  ){
   id: ID!
   projectID: ID!
   tasks: [Task] @connection(keyName: "byQuote", fields:["id"])
 }
 
-type Comment @model @key(name: "byProject", fields: ["projectID"]) {
+type Comment @model @key(name: "byProject", fields: ["projectID"])  @auth (
+    rules: [
+      { allow: owner },
+      { allow: private, operations: [read] },
+      { allow: public, provider: iam }
+    ]
+  ){
   id: ID!
   projectID: ID!
   content: String!
@@ -41,7 +64,13 @@ type Comment @model @key(name: "byProject", fields: ["projectID"]) {
   creator: User! @connection(fields: ["creatorID"])
 }
 
-type Task @model @key(name: "byQuote", fields: ["quoteID"]) {
+type Task @model @key(name: "byQuote", fields: ["quoteID"])  @auth (
+    rules: [
+      { allow: owner },
+      { allow: private, operations: [read] },
+      { allow: public, provider: iam }
+    ]
+  ){
   id: ID!
   quoteID: ID!
   text: String!
@@ -53,7 +82,13 @@ type S3Object {
   tag: String
 }
 
-type HireMeInfo @model @key(fields: ["freelancerID"]) {
+type HireMeInfo @model @key(fields: ["freelancerID"]) @auth (
+    rules: [
+      { allow: owner },
+      { allow: private, operations: [read] },
+      { allow: public, provider: iam }
+    ]
+  ) {
   freelancerID: ID!
   name: String
   title: String
@@ -62,4 +97,9 @@ type HireMeInfo @model @key(fields: ["freelancerID"]) {
   aboutText: String
   bannerImage: S3Object
   portfolioImages: [S3Object]
+}
+
+enum UserRole {
+  FREELANCER
+  CLIENT
 }

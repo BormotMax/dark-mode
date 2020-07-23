@@ -2,44 +2,103 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        role
+        createdAt
+        updatedAt
+        projects {
+          items {
+            id
+            freelancerID
+            clientID
+            initialContact {
+              message
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            client {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            quotes {
+              nextToken
+            }
+            comments {
+              nextToken
+            }
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
+      name
+      role
+      createdAt
+      updatedAt
       projects {
         items {
           id
           freelancerID
+          clientID
+          initialContact {
+            message
+          }
+          createdAt
+          updatedAt
           freelancer {
             id
+            name
+            role
+            createdAt
+            updatedAt
             projects {
               nextToken
             }
-            name
-            role
-            avatarUrl
-            avatar {
-              key
-              tag
-            }
-            createdAt
-            updatedAt
           }
-          clientID
           client {
             id
+            name
+            role
+            createdAt
+            updatedAt
             projects {
               nextToken
             }
-            name
-            role
-            avatarUrl
-            avatar {
-              key
-              tag
+          }
+          quotes {
+            items {
+              id
+              projectID
+              createdAt
+              updatedAt
             }
-            createdAt
-            updatedAt
+            nextToken
           }
           comments {
             items {
@@ -52,90 +111,9 @@ export const getUser = /* GraphQL */ `
             }
             nextToken
           }
-          quotes {
-            items {
-              id
-              projectID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          initialContact {
-            message
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      name
-      role
-      avatarUrl
-      avatar {
-        key
-        tag
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        projects {
-          items {
-            id
-            freelancerID
-            freelancer {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
-            clientID
-            client {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
-            comments {
-              nextToken
-            }
-            quotes {
-              nextToken
-            }
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        name
-        role
-        avatarUrl
-        avatar {
-          key
-          tag
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
     }
   }
 `;
@@ -144,131 +122,98 @@ export const getProject = /* GraphQL */ `
     getProject(id: $id) {
       id
       freelancerID
+      clientID
+      initialContact {
+        message
+      }
+      createdAt
+      updatedAt
       freelancer {
         id
+        name
+        role
+        createdAt
+        updatedAt
         projects {
           items {
             id
             freelancerID
-            freelancer {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
             clientID
-            client {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
-            comments {
-              nextToken
-            }
-            quotes {
-              nextToken
-            }
             initialContact {
               message
             }
             createdAt
             updatedAt
+            freelancer {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            client {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            quotes {
+              nextToken
+            }
+            comments {
+              nextToken
+            }
           }
           nextToken
         }
-        name
-        role
-        avatarUrl
-        avatar {
-          key
-          tag
-        }
-        createdAt
-        updatedAt
       }
-      clientID
       client {
         id
+        name
+        role
+        createdAt
+        updatedAt
         projects {
           items {
             id
             freelancerID
-            freelancer {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
             clientID
-            client {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
-            comments {
-              nextToken
-            }
-            quotes {
-              nextToken
-            }
             initialContact {
               message
             }
             createdAt
             updatedAt
+            freelancer {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            client {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            quotes {
+              nextToken
+            }
+            comments {
+              nextToken
+            }
           }
           nextToken
         }
-        name
-        role
-        avatarUrl
-        avatar {
-          key
-          tag
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          projectID
-          content
-          creatorID
-          creator {
-            id
-            projects {
-              nextToken
-            }
-            name
-            role
-            avatarUrl
-            avatar {
-              key
-              tag
-            }
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
       }
       quotes {
         items {
           id
           projectID
+          createdAt
+          updatedAt
           tasks {
             items {
               id
@@ -280,16 +225,30 @@ export const getProject = /* GraphQL */ `
             }
             nextToken
           }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      initialContact {
-        message
+      comments {
+        items {
+          id
+          projectID
+          content
+          creatorID
+          createdAt
+          updatedAt
+          creator {
+            id
+            name
+            role
+            createdAt
+            updatedAt
+            projects {
+              nextToken
+            }
+          }
+        }
+        nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -303,8 +262,18 @@ export const listProjects = /* GraphQL */ `
       items {
         id
         freelancerID
+        clientID
+        initialContact {
+          message
+        }
+        createdAt
+        updatedAt
         freelancer {
           id
+          name
+          role
+          createdAt
+          updatedAt
           projects {
             items {
               id
@@ -315,19 +284,13 @@ export const listProjects = /* GraphQL */ `
             }
             nextToken
           }
-          name
-          role
-          avatarUrl
-          avatar {
-            key
-            tag
-          }
-          createdAt
-          updatedAt
         }
-        clientID
         client {
           id
+          name
+          role
+          createdAt
+          updatedAt
           projects {
             items {
               id
@@ -338,15 +301,18 @@ export const listProjects = /* GraphQL */ `
             }
             nextToken
           }
-          name
-          role
-          avatarUrl
-          avatar {
-            key
-            tag
+        }
+        quotes {
+          items {
+            id
+            projectID
+            createdAt
+            updatedAt
+            tasks {
+              nextToken
+            }
           }
-          createdAt
-          updatedAt
+          nextToken
         }
         comments {
           items {
@@ -354,36 +320,111 @@ export const listProjects = /* GraphQL */ `
             projectID
             content
             creatorID
+            createdAt
+            updatedAt
             creator {
               id
               name
               role
-              avatarUrl
               createdAt
               updatedAt
             }
-            createdAt
-            updatedAt
           }
           nextToken
         }
-        quotes {
-          items {
-            id
-            projectID
-            tasks {
-              nextToken
-            }
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
+      }
+      nextToken
+    }
+  }
+`;
+export const projectsByFreelancer = /* GraphQL */ `
+  query ProjectsByFreelancer(
+    $freelancerID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelProjectFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    projectsByFreelancer(
+      freelancerID: $freelancerID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        freelancerID
+        clientID
         initialContact {
           message
         }
         createdAt
         updatedAt
+        freelancer {
+          id
+          name
+          role
+          createdAt
+          updatedAt
+          projects {
+            items {
+              id
+              freelancerID
+              clientID
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        client {
+          id
+          name
+          role
+          createdAt
+          updatedAt
+          projects {
+            items {
+              id
+              freelancerID
+              clientID
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        quotes {
+          items {
+            id
+            projectID
+            createdAt
+            updatedAt
+            tasks {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        comments {
+          items {
+            id
+            projectID
+            content
+            creatorID
+            createdAt
+            updatedAt
+            creator {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -394,6 +435,8 @@ export const getQuote = /* GraphQL */ `
     getQuote(id: $id) {
       id
       projectID
+      createdAt
+      updatedAt
       tasks {
         items {
           id
@@ -405,8 +448,6 @@ export const getQuote = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -420,6 +461,8 @@ export const listQuotes = /* GraphQL */ `
       items {
         id
         projectID
+        createdAt
+        updatedAt
         tasks {
           items {
             id
@@ -431,8 +474,6 @@ export const listQuotes = /* GraphQL */ `
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -445,55 +486,48 @@ export const getComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      createdAt
+      updatedAt
       creator {
         id
+        name
+        role
+        createdAt
+        updatedAt
         projects {
           items {
             id
             freelancerID
-            freelancer {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
             clientID
-            client {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
-            comments {
-              nextToken
-            }
-            quotes {
-              nextToken
-            }
             initialContact {
               message
             }
             createdAt
             updatedAt
+            freelancer {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            client {
+              id
+              name
+              role
+              createdAt
+              updatedAt
+            }
+            quotes {
+              nextToken
+            }
+            comments {
+              nextToken
+            }
           }
           nextToken
         }
-        name
-        role
-        avatarUrl
-        avatar {
-          key
-          tag
-        }
-        createdAt
-        updatedAt
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -509,8 +543,14 @@ export const listComments = /* GraphQL */ `
         projectID
         content
         creatorID
+        createdAt
+        updatedAt
         creator {
           id
+          name
+          role
+          createdAt
+          updatedAt
           projects {
             items {
               id
@@ -521,18 +561,7 @@ export const listComments = /* GraphQL */ `
             }
             nextToken
           }
-          name
-          role
-          avatarUrl
-          avatar {
-            key
-            tag
-          }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -620,110 +649,6 @@ export const listHireMeInfos = /* GraphQL */ `
         portfolioImages {
           key
           tag
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const projectsByFreelancer = /* GraphQL */ `
-  query ProjectsByFreelancer(
-    $freelancerID: ID
-    $sortDirection: ModelSortDirection
-    $filter: ModelProjectFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    projectsByFreelancer(
-      freelancerID: $freelancerID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        freelancerID
-        freelancer {
-          id
-          projects {
-            items {
-              id
-              freelancerID
-              clientID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          name
-          role
-          avatarUrl
-          avatar {
-            key
-            tag
-          }
-          createdAt
-          updatedAt
-        }
-        clientID
-        client {
-          id
-          projects {
-            items {
-              id
-              freelancerID
-              clientID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          name
-          role
-          avatarUrl
-          avatar {
-            key
-            tag
-          }
-          createdAt
-          updatedAt
-        }
-        comments {
-          items {
-            id
-            projectID
-            content
-            creatorID
-            creator {
-              id
-              name
-              role
-              avatarUrl
-              createdAt
-              updatedAt
-            }
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        quotes {
-          items {
-            id
-            projectID
-            tasks {
-              nextToken
-            }
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        initialContact {
-          message
         }
         createdAt
         updatedAt

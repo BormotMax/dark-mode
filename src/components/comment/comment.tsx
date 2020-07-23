@@ -21,7 +21,7 @@ export const Comment: React.FC<CommentProps> = ({ comment }) => (
     <img
       alt="avatar"
       className={styles.avatar}
-      src={comment.creator.avatarUrl}
+      // src={comment.creator.avatarUrl}
     />
     <div className="text-2 text-gray">{comment.content}</div>
   </div>

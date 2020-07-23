@@ -11,6 +11,7 @@ import { CreateHireMeInfoInput } from '../../API';
 import { GetHireMeInfoQuery } from '../../API';
 import { getHireMeInfo } from '../../graphql/queries';
 import { client } from '../_app';
+import { gravatarUrl } from '../../helpers/gravatarUrl';
 import styles from '../styles/hireEdit.module.scss';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
@@ -140,16 +141,18 @@ const HirePageEditor = ({ currentUser }) => {
     } catch (err) {
       console.log(err)
       setError("There was an error updating your Hire Page info. Please contact support.");
+      setSaving(false);
     }
   };
 
   if (loading) return <div>Loading...</div>;
+  console.log(currentUser.cognitoUser.attributes.email)
 
   return (
     <div>
       <div className="flash-message">{error}</div>
       <div className="container is-desktop">
-        <ProjectHeader headerText="Hire Page Editor" avatar="/avatar.jpg" />
+        <ProjectHeader headerText="Hire Page Editor" avatar={gravatarUrl(currentUser.cognitoUser.attributes.email)} />
         <main className={styles.main}>
           <form onSubmit={(e) => handleSubmit(e)}>
             <div className={classnames('text-1', 'columns')}>

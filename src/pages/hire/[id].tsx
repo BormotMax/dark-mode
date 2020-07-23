@@ -10,17 +10,7 @@ import { useState, useEffect, useContext } from 'react';
 import { GetHireMeInfoQuery } from '../../API';
 import { getHireMeInfo } from '../../graphql/queries';
 import { ApolloContext } from 'react-apollo';
-
-const images = [
-  '/portfolio_0.png',
-  '/portfolio_1.png',
-  '/portfolio_2.png',
-  '/portfolio_3.png',
-  '/portfolio_4.png',
-  '/portfolio_5.png',
-];
-
-const name = 'Naomi Price';
+import { unauthClient as client } from '../_app';
 
 enum Tab {
   PORTFOLIO,
@@ -36,7 +26,6 @@ const Hire: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [portfolioImages, setPortfolioImages] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
-  const { client } = useContext(ApolloContext);
 
   useEffect(() => {
     const execute = async () => {
@@ -85,8 +74,8 @@ const Hire: React.FC = () => {
 
   if (loading) return <div>Loading...</div>;
   if (!hireInfo) return <div>There is no hire page here, yet.</div>;
-
   const { name, title, buttonText, blurbText, aboutText } = hireInfo;
+
   return (
     <div className={styles.hire}>
       <div className={styles.upper}>

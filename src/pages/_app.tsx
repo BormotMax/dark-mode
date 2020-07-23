@@ -21,6 +21,13 @@ export const client = new AWSAppSyncClient({
   },
 });
 
+export const unauthClient = new AWSAppSyncClient({
+  url: awsconfig.aws_appsync_graphqlEndpoint,
+  region: awsconfig.aws_appsync_region,
+  disableOffline: true,
+  auth: { type: AUTH_TYPE.AWS_IAM, credentials: () => Auth.currentCredentials() },
+});
+
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <UserDataProvider>
     <ApolloProvider client={client}>
