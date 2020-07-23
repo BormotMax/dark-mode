@@ -146,7 +146,7 @@ const HirePageEditor = ({ currentUser }) => {
   };
 
   if (loading) return <div>Loading...</div>;
-  console.log(currentUser.cognitoUser.attributes.email)
+  console.log(process.env.XXX)
 
   return (
     <div>
