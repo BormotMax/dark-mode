@@ -11,6 +11,7 @@ import serialize from 'form-serialize';
 import Logo from '../../img/logo.svg';
 import styles from '../../pages/styles/authPage.module.scss';
 import s from './confirmSignUp.module.scss';
+import { ProjectHeader } from '../projectHeader';
 
 interface ConfirmSignUpProps {
   email: string
@@ -89,8 +90,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
   return (
     <div className={styles.authPage}>
       <div className="flash-message">{error}</div>
-      <div className="mtl mbl"><Logo /></div>
-      <h1 className="h1 mbl">Confirm Sign Up</h1>
+      <ProjectHeader headerText="Confirm Sign Up" />
       <form onSubmit={handleConfirmClick} className={styles.body}>
         <input
           readOnly

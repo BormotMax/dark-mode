@@ -1,25 +1,48 @@
 {
-	"master": {
-		"awscloudformation": {
-			"AuthRoleName": "amplify-continuum-master-224802-authRole",
-			"UnauthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-master-224802-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-master-224802-authRole",
-			"Region": "us-east-1",
-			"DeploymentBucketName": "amplify-continuum-master-224802-deployment",
-			"UnauthRoleName": "amplify-continuum-master-224802-unauthRole",
-			"StackName": "amplify-continuum-master-224802",
-			"StackId": "arn:aws:cloudformation:us-east-1:757622401460:stack/amplify-continuum-master-224802/4106c490-c403-11ea-953d-0e0e50fbc697",
-			"AmplifyAppId": "d3ck2vgbiuqrmx"
-		},
-		"categories": {
-			"function": {
-				"continuum23ec4bacPostConfirmation": {
-					"GROUP": "freelancer"
-				}
-			},
-			"auth": {
-				"continuum23ec4bac": {}
-			}
-		}
-	}
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-continuum-master-224802-authRole",
+            "UnauthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-master-224802-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-master-224802-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-continuum-master-224802-deployment",
+            "UnauthRoleName": "amplify-continuum-master-224802-unauthRole",
+            "StackName": "amplify-continuum-master-224802",
+            "StackId": "arn:aws:cloudformation:us-east-1:757622401460:stack/amplify-continuum-master-224802/4106c490-c403-11ea-953d-0e0e50fbc697",
+            "AmplifyAppId": "d3ck2vgbiuqrmx"
+        },
+        "categories": {
+            "function": {
+                "continuum23ec4bacPostConfirmation": {
+                    "GROUP": "freelancer"
+                }
+            },
+            "auth": {
+                "continuum23ec4bac": {}
+            }
+        }
+    },
+    "int": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-continuum-int-222144-authRole",
+            "UnauthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-int-222144-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-int-222144-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-continuum-int-222144-deployment",
+            "UnauthRoleName": "amplify-continuum-int-222144-unauthRole",
+            "StackName": "amplify-continuum-int-222144",
+            "StackId": "arn:aws:cloudformation:us-east-1:757622401460:stack/amplify-continuum-int-222144/bbd58570-ce36-11ea-8d58-0a99e59b1983",
+            "AmplifyAppId": "d3ck2vgbiuqrmx"
+        },
+        "categories": {
+            "auth": {
+                "continuum23ec4bac": {}
+            },
+            "function": {
+                "continuum23ec4bacPostConfirmation": {
+                    "GROUP": "FREELANCER"
+                }
+            }
+        }
+    }
 }
