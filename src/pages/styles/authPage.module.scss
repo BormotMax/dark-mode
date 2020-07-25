@@ -1,9 +1,25 @@
 .authPage {
+    .inputWrapper {
+        position: relative;
+
+        svg {
+            position: absolute;
+            top: calc(50% - 7px);
+            right: 15px;
+        }
+
+        .eyeIconWrapper {
+            cursor: pointer;
+        }
+    }
+
     text-align: center;
+    background: #faf8f7;
+    height: 100vh;
 
     .body {
         max-width: 336px;
-        margin: auto;
+        margin: 60px auto;
     }
 
     a {

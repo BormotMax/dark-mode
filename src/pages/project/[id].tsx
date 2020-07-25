@@ -75,4 +75,4 @@ const ProjectPage: React.FC = () => {
   );
 };
 
-export default WithAuthentication(ProjectPage, { routeType: RouteType.SIGNED_IN });
+export default WithAuthentication(ProjectPage, { routeType: RouteType.SIGNED_IN, allowedRoles: [] });

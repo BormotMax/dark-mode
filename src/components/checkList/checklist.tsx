@@ -17,7 +17,7 @@ interface CheckListProps {
 export const CheckList: React.FC<CheckListProps> = ({
   listItems, name, callback, editable = true,
 }) => {
-  function handleCheckboxChange({ target }: ChangeEvent<HTMLInputElement>) {
+  function handleCheckboxChange() {
     const inputs: any = document.querySelectorAll<HTMLFormElement>(`.${name}`);
     const items = [];
 

@@ -4,7 +4,7 @@ describe('signing in', () => {
     it('should sign user in', () => {
       cy.visit('/signIn')
 
-      cy.contains('Sign in to Continuum')
+      cy.contains('Sign In to Continuum')
 
       cy.get('input[placeholder="Email"]')
         .type("matthew.watts.mw@gmail.com")

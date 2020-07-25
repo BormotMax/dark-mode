@@ -4,8 +4,9 @@ import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import styles from './styles/authPage.module.scss';
 import { ResetPassword } from '../components/resetPassword';
-import Logo from '../img/logo.svg';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
+import { ProjectHeader } from '../components/projectHeader';
+import EmailIcon from '../img/email.svg';
 
 interface ValidationProps {
   email?: string
@@ -59,10 +60,12 @@ const ForgotPassword: React.FC = () => {
   return isConfirming ? <ResetPassword email={emailInState} /> : (
     <div className={styles.authPage}>
       <div className="flash-message">{error}</div>
-      <div className="mtl mbl"><Logo /></div>
-      <h1 className="h1 mbl">Reset your password</h1>
+      <ProjectHeader headerText="Reset your password" />
       <form onSubmit={handleSendCodeClick} className={styles.body}>
-        <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
+        <div className={styles.inputWrapper}>
+          <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
+          <EmailIcon />
+        </div>
         <button
           disabled={isRequestPending}
           type="submit"

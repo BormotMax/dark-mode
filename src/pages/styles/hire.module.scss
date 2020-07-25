@@ -5,14 +5,14 @@
     font-weight: normal;
     font-size: 36px;
     line-height: 42px;
-    color: #8093A6;
+    color: #8093a6;
 
     .upper {
         display: flex;
         max-height: 640px;
         background: white;
         justify-content: center;
-        background: #F5F8FF;
+        background: #f5f8ff;
 
         @include fullhd {
             justify-content: space-between;
@@ -36,7 +36,7 @@
             }
 
             .title {
-                color: #4589AA;
+                color: #4589aa;
                 margin-bottom: 32px;
             }
 
@@ -45,7 +45,7 @@
             }
 
             .button {
-                background: #1D3557;
+                background: #1d3557;
                 border-radius: 100px;
                 color: white;
                 padding: 15px 30px;
@@ -79,16 +79,17 @@
         display: flex;
         justify-content: center;
         padding: 32px 0;
-        color: #8093A6;
+        color: #8093a6;
         font-weight: bold;
 
         * {
+            outline: none;
             cursor: pointer;
         }
 
         .selected {
-            color: #1D3557;
-            border-bottom: 4px solid #1D3557;
+            color: #1d3557;
+            border-bottom: 4px solid #1d3557;
             padding-bottom: 12px;
         }
     }
@@ -121,6 +122,7 @@
 
         svg {
             margin: 0 25px;
+            cursor: pointer;
         }
 
         .copyright {
@@ -131,5 +133,9 @@
             line-height: 28px;
             color: #8093a6;
         }
+    }
+
+    .skeletonWrapper {
+        margin: 25px;
     }
 }

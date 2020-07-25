@@ -36,19 +36,19 @@ interface FilesTabProps {
 export const FilesTab: React.FC<FilesTabProps> = ({ files }) => {
   const [fileName, setFileName] = useState('');
 
-  function handleDeleteFile(id: number) {
+  function handleDeleteFile(id) {
   }
 
-  function handleEditFile(id: number) {
+  function handleEditFile(id) {
   }
 
   function handleAddFile(e: KeyboardEvent) {
     if (e.keyCode === 13 && fileName) {
       fetch(fileName)
         .then((res) => res.blob())
-        .then((res) => {
-          const urlCreator = window.URL || window.webkitURL;
-          const objectUrl = urlCreator.createObjectURL(res);
+        .then(() => {
+          // const urlCreator = window.URL || window.webkitURL;
+          // const oddbjectUrl = urlCreator.createObjectURL(res);
         });
       setFileName('');
     }
@@ -58,7 +58,7 @@ export const FilesTab: React.FC<FilesTabProps> = ({ files }) => {
     e.preventDefault();
   }
 
-  function handleFileInputChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleFileInputChange() {
   }
 
   return (

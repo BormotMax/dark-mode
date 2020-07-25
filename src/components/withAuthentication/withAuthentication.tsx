@@ -12,9 +12,9 @@ export enum RouteType {
 }
 
 export enum Role {
-  FREELANCER = "FREELANCER",
-  CLIENT = "CLIENT",
-  ADMIN = "ADMIN"
+  FREELANCER = 'FREELANCER',
+  CLIENT = 'CLIENT',
+  ADMIN = 'ADMIN'
 }
 
 interface WithAuthenticationOptions {
@@ -29,21 +29,21 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options: W
         const {
           currentUser, pending, signIn, signOut,
         } = value;
-        const {routeType, allowedRoles} = options;
+        const { routeType, allowedRoles } = options;
         const cognitoUser = currentUser?.cognitoUser;
-        const groups = cognitoUser?.signInUserSession?.accessToken?.payload["cognito:groups"] || []
+        const groups = cognitoUser?.signInUserSession?.accessToken?.payload['cognito:groups'] || [];
 
         if (pending) {
           // still fetching current user
-          return <div>Loading...</div>;
+          return null;
         }
 
-        if(allowedRoles) {
+        if (allowedRoles) {
           // Make sure this user has an allowed role
-          const intersection = groups.filter(x => allowedRoles.includes(x));
+          const intersection = groups.filter((x) => allowedRoles.includes(x));
 
           if (intersection.length === 0 && !groups.includes(Role.ADMIN)) {
-            return <Unauthorized />
+            return <Unauthorized />;
           }
         }
 
@@ -77,6 +77,4 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options: W
   );
 }
 
-const Unauthorized = () => {
-  return <div>You are not authorized to view this page.</div>
-}
+const Unauthorized = () => <div>You are not authorized to view this page.</div>;

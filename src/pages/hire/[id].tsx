@@ -1,15 +1,15 @@
-import styles from '../styles/hire.module.scss';
-import LinkedInLogo from '../../img/linkedIn.svg';
 import gql from 'graphql-tag';
-import InstagramLogo from '../../img/instagram.svg';
-import Dribbble from '../../img/dribbble.svg';
 import { useRouter } from 'next/router';
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import styles from '../styles/hire.module.scss';
+import LinkedInLogo from '../../img/linkedIn.svg';
+import InstagramLogo from '../../img/instagram.svg';
+import Dribbble from '../../img/dribbble.svg';
 import { GetHireMeInfoQuery } from '../../API';
 import { getHireMeInfo } from '../../graphql/queries';
-import { ApolloContext } from 'react-apollo';
 import { unauthClient as client } from '../_app';
 
 enum Tab {
@@ -20,7 +20,7 @@ enum Tab {
 const Hire: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO)
+  const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
   const [hireInfo, setHireInfo] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,9 +29,9 @@ const Hire: React.FC = () => {
 
   useEffect(() => {
     const execute = async () => {
-      if(!id) return;
+      if (!id) return;
       try {
-        const { data }: {data: GetHireMeInfoQuery} = await client.query({
+        const { data }: { data: GetHireMeInfoQuery } = await client.query({
           query: gql(getHireMeInfo),
           variables: { freelancerID: id },
         });
@@ -44,13 +44,13 @@ const Hire: React.FC = () => {
 
           info.portfolioImages?.forEach(({ key, tag }) => {
             try {
-              promises.push(Storage.get(key).then((img) => map[tag] = img));
+              promises.push(Storage.get(key).then((img) => { map[tag] = img; }));
             } catch (err) {
               console.log(err);
             }
           });
 
-          Promise.all(promises).then(() => setPortfolioImages(map))
+          Promise.all(promises).then(() => setPortfolioImages(map));
 
           if (info.bannerImage) {
             try {
@@ -72,69 +72,114 @@ const Hire: React.FC = () => {
     execute();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (!hireInfo) return <div>There is no hire page here, yet.</div>;
-  const { name, title, buttonText, blurbText, aboutText } = hireInfo;
+  if (!loading && !hireInfo) return <div>There is no hire page here, yet.</div>;
 
   return (
     <div className={styles.hire}>
-      <div className={styles.upper}>
-        <div className={classnames(styles.leftContainer, "is-block-fullhd")}>
-          <div className={styles.left}>
-          <div className={classnames("text-small-caps", styles.name)}>{name}</div>
-          <div className={classnames(styles.title, "h1")}>{title}</div>
-          <div className={styles.blurbText}>{blurbText}</div>
-          <div className="tar">
-            <button className={styles.button} type="button">{buttonText}</button>
-          </div>
+      <SkeletonTheme color="#FAF8F7" highlightColor="white">
+        <div className={styles.upper}>
+          {loading ? <Skeleton /> : (
+            <div className={classnames(styles.leftContainer, 'is-block-fullhd')}>
+              <div className={styles.left}>
+                <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
+                <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
+                <div className={styles.blurbText}>{hireInfo?.blurbText}</div>
+                <div className="tar">
+                  <button className={styles.button} type="button">{hireInfo?.buttonText}</button>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className={styles.bannerImageContainer}>
+            {
+              bannerImage && <img alt="banner" className={styles.bannerImage} src={bannerImage} />
+            }
           </div>
         </div>
-        <div className={styles.bannerImageContainer}>
+        <div className="container is-fullhd">
+          <div className={classnames('text-small-caps', styles.optionsBar)}>
+            <div
+              tabIndex={0}
+              role="button"
+              onKeyDown={() => setSelectedTab(Tab.PORTFOLIO)}
+              onClick={() => setSelectedTab(Tab.PORTFOLIO)}
+              className={classnames({ [styles.selected]: selectedTab === Tab.PORTFOLIO })}
+            >
+              Portfolio
+            </div>
+            <div
+              tabIndex={0}
+              role="button"
+              onKeyDown={() => setSelectedTab(Tab.ABOUT)}
+              onClick={() => setSelectedTab(Tab.ABOUT)}
+              className={classnames({ [styles.selected]: selectedTab === Tab.ABOUT }, 'mlxl')}
+            >
+              About
+            </div>
+          </div>
           {
-            bannerImage && <img className={styles.bannerImage} src={bannerImage} />
+            selectedTab === Tab.PORTFOLIO
+            && (
+              <div className={styles.portfolioImages}>
+                {
+                  !portfolioImages
+                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
+                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-1']} alt="portfolio" /></div>
+                }
+                {
+                  !portfolioImages
+                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
+                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-2']} alt="portfolio" /></div>
+                }
+                {
+                  !portfolioImages
+                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
+                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-3']} alt="portfolio" /></div>
+                }
+                {
+                  !portfolioImages
+                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
+                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-4']} alt="portfolio" /></div>
+                }
+                {
+                  !portfolioImages
+                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
+                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-5']} alt="portfolio" /></div>
+                }
+                {
+                  !portfolioImages
+                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
+                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-6']} alt="portfolio" /></div>
+                }
+              </div>
+            )
+          }
+          {
+            selectedTab === Tab.ABOUT
+            && (
+              <div className={classnames(styles.about)}>
+                {hireInfo?.aboutText}
+              </div>
+            )
           }
         </div>
-      </div>
-      <div className="container is-fullhd">
-        <div className={classnames("text-small-caps", styles.optionsBar)}>
-          <div onClick={() => setSelectedTab(Tab.PORTFOLIO)} className={classnames({[styles.selected]: selectedTab === Tab.PORTFOLIO})}>Portfolio</div>
-          <div onClick={() => setSelectedTab(Tab.ABOUT)} className={classnames({[styles.selected]: selectedTab === Tab.ABOUT}, "mlxl")}>About</div>
+        <div className={styles.footer}>
+          <div>
+            <InstagramLogo />
+            <LinkedInLogo />
+            <Dribbble />
+          </div>
+          <div className={styles.copyright}>
+            &copy;
+            {' '}
+            {new Date().getFullYear()}
+            {' '}
+            {hireInfo?.name}
+          </div>
         </div>
-        {selectedTab === Tab.PORTFOLIO && !portfolioImages && <div className={styles.imageLoader}></div> }
-        {
-          selectedTab === Tab.PORTFOLIO && portfolioImages &&
-            <div className={styles.portfolioImages}>
-              <div className={styles.portfolioImage}><img src={portfolioImages["portfolio-1"]} alt="portfolio" /></div>
-              <div className={styles.portfolioImage}><img src={portfolioImages["portfolio-2"]} alt="portfolio" /></div>
-              <div className={styles.portfolioImage}><img src={portfolioImages["portfolio-3"]} alt="portfolio" /></div>
-              <div className={styles.portfolioImage}><img src={portfolioImages["portfolio-4"]} alt="portfolio" /></div>
-              <div className={styles.portfolioImage}><img src={portfolioImages["portfolio-5"]} alt="portfolio" /></div>
-              <div className={styles.portfolioImage}><img src={portfolioImages["portfolio-6"]} alt="portfolio" /></div>
-            </div>
-        }
-        {
-         selectedTab === Tab.ABOUT &&
-         <div className={classnames(styles.about)}>
-           {aboutText}
-         </div> 
-        }
-      </div>
-      <div className={styles.footer}>
-        <div>
-          <InstagramLogo />
-          <LinkedInLogo />
-          <Dribbble />
-        </div>
-        <div className={styles.copyright}>
-          &copy;
-          {' '}
-          {new Date().getFullYear()}
-          {' '}
-          {name}
-        </div>
-      </div>
+      </SkeletonTheme>
     </div>
-  )
+  );
 };
 
 export default Hire;

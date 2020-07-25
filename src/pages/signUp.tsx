@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import { ConfirmSignUp } from '../components/confirmSignUp';
-import { GoogleAuthButton } from '../components/googleAuthButton';
-import Logo from '../img/logo.svg';
 import styles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
+import { ProjectHeader } from '../components/projectHeader';
+import EyeIcon from '../img/eye.svg';
+import EmailIcon from '../img/email.svg';
+import NameIcon from '../img/name.svg';
 
 interface ValidationProps {
   name?: string
@@ -16,6 +18,7 @@ interface ValidationProps {
 
 const SignUp: React.FC = () => {
   const [emailInState, setEmailInState] = useState('');
+  const [isPasswordShowing, setPasswordShowing] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
@@ -72,25 +75,42 @@ const SignUp: React.FC = () => {
     e.preventDefault();
   }
 
+  function handleEyeballClick(e) {
+    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+      setPasswordShowing(!isPasswordShowing);
+    }
+  }
+
   return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} /> : (
     <div className={styles.authPage}>
       <div className="flash-message">{error}</div>
-      <div className="mtl mbl"><Logo /></div>
-      <h1 className="h1 mbl">Sign Up for Continuum</h1>
+      <ProjectHeader headerText="Sign Up for Continuum" />
       <form onSubmit={handleCreateAccountClick} className={styles.body}>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>
+        {/* <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>
           Sign Up with Google
         </GoogleAuthButton>
-        <div className="text-1 text-gray mbm">Or, sign up with Email</div>
-        <input name="name" className={`${invalids.name ? styles[invalids.name] : ''} input-1`} type="text" placeholder="Name" />
-        <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
-        <input
-          name="password"
-          className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
-          type="password"
-          placeholder="Password"
-        />
+        <div className="text-1 text-gray mbm">Or, sign up with Email</div> */}
+        <div className={styles.inputWrapper}>
+          <input name="name" className={`${invalids.name ? styles[invalids.name] : ''} input-1`} type="text" placeholder="Name" />
+          <NameIcon />
+        </div>
+        <div className={styles.inputWrapper}>
+          <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
+          <EmailIcon />
+        </div>
+        <div className={styles.inputWrapper}>
+          <input
+            name="password"
+            className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
+            type={isPasswordShowing ? 'text' : 'password'}
+            placeholder="Password"
+          />
+          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
+            {isPasswordShowing
+              ? <EyeIcon />
+              : <EyeIcon />}
+          </div>
+        </div>
         <div className="text-1 mbm">
           By signing up I agree to the
           {' '}

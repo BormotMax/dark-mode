@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
-import Logo from '../../img/logo.svg';
 import styles from '../../pages/styles/authPage.module.scss';
+import { ProjectHeader } from '../projectHeader';
+import EmailIcon from '../../img/email.svg';
+import EyeIcon from '../../img/eye.svg';
 
 interface ResetPasswordProps {
   email: string
@@ -18,6 +20,7 @@ interface ValidationProps {
 
 export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
   const [isRequestPending, setRequestPending] = useState(false);
+  const [isPasswordShowing, setPasswordShowing] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
 
@@ -55,28 +58,44 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
     }
   }
 
+  function handleEyeballClick(e) {
+    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+      setPasswordShowing(!isPasswordShowing);
+    }
+  }
+
   return (
     <div className={styles.authPage}>
       <div className="flash-message">{error}</div>
-      <div className="mtl mbl"><Logo /></div>
-      <h1 className="h1 mbl">Reset your password</h1>
+      <ProjectHeader headerText="Reset your password" />
       <form onSubmit={handleSubmit} className={styles.body}>
-        <input
-          readOnly
-          value={email}
-          name="email"
-          className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
-          type="email"
-          placeholder="Email"
-        />
+        <div className={styles.inputWrapper}>
+          <input
+            readOnly
+            value={email}
+            name="email"
+            className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
+            type="email"
+            placeholder="Email"
+          />
+          <EmailIcon />
+        </div>
         <input name="code" className={`${invalids.code ? styles[invalids.code] : ''} input-1`} type="text" placeholder="Code" />
-        <input
-          name="password"
-          className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
-          type="password"
-          placeholder="New Password"
-          autoComplete="new-password"
-        />
+
+        <div className={styles.inputWrapper}>
+          <input
+            name="password"
+            className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
+            type={isPasswordShowing ? 'text' : 'password'}
+            placeholder="New Password"
+            autoComplete="new-password"
+          />
+          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
+            {isPasswordShowing
+              ? <EyeIcon />
+              : <EyeIcon />}
+          </div>
+        </div>
         <button
           disabled={isRequestPending}
           type="submit"

@@ -14,9 +14,9 @@ export const UserContext = React.createContext({
   pending: true, currentUser: { appSyncUser: null, cognitoUser: null }, signIn: null, signOut: null,
 });
 
-export const useCurrentUser = ():any => useContext(UserContext);
+export const useCurrentUser = (): any => useContext(UserContext);
 
-export const UserDataProvider = ({ children }) => {
+export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
   const [currentUser, setCurrentUser] = useState({ appSyncUser: null, cognitoUser: null });
   const [pending, setPending] = useState(true);
 
@@ -31,13 +31,12 @@ export const UserDataProvider = ({ children }) => {
 
   const signIn = async (email, password) => {
     const cognitoUser = await Auth.signIn(email, password);
-    const data: { verified: { email?: string }, unverified: {} } = await Auth.verifiedContact(cognitoUser);
+    const data: { verified: { email?: string }, unverified: any } = await Auth.verifiedContact(cognitoUser);
 
     if (!data.verified.email) {
       return false;
     }
 
-    // const appSyncUser = await fetch appsync user (cognitoUser.id)
     const { appSyncUser } = userDataMock;
     setCurrentUser({ appSyncUser, cognitoUser });
     return true;
@@ -48,7 +47,6 @@ export const UserDataProvider = ({ children }) => {
       try {
         setPending(true);
         const cognitoUser = await Auth.currentAuthenticatedUser();
-        // const appSyncUser = await fetch appsync user (cognitoUser.id)
         const { appSyncUser } = userDataMock;
         setCurrentUser({ appSyncUser, cognitoUser });
         setPending(false);

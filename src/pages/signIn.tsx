@@ -3,13 +3,16 @@ import Link from 'next/link';
 import Router from 'next/router';
 import serialize from 'form-serialize';
 import { ConfirmSignUp } from '../components/confirmSignUp';
-import { GoogleAuthButton } from '../components/googleAuthButton';
 import ForgotPassword from '../img/forgotPassword.svg';
 import Logo from '../img/logo.svg';
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
+import EyeIcon from '../img/eye.svg';
+import EmailIcon from '../img/email.svg';
+import NameIcon from '../img/name.svg';
+import { ProjectHeader } from '../components/projectHeader';
 
 interface ValidationProps {
   email?: string
@@ -18,6 +21,7 @@ interface ValidationProps {
 
 const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   const [emailInState, setEmailInState] = useState('');
+  const [isPasswordShowing, setPasswordShowing] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
@@ -30,23 +34,6 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     if (!password) temp.password = 'error';
     return temp;
   }
-
-  // async function checkContact(user: object) {
-  //   try {
-  //     const data: { verified: { email?: string }, unverified: {} } = await Auth.verifiedContact(user);
-  //     if (data.verified.email) {
-  //       currentUser.setCurrentUser({ cognitoUser: user, appSyncUser: {} });
-  //       Router.push('/dashboard');
-  //     } else {
-  //       setError('');
-  //       setRequestPending(false);
-  //       setConfirming(true);
-  //     }
-  //   } catch (err) {
-  //     setError(err.message);
-  //     setRequestPending(false);
-  //   }
-  // }
 
   function handleGoogleSignInClick(e: MouseEvent) {
     e.preventDefault();
@@ -93,36 +80,34 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         Router.push('/forgotPassword');
       }
     }
+  }
 
-    // try {
-    //   const user = await Auth.signIn(email, password);
-    //   checkContact(user);
-    // } catch (err) {
-    //   setError(err.message);
-    //   setRequestPending(false);
-
-    //   if (err.code === 'UserNotConfirmedException') {
-    //     setError('');
-    //     setConfirming(true);
-    //   } else if (err.code === 'PasswordResetRequiredException') {
-    //     Router.push('/forgotPassword');
-    //   }
-    // }
+  function handleEyeballClick(e) {
+    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+      setPasswordShowing(!isPasswordShowing);
+    }
   }
 
   return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signIn" setConfirming={setConfirming} /> : (
     <div className={pageStyles.authPage}>
+      <ProjectHeader headerText="Sign In to Continuum" />
       <div className="flash-message">{error}</div>
-      <div className="mtl mbl"><Logo /></div>
-      <h1 className="h1 mbl">Sign in to Continuum</h1>
       <form onSubmit={handleSignInClick} className={pageStyles.body}>
-        <input name="email" className={`${invalids.email ? pageStyles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
-        <input
-          name="password"
-          className={`${invalids.password ? pageStyles[invalids.password] : ''} input-1`}
-          type="password"
-          placeholder="Password"
-        />
+        <div className={pageStyles.inputWrapper}>
+          <input name="email" className={`${invalids.email ? pageStyles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
+          <EmailIcon />
+        </div>
+        <div className={pageStyles.inputWrapper}>
+          <input
+            name="password"
+            className={`${invalids.password ? pageStyles[invalids.password] : ''} input-1`}
+            type={isPasswordShowing ? 'text' : 'password'}
+            placeholder="Password"
+          />
+          <div role="button" className={pageStyles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
+            <EyeIcon />
+          </div>
+        </div>
         <div className={styles.forgotPassword}>
           <Link href="/forgotPassword">
             <a href="/forgotPassword">
@@ -137,9 +122,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         >
           Sign In
         </button>
-        <div className="text-1 text-gray">Or...</div>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton>
+        {/* <div className="text-1 text-gray">Or...</div> */}
+        {/* <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton> */}
         <div>
           No account?
           {' '}

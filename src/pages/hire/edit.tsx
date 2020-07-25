@@ -3,18 +3,18 @@ import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
 import { v4 as uuid } from 'uuid';
 import { useEffect, useState } from 'react';
+import serialize from 'form-serialize';
+import gql from 'graphql-tag';
 import { ProjectHeader } from '../../components/projectHeader';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { FileUpload } from '../../components/fileUpload';
 import { updateHireMeInfo, createHireMeInfo } from '../../graphql/mutations';
-import { CreateHireMeInfoInput } from '../../API';
-import { GetHireMeInfoQuery } from '../../API';
+import { CreateHireMeInfoInput, GetHireMeInfoQuery } from '../../API';
+
 import { getHireMeInfo } from '../../graphql/queries';
 import { client } from '../_app';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import styles from '../styles/hireEdit.module.scss';
-import serialize from 'form-serialize';
-import gql from 'graphql-tag';
 
 const imageInputNames = [
   'banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6',
@@ -32,9 +32,8 @@ const HirePageEditor = ({ currentUser }) => {
 
   useEffect(() => {
     const execute = async () => {
-
       try {
-        const res: {data: GetHireMeInfoQuery} = await client.query({
+        const res: { data: GetHireMeInfoQuery } = await client.query({
           query: gql(getHireMeInfo),
           variables: { freelancerID },
         });
@@ -61,7 +60,7 @@ const HirePageEditor = ({ currentUser }) => {
 
         setHireInfo(info);
       } catch (err) {
-        setError("There was an error retreiving your Hire Page info. Please contact support");
+        setError('There was an error retreiving your Hire Page info. Please contact support');
       } finally {
         setLoading(false);
       }
@@ -139,20 +138,18 @@ const HirePageEditor = ({ currentUser }) => {
         }, 3000);
       });
     } catch (err) {
-      console.log(err)
-      setError("There was an error updating your Hire Page info. Please contact support.");
+      setError('There was an error updating your Hire Page info. Please contact support.');
       setSaving(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  console.log(process.env.XXX)
+  if (loading) return null;
 
   return (
-    <div>
+    <div className={styles.hirePageEditor}>
       <div className="flash-message">{error}</div>
+      <ProjectHeader headerText="Hire Page Editor" avatar={gravatarUrl(currentUser.cognitoUser.attributes.email)} />
       <div className="container is-desktop">
-        <ProjectHeader headerText="Hire Page Editor" avatar={gravatarUrl(currentUser.cognitoUser.attributes.email)} />
         <main className={styles.main}>
           <form onSubmit={(e) => handleSubmit(e)}>
             <div className={classnames('text-1', 'columns')}>
@@ -199,7 +196,7 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className="flex">
                   <FileUpload
                     name="banner"
-                    helpText="Banner Image (1600px x 640px - will be anchored left)"
+                    helpText="Banner Image (1100px x 640px - will be anchored top left)"
                     image={bannerImage}
                     onChange={(file) => handleFileInputChange(file, 'banner')}
                     aspect="wide"
