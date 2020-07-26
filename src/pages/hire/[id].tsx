@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import styles from '../styles/hire.module.scss';
 import LinkedInLogo from '../../img/linkedIn.svg';
@@ -26,6 +26,22 @@ const Hire: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [portfolioImages, setPortfolioImages] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
+  const blurbTextElement = useRef(null);
+
+  function handleResize() {
+    if (blurbTextElement.current) {
+      let relFontsize = blurbTextElement.current.offsetWidth * 0.07;
+      relFontsize = Math.min(36, relFontsize);
+      relFontsize = Math.max(20, relFontsize);
+      blurbTextElement.current.style.fontSize = `${relFontsize}px`;
+    }
+  }
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const execute = async () => {
@@ -78,22 +94,32 @@ const Hire: React.FC = () => {
     <div className={styles.hire}>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         <div className={styles.upper}>
-          {loading ? <Skeleton /> : (
-            <div className={classnames(styles.leftContainer, 'is-block-fullhd')}>
-              <div className={styles.left}>
-                <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
-                <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
-                <div className={styles.blurbText}>{hireInfo?.blurbText}</div>
-                <div className="tar">
-                  <button className={styles.button} type="button">{hireInfo?.buttonText}</button>
-                </div>
+          <div className={classnames(styles.leftContainer, 'is-block-desktop')}>
+            <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
+            <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
+            <div ref={blurbTextElement} className={styles.blurbText}>{hireInfo?.blurbText}</div>
+            {!loading && (
+              <div className="tar">
+                <button className={styles.button} type="button">{hireInfo?.buttonText}</button>
               </div>
-            </div>
-          )}
+            )}
+          </div>
           <div className={styles.bannerImageContainer}>
             {
               bannerImage && <img alt="banner" className={styles.bannerImage} src={bannerImage} />
             }
+          </div>
+        </div>
+        <div className={classnames(styles.leftContainer, 'is-hidden-desktop')}>
+          <div className={styles.left}>
+            <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
+            <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
+            <div className={styles.blurbText}>{hireInfo?.blurbText}</div>
+            {!loading && (
+              <div className="tar">
+                <button className={styles.button} type="button">{hireInfo?.buttonText}</button>
+              </div>
+            )}
           </div>
         </div>
         <div className="container is-fullhd">
@@ -181,5 +207,33 @@ const Hire: React.FC = () => {
     </div>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  let host;
+  let username = null;
+
+  host = req?.headers?.host;
+
+  if (typeof window !== 'undefined') {
+    host = window.location.host;
+  }
+
+  if (host) {
+    const isDev = host.includes('localhost');
+    const splitHost = host.split('.');
+
+    if ((!isDev && splitHost.length === 3) || (isDev && splitHost.length === 2)) {
+      if (username !== 'www') {
+        // eslint-disable-next-line prefer-destructuring
+        username = splitHost[0];
+      }
+    }
+  }
+
+  return {
+    props: { username },
+  };
+}
 
 export default Hire;

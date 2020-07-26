@@ -40,19 +40,19 @@ describe("routing authorization", () => {
 
 			it('allows ADMIN role', () => {
 				cy.exec(addUserToGroup("ADMIN"))
-				.then(() => Auth.signIn("matthew.watts.mw@gmail.com", "password"))
-				.then(() => {
-					cy.visit('/hire/edit')
-					cy.contains('Hire Page Editor')
-				})
+					.then(() => Auth.signIn("matthew.watts.mw@gmail.com", "password"))
+					.then(() => {
+						cy.visit('/hire/edit')
+						cy.contains('Hire Page Editor')
+					})
 			})
 		})
 	})
 
 	context('signedOut', () => {
-		it('should show unauthoized page', () => {
+		it('should show signIn page', () => {
 			cy.visit('/hire/edit')
-			cy.contains('You are not authorized to view this page.')
+			cy.url().should('equal', `${Cypress.config().baseUrl}/signIn`)
 		})
 	})
 })

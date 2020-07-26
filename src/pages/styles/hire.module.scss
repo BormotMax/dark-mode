@@ -6,56 +6,50 @@
     font-size: 36px;
     line-height: 42px;
     color: #8093a6;
+    overflow: hidden;
+
+    .leftContainer {
+        padding: 60px;
+        background: #f5f8ff;
+
+        .name {
+            color: #333333;
+            margin-bottom: 7px;
+        }
+
+        .title {
+            color: #4589aa;
+            margin-bottom: 32px;
+        }
+
+        .blurbText {
+            margin-bottom: 70px;
+            line-height: 115%;
+        }
+
+        .button {
+            background: #1d3557;
+            border-radius: 100px;
+            color: white;
+            padding: 15px 30px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            font-family: Roboto, sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+        }
+    }
 
     .upper {
         display: flex;
         max-height: 640px;
-        background: white;
-        justify-content: center;
         background: #f5f8ff;
 
-        @include fullhd {
-            justify-content: space-between;
-        }
-
         .leftContainer {
-            padding: 60px;
             display: none;
-            text-align: center;
             width: 100%;
-
-            .left {
-                text-align: left;
-                width: fit-content;
-                margin: auto;
-            }
-
-            .name {
-                color: #333333;
-                margin-bottom: 7px;
-            }
-
-            .title {
-                color: #4589aa;
-                margin-bottom: 32px;
-            }
-
-            .blurbText {
-                margin-bottom: 83px;
-            }
-
-            .button {
-                background: #1d3557;
-                border-radius: 100px;
-                color: white;
-                padding: 15px 30px;
-                outline: none;
-                border: none;
-                cursor: pointer;
-                font-family: Roboto, sans-serif;
-                font-weight: 500;
-                font-size: 18px;
-            }
+            min-width: 380px;
         }
 
         .bannerImageContainer {

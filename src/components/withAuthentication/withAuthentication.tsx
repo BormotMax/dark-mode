@@ -38,7 +38,7 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options: W
           return null;
         }
 
-        if (allowedRoles) {
+        if (cognitoUser && allowedRoles) {
           // Make sure this user has an allowed role
           const intersection = groups.filter((x) => allowedRoles.includes(x));
 
@@ -70,7 +70,7 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options: W
         }
 
         // user is not signed in and this is a signed in page
-        Router.push('/');
+        Router.push('/signIn');
         return null;
       }}
     </UserContext.Consumer>
