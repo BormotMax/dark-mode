@@ -21,10 +21,7 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "react"
-  ],
+  "plugins": ["@typescript-eslint", "react"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
@@ -36,9 +33,12 @@
         "code": 140
       }
     ],
-    "comma-dangle": [
+    "comma-dangle": [2, "always-multiline"],
+    "jsx-a11y/label-has-associated-control": [
       2,
-      "always-multiline"
+      {
+        "depth": 3
+      }
     ]
   },
   "globals": {

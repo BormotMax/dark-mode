@@ -1,15 +1,16 @@
 // 1. Import the initial variables
 
-@import url("https://fonts.googleapis.com/css?family=Abhaya+Libre:800|Poppins:300,400,500,600,700");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
-@import url("https://fonts.googleapis.com/css?family=PT+Sans");
-@import "~bulma/sass/utilities/initial-variables";
+@import url('https://fonts.googleapis.com/css?family=Abhaya+Libre:800|Poppins:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+@import '~bulma/sass/utilities/initial-variables';
 
 // 2. Override styles - https://bulma.io/documentation/customize/variables/
 // $primary: red;
 // $fullhd: 2000px;
 
 $gap: 25px;
+$modal-content-width: 877px;
 $tabs-link-active-border-bottom-color: #3c78fb;
 $tabs-link-hover-color: #3c78fb;
 $tabs-link-active-color: #3c78fb;
@@ -29,64 +30,74 @@ $label-weight: normal;
 
 // 3. Bulma enable Modularity, which allow you to import what you need
 // https://bulma.io/documentation/overview/modular/
-@import "~bulma/bulma";
-@import "~bulma/sass/utilities/_all.sass";
-@import "~bulma/sass/base/_all";
+@import '~bulma/bulma';
+@import '~bulma/sass/utilities/_all.sass';
+@import '~bulma/sass/base/_all';
 // ===== elements
 // @import "~bulma/sass/elements/_all.sass";
-@import "~bulma/sass/elements/button.sass";
-@import "~bulma/sass/elements/container.sass";
-@import "~bulma/sass/elements/icon.sass";
-@import "~bulma/sass/elements/image.sass";
-@import "~bulma/sass/elements/title.sass";
-@import "~bulma/sass/elements/progress.sass";
+@import '~bulma/sass/elements/button.sass';
+@import '~bulma/sass/elements/container.sass';
+@import '~bulma/sass/elements/icon.sass';
+@import '~bulma/sass/elements/image.sass';
+@import '~bulma/sass/elements/title.sass';
+@import '~bulma/sass/elements/progress.sass';
 // ====== forms
-@import "~bulma/sass/form/_all.sass";
+@import '~bulma/sass/form/_all.sass';
 // ====== components
 // @import "~bulma/sass/components/_all.sass";
-@import "~bulma/sass/components/dropdown.sass";
-@import "~bulma/sass/components/level.sass";
-@import "~bulma/sass/components/menu.sass";
-@import "~bulma/sass/components/navbar.sass";
-@import "~bulma/sass/components/tabs.sass";
+@import '~bulma/sass/components/dropdown.sass';
+@import '~bulma/sass/components/level.sass';
+@import '~bulma/sass/components/menu.sass';
+@import '~bulma/sass/components/navbar.sass';
+@import '~bulma/sass/components/tabs.sass';
 // ====== grid
 // @import "~bulma/sass/grid/_all.sass";
-@import "~bulma/sass/grid/columns.sass";
+@import '~bulma/sass/grid/columns.sass';
 // ====== layout
 // @import "~bulma/sass/layout/_all.sass";
-@import "~bulma/sass/layout/section.sass";
-@import "~bulma/sass/layout/footer.sass";
+@import '~bulma/sass/layout/section.sass';
+@import '~bulma/sass/layout/footer.sass';
 
 .tabs {
-    display: block;
-    ul {
-        border: none;
-        font-family: Roboto, sans-serif;
-        font-size: 16px;
-        line-height: 19px;
-        font-weight: normal;
-        letter-spacing: 1.61539px;
-    }
+  display: block;
+  ul {
+    border: none;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: normal;
+    letter-spacing: 1.61539px;
+  }
 }
 
 .progress {
-    height: 40px !important;
-    margin-bottom: 0 !important;
+  height: 40px !important;
+  margin-bottom: 0 !important;
 }
 
 .columns {
-    margin: 0px;
+  margin: 0px;
 
-    &:last-child {
-        margin-bottom: 0px;
-    }
+  &:last-child {
+    margin-bottom: 0px;
+  }
 }
 
 .label {
-    margin-bottom: initial !important;
+  margin-bottom: initial !important;
 }
 
 .input {
-    color: #8093a6;
-    width: initial;
+  color: #8093a6;
+  width: 100%;
+}
+
+.modal {
+  position: fixed;
+}
+
+.modal-content {
+  max-width: 877px;
+  width: auto;
+  max-height: initial;
 }

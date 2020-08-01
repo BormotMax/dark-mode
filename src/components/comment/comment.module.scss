@@ -1,5 +1,11 @@
+@import '~bulma/sass/utilities/_all.sass';
+
 .comment {
-  margin: 17px 0 17px 60px;
+  @include tablet {
+    margin: 17px 0 17px 60px;
+  }
+
+  margin: 17px 0;
   padding: 33px;
   position: relative;
   border-radius: 8px;
@@ -18,6 +24,11 @@
   }
 
   .avatar {
+    @include tablet {
+      display: initial;
+    }
+
+    display: none;
     height: 72px;
     border-radius: 50%;
     position: absolute;

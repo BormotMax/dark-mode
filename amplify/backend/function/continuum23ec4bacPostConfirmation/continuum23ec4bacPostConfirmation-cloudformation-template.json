@@ -101,7 +101,7 @@
 				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-continuum-master-224802-deployment",
+					"S3Bucket": "amplify-continuum-int-222144-deployment",
 					"S3Key": "amplify-builds/continuum23ec4bacPostConfirmation-53714f4d5a3365336c74-build.zip"
 				}
 			}

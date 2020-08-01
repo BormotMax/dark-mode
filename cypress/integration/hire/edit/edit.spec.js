@@ -24,7 +24,6 @@ describe("hire page editor", () => {
 		let hireMeInfo;
 		cy.exec(getHireMeInfoById(user.username), {failOnNonZeroExit: false})
 			.then((getResult) => {
-				console.log(getResult.stdout)
 				hireMeInfo = JSON.parse(getResult.stdout).Item
 				const hireMeInfoId = hireMeInfo.freelancerID.S
 				return cy.exec(deleteHireMeInfoById(hireMeInfoId))

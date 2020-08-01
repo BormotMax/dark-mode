@@ -604,6 +604,7 @@ export const getHireMeInfo = /* GraphQL */ `
       freelancerID
       name
       title
+      email
       buttonText
       blurbText
       aboutText
@@ -639,6 +640,7 @@ export const listHireMeInfos = /* GraphQL */ `
         freelancerID
         name
         title
+        email
         buttonText
         blurbText
         aboutText

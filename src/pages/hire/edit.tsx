@@ -16,9 +16,7 @@ import { client } from '../_app';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import styles from '../styles/hireEdit.module.scss';
 
-const imageInputNames = [
-  'banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6',
-];
+const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 
 const HirePageEditor = ({ currentUser }) => {
   const [hireInfo, setHireInfo] = useState(null);
@@ -29,6 +27,7 @@ const HirePageEditor = ({ currentUser }) => {
   const [bannerImage, setBannerImage] = useState(null);
   const [fileInputValues, setFileInputValues] = useState({});
   const freelancerID = currentUser.cognitoUser.username;
+  const { email } = currentUser.cognitoUser.attributes;
 
   useEffect(() => {
     const execute = async () => {
@@ -118,6 +117,7 @@ const HirePageEditor = ({ currentUser }) => {
         variables: {
           input: {
             freelancerID: hireInfo ? hireInfo.freelancerID : freelancerID,
+            email,
             ...variables,
           },
         },
@@ -127,17 +127,21 @@ const HirePageEditor = ({ currentUser }) => {
       setHireInfo(info);
       setFileInputValues({});
 
-      Promise.all(uploadPromises).then(() => {
-        setError('Your changes have been saved');
-      }).catch(() => {
-        setError('Some images may not have saved. Refresh the page to see.');
-      }).finally(() => {
-        setSaving(false);
-        setTimeout(() => {
-          setError(null);
-        }, 3000);
-      });
+      Promise.all(uploadPromises)
+        .then(() => {
+          setError('Your changes have been saved');
+        })
+        .catch(() => {
+          setError('Some images may not have saved. Refresh the page to see.');
+        })
+        .finally(() => {
+          setSaving(false);
+          setTimeout(() => {
+            setError(null);
+          }, 3000);
+        });
     } catch (err) {
+      console.log(err);
       setError('There was an error updating your Hire Page info. Please contact support.');
       setSaving(false);
     }
@@ -148,7 +152,7 @@ const HirePageEditor = ({ currentUser }) => {
   return (
     <div className={styles.hirePageEditor}>
       <div className="flash-message">{error}</div>
-      <ProjectHeader headerText="Hire Page Editor" avatar={gravatarUrl(currentUser.cognitoUser.attributes.email)} />
+      <ProjectHeader headerText="Hire Page Editor" avatar={gravatarUrl(email)} />
       <div className="container is-desktop">
         <main className={styles.main}>
           <form onSubmit={(e) => handleSubmit(e)}>

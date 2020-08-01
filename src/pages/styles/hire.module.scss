@@ -1,135 +1,150 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .hire {
-    font-family: Roboto, sans-serif;
-    font-weight: normal;
-    font-size: 36px;
-    line-height: 42px;
-    color: #8093a6;
-    overflow: hidden;
+  font-family: Roboto, sans-serif;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 42px;
+  color: #8093a6;
+  overflow: hidden;
+
+  :global {
+    .modal {
+      @include desktop {
+        justify-content: flex-start !important;
+      }
+      justify-content: flex-start !important;
+    }
+
+    .modal-close {
+      position: fixed;
+    }
+  }
+
+  .leftContainer {
+    padding: 60px;
+    background: #f5f8ff;
+
+    .name {
+      color: #333333;
+      margin-bottom: 7px;
+    }
+
+    .title {
+      color: #4589aa;
+      margin-bottom: 32px;
+    }
+
+    .blurbText {
+      margin-bottom: 70px;
+      line-height: 115%;
+    }
+
+    .button {
+      background: #1d3557;
+      border-radius: 100px;
+      color: white;
+      padding: 15px 30px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      font-family: Roboto, sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+
+  .upper {
+    display: flex;
+    max-height: 640px;
+    background: #f5f8ff;
 
     .leftContainer {
-        padding: 60px;
-        background: #f5f8ff;
-
-        .name {
-            color: #333333;
-            margin-bottom: 7px;
-        }
-
-        .title {
-            color: #4589aa;
-            margin-bottom: 32px;
-        }
-
-        .blurbText {
-            margin-bottom: 70px;
-            line-height: 115%;
-        }
-
-        .button {
-            background: #1d3557;
-            border-radius: 100px;
-            color: white;
-            padding: 15px 30px;
-            outline: none;
-            border: none;
-            cursor: pointer;
-            font-family: Roboto, sans-serif;
-            font-weight: 500;
-            font-size: 18px;
-        }
+      display: none;
+      width: 100%;
+      min-width: 380px;
     }
 
-    .upper {
-        display: flex;
-        max-height: 640px;
-        background: #f5f8ff;
+    .bannerImageContainer {
+      overflow: hidden;
 
-        .leftContainer {
-            display: none;
-            width: 100%;
-            min-width: 380px;
-        }
-
-        .bannerImageContainer {
-            overflow: hidden;
-
-            @include desktop {
-                height: 640px;
-                width: 1100px;
-                flex: 0 0 auto;
-            }
-        }
-
-        .bannerImage {
-            object-fit: cover;
-            object-position: 0 0;
-        }
+      @include desktop {
+        height: 640px;
+        width: 1100px;
+        flex: 0 0 auto;
+      }
     }
 
-    .optionsBar {
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        padding: 32px 0;
-        color: #8093a6;
-        font-weight: bold;
+    .bannerImage {
+      object-fit: cover;
+      object-position: 0 0;
+    }
+  }
 
-        * {
-            outline: none;
-            cursor: pointer;
-        }
+  .optionsBar {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 32px 0;
+    color: #8093a6;
+    font-weight: bold;
 
-        .selected {
-            color: #1d3557;
-            border-bottom: 4px solid #1d3557;
-            padding-bottom: 12px;
-        }
+    * {
+      outline: none;
+      cursor: pointer;
     }
 
-    .portfolioImages {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+    .selected {
+      color: #1d3557;
+      border-bottom: 4px solid #1d3557;
+      padding-bottom: 12px;
+    }
+  }
 
-        .portfolioImage {
-            margin: 25px;
+  .portfolioImages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
-            img {
-                border-radius: 40px;
-                width: 300px;
-                height: 300px;
-            }
-        }
+    .portfolioImage {
+      margin: 25px;
+
+      img {
+        border-radius: 40px;
+        width: 300px;
+        height: 300px;
+        object-position: 0 0;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .about {
+    margin: 60px 0 150px 0;
+    white-space: pre-wrap;
+    padding: 20px;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 78px;
+
+    svg {
+      margin: 0 25px;
+      cursor: pointer;
     }
 
-    .about {
-        margin: 60px 0 150px 0;
-        white-space: pre-wrap;
-        padding: 20px;
+    .copyright {
+      margin: 70px 0;
+      font-family: Roboto, sans-serif;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 28px;
+      color: #8093a6;
     }
+  }
 
-    .footer {
-        text-align: center;
-        margin-top: 78px;
-
-        svg {
-            margin: 0 25px;
-            cursor: pointer;
-        }
-
-        .copyright {
-            margin: 70px 0;
-            font-family: Roboto, sans-serif;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 28px;
-            color: #8093a6;
-        }
-    }
-
-    .skeletonWrapper {
-        margin: 25px;
-    }
+  .skeletonWrapper {
+    margin: 25px;
+  }
 }

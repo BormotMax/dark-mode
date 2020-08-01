@@ -11,10 +11,13 @@ import Dribbble from '../../img/dribbble.svg';
 import { GetHireMeInfoQuery } from '../../API';
 import { getHireMeInfo } from '../../graphql/queries';
 import { unauthClient as client } from '../_app';
+import { HireMeModal } from '../../components/hireMeModal';
+import { Modal } from '../../components/modal';
+import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 enum Tab {
   PORTFOLIO,
-  ABOUT
+  ABOUT,
 }
 
 const Hire: React.FC = () => {
@@ -26,6 +29,7 @@ const Hire: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [portfolioImages, setPortfolioImages] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
   const blurbTextElement = useRef(null);
 
   function handleResize() {
@@ -60,7 +64,11 @@ const Hire: React.FC = () => {
 
           info.portfolioImages?.forEach(({ key, tag }) => {
             try {
-              promises.push(Storage.get(key).then((img) => { map[tag] = img; }));
+              promises.push(
+                Storage.get(key).then((img) => {
+                  map[tag] = img;
+                }),
+              );
             } catch (err) {
               console.log(err);
             }
@@ -91,23 +99,28 @@ const Hire: React.FC = () => {
   if (!loading && !hireInfo) return <div>There is no hire page here, yet.</div>;
 
   return (
-    <div className={styles.hire}>
+    <div className={classnames(styles.hire)}>
+      <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
+        <HireMeModal freelancerName={hireInfo?.name} avatarUrl={gravatarUrl(hireInfo?.email)} />
+      </Modal>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         <div className={styles.upper}>
           <div className={classnames(styles.leftContainer, 'is-block-desktop')}>
             <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
             <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
-            <div ref={blurbTextElement} className={styles.blurbText}>{hireInfo?.blurbText}</div>
+            <div ref={blurbTextElement} className={styles.blurbText}>
+              {hireInfo?.blurbText}
+            </div>
             {!loading && (
               <div className="tar">
-                <button className={styles.button} type="button">{hireInfo?.buttonText}</button>
+                <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
+                  {hireInfo?.buttonText}
+                </button>
               </div>
             )}
           </div>
           <div className={styles.bannerImageContainer}>
-            {
-              bannerImage && <img alt="banner" className={styles.bannerImage} src={bannerImage} />
-            }
+            {bannerImage && <img alt="banner" className={styles.bannerImage} src={bannerImage} />}
           </div>
         </div>
         <div className={classnames(styles.leftContainer, 'is-hidden-desktop')}>
@@ -117,7 +130,9 @@ const Hire: React.FC = () => {
             <div className={styles.blurbText}>{hireInfo?.blurbText}</div>
             {!loading && (
               <div className="tar">
-                <button className={styles.button} type="button">{hireInfo?.buttonText}</button>
+                <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
+                  {hireInfo?.buttonText}
+                </button>
               </div>
             )}
           </div>
@@ -143,51 +158,65 @@ const Hire: React.FC = () => {
               About
             </div>
           </div>
-          {
-            selectedTab === Tab.PORTFOLIO
-            && (
-              <div className={styles.portfolioImages}>
-                {
-                  !portfolioImages
-                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
-                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-1']} alt="portfolio" /></div>
-                }
-                {
-                  !portfolioImages
-                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
-                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-2']} alt="portfolio" /></div>
-                }
-                {
-                  !portfolioImages
-                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
-                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-3']} alt="portfolio" /></div>
-                }
-                {
-                  !portfolioImages
-                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
-                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-4']} alt="portfolio" /></div>
-                }
-                {
-                  !portfolioImages
-                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
-                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-5']} alt="portfolio" /></div>
-                }
-                {
-                  !portfolioImages
-                    ? <div className={styles.skeletonWrapper}><Skeleton height={300} width={300} /></div>
-                    : <div className={styles.portfolioImage}><img src={portfolioImages['portfolio-6']} alt="portfolio" /></div>
-                }
-              </div>
-            )
-          }
-          {
-            selectedTab === Tab.ABOUT
-            && (
-              <div className={classnames(styles.about)}>
-                {hireInfo?.aboutText}
-              </div>
-            )
-          }
+          {selectedTab === Tab.PORTFOLIO && (
+            <div className={styles.portfolioImages}>
+              {!portfolioImages ? (
+                <div className={styles.skeletonWrapper}>
+                  <Skeleton height={300} width={300} />
+                </div>
+              ) : (
+                <div className={styles.portfolioImage}>
+                  <img src={portfolioImages['portfolio-1']} alt="portfolio" />
+                </div>
+              )}
+              {!portfolioImages ? (
+                <div className={styles.skeletonWrapper}>
+                  <Skeleton height={300} width={300} />
+                </div>
+              ) : (
+                <div className={styles.portfolioImage}>
+                  <img src={portfolioImages['portfolio-2']} alt="portfolio" />
+                </div>
+              )}
+              {!portfolioImages ? (
+                <div className={styles.skeletonWrapper}>
+                  <Skeleton height={300} width={300} />
+                </div>
+              ) : (
+                <div className={styles.portfolioImage}>
+                  <img src={portfolioImages['portfolio-3']} alt="portfolio" />
+                </div>
+              )}
+              {!portfolioImages ? (
+                <div className={styles.skeletonWrapper}>
+                  <Skeleton height={300} width={300} />
+                </div>
+              ) : (
+                <div className={styles.portfolioImage}>
+                  <img src={portfolioImages['portfolio-4']} alt="portfolio" />
+                </div>
+              )}
+              {!portfolioImages ? (
+                <div className={styles.skeletonWrapper}>
+                  <Skeleton height={300} width={300} />
+                </div>
+              ) : (
+                <div className={styles.portfolioImage}>
+                  <img src={portfolioImages['portfolio-5']} alt="portfolio" />
+                </div>
+              )}
+              {!portfolioImages ? (
+                <div className={styles.skeletonWrapper}>
+                  <Skeleton height={300} width={300} />
+                </div>
+              ) : (
+                <div className={styles.portfolioImage}>
+                  <img src={portfolioImages['portfolio-6']} alt="portfolio" />
+                </div>
+              )}
+            </div>
+          )}
+          {selectedTab === Tab.ABOUT && <div className={classnames(styles.about)}>{hireInfo?.aboutText}</div>}
         </div>
         <div className={styles.footer}>
           <div>
@@ -196,11 +225,8 @@ const Hire: React.FC = () => {
             <Dribbble />
           </div>
           <div className={styles.copyright}>
-            &copy;
-            {' '}
-            {new Date().getFullYear()}
-            {' '}
-            {hireInfo?.name}
+            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+            &copy; {new Date().getFullYear()} {hireInfo?.name}
           </div>
         </div>
       </SkeletonTheme>

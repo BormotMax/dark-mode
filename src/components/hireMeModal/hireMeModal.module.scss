@@ -1,0 +1,15 @@
+@import '~bulma/sass/utilities/_all.sass';
+
+.hireMeModal {
+  background: white;
+  max-width: 877px;
+  padding: 45px;
+
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.reply {
+  margin-top: 19.5px;
+  text-align: right;
+}

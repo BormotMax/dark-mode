@@ -1,9 +1,9 @@
-import { Comment } from '../comment';
-import { Comment as CommentProps } from '../../types/custom';
-import styles from './comments.module.scss';
+import { CommentWrapper } from "../comment";
+import { Comment as CommentProps } from "../../types/custom";
+import styles from "./comments.module.scss";
 
 interface CommentsProps {
-  comments: Array<CommentProps>
+  comments: Array<CommentProps>;
 }
 
 export const Comments: React.FC<CommentsProps> = ({ comments }) => (
@@ -14,7 +14,7 @@ export const Comments: React.FC<CommentsProps> = ({ comments }) => (
     </div>
     <div>
       {comments.filter(Boolean).map((c) => (
-        <Comment key={c.id} comment={c} />
+        <CommentWrapper key={c.id} comment={c} />
       ))}
     </div>
   </div>

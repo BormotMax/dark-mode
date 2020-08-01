@@ -1,28 +1,44 @@
+import classnames from 'classnames';
 import styles from './comment.module.scss';
 import { Comment as CommentType } from '../../types/custom';
 import { UserRole } from '../../API';
 
-interface CommentProps {
-  comment: CommentType
+interface CommentWrapperProps {
+  comment: CommentType;
+  avatarUrl?: string;
 }
 
-export const Comment: React.FC<CommentProps> = ({ comment }) => (
+interface CommentProps {
+  name?: string;
+  createdAt?: string;
+  avatarUrl?: string;
+  isMine?: boolean;
+}
+
+export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarUrl }) => (
+  <Comment
+    name={comment.creator.name}
+    createdAt={comment.createdAt}
+    avatarUrl={avatarUrl}
+    isMine={comment.creator.role === UserRole.FREELANCER}
+  >
+    <div>{comment.content}</div>
+  </Comment>
+);
+
+// eslint-disable-next-line object-curly-newline
+export const Comment: React.FC<CommentProps> = ({ name, createdAt, avatarUrl, children, isMine = true }) => (
   <div
-    className={`${styles.comment} ${
-      comment.creator.role === UserRole.FREELANCER
-        ? styles.commentDark
-        : styles.commentLight
-    }`}
+    className={classnames(styles.comment, {
+      [styles.commentDark]: !isMine,
+      [styles.commentLight]: isMine,
+    })}
   >
     <div className={styles.header}>
-      <div className="text-2 text-normal text-blue">{comment.creator.name}</div>
-      <div className="text-2 text-small text-gray">{new Date(comment.createdAt).toDateString()}</div>
+      <div className="text-2 text-normal text-blue">{name}</div>
+      {createdAt && <div className="text-2 text-small text-gray">{new Date(createdAt).toDateString()}</div>}
     </div>
-    <img
-      alt="avatar"
-      className={styles.avatar}
-      // src={comment.creator.avatarUrl}
-    />
-    <div className="text-2 text-gray">{comment.content}</div>
+    <img alt="avatar" className={styles.avatar} src={avatarUrl || '/blankAvatar.jpg'} />
+    <div className="text-2 text-gray">{children}</div>
   </div>
 );

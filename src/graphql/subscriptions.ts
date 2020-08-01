@@ -860,6 +860,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
       freelancerID
       name
       title
+      email
       buttonText
       blurbText
       aboutText
@@ -882,6 +883,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
       freelancerID
       name
       title
+      email
       buttonText
       blurbText
       aboutText
@@ -904,6 +906,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
       freelancerID
       name
       title
+      email
       buttonText
       blurbText
       aboutText
