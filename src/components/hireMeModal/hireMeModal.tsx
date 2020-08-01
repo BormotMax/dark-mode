@@ -1,16 +1,42 @@
 import classnames from 'classnames';
 import { useState } from 'react';
+import axios from 'axios';
+import serialize from 'form-serialize';
 import styles from './hireMeModal.module.scss';
 import { Comment } from '../comment';
 import { OvalButtonSmall } from '../buttons/buttons';
 
-const HireMeModalForm = () => {
+interface HireMeModalFormProps {
+  handleClose: Function;
+  freelancerEmail: string;
+}
+
+const HireMeModalForm = ({ handleClose, freelancerEmail }) => {
   const [isSaving, setSaving] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
-    setSaving(false);
+    const { form } = e.target;
+    const { name, company, email, phone, details } = serialize(form as HTMLFormElement, { hash: true });
+
+    try {
+      await axios.post('/api/sendEmail', {
+        to: freelancerEmail,
+        name,
+        company,
+        email,
+        phone,
+        details,
+      });
+
+      form.reset();
+      handleClose();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -51,7 +77,7 @@ const HireMeModalForm = () => {
                 Phone #
               </label>
               <div className="control">
-                <input name="email" className="input" type="phone" />
+                <input name="phone" className="input" type="tel" />
               </div>
             </div>
           </div>
@@ -76,17 +102,19 @@ const commentContent = 'Thank you for your interest in the work I do. Please tel
 
 interface HireMeModalProps {
   freelancerName: string;
+  freelancerEmail: string;
   avatarUrl?: string;
+  handleClose: Function;
 }
 
-export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerName, avatarUrl }) => (
+export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerName, freelancerEmail, avatarUrl, handleClose }) => (
   <div className={styles.hireMeModal}>
     <div className="header-2-lg">Hello There!</div>
     <Comment isMine={false} name={freelancerName} avatarUrl={avatarUrl}>
       <div>{commentContent}</div>
     </Comment>
     <Comment>
-      <HireMeModalForm />
+      <HireMeModalForm freelancerEmail={freelancerEmail} handleClose={handleClose} />
     </Comment>
   </div>
 );

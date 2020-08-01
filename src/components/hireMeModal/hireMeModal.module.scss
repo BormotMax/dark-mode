@@ -4,9 +4,12 @@
   background: white;
   max-width: 877px;
   padding: 45px;
-
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
+
+  textarea {
+    color: #8093a6;
+  }
 }
 
 .reply {

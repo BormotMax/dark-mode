@@ -39,6 +39,13 @@
       {
         "depth": 3
       }
+    ],
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": { "multiline": true },
+        "ObjectPattern": { "multiline": true }
+      }
     ]
   },
   "globals": {

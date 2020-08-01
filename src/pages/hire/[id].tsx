@@ -101,7 +101,12 @@ const Hire: React.FC = () => {
   return (
     <div className={classnames(styles.hire)}>
       <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
-        <HireMeModal freelancerName={hireInfo?.name} avatarUrl={gravatarUrl(hireInfo?.email)} />
+        <HireMeModal
+          freelancerEmail={hireInfo?.email}
+          handleClose={() => setModalOpen(false)}
+          freelancerName={hireInfo?.name}
+          avatarUrl={gravatarUrl(hireInfo?.email)}
+        />
       </Modal>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         <div className={styles.upper}>
@@ -257,9 +262,7 @@ export async function getServerSideProps(context) {
     }
   }
 
-  return {
-    props: { username },
-  };
+  return { props: { username } };
 }
 
 export default Hire;
