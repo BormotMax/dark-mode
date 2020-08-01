@@ -11,14 +11,44 @@ interface HireMeModalFormProps {
   freelancerEmail: string;
 }
 
-const HireMeModalForm = ({ handleClose, freelancerEmail }) => {
+interface ValidationProps {
+  name?: string;
+  company?: string;
+  email?: string;
+  phone?: string;
+  details?: string;
+}
+
+const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelancerEmail }) => {
   const [isSaving, setSaving] = useState(false);
+  const [invalids, setInvalids] = useState<ValidationProps>({});
+
+  function validate({ name, company, email, phone, details }: ValidationProps) {
+    const temp: ValidationProps = {};
+
+    if (!name) temp.name = 'error';
+    if (!company) temp.company = 'error';
+    if (!email) temp.email = 'error';
+    if (!phone) temp.phone = 'error';
+    if (!details) temp.details = 'error';
+
+    return temp;
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
+    setInvalids({});
     const { form } = e.target;
-    const { name, company, email, phone, details } = serialize(form as HTMLFormElement, { hash: true });
+    const formData = serialize(form as HTMLFormElement, { hash: true });
+    const { name, company, email, phone, details } = formData;
+    const validation = validate(formData);
+
+    if (Object.keys(validation).length) {
+      setInvalids(validation);
+      setSaving(false);
+      return;
+    }
 
     try {
       await axios.post('/api/sendEmail', {
@@ -49,7 +79,7 @@ const HireMeModalForm = ({ handleClose, freelancerEmail }) => {
                 Name
               </label>
               <div className="control">
-                <input name="name" className="input" type="text" maxLength={48} />
+                <input name="name" className={classnames('input', { 'is-danger': invalids.name })} type="text" maxLength={48} />
               </div>
             </div>
             <div className="field">
@@ -57,7 +87,7 @@ const HireMeModalForm = ({ handleClose, freelancerEmail }) => {
                 Company
               </label>
               <div className="control">
-                <input name="company" className="input" type="text" maxLength={48} />
+                <input name="company" className={classnames('input', { 'is-danger': invalids.company })} type="text" maxLength={48} />
               </div>
             </div>
           </div>
@@ -69,7 +99,7 @@ const HireMeModalForm = ({ handleClose, freelancerEmail }) => {
                 Email
               </label>
               <div className="control">
-                <input name="email" className="input" type="text" maxLength={48} />
+                <input required name="email" className={classnames('input', { 'is-danger': invalids.email })} type="email" maxLength={48} />
               </div>
             </div>
             <div className="field">
@@ -77,7 +107,7 @@ const HireMeModalForm = ({ handleClose, freelancerEmail }) => {
                 Phone #
               </label>
               <div className="control">
-                <input name="phone" className="input" type="tel" />
+                <input name="phone" className={classnames('input', { 'is-danger': invalids.phone })} type="tel" />
               </div>
             </div>
           </div>
@@ -87,7 +117,7 @@ const HireMeModalForm = ({ handleClose, freelancerEmail }) => {
             Project Details
           </label>
           <div className="control">
-            <textarea name="details" maxLength={800} rows={6} className="textarea" />
+            <textarea name="details" maxLength={800} rows={6} className={classnames('textarea', { 'is-danger': invalids.details })} />
           </div>
         </div>
       </div>
