@@ -1,9 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
 import { useState, useEffect, useRef } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Carousel, { Modal as ImageModal, ModalGateway } from 'react-images';
 import styles from '../styles/hire.module.scss';
 import LinkedInLogo from '../../img/linkedIn.svg';
 import InstagramLogo from '../../img/instagram.svg';
@@ -30,6 +33,8 @@ const Hire: React.FC = () => {
   const [portfolioImages, setPortfolioImages] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isCarouselOpen, setCarouselOpen] = useState(false);
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(null);
   const blurbTextElement = useRef(null);
 
   function handleResize() {
@@ -96,7 +101,13 @@ const Hire: React.FC = () => {
     execute();
   }, [id]);
 
+  const toggleCarousel = (index?: number) => {
+    setCurrentCarouselIndex(index);
+    setCarouselOpen(!isCarouselOpen);
+  };
+
   if (!loading && !hireInfo) return <div>There is no hire page here, yet.</div>;
+  const carouselImages = Object.values(portfolioImages || {}).map((image) => ({ source: image as string }));
 
   return (
     <div className={classnames(styles.hire)}>
@@ -108,6 +119,13 @@ const Hire: React.FC = () => {
           avatarUrl={gravatarUrl(hireInfo?.email)}
         />
       </Modal>
+      <ModalGateway>
+        {isCarouselOpen && currentCarouselIndex !== null && (
+          <ImageModal onClose={() => toggleCarousel(null)}>
+            <Carousel views={carouselImages} currentIndex={currentCarouselIndex} />
+          </ImageModal>
+        )}
+      </ModalGateway>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         <div className={styles.upper}>
           <div className={classnames(styles.leftContainer, 'is-block-desktop')}>
@@ -170,7 +188,7 @@ const Hire: React.FC = () => {
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div className={styles.portfolioImage}>
+                <div onClick={() => toggleCarousel(0)} className={styles.portfolioImage}>
                   <img src={portfolioImages['portfolio-1']} alt="portfolio" />
                 </div>
               )}
@@ -179,7 +197,7 @@ const Hire: React.FC = () => {
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div className={styles.portfolioImage}>
+                <div onClick={() => toggleCarousel(1)} className={styles.portfolioImage}>
                   <img src={portfolioImages['portfolio-2']} alt="portfolio" />
                 </div>
               )}
@@ -188,7 +206,7 @@ const Hire: React.FC = () => {
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div className={styles.portfolioImage}>
+                <div onClick={() => toggleCarousel(2)} className={styles.portfolioImage}>
                   <img src={portfolioImages['portfolio-3']} alt="portfolio" />
                 </div>
               )}
@@ -197,7 +215,7 @@ const Hire: React.FC = () => {
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div className={styles.portfolioImage}>
+                <div onClick={() => toggleCarousel(3)} className={styles.portfolioImage}>
                   <img src={portfolioImages['portfolio-4']} alt="portfolio" />
                 </div>
               )}
@@ -206,7 +224,7 @@ const Hire: React.FC = () => {
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div className={styles.portfolioImage}>
+                <div onClick={() => toggleCarousel(4)} className={styles.portfolioImage}>
                   <img src={portfolioImages['portfolio-5']} alt="portfolio" />
                 </div>
               )}
@@ -215,7 +233,7 @@ const Hire: React.FC = () => {
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div className={styles.portfolioImage}>
+                <div onClick={() => toggleCarousel(5)} className={styles.portfolioImage}>
                   <img src={portfolioImages['portfolio-6']} alt="portfolio" />
                 </div>
               )}

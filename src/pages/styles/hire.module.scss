@@ -1,4 +1,4 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .hire {
   font-family: Roboto, sans-serif;
@@ -108,6 +108,7 @@
 
     .portfolioImage {
       margin: 25px;
+      cursor: pointer;
 
       img {
         border-radius: 40px;
