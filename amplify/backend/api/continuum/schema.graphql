@@ -81,6 +81,9 @@ type HireMeInfo
   buttonText: String
   blurbText: String
   aboutText: String
+  twitterUrl: String
+  instagramUrl: String
+  linkedInUrl: String
   bannerImage: S3Object
   portfolioImages: [S3Object]
 }

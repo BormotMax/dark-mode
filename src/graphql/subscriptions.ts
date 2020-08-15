@@ -864,6 +864,9 @@ export const onCreateHireMeInfo = /* GraphQL */ `
       buttonText
       blurbText
       aboutText
+      twitterUrl
+      instagramUrl
+      linkedInUrl
       bannerImage {
         key
         tag
@@ -887,6 +890,9 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
       buttonText
       blurbText
       aboutText
+      twitterUrl
+      instagramUrl
+      linkedInUrl
       bannerImage {
         key
         tag
@@ -910,6 +916,9 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
       buttonText
       blurbText
       aboutText
+      twitterUrl
+      instagramUrl
+      linkedInUrl
       bannerImage {
         key
         tag

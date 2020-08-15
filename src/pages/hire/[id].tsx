@@ -243,9 +243,15 @@ const Hire: React.FC = () => {
         </div>
         <div className={styles.footer}>
           <div>
-            <InstagramLogo />
-            <LinkedInLogo />
-            <Dribbble />
+            <a target="_blank" rel="noreferrer" href={hireInfo?.twitterUrl}>
+              <Dribbble />
+            </a>
+            <a target="_blank" rel="noreferrer" href={hireInfo?.instagramUrl}>
+              <InstagramLogo />
+            </a>
+            <a target="_blank" rel="noreferrer" href={hireInfo?.linkedInUrl}>
+              <LinkedInLogo />
+            </a>
           </div>
           <div className={styles.copyright}>
             {/* eslint-disable-next-line react/jsx-one-expression-per-line */}

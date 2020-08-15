@@ -195,6 +195,51 @@ const HirePageEditor = ({ currentUser }) => {
                     <textarea name="aboutText" maxLength={1000} rows={18} className="textarea" defaultValue={hireInfo?.aboutText} />
                   </div>
                 </div>
+                <div className="field">
+                  <label className="label">Twitter URL</label>
+                  <div className="control">
+                    <input
+                      name="twitterUrl"
+                      className="input"
+                      type="url"
+                      pattern="https?://.+"
+                      maxLength={50}
+                      size={35}
+                      defaultValue={hireInfo?.twitterUrl}
+                      placeholder="https://twitter.com/"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <label className="label">Instagram URL</label>
+                  <div className="control">
+                    <input
+                      name="instagramUrl"
+                      className="input"
+                      type="url"
+                      pattern="https?://.+"
+                      maxLength={50}
+                      size={35}
+                      defaultValue={hireInfo?.instagramUrl}
+                      placeholder="https://www.instagram.com/"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <label className="label">LinkedIn URL</label>
+                  <div className="control">
+                    <input
+                      name="linkedInUrl"
+                      className="input"
+                      type="url"
+                      pattern="https?://.+"
+                      maxLength={50}
+                      size={35}
+                      defaultValue={hireInfo?.linkedInUrl}
+                      placeholder="https://www.linkedin.com/in/"
+                    />
+                  </div>
+                </div>
               </div>
               <div className="column">
                 <div className="flex">

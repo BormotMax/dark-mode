@@ -608,6 +608,9 @@ export const getHireMeInfo = /* GraphQL */ `
       buttonText
       blurbText
       aboutText
+      twitterUrl
+      instagramUrl
+      linkedInUrl
       bannerImage {
         key
         tag
@@ -644,6 +647,9 @@ export const listHireMeInfos = /* GraphQL */ `
         buttonText
         blurbText
         aboutText
+        twitterUrl
+        instagramUrl
+        linkedInUrl
         bannerImage {
           key
           tag
