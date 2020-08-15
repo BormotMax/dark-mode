@@ -11,12 +11,13 @@ import styles from '../styles/hire.module.scss';
 import LinkedInLogo from '../../img/linkedIn.svg';
 import InstagramLogo from '../../img/instagram.svg';
 import Dribbble from '../../img/dribbble.svg';
-import { GetHireMeInfoQuery } from '../../API';
-import { getHireMeInfo } from '../../graphql/queries';
+import { HireInfoByDomainSlugQuery } from '../../API';
+import { hireInfoByDomainSlug } from '../../graphql/queries';
 import { unauthClient as client } from '../_app';
 import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
+import { HireMeInfo } from '../../types/custom';
 
 enum Tab {
   PORTFOLIO,
@@ -56,12 +57,12 @@ const Hire: React.FC = () => {
     const execute = async () => {
       if (!id) return;
       try {
-        const { data }: { data: GetHireMeInfoQuery } = await client.query({
-          query: gql(getHireMeInfo),
-          variables: { freelancerID: id },
+        const { data }: { data: HireInfoByDomainSlugQuery } = await client.query({
+          query: gql(hireInfoByDomainSlug),
+          variables: { domainSlugID: id },
         });
 
-        const info = data?.getHireMeInfo;
+        const info = data?.hireInfoByDomainSlug?.items[0];
 
         if (info) {
           const map = {};

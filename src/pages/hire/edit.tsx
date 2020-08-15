@@ -152,19 +152,6 @@ const HirePageEditor = ({ currentUser }) => {
         if (!newSlug) {
           throw new Error('Could not save domain');
         }
-
-        // If this freelancer already had a domain slug, delete it
-        const existingDomainSlug = hireInfo?.domainSlug?.slug;
-        if (existingDomainSlug) {
-          try {
-            await client.mutate({
-              mutation: gql(deleteDomainSlug),
-              variables: { input: { slug: existingDomainSlug } },
-            });
-          } catch {
-            console.log('Could not delete existing domain slug');
-          }
-        }
       } catch (err) {
         setFlash(err.message);
         setSaving(false);
@@ -219,7 +206,21 @@ const HirePageEditor = ({ currentUser }) => {
         },
       });
 
+      // If this freelancer already had a domain slug, delete it
+      const existingDomainSlug = hireInfo?.domainSlug?.slug;
+      if (existingDomainSlug) {
+        try {
+          await client.mutate({
+            mutation: gql(deleteDomainSlug),
+            variables: { input: { slug: existingDomainSlug } },
+          });
+        } catch {
+          console.log('Could not delete existing domain slug');
+        }
+      }
+
       const info = hireInfo ? mutationResult?.data?.updateHireMeInfo : mutationResult?.data?.createHireMeInfo;
+
       setHireInfo(info);
       setFileInputValues({});
 

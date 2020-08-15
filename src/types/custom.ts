@@ -7,6 +7,7 @@ import {
   GetUserQuery,
   GetHireMeInfoQuery,
   GetDomainSlugQuery,
+  HireInfoByDomainSlugQuery,
 } from '../API';
 
 interface CognitoUserExt extends CognitoUser {
@@ -36,4 +37,5 @@ export type Quote = GetQuoteQuery['getQuote'];
 export type Task = GetTaskQuery['getTask'];
 export type User = GetUserQuery['getUser'];
 export type HireMeInfo = GetHireMeInfoQuery['getHireMeInfo'];
+export type HireMeInfoByDomainSlug = HireInfoByDomainSlugQuery['hireInfoByDomainSlug'];
 export type DomainSlug = GetDomainSlugQuery['getDomainSlug'];
