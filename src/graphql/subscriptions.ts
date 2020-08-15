@@ -867,6 +867,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
       twitterUrl
       instagramUrl
       linkedInUrl
+      domainSlugID
       bannerImage {
         key
         tag
@@ -877,6 +878,56 @@ export const onCreateHireMeInfo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      domainSlug {
+        slug
+        freelancerID
+        createdAt
+        updatedAt
+        hireMeInfo {
+          freelancerID
+          name
+          title
+          email
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              name
+              title
+              email
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -893,6 +944,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
       twitterUrl
       instagramUrl
       linkedInUrl
+      domainSlugID
       bannerImage {
         key
         tag
@@ -903,6 +955,56 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      domainSlug {
+        slug
+        freelancerID
+        createdAt
+        updatedAt
+        hireMeInfo {
+          freelancerID
+          name
+          title
+          email
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              name
+              title
+              email
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -919,6 +1021,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
       twitterUrl
       instagramUrl
       linkedInUrl
+      domainSlugID
       bannerImage {
         key
         tag
@@ -929,6 +1032,260 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      domainSlug {
+        slug
+        freelancerID
+        createdAt
+        updatedAt
+        hireMeInfo {
+          freelancerID
+          name
+          title
+          email
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              name
+              title
+              email
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const onCreateDomainSlug = /* GraphQL */ `
+  subscription OnCreateDomainSlug {
+    onCreateDomainSlug {
+      slug
+      freelancerID
+      createdAt
+      updatedAt
+      hireMeInfo {
+        freelancerID
+        name
+        title
+        email
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        domainSlug {
+          slug
+          freelancerID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            name
+            title
+            email
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const onUpdateDomainSlug = /* GraphQL */ `
+  subscription OnUpdateDomainSlug {
+    onUpdateDomainSlug {
+      slug
+      freelancerID
+      createdAt
+      updatedAt
+      hireMeInfo {
+        freelancerID
+        name
+        title
+        email
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        domainSlug {
+          slug
+          freelancerID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            name
+            title
+            email
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const onDeleteDomainSlug = /* GraphQL */ `
+  subscription OnDeleteDomainSlug {
+    onDeleteDomainSlug {
+      slug
+      freelancerID
+      createdAt
+      updatedAt
+      hireMeInfo {
+        freelancerID
+        name
+        title
+        email
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        domainSlug {
+          slug
+          freelancerID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            name
+            title
+            email
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
     }
   }
 `;

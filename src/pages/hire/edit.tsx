@@ -8,15 +8,19 @@ import gql from 'graphql-tag';
 import { ProjectHeader } from '../../components/projectHeader';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { FileUpload } from '../../components/fileUpload';
-import { updateHireMeInfo, createHireMeInfo } from '../../graphql/mutations';
-import { CreateHireMeInfoInput, GetHireMeInfoQuery } from '../../API';
-
-import { getHireMeInfo } from '../../graphql/queries';
+import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug } from '../../graphql/mutations';
+import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery, CreateDomainSlugMutation, CreateDomainSlugInput } from '../../API';
+import { getHireMeInfo, getDomainSlug } from '../../graphql/queries';
 import { client } from '../_app';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import styles from '../styles/hireEdit.module.scss';
+import { DomainSlug } from '../../types/custom';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
+
+interface ValidationProps {
+  domainSlugID?: string;
+}
 
 const HirePageEditor = ({ currentUser }) => {
   const [hireInfo, setHireInfo] = useState(null);
@@ -28,6 +32,8 @@ const HirePageEditor = ({ currentUser }) => {
   const [fileInputValues, setFileInputValues] = useState({});
   const freelancerID = currentUser.cognitoUser.username;
   const { email } = currentUser.cognitoUser.attributes;
+
+  const [invalids, setInvalids] = useState<ValidationProps>({});
 
   useEffect(() => {
     const execute = async () => {
@@ -67,6 +73,21 @@ const HirePageEditor = ({ currentUser }) => {
     execute();
   }, []);
 
+  function validate({ domainSlugID }: ValidationProps) {
+    const temp: ValidationProps = {};
+
+    if (!domainSlugID) temp.domainSlugID = 'error';
+
+    return temp;
+  }
+
+  const setFlash = (err: string) => {
+    setError(err);
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  };
+
   const handleFileInputChange = (file, inputName) => {
     setFileInputValues({ ...fileInputValues, [inputName]: file });
   };
@@ -74,8 +95,83 @@ const HirePageEditor = ({ currentUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setInvalids({});
     setError(null);
     const variables = serialize(e.target, { hash: true, empty: true });
+    const validation = validate(variables);
+
+    if (Object.keys(validation).length) {
+      setInvalids(validation);
+      setSaving(false);
+      return;
+    }
+
+    // eslint-disable-next-line prefer-destructuring
+    variables.domainSlugID = variables.domainSlugID.split('continuum.works/', 2)[1];
+
+    let domainSlugExists = false;
+    let domainSlugIsMine = false;
+
+    // try to get existing DomainSlug
+    try {
+      const getDomainSlugResult: { data: GetDomainSlugQuery } = await client.query({
+        query: gql(getDomainSlug),
+        variables: { slug: variables.domainSlugID },
+      });
+
+      const getDomainSlugResponse: DomainSlug = getDomainSlugResult?.data?.getDomainSlug;
+      const domainSlugOwnerID = getDomainSlugResponse?.freelancerID;
+      if (domainSlugOwnerID) {
+        domainSlugExists = true;
+        domainSlugIsMine = domainSlugOwnerID === freelancerID;
+      }
+
+      if (domainSlugExists && !domainSlugIsMine) {
+        throw new Error('That domain is unavailable.');
+      }
+    } catch (err) {
+      setFlash(err.message);
+      setSaving(false);
+      return;
+    }
+
+    // Create a new DomainSlug
+    if (!domainSlugExists) {
+      try {
+        const createDomainSlugResponse = await client.mutate({
+          mutation: gql(createDomainSlug),
+          variables: {
+            input: {
+              freelancerID,
+              slug: variables.domainSlugID,
+            },
+          },
+        });
+
+        const newSlug = createDomainSlugResponse?.data?.createDomainSlug?.slug;
+        if (!newSlug) {
+          throw new Error('Could not save domain');
+        }
+
+        // If this freelancer already had a domain slug, delete it
+        const existingDomainSlug = hireInfo?.domainSlug?.slug;
+        if (existingDomainSlug) {
+          try {
+            await client.mutate({
+              mutation: gql(deleteDomainSlug),
+              variables: { input: { slug: existingDomainSlug } },
+            });
+          } catch {
+            console.log('Could not delete existing domain slug');
+          }
+        }
+      } catch (err) {
+        setFlash(err.message);
+        setSaving(false);
+        return;
+      }
+    }
+
     const portfolioImageS3Objects = [];
     const uploadPromises = [];
 
@@ -116,7 +212,7 @@ const HirePageEditor = ({ currentUser }) => {
         mutation: hireInfo ? gql(updateHireMeInfo) : gql(createHireMeInfo),
         variables: {
           input: {
-            freelancerID: hireInfo ? hireInfo.freelancerID : freelancerID,
+            freelancerID,
             email,
             ...variables,
           },
@@ -129,20 +225,16 @@ const HirePageEditor = ({ currentUser }) => {
 
       Promise.all(uploadPromises)
         .then(() => {
-          setError('Your changes have been saved');
+          setFlash('Your changes have been saved');
         })
         .catch(() => {
-          setError('Some images may not have saved. Refresh the page to see.');
+          setFlash('Some images may not have saved. Refresh the page to see.');
         })
         .finally(() => {
           setSaving(false);
-          setTimeout(() => {
-            setError(null);
-          }, 3000);
         });
     } catch (err) {
-      console.log(err);
-      setError('There was an error updating your Hire Page info. Please contact support.');
+      setFlash('There was an error updating your Hire Page info. Please contact support.');
       setSaving(false);
     }
   };
@@ -203,7 +295,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="url"
                       pattern="https?://.+"
-                      maxLength={50}
+                      maxLength={65}
                       size={35}
                       defaultValue={hireInfo?.twitterUrl}
                       placeholder="https://twitter.com/"
@@ -218,7 +310,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="url"
                       pattern="https?://.+"
-                      maxLength={50}
+                      maxLength={65}
                       size={35}
                       defaultValue={hireInfo?.instagramUrl}
                       placeholder="https://www.instagram.com/"
@@ -233,10 +325,24 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="url"
                       pattern="https?://.+"
-                      maxLength={50}
+                      maxLength={65}
                       size={35}
                       defaultValue={hireInfo?.linkedInUrl}
                       placeholder="https://www.linkedin.com/in/"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <label className="label">Built-in Domain e.g. continuum.works/xyz</label>
+                  <div className="control">
+                    <input
+                      name="domainSlugID"
+                      className={classnames('input', { 'is-danger': invalids.domainSlugID })}
+                      type="text"
+                      pattern="^continuum.works/[A-Za-z0-9]+"
+                      maxLength={32}
+                      size={35}
+                      defaultValue={`continuum.works/${hireInfo?.domainSlug?.slug || ''}`}
                     />
                   </div>
                 </div>

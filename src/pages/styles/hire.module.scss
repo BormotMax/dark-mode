@@ -9,10 +9,11 @@
   overflow: hidden;
 
   :global {
+    .input {
+      width: 100%;
+    }
+
     .modal {
-      @include desktop {
-        justify-content: flex-start !important;
-      }
       justify-content: flex-start !important;
     }
 

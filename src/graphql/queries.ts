@@ -598,32 +598,6 @@ export const listTasks = /* GraphQL */ `
     }
   }
 `;
-export const getHireMeInfo = /* GraphQL */ `
-  query GetHireMeInfo($freelancerID: ID!) {
-    getHireMeInfo(freelancerID: $freelancerID) {
-      freelancerID
-      name
-      title
-      email
-      buttonText
-      blurbText
-      aboutText
-      twitterUrl
-      instagramUrl
-      linkedInUrl
-      bannerImage {
-        key
-        tag
-      }
-      portfolioImages {
-        key
-        tag
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const listHireMeInfos = /* GraphQL */ `
   query ListHireMeInfos(
     $freelancerID: ID
@@ -650,6 +624,7 @@ export const listHireMeInfos = /* GraphQL */ `
         twitterUrl
         instagramUrl
         linkedInUrl
+        domainSlugID
         bannerImage {
           key
           tag
@@ -660,8 +635,334 @@ export const listHireMeInfos = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        domainSlug {
+          slug
+          freelancerID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            name
+            title
+            email
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+            }
+          }
+        }
       }
       nextToken
+    }
+  }
+`;
+export const getHireMeInfo = /* GraphQL */ `
+  query GetHireMeInfo($freelancerID: ID!) {
+    getHireMeInfo(freelancerID: $freelancerID) {
+      freelancerID
+      name
+      title
+      email
+      buttonText
+      blurbText
+      aboutText
+      twitterUrl
+      instagramUrl
+      linkedInUrl
+      domainSlugID
+      bannerImage {
+        key
+        tag
+      }
+      portfolioImages {
+        key
+        tag
+      }
+      createdAt
+      updatedAt
+      domainSlug {
+        slug
+        freelancerID
+        createdAt
+        updatedAt
+        hireMeInfo {
+          freelancerID
+          name
+          title
+          email
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              name
+              title
+              email
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const hireInfoByDomainSlug = /* GraphQL */ `
+  query HireInfoByDomainSlug(
+    $domainSlugID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelHireMeInfoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    hireInfoByDomainSlug(
+      domainSlugID: $domainSlugID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        freelancerID
+        name
+        title
+        email
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        domainSlug {
+          slug
+          freelancerID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            name
+            title
+            email
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const listDomainSlugs = /* GraphQL */ `
+  query ListDomainSlugs(
+    $slug: ID
+    $filter: ModelDomainSlugFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listDomainSlugs(
+      slug: $slug
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        slug
+        freelancerID
+        createdAt
+        updatedAt
+        hireMeInfo {
+          freelancerID
+          name
+          title
+          email
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              name
+              title
+              email
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getDomainSlug = /* GraphQL */ `
+  query GetDomainSlug($slug: ID!) {
+    getDomainSlug(slug: $slug) {
+      slug
+      freelancerID
+      createdAt
+      updatedAt
+      hireMeInfo {
+        freelancerID
+        name
+        title
+        email
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        domainSlug {
+          slug
+          freelancerID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            name
+            title
+            email
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
     }
   }
 `;

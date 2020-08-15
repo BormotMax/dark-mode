@@ -1,26 +1,26 @@
 @import "~bulma/sass/utilities/_all.sass";
 
 .hirePageEditor {
-    background: #faf8f7;
-    // fixes white gap on tablet
-    padding-bottom: 1px;
+  background: #faf8f7;
+  // fixes white gap on tablet
+  padding-bottom: 1px;
 
-    .main {
-        margin-top: 17px;
+  .main {
+    margin-top: 17px;
 
-        textarea {
-            color: #8093a6;
-        }
-
-        .save {
-            margin: 65px 0 193px 0;
-            text-align: center;
-        }
-
-        .portfolioContainer {
-            display: grid;
-            grid-gap: 10px;
-            grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
-        }
+    textarea {
+      color: #8093a6;
     }
+
+    .save {
+      margin: 65px 0 193px 0;
+      text-align: center;
+    }
+
+    .portfolioContainer {
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
+    }
+  }
 }

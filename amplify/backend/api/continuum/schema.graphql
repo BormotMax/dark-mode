@@ -73,6 +73,7 @@ type S3Object {
 type HireMeInfo
   @model
   @key(fields: ["freelancerID"])
+  @key(name: "byDomainSlug", fields: ["domainSlugID"], queryField: "hireInfoByDomainSlug")
   @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   freelancerID: ID!
   name: String
@@ -84,8 +85,19 @@ type HireMeInfo
   twitterUrl: String
   instagramUrl: String
   linkedInUrl: String
+  domainSlugID: ID!
+  domainSlug: DomainSlug @connection(fields: ["domainSlugID"])
   bannerImage: S3Object
   portfolioImages: [S3Object]
+}
+
+type DomainSlug
+  @model
+  @key(fields: ["slug"])
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  slug: ID!
+  freelancerID: ID!
+  hireMeInfo: HireMeInfo @connection(fields: ["freelancerID"])
 }
 
 enum UserRole {
