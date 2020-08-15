@@ -1,29 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Auth } from '@aws-amplify/auth';
 
-const userDataMock = {
-  appSyncUser: {
-    name: 'Matt',
-    theme: 'dark',
-    role: 'FREELANCER',
-  },
-  cognitoUser: { id: 'ksafjk' },
-};
-
 export const UserContext = React.createContext({
-  pending: true, currentUser: { appSyncUser: null, cognitoUser: null }, signIn: null, signOut: null,
+  pending: true,
+  currentUser: null,
+  signIn: null,
+  signOut: null,
 });
 
 export const useCurrentUser = (): any => useContext(UserContext);
 
 export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
-  const [currentUser, setCurrentUser] = useState({ appSyncUser: null, cognitoUser: null });
+  const [currentUser, setCurrentUser] = useState(null);
   const [pending, setPending] = useState(true);
 
   const signOut = async () => {
     try {
       await Auth.signOut();
-      setCurrentUser({ appSyncUser: null, cognitoUser: null });
+      setCurrentUser(null);
     } catch (err) {
       console.log(err);
     }
@@ -31,14 +25,13 @@ export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
 
   const signIn = async (email, password) => {
     const cognitoUser = await Auth.signIn(email, password);
-    const data: { verified: { email?: string }, unverified: any } = await Auth.verifiedContact(cognitoUser);
+    const data: { verified: { email?: string }; unverified: any } = await Auth.verifiedContact(cognitoUser);
 
     if (!data.verified.email) {
       return false;
     }
 
-    const { appSyncUser } = userDataMock;
-    setCurrentUser({ appSyncUser, cognitoUser });
+    setCurrentUser(cognitoUser);
     return true;
   };
 
@@ -47,11 +40,10 @@ export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
       try {
         setPending(true);
         const cognitoUser = await Auth.currentAuthenticatedUser();
-        const { appSyncUser } = userDataMock;
-        setCurrentUser({ appSyncUser, cognitoUser });
+        setCurrentUser(cognitoUser);
         setPending(false);
       } catch (err) {
-        setCurrentUser({ appSyncUser: null, cognitoUser: null });
+        setCurrentUser(null);
         setPending(false);
       }
     };
@@ -59,12 +51,5 @@ export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
     execute();
   }, []);
 
-  return (
-    <UserContext.Provider value={{
-      currentUser, pending, signIn, signOut,
-    }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ currentUser, pending, signIn, signOut }}>{children}</UserContext.Provider>;
 };

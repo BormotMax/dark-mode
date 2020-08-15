@@ -5,9 +5,7 @@ import { Query, QueryResult } from 'react-apollo';
 import classnames from 'classnames';
 import styles from '../styles/project.module.scss';
 import { data as mockData, files } from '../../mockData/project';
-import {
-  TabGroup, NotesTab, QuotesTab, FilesTab,
-} from '../../components/tabs';
+import { TabGroup, NotesTab, QuotesTab, FilesTab } from '../../components/tabs';
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { FirstContact } from '../../components/firstContact';
 import { Comments } from '../../components/comments';
@@ -33,9 +31,7 @@ const ProjectPage: React.FC = () => {
           if (error) return <div>{error.message}</div>;
           if (!data.getProject) return <div>Not found</div>;
 
-          const {
-            initialContact, client, createdAt, comments: cs, quotes: qs,
-          } = data.getProject as Project;
+          const { initialContact, client, createdAt, comments: cs, quotes: qs } = data.getProject as Project;
 
           const quotes = (qs?.items || []) as Array<QuoteType>;
           const comments = (cs?.items || []) as Array<Comment>;
@@ -43,7 +39,7 @@ const ProjectPage: React.FC = () => {
           return (
             <>
               <main className={`${styles.body} container is-desktop`}>
-                <ProjectHeader headerText={mockData.company.name} avatar="/avatar.jpg" />
+                <ProjectHeader headerText={mockData.company.name} />
                 <div className={`${styles.columns} columns`}>
                   <div className={classnames(styles.leftColumn, styles.column, 'column', 'is-two-thirds-desktop')}>
                     <div className={styles.container}>

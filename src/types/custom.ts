@@ -23,10 +23,7 @@ interface UserAttributes {
 }
 
 export interface AuthProps {
-  currentUser: {
-    cognitoUser: CognitoUserExt;
-    appsyncUser: any;
-  };
+  currentUser: CognitoUserExt;
   signOut: Function;
   signIn: Function;
 }

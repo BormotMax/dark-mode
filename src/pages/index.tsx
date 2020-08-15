@@ -21,33 +21,26 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => (
         className="column is-half"
       >
         <div>Continuum</div>
-        {!currentUser.cognitoUser
-          && (
-            <>
-              <Link href="/signIn">
-                <a href="/signIn">
-                  Sign In
-                </a>
-              </Link>
-              <Link href="/signUp">
-                <a href="/signUp">
-                  Sign Up
-                </a>
-              </Link>
-            </>
-          )}
-        {currentUser.cognitoUser
-          && (
-            <>
-              <Link href="/dashboard">
-                <a href="/dashboard">
-                  Dashboard
-                </a>
-              </Link>
-              <button type="button" onClick={signOut as any}>Sign Out</button>
-
-            </>
-          )}
+        {!currentUser && (
+          <>
+            <Link href="/signIn">
+              <a href="/signIn">Sign In</a>
+            </Link>
+            <Link href="/signUp">
+              <a href="/signUp">Sign Up</a>
+            </Link>
+          </>
+        )}
+        {currentUser && (
+          <>
+            <Link href="/dashboard">
+              <a href="/dashboard">Dashboard</a>
+            </Link>
+            <button type="button" onClick={signOut as any}>
+              Sign Out
+            </button>
+          </>
+        )}
       </div>
     </div>
   </div>

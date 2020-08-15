@@ -9,10 +9,9 @@ import { ProjectHeader } from '../../components/projectHeader';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { FileUpload } from '../../components/fileUpload';
 import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug } from '../../graphql/mutations';
-import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery, CreateDomainSlugMutation, CreateDomainSlugInput } from '../../API';
+import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery } from '../../API';
 import { getHireMeInfo, getDomainSlug } from '../../graphql/queries';
 import { client } from '../_app';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
 import styles from '../styles/hireEdit.module.scss';
 import { DomainSlug } from '../../types/custom';
 
@@ -22,6 +21,8 @@ interface ValidationProps {
   domainSlugID?: string;
 }
 
+const reservedSlugs = ['edit'];
+
 const HirePageEditor = ({ currentUser }) => {
   const [hireInfo, setHireInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,8 +31,8 @@ const HirePageEditor = ({ currentUser }) => {
   const [portfolioImages, setPortfolioImages] = useState({});
   const [bannerImage, setBannerImage] = useState(null);
   const [fileInputValues, setFileInputValues] = useState({});
-  const freelancerID = currentUser.cognitoUser.username;
-  const { email } = currentUser.cognitoUser.attributes;
+  const freelancerID = currentUser.username;
+  const { email } = currentUser.attributes;
 
   const [invalids, setInvalids] = useState<ValidationProps>({});
 
@@ -73,6 +74,13 @@ const HirePageEditor = ({ currentUser }) => {
     execute();
   }, []);
 
+  const setFlash = (err: string) => {
+    setError(err);
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  };
+
   function validate({ domainSlugID }: ValidationProps) {
     const temp: ValidationProps = {};
 
@@ -80,13 +88,6 @@ const HirePageEditor = ({ currentUser }) => {
 
     return temp;
   }
-
-  const setFlash = (err: string) => {
-    setError(err);
-    setTimeout(() => {
-      setError(null);
-    }, 3000);
-  };
 
   const handleFileInputChange = (file, inputName) => {
     setFileInputValues({ ...fileInputValues, [inputName]: file });
@@ -102,6 +103,13 @@ const HirePageEditor = ({ currentUser }) => {
 
     if (Object.keys(validation).length) {
       setInvalids(validation);
+      setSaving(false);
+      return;
+    }
+
+    const domainSlugID = variables.domainSlugID.split('continuum.works/', 2)[1];
+    if (reservedSlugs.includes(domainSlugID)) {
+      setFlash('Please try another domain');
       setSaving(false);
       return;
     }
@@ -245,7 +253,7 @@ const HirePageEditor = ({ currentUser }) => {
   return (
     <div className={styles.hirePageEditor}>
       <div className="flash-message">{error}</div>
-      <ProjectHeader headerText="Hire Page Editor" avatar={gravatarUrl(email)} />
+      <ProjectHeader headerText="Hire Page Editor" />
       <div className="container is-desktop">
         <main className={styles.main}>
           <form onSubmit={(e) => handleSubmit(e)}>

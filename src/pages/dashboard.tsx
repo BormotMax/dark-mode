@@ -4,30 +4,25 @@ import { AuthProps } from '../types/custom';
 
 const Dashboard: React.FC<AuthProps> = ({ signOut, currentUser }) => (
   <div style={{ textAlign: 'center' }}>
-    <div>
-      Dashboard
-    </div>
+    <div>Dashboard</div>
     <div>
       Welcome,
-      {' '}
-      {currentUser.cognitoUser.attributes.name}
+      {currentUser.attributes.name}
     </div>
     <div>
       <Link href="/">
-        <a href="/">
-          Home
-        </a>
+        <a href="/">Home</a>
       </Link>
     </div>
     <div>
       <Link href="/hire/edit">
-        <a href="/hire/edit">
-          Hire Editor
-        </a>
+        <a href="/hire/edit">Hire Editor</a>
       </Link>
     </div>
     <div>
-      <button type="button" onClick={() => signOut()}>Sign Out</button>
+      <button type="button" onClick={() => signOut()}>
+        Sign Out
+      </button>
     </div>
   </div>
 );

@@ -8,29 +8,27 @@ import { UserContext } from '../../hooks/useCurrentUser';
 export enum RouteType {
   NO_REDIRECT,
   SIGNED_IN,
-  SIGNED_OUT
+  SIGNED_OUT,
 }
 
 export enum Role {
   FREELANCER = 'FREELANCER',
   CLIENT = 'CLIENT',
-  ADMIN = 'ADMIN'
+  ADMIN = 'ADMIN',
 }
 
 interface WithAuthenticationOptions {
-  routeType: RouteType
-  allowedRoles?: Array<Role>
+  routeType: RouteType;
+  allowedRoles?: Array<Role>;
 }
 
 export function WithAuthentication(WrappedComponent: React.ReactType, options: WithAuthenticationOptions) {
   return () => (
     <UserContext.Consumer>
       {(value) => {
-        const {
-          currentUser, pending, signIn, signOut,
-        } = value;
+        const { currentUser, pending, signIn, signOut } = value;
         const { routeType, allowedRoles } = options;
-        const cognitoUser = currentUser?.cognitoUser;
+        const cognitoUser = currentUser;
         const groups = cognitoUser?.signInUserSession?.accessToken?.payload['cognito:groups'] || [];
 
         if (pending) {
