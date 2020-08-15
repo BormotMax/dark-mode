@@ -17,7 +17,6 @@ import { unauthClient as client } from '../_app';
 import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { HireMeInfo } from '../../types/custom';
 
 enum Tab {
   PORTFOLIO,
@@ -35,7 +34,7 @@ const Hire: React.FC = () => {
   const [bannerImage, setBannerImage] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCarouselOpen, setCarouselOpen] = useState(false);
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(null);
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(-1);
   const blurbTextElement = useRef(null);
 
   function handleResize() {
@@ -94,7 +93,7 @@ const Hire: React.FC = () => {
         setHireInfo(info);
       } catch (err) {
         console.log(err);
-        setError(err);
+        setError('There has been an error. Please contact support');
       } finally {
         setLoading(false);
       }
@@ -102,13 +101,14 @@ const Hire: React.FC = () => {
     execute();
   }, [id]);
 
-  const toggleCarousel = (index?: number) => {
-    setCurrentCarouselIndex(index);
+  const carouselImages = Object.values(portfolioImages || {}).map((image) => ({ source: image as string }));
+
+  const toggleCarousel = (url: string) => {
+    setCurrentCarouselIndex(carouselImages.findIndex((el) => el.source === url));
     setCarouselOpen(!isCarouselOpen);
   };
 
   if (!loading && !hireInfo) return <div>There is no hire page here, yet.</div>;
-  const carouselImages = Object.values(portfolioImages || {}).map((image) => ({ source: image as string }));
 
   return (
     <div className={classnames(styles.hire)}>
@@ -121,7 +121,7 @@ const Hire: React.FC = () => {
         />
       </Modal>
       <ModalGateway>
-        {isCarouselOpen && currentCarouselIndex !== null && (
+        {isCarouselOpen && currentCarouselIndex !== -1 && (
           <ImageModal onClose={() => toggleCarousel(null)}>
             <Carousel views={carouselImages} currentIndex={currentCarouselIndex} />
           </ImageModal>
@@ -189,54 +189,66 @@ const Hire: React.FC = () => {
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div onClick={() => toggleCarousel(0)} className={styles.portfolioImage}>
-                  <img src={portfolioImages['portfolio-1']} alt="portfolio" />
-                </div>
+                portfolioImages['portfolio-1'] && (
+                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-1'])} className={styles.portfolioImage}>
+                    <img src={portfolioImages['portfolio-1']} alt="portfolio" />
+                  </div>
+                )
               )}
               {!portfolioImages ? (
                 <div className={styles.skeletonWrapper}>
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div onClick={() => toggleCarousel(1)} className={styles.portfolioImage}>
-                  <img src={portfolioImages['portfolio-2']} alt="portfolio" />
-                </div>
+                portfolioImages['portfolio-2'] && (
+                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-2'])} className={styles.portfolioImage}>
+                    <img src={portfolioImages['portfolio-2']} alt="portfolio" />
+                  </div>
+                )
               )}
               {!portfolioImages ? (
                 <div className={styles.skeletonWrapper}>
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div onClick={() => toggleCarousel(2)} className={styles.portfolioImage}>
-                  <img src={portfolioImages['portfolio-3']} alt="portfolio" />
-                </div>
+                portfolioImages['portfolio-3'] && (
+                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-3'])} className={styles.portfolioImage}>
+                    <img src={portfolioImages['portfolio-3']} alt="portfolio" />
+                  </div>
+                )
               )}
               {!portfolioImages ? (
                 <div className={styles.skeletonWrapper}>
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div onClick={() => toggleCarousel(3)} className={styles.portfolioImage}>
-                  <img src={portfolioImages['portfolio-4']} alt="portfolio" />
-                </div>
+                portfolioImages['portfolio-4'] && (
+                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-4'])} className={styles.portfolioImage}>
+                    <img src={portfolioImages['portfolio-4']} alt="portfolio" />
+                  </div>
+                )
               )}
               {!portfolioImages ? (
                 <div className={styles.skeletonWrapper}>
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div onClick={() => toggleCarousel(4)} className={styles.portfolioImage}>
-                  <img src={portfolioImages['portfolio-5']} alt="portfolio" />
-                </div>
+                portfolioImages['portfolio-5'] && (
+                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-5'])} className={styles.portfolioImage}>
+                    <img src={portfolioImages['portfolio-5']} alt="portfolio" />
+                  </div>
+                )
               )}
               {!portfolioImages ? (
                 <div className={styles.skeletonWrapper}>
                   <Skeleton height={300} width={300} />
                 </div>
               ) : (
-                <div onClick={() => toggleCarousel(5)} className={styles.portfolioImage}>
-                  <img src={portfolioImages['portfolio-6']} alt="portfolio" />
-                </div>
+                portfolioImages['portfolio-6'] && (
+                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-6'])} className={styles.portfolioImage}>
+                    <img src={portfolioImages['portfolio-6']} alt="portfolio" />
+                  </div>
+                )
               )}
             </div>
           )}
