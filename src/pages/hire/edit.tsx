@@ -107,15 +107,14 @@ const HirePageEditor = ({ currentUser }) => {
       return;
     }
 
-    const domainSlugID = variables.domainSlugID.split('continuum.works/', 2)[1];
+    const domainSlugID = variables.domainSlugID.split('continuum.works/hire/', 2)[1];
     if (reservedSlugs.includes(domainSlugID)) {
       setFlash('Please try another domain');
       setSaving(false);
       return;
     }
 
-    // eslint-disable-next-line prefer-destructuring
-    variables.domainSlugID = variables.domainSlugID.split('continuum.works/', 2)[1];
+    variables.domainSlugID = domainSlugID;
 
     let domainSlugExists = false;
     let domainSlugIsMine = false;
@@ -214,9 +213,9 @@ const HirePageEditor = ({ currentUser }) => {
         },
       });
 
-      // If this freelancer already had a domain slug, delete it
+      // If this freelancer already had a domain slug and just created a new one, delete the existing one
       const existingDomainSlug = hireInfo?.domainSlug?.slug;
-      if (existingDomainSlug) {
+      if (!domainSlugExists && existingDomainSlug) {
         try {
           await client.mutate({
             mutation: gql(deleteDomainSlug),
@@ -348,10 +347,10 @@ const HirePageEditor = ({ currentUser }) => {
                       name="domainSlugID"
                       className={classnames('input', { 'is-danger': invalids.domainSlugID })}
                       type="text"
-                      pattern="^continuum.works/[A-Za-z0-9]+"
+                      pattern="^continuum.works/hire/[A-Za-z0-9]+"
                       maxLength={32}
                       size={35}
-                      defaultValue={`continuum.works/${hireInfo?.domainSlug?.slug || ''}`}
+                      defaultValue={`continuum.works/hire/${hireInfo?.domainSlug?.slug || ''}`}
                     />
                   </div>
                 </div>

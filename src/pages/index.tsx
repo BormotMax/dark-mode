@@ -90,7 +90,7 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => (
               </div>
               <div className="column">
                 <div className={styles.rightColumnHeader}>
-                  Hand out your shingle with your
+                  Hang out your shingle with your
                   <b> Hire </b>
                   page.
                 </div>
