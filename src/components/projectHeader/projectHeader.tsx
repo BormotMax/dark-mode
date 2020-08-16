@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import Link from 'next/link';
 import styles from './projectHeader.module.scss';
 import Logo from '../../img/logo_gray.svg';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
@@ -20,7 +21,11 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({ headerText }) => {
   return (
     <header className={styles.header}>
       <div className={styles.upper}>
-        <Logo />
+        <Link href="/">
+          <a href="/">
+            <Logo />
+          </a>
+        </Link>
         <div className={classnames(styles.headerText, 'is-hidden-mobile')}>{headerText}</div>
         <div>
           {currentUser && (

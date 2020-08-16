@@ -11,12 +11,15 @@ import styles from '../styles/hire.module.scss';
 import LinkedInLogo from '../../img/linkedIn.svg';
 import InstagramLogo from '../../img/instagram.svg';
 import Dribbble from '../../img/dribbble.svg';
+import Sprocket from '../../img/sprocket.svg';
 import { HireInfoByDomainSlugQuery } from '../../API';
 import { hireInfoByDomainSlug } from '../../graphql/queries';
 import { unauthClient as client } from '../_app';
 import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
+import Link from 'next/link';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 enum Tab {
   PORTFOLIO,
@@ -25,6 +28,7 @@ enum Tab {
 
 const Hire: React.FC = () => {
   const router = useRouter();
+  const { currentUser } = useCurrentUser();
   const { id } = router.query;
   const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
   const [hireInfo, setHireInfo] = useState(null);
@@ -269,6 +273,15 @@ const Hire: React.FC = () => {
           <div className={styles.copyright}>
             {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
             &copy; {new Date().getFullYear()} {hireInfo?.name}
+          </div>
+          <div className="tar mrl">
+            {currentUser?.username === hireInfo?.freelancerID && (
+              <Link href="/hire/edit">
+                <a href="/hire/edit">
+                  <Sprocket />
+                </a>
+              </Link>
+            )}
           </div>
         </div>
       </SkeletonTheme>

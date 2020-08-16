@@ -41,6 +41,10 @@ export const unauthClient = new AWSAppSyncClient({
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <UserDataProvider>
+    <Head>
+      <title>Continuum</title>
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <ApolloProvider client={client}>
       <Rehydrated>
         <Head>

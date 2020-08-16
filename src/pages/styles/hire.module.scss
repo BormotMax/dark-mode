@@ -1,4 +1,4 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .hire {
   font-family: Roboto, sans-serif;
@@ -130,14 +130,19 @@
   .footer {
     text-align: center;
     margin-top: 78px;
+    margin-bottom: 40px;
 
     svg {
       margin: 0 25px;
       cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     .copyright {
-      margin: 70px 0;
+      margin-top: 70px;
       font-family: Roboto, sans-serif;
       font-weight: normal;
       font-size: 16px;
