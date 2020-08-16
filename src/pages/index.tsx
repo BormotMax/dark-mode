@@ -30,11 +30,13 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => (
                 Sign&nbsp;In
               </a>
             </Link>
-            <button type="button" className={classnames(styles.ctaButton, 'is-hidden-touch')}>
-              <Link href="/signUp">
-                <a href="/signUp">Try Continuum for Free</a>
-              </Link>
-            </button>
+            <Link href="/signUp">
+              <a className="is-hidden-touch" href="/signUp">
+                <button type="button" className={classnames(styles.ctaButton)}>
+                  Try Continuum for Free
+                </button>
+              </a>
+            </Link>
           </div>
         </nav>
         <div className={styles.headerAndBody}>
@@ -44,11 +46,13 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => (
             freelancers&#8212;not teams.
           </div>
           <div className={styles.ctas}>
-            <button type="button" className={styles.ctaButton}>
-              <Link href="/signUp">
-                <a href="/signUp">Try Continuum for Free</a>
-              </Link>
-            </button>
+            <Link href="/signUp">
+              <a className="is-hidden-touch" href="/signUp">
+                <button type="button" className={classnames(styles.ctaButton)}>
+                  Try Continuum for Free
+                </button>
+              </a>
+            </Link>
             <Link href="/howItWorks">
               <a className={styles.navItem} href="/howItWorks">
                 Learn&nbsp;a&nbsp;bit&nbsp;more

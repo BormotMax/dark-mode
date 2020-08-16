@@ -1,4 +1,4 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .home {
   background: black;
@@ -40,6 +40,7 @@
 
   .ctaButton {
     cursor: pointer;
+    color: #f1faee;
     font-weight: 500;
     font-size: 18px;
     letter-spacing: 0.271875px;
