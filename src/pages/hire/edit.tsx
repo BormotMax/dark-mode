@@ -354,7 +354,7 @@ const HirePageEditor = ({ currentUser }) => {
                   </div>
                 </div>
                 <div className="field">
-                  <label className="label">Built-in Domain e.g. continuum.works/xyz</label>
+                  <label className="label">Built-in Domain e.g. continuum.works/hire/xyz</label>
                   <div className="control">
                     <input
                       name="domainSlugID"

@@ -263,18 +263,26 @@ const Hire: React.FC = () => {
         </div>
         <div className={styles.footer}>
           <div>
-            <a target="_blank" rel="noreferrer" href={hireInfo?.twitterUrl}>
-              <Twitter />
-            </a>
-            <a target="_blank" rel="noreferrer" href={hireInfo?.dribbbleUrl}>
-              <Dribbble />
-            </a>
-            <a target="_blank" rel="noreferrer" href={hireInfo?.instagramUrl}>
-              <InstagramLogo />
-            </a>
-            <a target="_blank" rel="noreferrer" href={hireInfo?.linkedInUrl}>
-              <LinkedInLogo />
-            </a>
+            {hireInfo?.twitterUrl && hireInfo?.twitterUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo?.twitterUrl}>
+                <Twitter />
+              </a>
+            )}
+            {hireInfo?.dribbbleUrl && hireInfo?.dribbbleUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo?.dribbbleUrl}>
+                <Dribbble />
+              </a>
+            )}
+            {hireInfo?.instagramUrl && hireInfo?.instagramUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo?.instagramUrl}>
+                <InstagramLogo />
+              </a>
+            )}
+            {hireInfo?.linkedInUrl && hireInfo?.linkedInUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo?.linkedInUrl}>
+                <LinkedInLogo />
+              </a>
+            )}
           </div>
           <div className={styles.copyright}>
             {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
