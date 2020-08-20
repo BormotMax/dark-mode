@@ -622,6 +622,7 @@ export const listHireMeInfos = /* GraphQL */ `
         blurbText
         aboutText
         twitterUrl
+        dribbbleUrl
         instagramUrl
         linkedInUrl
         domainSlugID
@@ -649,6 +650,7 @@ export const listHireMeInfos = /* GraphQL */ `
             blurbText
             aboutText
             twitterUrl
+            dribbbleUrl
             instagramUrl
             linkedInUrl
             domainSlugID
@@ -686,6 +688,7 @@ export const getHireMeInfo = /* GraphQL */ `
       blurbText
       aboutText
       twitterUrl
+      dribbbleUrl
       instagramUrl
       linkedInUrl
       domainSlugID
@@ -713,6 +716,7 @@ export const getHireMeInfo = /* GraphQL */ `
           blurbText
           aboutText
           twitterUrl
+          dribbbleUrl
           instagramUrl
           linkedInUrl
           domainSlugID
@@ -740,6 +744,7 @@ export const getHireMeInfo = /* GraphQL */ `
               blurbText
               aboutText
               twitterUrl
+              dribbbleUrl
               instagramUrl
               linkedInUrl
               domainSlugID
@@ -776,6 +781,7 @@ export const hireInfoByDomainSlug = /* GraphQL */ `
         blurbText
         aboutText
         twitterUrl
+        dribbbleUrl
         instagramUrl
         linkedInUrl
         domainSlugID
@@ -803,6 +809,7 @@ export const hireInfoByDomainSlug = /* GraphQL */ `
             blurbText
             aboutText
             twitterUrl
+            dribbbleUrl
             instagramUrl
             linkedInUrl
             domainSlugID
@@ -858,6 +865,7 @@ export const listDomainSlugs = /* GraphQL */ `
           blurbText
           aboutText
           twitterUrl
+          dribbbleUrl
           instagramUrl
           linkedInUrl
           domainSlugID
@@ -885,6 +893,7 @@ export const listDomainSlugs = /* GraphQL */ `
               blurbText
               aboutText
               twitterUrl
+              dribbbleUrl
               instagramUrl
               linkedInUrl
               domainSlugID
@@ -914,6 +923,7 @@ export const getDomainSlug = /* GraphQL */ `
         blurbText
         aboutText
         twitterUrl
+        dribbbleUrl
         instagramUrl
         linkedInUrl
         domainSlugID
@@ -941,6 +951,7 @@ export const getDomainSlug = /* GraphQL */ `
             blurbText
             aboutText
             twitterUrl
+            dribbbleUrl
             instagramUrl
             linkedInUrl
             domainSlugID

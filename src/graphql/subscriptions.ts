@@ -865,6 +865,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
       blurbText
       aboutText
       twitterUrl
+      dribbbleUrl
       instagramUrl
       linkedInUrl
       domainSlugID
@@ -892,6 +893,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
           blurbText
           aboutText
           twitterUrl
+          dribbbleUrl
           instagramUrl
           linkedInUrl
           domainSlugID
@@ -919,6 +921,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               blurbText
               aboutText
               twitterUrl
+              dribbbleUrl
               instagramUrl
               linkedInUrl
               domainSlugID
@@ -942,6 +945,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
       blurbText
       aboutText
       twitterUrl
+      dribbbleUrl
       instagramUrl
       linkedInUrl
       domainSlugID
@@ -969,6 +973,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
           blurbText
           aboutText
           twitterUrl
+          dribbbleUrl
           instagramUrl
           linkedInUrl
           domainSlugID
@@ -996,6 +1001,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               blurbText
               aboutText
               twitterUrl
+              dribbbleUrl
               instagramUrl
               linkedInUrl
               domainSlugID
@@ -1019,6 +1025,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
       blurbText
       aboutText
       twitterUrl
+      dribbbleUrl
       instagramUrl
       linkedInUrl
       domainSlugID
@@ -1046,6 +1053,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
           blurbText
           aboutText
           twitterUrl
+          dribbbleUrl
           instagramUrl
           linkedInUrl
           domainSlugID
@@ -1073,6 +1081,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               blurbText
               aboutText
               twitterUrl
+              dribbbleUrl
               instagramUrl
               linkedInUrl
               domainSlugID
@@ -1101,6 +1110,7 @@ export const onCreateDomainSlug = /* GraphQL */ `
         blurbText
         aboutText
         twitterUrl
+        dribbbleUrl
         instagramUrl
         linkedInUrl
         domainSlugID
@@ -1128,6 +1138,7 @@ export const onCreateDomainSlug = /* GraphQL */ `
             blurbText
             aboutText
             twitterUrl
+            dribbbleUrl
             instagramUrl
             linkedInUrl
             domainSlugID
@@ -1169,6 +1180,7 @@ export const onUpdateDomainSlug = /* GraphQL */ `
         blurbText
         aboutText
         twitterUrl
+        dribbbleUrl
         instagramUrl
         linkedInUrl
         domainSlugID
@@ -1196,6 +1208,7 @@ export const onUpdateDomainSlug = /* GraphQL */ `
             blurbText
             aboutText
             twitterUrl
+            dribbbleUrl
             instagramUrl
             linkedInUrl
             domainSlugID
@@ -1237,6 +1250,7 @@ export const onDeleteDomainSlug = /* GraphQL */ `
         blurbText
         aboutText
         twitterUrl
+        dribbbleUrl
         instagramUrl
         linkedInUrl
         domainSlugID
@@ -1264,6 +1278,7 @@ export const onDeleteDomainSlug = /* GraphQL */ `
             blurbText
             aboutText
             twitterUrl
+            dribbbleUrl
             instagramUrl
             linkedInUrl
             domainSlugID

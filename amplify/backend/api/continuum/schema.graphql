@@ -83,6 +83,7 @@ type HireMeInfo
   blurbText: String
   aboutText: String
   twitterUrl: String
+  dribbbleUrl: String
   instagramUrl: String
   linkedInUrl: String
   domainSlugID: ID!

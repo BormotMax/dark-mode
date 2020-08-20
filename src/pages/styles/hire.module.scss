@@ -133,11 +133,16 @@
     margin-bottom: 40px;
 
     svg {
-      margin: 0 25px;
+      margin: 0 14px;
       cursor: pointer;
+      vertical-align: bottom;
 
       &:hover {
         transform: scale(1.1);
+      }
+
+      @include desktop {
+        margin: 0 25px;
       }
     }
 

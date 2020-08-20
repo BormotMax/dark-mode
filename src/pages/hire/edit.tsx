@@ -309,6 +309,21 @@ const HirePageEditor = ({ currentUser }) => {
                   </div>
                 </div>
                 <div className="field">
+                  <label className="label">Dribbble URL</label>
+                  <div className="control">
+                    <input
+                      name="dribbbleUrl"
+                      className="input"
+                      type="url"
+                      pattern="https?://.+"
+                      maxLength={65}
+                      size={35}
+                      defaultValue={hireInfo?.dribbbleUrl}
+                      placeholder="https://dribbble.com/"
+                    />
+                  </div>
+                </div>
+                <div className="field">
                   <label className="label">Instagram URL</label>
                   <div className="control">
                     <input

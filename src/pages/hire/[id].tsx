@@ -13,6 +13,7 @@ import LinkedInLogo from '../../img/linkedIn.svg';
 import InstagramLogo from '../../img/instagram.svg';
 import Dribbble from '../../img/dribbble.svg';
 import Sprocket from '../../img/sprocket.svg';
+import Twitter from '../../img/twitter.svg';
 import { HireInfoByDomainSlugQuery } from '../../API';
 import { hireInfoByDomainSlug } from '../../graphql/queries';
 import { unauthClient as client } from '../_app';
@@ -263,6 +264,9 @@ const Hire: React.FC = () => {
         <div className={styles.footer}>
           <div>
             <a target="_blank" rel="noreferrer" href={hireInfo?.twitterUrl}>
+              <Twitter />
+            </a>
+            <a target="_blank" rel="noreferrer" href={hireInfo?.dribbbleUrl}>
               <Dribbble />
             </a>
             <a target="_blank" rel="noreferrer" href={hireInfo?.instagramUrl}>
