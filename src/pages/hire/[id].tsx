@@ -7,6 +7,7 @@ import { Storage } from 'aws-amplify';
 import { useState, useEffect, useRef } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Carousel, { Modal as ImageModal, ModalGateway } from 'react-images';
+import Link from 'next/link';
 import styles from '../styles/hire.module.scss';
 import LinkedInLogo from '../../img/linkedIn.svg';
 import InstagramLogo from '../../img/instagram.svg';
@@ -18,8 +19,7 @@ import { unauthClient as client } from '../_app';
 import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
-import Link from 'next/link';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { useCurrentUser, useDelayedFlash } from '../../hooks';
 
 enum Tab {
   PORTFOLIO,
@@ -29,6 +29,7 @@ enum Tab {
 const Hire: React.FC = () => {
   const router = useRouter();
   const { currentUser } = useCurrentUser();
+  const [flash] = useDelayedFlash();
   const { id } = router.query;
   const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
   const [hireInfo, setHireInfo] = useState(null);
@@ -116,6 +117,7 @@ const Hire: React.FC = () => {
 
   return (
     <div className={classnames(styles.hire)}>
+      <div className="flash-message">{flash}</div>
       <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
         <HireMeModal
           freelancerEmail={hireInfo?.email}

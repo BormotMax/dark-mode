@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import Router from 'next/router';
-import { UserContext } from '../../hooks/useCurrentUser';
+import { UserContext } from '../../hooks';
 
 export enum RouteType {
   NO_REDIRECT,

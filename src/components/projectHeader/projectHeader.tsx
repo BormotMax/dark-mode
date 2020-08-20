@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import Link from 'next/link';
 import styles from './projectHeader.module.scss';
 import Logo from '../../img/logo_gray.svg';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
+import { useCurrentUser } from '../../hooks';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 interface ProjectHeaderProps {

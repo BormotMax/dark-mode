@@ -11,7 +11,7 @@ import { ApolloProvider } from 'react-apollo';
 import { Rehydrated } from 'aws-appsync-react';
 import Head from 'next/head';
 import awsconfig from '../aws-exports';
-import { UserDataProvider } from '../hooks/useCurrentUser';
+import { UserDataProvider } from '../hooks';
 
 Amplify.configure(awsconfig);
 
@@ -22,22 +22,42 @@ Analytics.autoTrack('pageView', {
   getUrl: () => window.location.origin + window.location.pathname,
 });
 
-export const client = new AWSAppSyncClient({
-  url: awsconfig.aws_appsync_graphqlEndpoint,
-  region: awsconfig.aws_appsync_region,
-  disableOffline: true,
-  auth: {
-    type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-    jwtToken: async () => (await Auth.currentSession()).getAccessToken().getJwtToken(),
+export const client = new AWSAppSyncClient(
+  {
+    url: awsconfig.aws_appsync_graphqlEndpoint,
+    region: awsconfig.aws_appsync_region,
+    disableOffline: true,
+    auth: {
+      type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
+      jwtToken: async () => (await Auth.currentSession()).getAccessToken().getJwtToken(),
+    },
   },
-});
+  {
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      },
+    },
+  },
+);
 
-export const unauthClient = new AWSAppSyncClient({
-  url: awsconfig.aws_appsync_graphqlEndpoint,
-  region: awsconfig.aws_appsync_region,
-  disableOffline: true,
-  auth: { type: AUTH_TYPE.AWS_IAM, credentials: () => Auth.currentCredentials() },
-});
+export const unauthClient = new AWSAppSyncClient(
+  {
+    url: awsconfig.aws_appsync_graphqlEndpoint,
+    region: awsconfig.aws_appsync_region,
+    disableOffline: true,
+    auth: { type: AUTH_TYPE.AWS_IAM, credentials: () => Auth.currentCredentials() },
+  },
+  {
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      },
+    },
+  },
+);
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <UserDataProvider>

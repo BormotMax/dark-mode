@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { useEffect, useState } from 'react';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
+import { useRouter } from 'next/router';
 import { ProjectHeader } from '../../components/projectHeader';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { FileUpload } from '../../components/fileUpload';
@@ -14,6 +15,7 @@ import { getHireMeInfo, getDomainSlug } from '../../graphql/queries';
 import { client } from '../_app';
 import styles from '../styles/hireEdit.module.scss';
 import { DomainSlug } from '../../types/custom';
+import { useDelayedFlash, useFlash } from '../../hooks';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 
@@ -24,9 +26,11 @@ interface ValidationProps {
 const reservedSlugs = ['edit'];
 
 const HirePageEditor = ({ currentUser }) => {
+  const router = useRouter();
+  const [_, setDelayedFlash] = useDelayedFlash();
+  const [flash, setFlash] = useFlash();
   const [hireInfo, setHireInfo] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [portfolioImages, setPortfolioImages] = useState({});
   const [bannerImage, setBannerImage] = useState(null);
@@ -66,20 +70,13 @@ const HirePageEditor = ({ currentUser }) => {
 
         setHireInfo(info);
       } catch (err) {
-        setError('There was an error retreiving your Hire Page info. Please contact support');
+        // setFlash('There was an error retreiving your Hire Page info. Please contact support');
       } finally {
         setLoading(false);
       }
     };
     execute();
   }, []);
-
-  const setFlash = (err: string) => {
-    setError(err);
-    setTimeout(() => {
-      setError(null);
-    }, 3000);
-  };
 
   function validate({ domainSlugID }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -97,7 +94,6 @@ const HirePageEditor = ({ currentUser }) => {
     e.preventDefault();
     setSaving(true);
     setInvalids({});
-    setError(null);
     const variables = serialize(e.target, { hash: true, empty: true });
     const validation = validate(variables);
 
@@ -233,12 +229,14 @@ const HirePageEditor = ({ currentUser }) => {
 
       Promise.all(uploadPromises)
         .then(() => {
-          setFlash('Your changes have been saved');
+          setDelayedFlash('Your changes have been saved');
+          const slug = info?.domainSlug?.slug;
+          if (slug) {
+            router.push('/hire/[id]', `/hire/${slug}`, { shallow: true }).then(() => window.scrollTo(0, 0));
+          }
         })
         .catch(() => {
           setFlash('Some images may not have saved. Refresh the page to see.');
-        })
-        .finally(() => {
           setSaving(false);
         });
     } catch (err) {
@@ -251,7 +249,7 @@ const HirePageEditor = ({ currentUser }) => {
 
   return (
     <div className={styles.hirePageEditor}>
-      <div className="flash-message">{error}</div>
+      <div className="flash-message">{flash}</div>
       <ProjectHeader headerText="Hire Page Editor" />
       <div className="container is-desktop">
         <main className={styles.main}>
