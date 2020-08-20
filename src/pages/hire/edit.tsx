@@ -290,7 +290,7 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className="field">
                   <label className="label">About</label>
                   <div className="control">
-                    <textarea name="aboutText" maxLength={1000} rows={18} className="textarea" defaultValue={hireInfo?.aboutText} />
+                    <textarea name="aboutText" maxLength={1000} rows={7} className="textarea" defaultValue={hireInfo?.aboutText} />
                   </div>
                 </div>
                 <div className="field">

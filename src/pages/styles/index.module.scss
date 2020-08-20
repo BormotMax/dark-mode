@@ -1,4 +1,4 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .home {
   background: black;
@@ -95,6 +95,7 @@
     margin: 15px 10px;
     font-size: 16px;
     letter-spacing: 0.25px;
+    cursor: pointer;
 
     &:hover {
       text-decoration: underline;
