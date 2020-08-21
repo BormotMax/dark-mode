@@ -1,4 +1,4 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .home {
   background: black;
@@ -255,10 +255,16 @@
     padding: 81px 24px;
     // Without this, 1px of the black background shows right above this section.
     margin-top: -1px;
-    margin-bottom: 278px;
 
     @include tablet {
       padding: 81px;
     }
+  }
+
+  .ctaAboveFooter {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 100px 0;
   }
 }

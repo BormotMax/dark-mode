@@ -22,19 +22,19 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
               <Logo />
             </div>
             <div className={styles.rightNav}>
-              <Link href="/howItWorks">
+              {/* <Link href="/howItWorks">
                 <a href="/howItWorks" className={styles.navItem}>
                   How&nbsp;it&nbsp;Works
                 </a>
-              </Link>
-              <Link href="/pricing">
+              </Link> */}
+              {/* <Link href="/pricing">
                 <a href="/pricing" className={styles.navItem}>
                   Plans&nbsp;&&nbsp;Pricing
                 </a>
-              </Link>
+              </Link> */}
               {!currentUser && (
                 <Link href="/signIn">
-                  <a href="/signIn" className={styles.navItem}>
+                  <a href="/signIn" className={classnames(styles.navItem)}>
                     Sign&nbsp;In
                   </a>
                 </Link>
@@ -47,7 +47,7 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
               )}
               {!currentUser && (
                 <Link href="/signUp">
-                  <a className="is-hidden-touch" href="/signUp">
+                  <a className="is-hidden-mobile" href="/signUp">
                     <button type="button" className={classnames(styles.ctaButton)}>
                       Try Continuum for Free
                     </button>
@@ -59,24 +59,23 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
           <div className={styles.headerAndBody}>
             <div className={styles.header}>Continuum Works</div>
             <div className={styles.body}>
-              Continuum is the radically simple, all-in-one collaboration tool for freelancers and their clients. Specialized for the needs
-              of freelancers&#8212;not teams.
+              The all-in-one collaboration tool for freelancers and their clients. Specialized for the needs of freelancers&#8212;not teams.
             </div>
             <div className={styles.ctas}>
               {!currentUser && (
                 <Link href="/signUp">
-                  <a className="is-hidden-touch" href="/signUp">
+                  <a href="/signUp">
                     <button type="button" className={classnames(styles.ctaButton)}>
                       Try Continuum for Free
                     </button>
                   </a>
                 </Link>
               )}
-              <Link href="/howItWorks">
+              {/* <Link href="/howItWorks">
                 <a className={styles.navItem} href="/howItWorks">
                   Learn&nbsp;a&nbsp;bit&nbsp;more
                 </a>
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className={styles.highlight}>
@@ -203,6 +202,17 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className={styles.ctaAboveFooter}>
+            {!currentUser && (
+              <Link href="/signUp">
+                <a href="/signUp">
+                  <button type="button" className={classnames(styles.ctaButton)}>
+                    Try Continuum for Free
+                  </button>
+                </a>
+              </Link>
+            )}
           </div>
           <Footer dark radius />
         </div>

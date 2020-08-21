@@ -5,6 +5,7 @@ export const sendEmail = async ({ to, name, company, email, phone, details }) =>
   const msg = {
     to,
     from: 'matt@continuum.works',
+    replyTo: email,
     subject: `New client contact from ${name}`,
     text: 'hello',
     html: `Name: ${name}<br>Company: ${company}<br>Email: ${email}<br> Phone: ${phone}<br> Details: ${details}`,
