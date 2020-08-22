@@ -1,36 +1,37 @@
 .authPage {
-    .inputWrapper {
-        position: relative;
+  .inputWrapper {
+    position: relative;
 
-        svg {
-            position: absolute;
-            top: calc(50% - 7px);
-            right: 15px;
-        }
-
-        .eyeIconWrapper {
-            cursor: pointer;
-        }
+    svg {
+      position: absolute;
+      top: calc(50% - 7px);
+      right: 15px;
+      width: 21px;
     }
 
-    text-align: center;
-    background: #faf8f7;
-    height: 100vh;
-
-    .body {
-        max-width: 336px;
-        margin: 60px auto;
+    .eyeIconWrapper {
+      cursor: pointer;
     }
+  }
 
-    a {
-        text-decoration: underline;
-    }
+  text-align: center;
+  background: #faf8f7;
+  height: 100vh;
+
+  .body {
+    max-width: 336px;
+    margin: 60px auto;
+  }
+
+  a {
+    text-decoration: underline;
+  }
 }
 
 .error {
-    border: 1px solid red !important;
+  border: 1px solid red !important;
 
-    &::placeholder {
-        color: red !important;
-    }
+  &::placeholder {
+    color: red !important;
+  }
 }

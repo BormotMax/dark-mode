@@ -3,19 +3,21 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../pages/styles/authPage.module.scss';
 import { ProjectHeader } from '../projectHeader';
 import EmailIcon from '../../img/email.svg';
 import EyeIcon from '../../img/eye.svg';
 
 interface ResetPasswordProps {
-  email: string
+  email: string;
 }
 
 interface ValidationProps {
-  email?: string
-  code?: string
-  password?: string
+  email?: string;
+  code?: string;
+  password?: string;
 }
 
 export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
@@ -91,9 +93,11 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
             autoComplete="new-password"
           />
           <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
-            {isPasswordShowing
-              ? <EyeIcon />
-              : <EyeIcon />}
+            {isPasswordShowing ? (
+              <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" className={styles.backIcon} />
+            ) : (
+              <EyeIcon />
+            )}
           </div>
         </div>
         <button
@@ -104,7 +108,9 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
           Reset Password
         </button>
         <div>
-          <Link href="/signIn"><a href="/signIn">Back to Sign In</a></Link>
+          <Link href="/signIn">
+            <a href="/signIn">Back to Sign In</a>
+          </Link>
         </div>
       </form>
     </div>

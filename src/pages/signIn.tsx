@@ -2,21 +2,21 @@ import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import serialize from 'form-serialize';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import ForgotPassword from '../img/forgotPassword.svg';
-import Logo from '../img/logo.svg';
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
 import EyeIcon from '../img/eye.svg';
 import EmailIcon from '../img/email.svg';
-import NameIcon from '../img/name.svg';
 import { ProjectHeader } from '../components/projectHeader';
 
 interface ValidationProps {
-  email?: string
-  password?: string
+  email?: string;
+  password?: string;
 }
 
 const SignIn: React.FC<AuthProps> = ({ signIn }) => {
@@ -88,7 +88,9 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     }
   }
 
-  return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signIn" setConfirming={setConfirming} /> : (
+  return isConfirming ? (
+    <ConfirmSignUp email={emailInState} parentPage="signIn" setConfirming={setConfirming} />
+  ) : (
     <div className={pageStyles.authPage}>
       <ProjectHeader headerText="Sign In to Continuum" />
       <div className="flash-message">{error}</div>
@@ -104,8 +106,12 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
           />
-          <div role="button" className={pageStyles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
-            <EyeIcon />
+          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
+            {isPasswordShowing ? (
+              <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" className={styles.backIcon} />
+            ) : (
+              <EyeIcon />
+            )}
           </div>
         </div>
         <div className={styles.forgotPassword}>
@@ -125,8 +131,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         {/* <div className="text-1 text-gray">Or...</div> */}
         {/* <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton> */}
         <div>
-          No account?
-          {' '}
+          No account?{' '}
           <Link href="/signUp">
             <a href="/signUp">Sign Up</a>
           </Link>

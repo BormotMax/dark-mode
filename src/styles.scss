@@ -14,11 +14,6 @@ body {
   box-sizing: border-box !important;
 }
 
-// overrides
-input:focus {
-  outline: none;
-}
-
 img {
   vertical-align: middle;
 }
@@ -76,18 +71,12 @@ li {
     margin: 0 5px;
     border: none;
     border-bottom: 1px solid #3c78fb;
-    &:focus {
-      outline: none;
-    }
   }
   &--4 {
     width: 34px;
     margin: 0 5px;
     border: none;
     border-bottom: 1px solid #3c78fb;
-    &:focus {
-      outline: none;
-    }
   }
 }
 
@@ -303,7 +292,6 @@ li {
   width: 100%;
   border-radius: 100px !important;
   background-color: #3c78fb !important;
-  outline: none;
   font-weight: 500;
   font-size: 21px !important;
   line-height: 25px;
@@ -328,7 +316,6 @@ li {
   line-height: 33px;
   letter-spacing: 0.271875px;
   text-align: center;
-  outline: none;
   padding: 0 25px;
   color: #3c78fb;
   cursor: pointer;

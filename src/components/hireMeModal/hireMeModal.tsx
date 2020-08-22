@@ -139,7 +139,8 @@ interface HireMeModalProps {
 
 export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerName, freelancerEmail, avatarUrl, handleClose }) => (
   <div className={styles.hireMeModal}>
-    <div className="header-2-lg">Hello There!</div>
+    <img src="/wave.png" alt="hello" />
+    <h1 className="header-2-lg">Hello There!</h1>
     <Comment isMine={false} name={freelancerName} avatarUrl={avatarUrl}>
       <div>{commentContent}</div>
     </Comment>

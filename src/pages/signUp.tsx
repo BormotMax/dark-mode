@@ -2,6 +2,8 @@ import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import styles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
@@ -11,9 +13,9 @@ import EmailIcon from '../img/email.svg';
 import NameIcon from '../img/name.svg';
 
 interface ValidationProps {
-  name?: string
-  email?: string
-  password?: string
+  name?: string;
+  email?: string;
+  password?: string;
 }
 
 const SignUp: React.FC = () => {
@@ -81,7 +83,9 @@ const SignUp: React.FC = () => {
     }
   }
 
-  return isConfirming ? <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} /> : (
+  return isConfirming ? (
+    <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} />
+  ) : (
     <div className={styles.authPage}>
       <div className="flash-message">{error}</div>
       <ProjectHeader headerText="Sign Up for Continuum" />
@@ -106,15 +110,18 @@ const SignUp: React.FC = () => {
             placeholder="Password"
           />
           <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
-            {isPasswordShowing
-              ? <EyeIcon />
-              : <EyeIcon />}
+            {isPasswordShowing ? (
+              <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" className={styles.backIcon} />
+            ) : (
+              <EyeIcon />
+            )}
           </div>
         </div>
         <div className="text-1 mbm">
-          By signing up I agree to the
-          {' '}
-          <Link href="/termsAndConditions"><a href="/termsAndConditions">Terms of Service</a></Link>
+          By signing up I agree to the{' '}
+          <Link href="/termsAndConditions">
+            <a href="/termsAndConditions">Terms of Service</a>
+          </Link>
         </div>
         <button
           disabled={isRequestPending}
@@ -124,8 +131,9 @@ const SignUp: React.FC = () => {
           Create a Free Account
         </button>
         <div>
-          <Link href="/signIn"><a href="/signIn">Sign In</a></Link>
-          {' '}
+          <Link href="/signIn">
+            <a href="/signIn">Sign In</a>
+          </Link>{' '}
           with existing account
         </div>
       </form>
