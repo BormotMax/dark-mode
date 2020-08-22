@@ -114,7 +114,7 @@ const SignUp: React.FC = () => {
         <div className="text-1 mbm">
           By signing up I agree to the
           {' '}
-          <Link href="/termsOfService"><a href="/termsOfService">Terms of Service</a></Link>
+          <Link href="/termsAndConditions"><a href="/termsAndConditions">Terms of Service</a></Link>
         </div>
         <button
           disabled={isRequestPending}

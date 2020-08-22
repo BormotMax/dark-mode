@@ -19,8 +19,8 @@ export const Footer: React.FC<FooterProps> = ({ radius, dark }) => (
             T&C
           </a>
         </Link>
-        <Link href="privacy">
-          <a href="privacy">Privacy</a>
+        <Link href="/privacyPolicy">
+          <a href="/privacyPolicy">Privacy</a>
         </Link>
       </div>
     </div>
