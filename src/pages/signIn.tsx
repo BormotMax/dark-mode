@@ -3,14 +3,13 @@ import Link from 'next/link';
 import Router from 'next/router';
 import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import ForgotPassword from '../img/forgotPassword.svg';
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
-import EyeIcon from '../img/eye.svg';
 import EmailIcon from '../img/email.svg';
 import { ProjectHeader } from '../components/projectHeader';
 
@@ -106,11 +105,12 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
           />
-          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} tabIndex={0} onClick={handleEyeballClick}>
+          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
             {isPasswordShowing ? (
-              <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" className={styles.backIcon} />
+              <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" />
             ) : (
-              <EyeIcon />
+              <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEye} size="1x" />
             )}
           </div>
         </div>
