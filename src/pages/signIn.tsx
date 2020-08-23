@@ -4,6 +4,7 @@ import Router from 'next/router';
 import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { CognitoHostedUIIdentityProvider, Auth } from '@aws-amplify/auth';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import ForgotPassword from '../img/forgotPassword.svg';
 import styles from './styles/signIn.module.scss';
@@ -12,6 +13,7 @@ import { WithAuthentication, RouteType } from '../components/withAuthentication'
 import { AuthProps } from '../types/custom';
 import EmailIcon from '../img/email.svg';
 import { ProjectHeader } from '../components/projectHeader';
+import { GoogleAuthButton } from '../components/googleAuthButton';
 
 interface ValidationProps {
   email?: string;
@@ -34,10 +36,17 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     return temp;
   }
 
-  function handleGoogleSignInClick(e: MouseEvent) {
+  async function handleGoogleSignInClick(e: MouseEvent) {
     e.preventDefault();
-  }
+    setError('');
+    setInvalids({});
 
+    try {
+      await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google, customState: 'FREELANCER' });
+    } catch (err) {
+      setError(err.message);
+    }
+  }
   async function handleSignInClick(e: FormEvent) {
     e.preventDefault();
     setRequestPending(true);
@@ -59,7 +68,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
 
     try {
       const isConfirmed = await signIn(email, password);
-      // If the user is confirmed, withAuthentication HOC will redirect to /dashboard
+      // If the user is confirmed, withAuthentication HOC will redirect to /hirePageEditor
       // and the following lines won't be executed
       if (!isConfirmed) {
         setError('');
@@ -128,8 +137,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         >
           Sign In
         </button>
-        {/* <div className="text-1 text-gray">Or...</div> */}
-        {/* <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton> */}
+        <div className="text-1 text-gray">Or...</div>
+        <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton>
         <div>
           No account?{' '}
           <Link href="/signUp">

@@ -6,24 +6,22 @@ import { useEffect, useState } from 'react';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import { ProjectHeader } from '../../components/projectHeader';
-import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
-import { FileUpload } from '../../components/fileUpload';
-import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug } from '../../graphql/mutations';
-import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery } from '../../API';
-import { getHireMeInfo, getDomainSlug } from '../../graphql/queries';
-import { client } from '../_app';
-import styles from '../styles/hireEdit.module.scss';
-import { DomainSlug } from '../../types/custom';
-import { useDelayedFlash, useFlash } from '../../hooks';
+import { ProjectHeader } from '../components/projectHeader';
+import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
+import { FileUpload } from '../components/fileUpload';
+import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug } from '../graphql/mutations';
+import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery } from '../API';
+import { getHireMeInfo, getDomainSlug } from '../graphql/queries';
+import { client } from './_app';
+import styles from './styles/hireEdit.module.scss';
+import { DomainSlug } from '../types/custom';
+import { useDelayedFlash, useFlash } from '../hooks';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 
 interface ValidationProps {
   domainSlugID?: string;
 }
-
-const reservedSlugs = ['edit'];
 
 const HirePageEditor = ({ currentUser }) => {
   const router = useRouter();
@@ -104,11 +102,6 @@ const HirePageEditor = ({ currentUser }) => {
     }
 
     const domainSlugID = variables.domainSlugID.split('continuum.works/hire/', 2)[1];
-    if (reservedSlugs.includes(domainSlugID)) {
-      setFlash('Please try another domain');
-      setSaving(false);
-      return;
-    }
 
     variables.domainSlugID = domainSlugID;
 
@@ -247,6 +240,7 @@ const HirePageEditor = ({ currentUser }) => {
 
   if (loading) return null;
 
+  console.log(currentUser);
   return (
     <div className={styles.hirePageEditor}>
       <div className="flash-message">{flash}</div>

@@ -13,6 +13,20 @@ import Head from 'next/head';
 import awsconfig from '../aws-exports';
 import { UserDataProvider } from '../hooks';
 
+let host = 'continuum.works';
+
+if (process.env.NODE_ENV === 'development') {
+  host = 'localhost:3000';
+}
+
+// Fix issues with multiple redirect urls.
+// Try to figure out which one to use...
+if (awsconfig.oauth.redirectSignIn.includes(',')) {
+  const filterHost = (url) => new URL(url).host === host;
+  awsconfig.oauth.redirectSignIn = awsconfig.oauth.redirectSignIn.split(',').filter(filterHost).shift();
+  awsconfig.oauth.redirectSignOut = awsconfig.oauth.redirectSignOut.split(',').filter(filterHost).shift();
+}
+
 Amplify.configure(awsconfig);
 
 Analytics.autoTrack('pageView', {

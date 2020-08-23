@@ -4,12 +4,14 @@ import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import styles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
 import NameIcon from '../img/name.svg';
+import { GoogleAuthButton } from '../components/googleAuthButton';
 
 interface ValidationProps {
   name?: string;
@@ -72,8 +74,16 @@ const SignUp: React.FC = () => {
     }
   }
 
-  function handleSignUpwithGoogleClick(e: MouseEvent) {
+  async function handleSignUpwithGoogleClick(e: MouseEvent) {
     e.preventDefault();
+    setError('');
+    setInvalids({});
+
+    try {
+      await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
+    } catch (err) {
+      setError(err.message);
+    }
   }
 
   function handleEyeballClick(e) {
@@ -89,10 +99,8 @@ const SignUp: React.FC = () => {
       <div className="flash-message">{error}</div>
       <ProjectHeader headerText="Sign Up for Continuum" />
       <form onSubmit={handleCreateAccountClick} className={styles.body}>
-        {/* <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>
-          Sign Up with Google
-        </GoogleAuthButton>
-        <div className="text-1 text-gray mbm">Or, sign up with Email</div> */}
+        <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>Sign Up with Google</GoogleAuthButton>
+        <div className="text-1 text-gray mbm">Or, sign up with Email</div>
         <div className={styles.inputWrapper}>
           <input name="name" className={`${invalids.name ? styles[invalids.name] : ''} input-1`} type="text" placeholder="Name" />
           <NameIcon />

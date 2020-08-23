@@ -22,7 +22,7 @@ describe('signing in', () => {
 
       cy.get('form').contains('Sign In').should('be.disabled').and('have.class', 'is-loading');
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/hire/edit`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/hirePageEditor`);
     });
 
     it('works by hitting enter in password field', () => {
@@ -32,7 +32,7 @@ describe('signing in', () => {
 
       cy.get('input[placeholder="Password"]').type('password{enter}');
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/hire/edit`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/hirePageEditor`);
     });
 
     it('works by hitting enter in email field', () => {
@@ -42,7 +42,7 @@ describe('signing in', () => {
 
       cy.get('input[placeholder="Email"]').type('matthew.watts.mw@gmail.com{enter}');
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/hire/edit`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/hirePageEditor`);
     });
   });
 

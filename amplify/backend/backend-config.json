@@ -1,59 +1,59 @@
 {
-	"function": {
-		"continuum23ec4bacPostConfirmation": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda"
-		}
-	},
-	"auth": {
-		"continuum23ec4bac": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "continuum23ec4bacPostConfirmation",
-					"triggerProvider": "Cognito",
-					"attributes": [
-						"Arn",
-						"Name"
-					]
-				}
-			]
-		}
-	},
-	"storage": {
-		"imagestore": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation"
-		}
-	},
-	"api": {
-		"continuum": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"authConfig": {
-					"additionalAuthenticationProviders": [
-						{
-							"authenticationType": "AWS_IAM"
-						}
-					],
-					"defaultAuthentication": {
-						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
-						"userPoolConfig": {
-							"userPoolId": "authcontinuum23ec4bac"
-						}
-					}
-				}
-			}
-		}
-	},
-	"analytics": {
-		"continuum": {
-			"service": "Pinpoint",
-			"providerPlugin": "awscloudformation"
-		}
-	}
+    "function": {
+        "continuum23ec4bacPostConfirmation": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda"
+        }
+    },
+    "auth": {
+        "continuum23ec4bac": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "continuum23ec4bacPostConfirmation",
+                    "triggerProvider": "Cognito",
+                    "attributes": [
+                        "Arn",
+                        "Name"
+                    ]
+                }
+            ]
+        }
+    },
+    "storage": {
+        "imagestore": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation"
+        }
+    },
+    "api": {
+        "continuum": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [
+                        {
+                            "authenticationType": "AWS_IAM"
+                        }
+                    ],
+                    "defaultAuthentication": {
+                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                        "userPoolConfig": {
+                            "userPoolId": "authcontinuum23ec4bac"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "analytics": {
+        "continuum": {
+            "service": "Pinpoint",
+            "providerPlugin": "awscloudformation"
+        }
+    }
 }

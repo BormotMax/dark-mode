@@ -276,8 +276,8 @@ const Hire: React.FC = () => {
           </div>
           <div className="tar mrl">
             {currentUser?.username === hireInfo?.freelancerID && (
-              <Link href="/hire/edit">
-                <a href="/hire/edit">
+              <Link href="/hirePageEditor">
+                <a href="/hirePageEditor">
                   <Sprocket />
                 </a>
               </Link>
