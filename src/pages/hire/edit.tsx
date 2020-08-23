@@ -372,7 +372,7 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className="flex">
                   <FileUpload
                     name="banner"
-                    helpText="Banner Image (1100px x 640px - will be anchored top left)"
+                    helpText="Banner Image (1100px x 640px)"
                     image={bannerImage}
                     onChange={(file) => handleFileInputChange(file, 'banner')}
                     aspect="wide"
