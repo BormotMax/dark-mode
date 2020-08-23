@@ -122,11 +122,13 @@ const Hire: React.FC = () => {
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         <div className={classnames(styles.upper)}>
           <div className={styles.bannerImage__mobile}>
-            {!bannerImage ? (
-              <Skeleton height={640} width={1100} />
-            ) : (
-              <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
-            )}
+            {!hireInfo?.bannerImage && null}
+            {hireInfo?.bannerImage &&
+              (!bannerImage ? (
+                <Skeleton height={640} width={1100} />
+              ) : (
+                <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
+              ))}
           </div>
           <div className={classnames(styles.leftContainer)}>
             <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
@@ -143,11 +145,13 @@ const Hire: React.FC = () => {
             )}
           </div>
           <div className={styles.bannerImage__desktop}>
-            {!bannerImage ? (
-              <Skeleton height={640} width={1100} />
-            ) : (
-              <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
-            )}
+            {!hireInfo?.bannerImage && null}
+            {hireInfo?.bannerImage &&
+              (!bannerImage ? (
+                <Skeleton height={640} width={1100} />
+              ) : (
+                <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
+              ))}
           </div>
         </div>
         <div className="container is-fullhd">

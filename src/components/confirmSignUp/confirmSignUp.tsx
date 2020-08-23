@@ -2,26 +2,23 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import {
-  useState, FormEvent, KeyboardEvent, MouseEvent,
-} from 'react';
+import { useState, FormEvent, KeyboardEvent, MouseEvent } from 'react';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
-import Logo from '../../img/logo.svg';
 import styles from '../../pages/styles/authPage.module.scss';
 import s from './confirmSignUp.module.scss';
 import { ProjectHeader } from '../projectHeader';
 
 interface ConfirmSignUpProps {
-  email: string
-  parentPage: string
-  setConfirming: Function
+  email: string;
+  parentPage: string;
+  setConfirming: Function;
 }
 
 interface ValidationProps {
-  code?: string
-  email?: string
+  code?: string;
+  email?: string;
 }
 
 export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage, setConfirming }) => {
@@ -56,6 +53,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
       await Auth.confirmSignUp(email, code);
       Router.push('/signIn');
     } catch (err) {
+      console.log(err);
       setError(err.message);
       setRequestPending(false);
     }
@@ -118,9 +116,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
         </button>
         <div>
           <a role="link" onClick={() => setConfirming(false)}>
-            Back to
-            {' '}
-            {parentPage === 'signIn' ? 'Sign In' : 'Sign Up'}
+            Back to {parentPage === 'signIn' ? 'Sign In' : 'Sign Up'}
           </a>
         </div>
       </form>
