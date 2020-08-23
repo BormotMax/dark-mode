@@ -43,21 +43,6 @@ const Hire: React.FC = () => {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(-1);
   const blurbTextElement = useRef(null);
 
-  function handleResize() {
-    if (blurbTextElement.current) {
-      let relFontsize = blurbTextElement.current.offsetWidth * 0.07;
-      relFontsize = Math.min(36, relFontsize);
-      relFontsize = Math.max(20, relFontsize);
-      blurbTextElement.current.style.fontSize = `${relFontsize}px`;
-    }
-  }
-
-  useEffect(() => {
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   useEffect(() => {
     const execute = async () => {
       if (!id) return;
@@ -135,8 +120,15 @@ const Hire: React.FC = () => {
         )}
       </ModalGateway>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
-        <div className={styles.upper}>
-          <div className={classnames(styles.leftContainer, 'is-block-desktop')}>
+        <div className={classnames(styles.upper)}>
+          <div className={styles.bannerImage__mobile}>
+            {!bannerImage ? (
+              <Skeleton height={640} width={1100} />
+            ) : (
+              <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
+            )}
+          </div>
+          <div className={classnames(styles.leftContainer)}>
             <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
             <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
             <div ref={blurbTextElement} className={styles.blurbText}>
@@ -150,21 +142,11 @@ const Hire: React.FC = () => {
               </div>
             )}
           </div>
-          <div className={styles.bannerImageContainer}>
-            {bannerImage && <img alt="banner" className={styles.bannerImage} src={bannerImage} />}
-          </div>
-        </div>
-        <div className={classnames(styles.leftContainer, 'is-hidden-desktop')}>
-          <div className={styles.left}>
-            <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
-            <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
-            <div className={styles.blurbText}>{hireInfo?.blurbText}</div>
-            {!loading && (
-              <div className="tar">
-                <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
-                  {hireInfo?.buttonText}
-                </button>
-              </div>
+          <div className={styles.bannerImage__desktop}>
+            {!bannerImage ? (
+              <Skeleton height={640} width={1100} />
+            ) : (
+              <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
             )}
           </div>
         </div>
