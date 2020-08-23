@@ -1,7 +1,10 @@
-name: Jest Tests
-on: [push]
+name: On Merge to Master
+on:
+  push:
+    branches:
+      - master
 jobs:
-  build:
+  unit_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
