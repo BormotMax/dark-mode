@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import classnames from 'classnames';
+import { faFireAlt, faHandshake, faFunnelDollar } from '@fortawesome/pro-light-svg-icons';
+import { faCubes } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
 import { Footer } from '../components/footer';
@@ -91,23 +94,47 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
       <div className={styles.middleContainer}>
         <div className={classnames('container')}>
           <div className={styles.freelancers}>
-            {[...Array(18)].map((e, i) => (
+            {[...Array(3)].map((e, i) => (
               // eslint-disable-next-line react/no-array-index-key
-              <div key={i} className={styles.freelancerTypeContainer}>
+              <div key={i} className={classnames(styles.freelancerTypeContainer, styles.freelancerTypeContainer__desktopLarge)}>
                 <img src={`/Freelancer-${i}.png`} alt="freelancer type" />
+              </div>
+            ))}
+            {[...Array(3)].map((e, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={i + 3} className={classnames(styles.freelancerTypeContainer, styles.freelancerTypeContainer__desktop)}>
+                <img src={`/Freelancer-${i + 3}.png`} alt="freelancer type" />
+              </div>
+            ))}
+            {[...Array(3)].map((e, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={i + 6} className={classnames(styles.freelancerTypeContainer, styles.freelancerTypeContainer__tabletLarge)}>
+                <img src={`/Freelancer-${i + 6}.png`} alt="freelancer type" />
+              </div>
+            ))}
+            {[...Array(3)].map((e, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={i + 9} className={classnames(styles.freelancerTypeContainer, styles.freelancerTypeContainer__tablet)}>
+                <img src={`/Freelancer-${i + 9}.png`} alt="freelancer type" />
+              </div>
+            ))}
+            {[...Array(6)].map((e, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={i + 12} className={classnames(styles.freelancerTypeContainer)}>
+                <img src={`/Freelancer-${i + 12}.png`} alt="freelancer type" />
               </div>
             ))}
           </div>
           <div className={styles.upperLayover}>
             <div className="inner">
               <div className={styles.upperLayoverHeader}>
-                With all the tools you need to
+                With <u>all</u> the tools you need to
                 <i> flourish </i>
                 as a freelancer
               </div>
               <div className={styles.upperLayoverSubHeader}>Be up and in business in 5 minutes</div>
               <div className="columns is-desktop">
-                <div className="column is-8">
+                <div className="column is-7">
                   <img src="/hirePageExample.png" alt="hire page example" />
                 </div>
                 <div className="column">
@@ -167,37 +194,37 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
             <div className="inner">
               <div className="columns is-desktop">
                 <div className="column">
-                  <div className={styles.rightColumnHeader}>Contact forms are pass‌&eacute;</div>
+                  <div className={styles.rightColumnHeader}>Contact forms are pass‌&eacute;.</div>
                   <div className={styles.rightColumnBody}>
                     Start a meaningful conversation with someone who is interested in your work, at the moment they are interested. Get
                     optional instant notifications when a conversation has started.
                   </div>
                   <div className={styles.iconBulletPoint}>
                     <div className={styles.iconContainer}>
-                      <img src="/iconBullet-2.png" alt="prospects" />
+                      <FontAwesomeIcon size="2x" icon={faFireAlt} />
                     </div>
                     <div className={styles.bulletText}>Catch prospects while hot</div>
                   </div>
                   <div className={styles.iconBulletPoint}>
                     <div className={styles.iconContainer}>
-                      <img src="/iconBullet-5.png" alt="trust" />
+                      <FontAwesomeIcon size="2x" icon={faHandshake} />
                     </div>
                     <div>Quickly establish trust</div>
                   </div>
                   <div className={styles.iconBulletPoint}>
                     <div className={styles.iconContainer}>
-                      <img src="/iconBullet-4.png" alt="project space" />
+                      <FontAwesomeIcon size="2x" icon={faCubes} />
                     </div>
                     <div>Conversations, quotes and invoices all stream to a single project space</div>
                   </div>
                   <div className={styles.iconBulletPoint}>
                     <div className={styles.iconContainer}>
-                      <img src="/iconBullet-3.png" alt="deals" />
+                      <FontAwesomeIcon size="2x" icon={faFunnelDollar} />
                     </div>
                     <div>Close more deals, faster</div>
                   </div>
                 </div>
-                <div className="column is-8">
+                <div className="column is-7">
                   <img src="/contactFormExample.png" alt="hire page preview" />
                 </div>
               </div>

@@ -1,4 +1,4 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .home {
   background: black;
@@ -10,11 +10,10 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 0 25px;
         min-height: 100vh;
 
         @include tablet {
-          padding: 0 87px;
+          padding: 0 50px;
         }
       }
     }
@@ -26,7 +25,7 @@
 
     :global {
       .container {
-        padding: 0 87px;
+        padding: 0 50px;
       }
     }
   }
@@ -124,7 +123,7 @@
     line-height: 42px;
     text-align: center;
     margin: 72px 0;
-    max-width: 925px;
+    max-width: 975px;
   }
 
   .ctas {
@@ -159,6 +158,31 @@
 
     .freelancerTypeContainer {
       margin-bottom: 80px;
+
+      @media only screen and (max-width: 1215px) {
+        &__desktop {
+          display: none;
+        }
+      }
+
+      @media only screen and (max-width: 1407px) {
+        &__desktopLarge {
+          display: none;
+        }
+      }
+
+      @media only screen and (max-width: 684px) {
+        &__tablet {
+          display: none;
+        }
+      }
+
+      @media only screen and (max-width: 879px) {
+        &__tabletLarge {
+          display: none;
+        }
+      }
+
       &:hover {
         border-radius: 50%;
         background: #ffc5aa;
@@ -185,13 +209,16 @@
   }
 
   .iconBulletPoint {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: flex-start;
     margin: 15px 0px 15px 35px;
+    grid-gap: 15px;
     line-height: 24px;
 
     .iconContainer {
-      width: 35px;
-      margin-right: 10px;
+      width: 40px;
+      text-align: center;
     }
     span {
       vertical-align: middle;
@@ -206,8 +233,8 @@
     background: #2f80ed;
     border-radius: 40px 40px 0 0;
     padding: 81px 24px 0 24px;
-    margin-right: -87px;
-    margin-left: -87px;
+    margin-right: -50px;
+    margin-left: -50px;
 
     @include tablet {
       padding: 81px 81px 0 81px;

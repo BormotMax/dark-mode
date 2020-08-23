@@ -27,7 +27,7 @@ const ProjectPage: React.FC = () => {
       </Head>
       <Query query={gql(getProject)} variables={{ id }}>
         {({ loading, data, error }: QueryResult) => {
-          if (loading) return <div>loading...</div>;
+          if (loading) return null;
           if (error) return <div>{error.message}</div>;
           if (!data.getProject) return <div>Not found</div>;
 
