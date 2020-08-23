@@ -4,7 +4,6 @@ import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib-esm/types';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import styles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
@@ -80,7 +79,9 @@ const SignUp: React.FC = () => {
     setInvalids({});
 
     try {
-      await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      await Auth.federatedSignIn({ provider: 'Google' });
     } catch (err) {
       setError(err.message);
     }

@@ -4,7 +4,7 @@ import Router from 'next/router';
 import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
-import { CognitoHostedUIIdentityProvider, Auth } from '@aws-amplify/auth';
+import { Auth } from '@aws-amplify/auth';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import ForgotPassword from '../img/forgotPassword.svg';
 import styles from './styles/signIn.module.scss';
@@ -42,7 +42,9 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     setInvalids({});
 
     try {
-      await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google, customState: 'FREELANCER' });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      await Auth.federatedSignIn({ provider: 'Google' });
     } catch (err) {
       setError(err.message);
     }
