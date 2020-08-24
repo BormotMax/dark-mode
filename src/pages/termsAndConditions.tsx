@@ -463,14 +463,6 @@ const TermsAndConditions: React.FC = () => {
             <li>
               <p>By email: hello@continuum.works</p>
             </li>
-            <li>
-              <p>
-                By visiting this page on our website:{' '}
-                <Link href="/contact">
-                  <a href="/contact">continuum.works/contact</a>
-                </Link>
-              </p>
-            </li>
           </ul>
         </div>
       </div>
