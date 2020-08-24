@@ -240,7 +240,6 @@ const HirePageEditor = ({ currentUser }) => {
 
   if (loading) return null;
 
-  console.log(currentUser);
   return (
     <div className={styles.hirePageEditor}>
       <div className="flash-message">{flash}</div>
