@@ -136,7 +136,7 @@ const Hire: React.FC = () => {
             <div ref={blurbTextElement} className={styles.blurbText}>
               {hireInfo?.blurbText}
             </div>
-            {!loading && (
+            {!loading && hireInfo?.buttonText && (
               <div className="tar">
                 <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
                   {hireInfo?.buttonText}

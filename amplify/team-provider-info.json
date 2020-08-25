@@ -48,5 +48,30 @@
                 }
             }
         }
+    },
+    "test": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-continuum-test-224108-authRole",
+            "UnauthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-test-224108-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::757622401460:role/amplify-continuum-test-224108-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-continuum-test-224108-deployment",
+            "UnauthRoleName": "amplify-continuum-test-224108-unauthRole",
+            "StackName": "amplify-continuum-test-224108",
+            "StackId": "arn:aws:cloudformation:us-east-1:757622401460:stack/amplify-continuum-test-224108/94cab690-e695-11ea-bd35-0a7c595099af",
+            "AmplifyAppId": "d3ck2vgbiuqrmx"
+        },
+        "categories": {
+            "auth": {
+                "continuum23ec4bac": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"1052574610432-6in7eqegqmpip0p262heo3lj9sb0c3dq.apps.googleusercontent.com\",\"client_secret\":\"N0NqBYsZVYgFwP0AgixM_09B\"}]"
+                }
+            },
+            "function": {
+                "continuum23ec4bacPostConfirmation": {
+                    "GROUP": "FREELANCER"
+                }
+            }
+        }
     }
 }
