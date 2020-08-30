@@ -2,39 +2,69 @@
 @import "~bulma/sass/utilities/_all.sass";
 
 .page {
-    background: #d8d8d8;
+  background: #eeeeee;
+  min-height: 100vh;
 
-    .body {
+  .body {
+    border-radius: 40px;
+    padding-bottom: 150px;
+
+    .columns {
+      overflow: hidden;
+      background: white;
+
+      .column {
+        padding: 0px;
+      }
+
+      @include desktop {
         border-radius: 40px;
-        margin-bottom: 75px !important; // bulma container class override
+      }
 
-        .columns {
-            .column {
-                padding: 0px;
-            }
+      .container {
+        padding: 30px;
+      }
 
-            background: white;
+      .leftColumn {
+        box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.05);
+      }
 
-            @include desktop {
-                border-radius: 40px;
-            }
-
-            .container {
-                padding: 30px;
-            }
-
-            .leftColumn {
-                box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.05);
-            }
-        }
+      .rightColumn {
+        background: #faf8f7;
+      }
     }
-}
+  }
 
-.projectProgressHeader {
+  .projectProgressHeader {
     @include mixins.header-1-sm;
     text-align: center;
     color: #3c78fb;
     border-bottom: 4px solid #3c78fb;
     padding-bottom: 17px;
     margin-bottom: 17px;
+  }
+
+  .message {
+    white-space: pre-wrap;
+  }
+
+  .comments {
+    .header {
+      font-family: Roboto, sans-serif;
+      display: flex;
+      font-size: 36px;
+      line-height: 42px;
+      margin-bottom: 30px;
+      color: #3c78fb;
+
+      .line {
+        border: 1px solid #8093a6;
+        opacity: 0.3;
+        margin-left: 15px;
+        flex: 1;
+        height: 0;
+        align-self: center;
+      }
+    }
+  }
 }

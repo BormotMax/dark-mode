@@ -11,6 +11,7 @@ import {
 } from '../API';
 
 interface CognitoUserExt extends CognitoUser {
+  username: string;
   attributes: UserAttributes;
 }
 

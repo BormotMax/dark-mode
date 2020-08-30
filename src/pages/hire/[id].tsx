@@ -16,11 +16,11 @@ import Sprocket from '../../img/sprocket.svg';
 import Twitter from '../../img/twitter.svg';
 import { HireInfoByDomainSlugQuery } from '../../API';
 import { hireInfoByDomainSlug } from '../../graphql/queries';
-import { unauthClient as client } from '../_app';
 import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { useCurrentUser, useDelayedFlash } from '../../hooks';
+import { useCurrentUser, useDelayedFlash, useFlash } from '../../hooks';
+import { client } from '../_app';
 
 enum Tab {
   PORTFOLIO,
@@ -30,11 +30,11 @@ enum Tab {
 const Hire: React.FC = () => {
   const router = useRouter();
   const { currentUser } = useCurrentUser();
-  const [flash] = useDelayedFlash();
+  const [delayedFlash] = useDelayedFlash();
+  const [flash, setFlash] = useFlash();
   const { id } = router.query;
   const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
   const [hireInfo, setHireInfo] = useState(null);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [portfolioImages, setPortfolioImages] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
@@ -84,7 +84,7 @@ const Hire: React.FC = () => {
         setHireInfo(info);
       } catch (err) {
         console.log(err);
-        setError('There has been an error. Please contact support');
+        setFlash('There has been an error. Please contact support');
       } finally {
         setLoading(false);
       }
@@ -103,13 +103,15 @@ const Hire: React.FC = () => {
 
   return (
     <div className={classnames(styles.hire)}>
-      <div className="flash-message">{flash}</div>
+      <div className="flash-message">{delayedFlash || flash}</div>
       <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
         <HireMeModal
           freelancerEmail={hireInfo?.email}
           handleClose={() => setModalOpen(false)}
           freelancerName={hireInfo?.name}
+          freelancerID={hireInfo?.freelancerID}
           avatarUrl={gravatarUrl(hireInfo?.email)}
+          setFlash={setFlash}
         />
       </Modal>
       <ModalGateway>

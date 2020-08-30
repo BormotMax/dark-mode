@@ -10,8 +10,12 @@ import Analytics from '@aws-amplify/analytics';
 import { ApolloProvider } from 'react-apollo';
 import { Rehydrated } from 'aws-appsync-react';
 import Head from 'next/head';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
 import awsconfig from '../aws-exports';
 import { UserDataProvider } from '../hooks';
+
+config.autoAddCss = false;
 
 let host = 'continuum.works';
 

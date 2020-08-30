@@ -7,9 +7,25 @@ import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 interface ProjectHeaderProps {
   headerText: string;
+  tabColor?: HeaderTabColor;
+  headerColor?: HeaderColor;
 }
 
-export const ProjectHeader: React.FC<ProjectHeaderProps> = ({ headerText }) => {
+export enum HeaderColor {
+  GRAY = 'gray',
+  WHITE = 'white',
+}
+
+export enum HeaderTabColor {
+  GRAY = 'tabGray',
+  PURPLE = 'tabPurple',
+}
+
+export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
+  headerText,
+  tabColor = HeaderTabColor.GRAY,
+  headerColor = HeaderColor.WHITE,
+}) => {
   const { currentUser, signOut } = useCurrentUser();
   const email = currentUser?.attributes?.email;
 
@@ -19,14 +35,14 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({ headerText }) => {
     }
   };
   return (
-    <header className={styles.header}>
+    <header className={classnames(styles.header, styles[headerColor])}>
       <div className={styles.upper}>
         <Link href="/">
           <a href="/">
             <Logo />
           </a>
         </Link>
-        <div className={classnames(styles.headerText, 'is-hidden-mobile')}>{headerText}</div>
+        <div className={classnames(styles.headerText, 'is-hidden-mobile', styles[tabColor])}>{headerText}</div>
         <div>
           {currentUser && (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -39,7 +55,7 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({ headerText }) => {
         </div>
       </div>
 
-      <div className={classnames(styles.headerTextMobile, styles.headerText, 'is-block-mobile')}>{headerText}</div>
+      <div className={classnames(styles.headerTextMobile, styles.headerText, 'is-block-mobile', styles[tabColor])}>{headerText}</div>
     </header>
   );
 };

@@ -12,42 +12,12 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       nextToken
     }
@@ -58,62 +28,12 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       name
+      company
+      email
+      phone
       role
       createdAt
       updatedAt
-      projects {
-        items {
-          id
-          freelancerID
-          clientID
-          initialContact {
-            message
-          }
-          createdAt
-          updatedAt
-          freelancer {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          client {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          quotes {
-            items {
-              id
-              projectID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          comments {
-            items {
-              id
-              projectID
-              content
-              creatorID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -123,90 +43,28 @@ export const getProject = /* GraphQL */ `
       id
       freelancerID
       clientID
-      initialContact {
-        message
-      }
+      details
       createdAt
       updatedAt
       freelancer {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       client {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       quotes {
         items {
@@ -239,12 +97,12 @@ export const getProject = /* GraphQL */ `
           creator {
             id
             name
+            company
+            email
+            phone
             role
             createdAt
             updatedAt
-            projects {
-              nextToken
-            }
           }
         }
         nextToken
@@ -263,44 +121,28 @@ export const listProjects = /* GraphQL */ `
         id
         freelancerID
         clientID
-        initialContact {
-          message
-        }
+        details
         createdAt
         updatedAt
         freelancer {
           id
           name
+          company
+          email
+          phone
           role
           createdAt
           updatedAt
-          projects {
-            items {
-              id
-              freelancerID
-              clientID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
         }
         client {
           id
           name
+          company
+          email
+          phone
           role
           createdAt
           updatedAt
-          projects {
-            items {
-              id
-              freelancerID
-              clientID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
         }
         quotes {
           items {
@@ -325,6 +167,9 @@ export const listProjects = /* GraphQL */ `
             creator {
               id
               name
+              company
+              email
+              phone
               role
               createdAt
               updatedAt
@@ -356,44 +201,28 @@ export const projectsByFreelancer = /* GraphQL */ `
         id
         freelancerID
         clientID
-        initialContact {
-          message
-        }
+        details
         createdAt
         updatedAt
         freelancer {
           id
           name
+          company
+          email
+          phone
           role
           createdAt
           updatedAt
-          projects {
-            items {
-              id
-              freelancerID
-              clientID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
         }
         client {
           id
           name
+          company
+          email
+          phone
           role
           createdAt
           updatedAt
-          projects {
-            items {
-              id
-              freelancerID
-              clientID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
         }
         quotes {
           items {
@@ -418,6 +247,9 @@ export const projectsByFreelancer = /* GraphQL */ `
             creator {
               id
               name
+              company
+              email
+              phone
               role
               createdAt
               updatedAt
@@ -491,42 +323,12 @@ export const getComment = /* GraphQL */ `
       creator {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
     }
   }
@@ -548,19 +350,12 @@ export const listComments = /* GraphQL */ `
         creator {
           id
           name
+          company
+          email
+          phone
           role
           createdAt
           updatedAt
-          projects {
-            items {
-              id
-              freelancerID
-              clientID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
         }
       }
       nextToken

@@ -2,13 +2,21 @@ import classnames from 'classnames';
 import { useState } from 'react';
 import axios from 'axios';
 import serialize from 'form-serialize';
+import gql from 'graphql-tag';
 import styles from './hireMeModal.module.scss';
 import { Comment } from '../comment';
 import { OvalButtonSmall } from '../buttons/buttons';
+import { CreateUserMutation, UserRole, GetUserQuery } from '../../API';
+import { createUser, createProject } from '../../graphql/mutations';
+import { unauthClient as client } from '../../pages/_app';
+import { getUser } from '../../graphql/queries';
+import { User } from '../../types/custom';
 
 interface HireMeModalFormProps {
   handleClose: Function;
   freelancerEmail: string;
+  freelancerID: string;
+  setFlash: Function;
 }
 
 interface ValidationProps {
@@ -19,7 +27,7 @@ interface ValidationProps {
   details?: string;
 }
 
-const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelancerEmail }) => {
+const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelancerEmail, freelancerID, setFlash }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
 
@@ -51,19 +59,40 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelanc
     }
 
     try {
-      await axios.post('/api/sendEmail', {
-        to: freelancerEmail,
-        name,
-        company,
-        email,
-        phone,
-        details,
+      const getUserResponse = await client.query({
+        query: gql(getUser),
+        variables: { id: email },
       });
 
+      const existingClient: User = (getUserResponse.data as GetUserQuery)?.getUser;
+
+      if (!existingClient) {
+        await client.mutate({
+          mutation: gql(createUser),
+          variables: { input: { id: email, name, company, email, phone, role: UserRole.CLIENT } },
+        });
+      }
+
+      await client.mutate({
+        mutation: gql(createProject),
+        variables: { input: { freelancerID, clientID: email, details } },
+      });
+
+      // await axios.post('/api/sendEmail', {
+      //   to: freelancerEmail,
+      //   name,
+      //   company,
+      //   email,
+      //   phone,
+      //   details,
+      // });
+
       form.reset();
+      setFlash("You're message has been sent. Please check your email.");
       handleClose();
     } catch (err) {
       console.log(err);
+      setFlash(err.message);
     } finally {
       setSaving(false);
     }
@@ -133,11 +162,20 @@ const commentContent = 'Thank you for your interest in the work I do. Please tel
 interface HireMeModalProps {
   freelancerName: string;
   freelancerEmail: string;
+  freelancerID: string;
   avatarUrl?: string;
   handleClose: Function;
+  setFlash: Function;
 }
 
-export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerName, freelancerEmail, avatarUrl, handleClose }) => (
+export const HireMeModal: React.FC<HireMeModalProps> = ({
+  freelancerName,
+  freelancerEmail,
+  freelancerID,
+  avatarUrl,
+  handleClose,
+  setFlash,
+}) => (
   <div className={styles.hireMeModal}>
     <img src="/wave.png" alt="hello" />
     <h1 className="header-2-lg">Hello There!</h1>
@@ -145,7 +183,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerName, freela
       <div>{commentContent}</div>
     </Comment>
     <Comment>
-      <HireMeModalForm freelancerEmail={freelancerEmail} handleClose={handleClose} />
+      <HireMeModalForm freelancerEmail={freelancerEmail} freelancerID={freelancerID} handleClose={handleClose} setFlash={setFlash} />
     </Comment>
   </div>
 );

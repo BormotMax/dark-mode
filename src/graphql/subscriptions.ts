@@ -7,62 +7,12 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser {
       id
       name
+      company
+      email
+      phone
       role
       createdAt
       updatedAt
-      projects {
-        items {
-          id
-          freelancerID
-          clientID
-          initialContact {
-            message
-          }
-          createdAt
-          updatedAt
-          freelancer {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          client {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          quotes {
-            items {
-              id
-              projectID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          comments {
-            items {
-              id
-              projectID
-              content
-              creatorID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -71,62 +21,12 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser {
       id
       name
+      company
+      email
+      phone
       role
       createdAt
       updatedAt
-      projects {
-        items {
-          id
-          freelancerID
-          clientID
-          initialContact {
-            message
-          }
-          createdAt
-          updatedAt
-          freelancer {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          client {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          quotes {
-            items {
-              id
-              projectID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          comments {
-            items {
-              id
-              projectID
-              content
-              creatorID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -135,62 +35,12 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser {
       id
       name
+      company
+      email
+      phone
       role
       createdAt
       updatedAt
-      projects {
-        items {
-          id
-          freelancerID
-          clientID
-          initialContact {
-            message
-          }
-          createdAt
-          updatedAt
-          freelancer {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          client {
-            id
-            name
-            role
-            createdAt
-            updatedAt
-            projects {
-              nextToken
-            }
-          }
-          quotes {
-            items {
-              id
-              projectID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          comments {
-            items {
-              id
-              projectID
-              content
-              creatorID
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -200,90 +50,28 @@ export const onCreateProject = /* GraphQL */ `
       id
       freelancerID
       clientID
-      initialContact {
-        message
-      }
+      details
       createdAt
       updatedAt
       freelancer {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       client {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       quotes {
         items {
@@ -316,12 +104,12 @@ export const onCreateProject = /* GraphQL */ `
           creator {
             id
             name
+            company
+            email
+            phone
             role
             createdAt
             updatedAt
-            projects {
-              nextToken
-            }
           }
         }
         nextToken
@@ -335,90 +123,28 @@ export const onUpdateProject = /* GraphQL */ `
       id
       freelancerID
       clientID
-      initialContact {
-        message
-      }
+      details
       createdAt
       updatedAt
       freelancer {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       client {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       quotes {
         items {
@@ -451,12 +177,12 @@ export const onUpdateProject = /* GraphQL */ `
           creator {
             id
             name
+            company
+            email
+            phone
             role
             createdAt
             updatedAt
-            projects {
-              nextToken
-            }
           }
         }
         nextToken
@@ -470,90 +196,28 @@ export const onDeleteProject = /* GraphQL */ `
       id
       freelancerID
       clientID
-      initialContact {
-        message
-      }
+      details
       createdAt
       updatedAt
       freelancer {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       client {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
       quotes {
         items {
@@ -586,12 +250,12 @@ export const onDeleteProject = /* GraphQL */ `
           creator {
             id
             name
+            company
+            email
+            phone
             role
             createdAt
             updatedAt
-            projects {
-              nextToken
-            }
           }
         }
         nextToken
@@ -674,42 +338,12 @@ export const onCreateComment = /* GraphQL */ `
       creator {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
     }
   }
@@ -726,42 +360,12 @@ export const onUpdateComment = /* GraphQL */ `
       creator {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
     }
   }
@@ -778,42 +382,12 @@ export const onDeleteComment = /* GraphQL */ `
       creator {
         id
         name
+        company
+        email
+        phone
         role
         createdAt
         updatedAt
-        projects {
-          items {
-            id
-            freelancerID
-            clientID
-            initialContact {
-              message
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            client {
-              id
-              name
-              role
-              createdAt
-              updatedAt
-            }
-            quotes {
-              nextToken
-            }
-            comments {
-              nextToken
-            }
-          }
-          nextToken
-        }
       }
     }
   }

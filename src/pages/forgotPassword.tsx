@@ -9,7 +9,7 @@ import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
 
 interface ValidationProps {
-  email?: string
+  email?: string;
 }
 
 const ForgotPassword: React.FC = () => {
@@ -57,7 +57,9 @@ const ForgotPassword: React.FC = () => {
     }
   }
 
-  return isConfirming ? <ResetPassword email={emailInState} /> : (
+  return isConfirming ? (
+    <ResetPassword email={emailInState} />
+  ) : (
     <div className={styles.authPage}>
       <div className="flash-message">{error}</div>
       <ProjectHeader headerText="Reset your password" />
@@ -74,7 +76,9 @@ const ForgotPassword: React.FC = () => {
           Send Code
         </button>
         <div>
-          <Link href="/signIn"><a href="/signIn">Back to Sign In</a></Link>
+          <Link href="/signIn">
+            <a href="/signIn">Back to Sign In</a>
+          </Link>
         </div>
       </form>
     </div>
