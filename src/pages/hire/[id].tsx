@@ -20,7 +20,7 @@ import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { useCurrentUser, useDelayedFlash, useFlash } from '../../hooks';
-import { client } from '../_app';
+import { unauthClient as client } from '../_app';
 
 enum Tab {
   PORTFOLIO,

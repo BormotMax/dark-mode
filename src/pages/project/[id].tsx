@@ -21,7 +21,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id } = router.query;
   const [project, setProject] = useState(null);
-  const [comments, setComments] = useState([]);
   const [viewerId] = useState(currentUser?.username || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
@@ -37,7 +36,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
         result = res.data?.getProject;
         setProject(result);
-        setComments(result?.comments?.items || []);
       } catch (err) {
         setFlash('There was an error retreiving your Hire Page info. Please contact support.');
       } finally {
@@ -48,7 +46,12 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         const subscriptionResult = unauthClient.subscribe({ query: gql(onCreateComment) });
         subscriptionResult.subscribe({
           next: (comment) => {
-            setComments((existingComments) => [...existingComments, comment.data.onCreateComment]);
+            setProject((p) => {
+              if (comment.data.onCreateComment.commentProjectId !== p.id) {
+                return p;
+              }
+              return { ...p, comments: { ...p.comments, items: [...p.comments.items, comment.data.onCreateComment] } };
+            });
           },
         });
       } catch (err) {
@@ -62,7 +65,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { details, client, freelancer, createdAt, quotes: qs } = project as Project;
+  const { details, client, freelancer, createdAt, comments: cs } = project as Project;
 
   let viewer: User;
   if (viewerId === client.id) {
@@ -71,8 +74,11 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     viewer = freelancer;
   }
   if (!viewer) return <div>Not authorized</div>;
-  // const quotes = (qs?.items || []) as Array<QuoteType>;
-  // const comments = (cs?.items || []) as Array<CommentType>;
+
+  // eslint-disable-next-line arrow-body-style
+  const comments = (cs?.items || []).sort((e1, e2) => {
+    return new Date(e1.createdAt).getTime() - new Date(e2.createdAt).getTime();
+  }) as Array<CommentType>;
 
   return (
     <div className={styles.page}>
