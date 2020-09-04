@@ -90,7 +90,7 @@ export type CreateProjectInput = {
   id?: string | null,
   freelancerID: string,
   clientID: string,
-  details: string,
+  details?: string | null,
 };
 
 export type ModelProjectConditionInput = {
@@ -152,13 +152,15 @@ export type DeleteQuoteInput = {
 
 export type CreateCommentInput = {
   id?: string | null,
-  projectID: string,
+  createdAt?: string | null,
+  commentProjectId: string,
   content: string,
   creatorID: string,
 };
 
 export type ModelCommentConditionInput = {
-  projectID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  commentProjectId?: ModelIDInput | null,
   content?: ModelStringInput | null,
   creatorID?: ModelIDInput | null,
   and?: Array< ModelCommentConditionInput | null > | null,
@@ -168,7 +170,8 @@ export type ModelCommentConditionInput = {
 
 export type UpdateCommentInput = {
   id: string,
-  projectID?: string | null,
+  createdAt?: string | null,
+  commentProjectId?: string | null,
   content?: string | null,
   creatorID?: string | null,
 };
@@ -330,7 +333,8 @@ export type ModelQuoteFilterInput = {
 
 export type ModelCommentFilterInput = {
   id?: ModelIDInput | null,
-  projectID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  commentProjectId?: ModelIDInput | null,
   content?: ModelStringInput | null,
   creatorID?: ModelIDInput | null,
   and?: Array< ModelCommentFilterInput | null > | null,
@@ -442,7 +446,7 @@ export type CreateProjectMutation = {
     id: string,
     freelancerID: string,
     clientID: string,
-    details: string,
+    details: string | null,
     createdAt: string,
     updatedAt: string,
     freelancer:  {
@@ -496,10 +500,10 @@ export type CreateProjectMutation = {
       items:  Array< {
         __typename: "Comment",
         id: string,
-        projectID: string,
+        createdAt: string,
+        commentProjectId: string,
         content: string,
         creatorID: string,
-        createdAt: string,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -529,7 +533,7 @@ export type UpdateProjectMutation = {
     id: string,
     freelancerID: string,
     clientID: string,
-    details: string,
+    details: string | null,
     createdAt: string,
     updatedAt: string,
     freelancer:  {
@@ -583,10 +587,10 @@ export type UpdateProjectMutation = {
       items:  Array< {
         __typename: "Comment",
         id: string,
-        projectID: string,
+        createdAt: string,
+        commentProjectId: string,
         content: string,
         creatorID: string,
-        createdAt: string,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -616,7 +620,7 @@ export type DeleteProjectMutation = {
     id: string,
     freelancerID: string,
     clientID: string,
-    details: string,
+    details: string | null,
     createdAt: string,
     updatedAt: string,
     freelancer:  {
@@ -670,10 +674,10 @@ export type DeleteProjectMutation = {
       items:  Array< {
         __typename: "Comment",
         id: string,
-        projectID: string,
+        createdAt: string,
+        commentProjectId: string,
         content: string,
         creatorID: string,
-        createdAt: string,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -785,10 +789,10 @@ export type CreateCommentMutation = {
   createComment:  {
     __typename: "Comment",
     id: string,
-    projectID: string,
+    createdAt: string,
+    commentProjectId: string,
     content: string,
     creatorID: string,
-    createdAt: string,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -813,10 +817,10 @@ export type UpdateCommentMutation = {
   updateComment:  {
     __typename: "Comment",
     id: string,
-    projectID: string,
+    createdAt: string,
+    commentProjectId: string,
     content: string,
     creatorID: string,
-    createdAt: string,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -841,10 +845,10 @@ export type DeleteCommentMutation = {
   deleteComment:  {
     __typename: "Comment",
     id: string,
-    projectID: string,
+    createdAt: string,
+    commentProjectId: string,
     content: string,
     creatorID: string,
-    createdAt: string,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -1491,7 +1495,7 @@ export type GetProjectQuery = {
     id: string,
     freelancerID: string,
     clientID: string,
-    details: string,
+    details: string | null,
     createdAt: string,
     updatedAt: string,
     freelancer:  {
@@ -1545,10 +1549,10 @@ export type GetProjectQuery = {
       items:  Array< {
         __typename: "Comment",
         id: string,
-        projectID: string,
+        createdAt: string,
+        commentProjectId: string,
         content: string,
         creatorID: string,
-        createdAt: string,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -1581,7 +1585,7 @@ export type ListProjectsQuery = {
       id: string,
       freelancerID: string,
       clientID: string,
-      details: string,
+      details: string | null,
       createdAt: string,
       updatedAt: string,
       freelancer:  {
@@ -1626,10 +1630,10 @@ export type ListProjectsQuery = {
         items:  Array< {
           __typename: "Comment",
           id: string,
-          projectID: string,
+          createdAt: string,
+          commentProjectId: string,
           content: string,
           creatorID: string,
-          createdAt: string,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -1666,7 +1670,7 @@ export type ProjectsByFreelancerQuery = {
       id: string,
       freelancerID: string,
       clientID: string,
-      details: string,
+      details: string | null,
       createdAt: string,
       updatedAt: string,
       freelancer:  {
@@ -1711,10 +1715,10 @@ export type ProjectsByFreelancerQuery = {
         items:  Array< {
           __typename: "Comment",
           id: string,
-          projectID: string,
+          createdAt: string,
+          commentProjectId: string,
           content: string,
           creatorID: string,
-          createdAt: string,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -1803,10 +1807,10 @@ export type GetCommentQuery = {
   getComment:  {
     __typename: "Comment",
     id: string,
-    projectID: string,
+    createdAt: string,
+    commentProjectId: string,
     content: string,
     creatorID: string,
-    createdAt: string,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -1834,10 +1838,10 @@ export type ListCommentsQuery = {
     items:  Array< {
       __typename: "Comment",
       id: string,
-      projectID: string,
+      createdAt: string,
+      commentProjectId: string,
       content: string,
       creatorID: string,
-      createdAt: string,
       updatedAt: string,
       creator:  {
         __typename: "User",
@@ -2354,7 +2358,7 @@ export type OnCreateProjectSubscription = {
     id: string,
     freelancerID: string,
     clientID: string,
-    details: string,
+    details: string | null,
     createdAt: string,
     updatedAt: string,
     freelancer:  {
@@ -2408,10 +2412,10 @@ export type OnCreateProjectSubscription = {
       items:  Array< {
         __typename: "Comment",
         id: string,
-        projectID: string,
+        createdAt: string,
+        commentProjectId: string,
         content: string,
         creatorID: string,
-        createdAt: string,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -2436,7 +2440,7 @@ export type OnUpdateProjectSubscription = {
     id: string,
     freelancerID: string,
     clientID: string,
-    details: string,
+    details: string | null,
     createdAt: string,
     updatedAt: string,
     freelancer:  {
@@ -2490,10 +2494,10 @@ export type OnUpdateProjectSubscription = {
       items:  Array< {
         __typename: "Comment",
         id: string,
-        projectID: string,
+        createdAt: string,
+        commentProjectId: string,
         content: string,
         creatorID: string,
-        createdAt: string,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -2518,7 +2522,7 @@ export type OnDeleteProjectSubscription = {
     id: string,
     freelancerID: string,
     clientID: string,
-    details: string,
+    details: string | null,
     createdAt: string,
     updatedAt: string,
     freelancer:  {
@@ -2572,10 +2576,10 @@ export type OnDeleteProjectSubscription = {
       items:  Array< {
         __typename: "Comment",
         id: string,
-        projectID: string,
+        createdAt: string,
+        commentProjectId: string,
         content: string,
         creatorID: string,
-        createdAt: string,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -2667,10 +2671,10 @@ export type OnCreateCommentSubscription = {
   onCreateComment:  {
     __typename: "Comment",
     id: string,
-    projectID: string,
+    createdAt: string,
+    commentProjectId: string,
     content: string,
     creatorID: string,
-    createdAt: string,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -2690,10 +2694,10 @@ export type OnUpdateCommentSubscription = {
   onUpdateComment:  {
     __typename: "Comment",
     id: string,
-    projectID: string,
+    createdAt: string,
+    commentProjectId: string,
     content: string,
     creatorID: string,
-    createdAt: string,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -2713,10 +2717,10 @@ export type OnDeleteCommentSubscription = {
   onDeleteComment:  {
     __typename: "Comment",
     id: string,
-    projectID: string,
+    createdAt: string,
+    commentProjectId: string,
     content: string,
     creatorID: string,
-    createdAt: string,
     updatedAt: string,
     creator:  {
       __typename: "User",

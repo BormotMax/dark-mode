@@ -10,34 +10,49 @@ import { ProjectHeader, HeaderColor, HeaderTabColor } from '../../components/pro
 // import { QuoteProgress } from '../../components/quote';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, Quote as QuoteType, AuthProps, User } from '../../types/custom';
-import { unauthClient } from '../_app';
+import { client as gqlClient, unauthClient } from '../_app';
 import { GetProjectQuery } from '../../API';
 import { useFlash } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
+import { onCreateComment } from '../../graphql/subscriptions';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id } = router.query;
   const [project, setProject] = useState(null);
+  const [comments, setComments] = useState([]);
   const [viewerId] = useState(currentUser?.username || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
 
   useEffect(() => {
     const execute = async () => {
+      let result;
       try {
         const res: { data: GetProjectQuery } = await unauthClient.query({
           query: gql(getProject),
           variables: { id },
         });
 
-        const result = res.data?.getProject;
+        result = res.data?.getProject;
         setProject(result);
+        setComments(result?.comments?.items || []);
       } catch (err) {
-        setFlash('There was an error retreiving your Hire Page info. Please contact support');
+        setFlash('There was an error retreiving your Hire Page info. Please contact support.');
       } finally {
         setLoading(false);
+      }
+
+      try {
+        const subscriptionResult = unauthClient.subscribe({ query: gql(onCreateComment) });
+        subscriptionResult.subscribe({
+          next: (comment) => {
+            setComments((existingComments) => [...existingComments, comment.data.onCreateComment]);
+          },
+        });
+      } catch (err) {
+        console.log(err);
       }
     };
     execute();
@@ -47,7 +62,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { details, client, freelancer, createdAt, comments: cs, quotes: qs } = project as Project;
+  const { details, client, freelancer, createdAt, quotes: qs } = project as Project;
 
   let viewer: User;
   if (viewerId === client.id) {
@@ -57,7 +72,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   }
   if (!viewer) return <div>Not authorized</div>;
   // const quotes = (qs?.items || []) as Array<QuoteType>;
-  const comments = (cs?.items || []) as Array<CommentType>;
+  // const comments = (cs?.items || []) as Array<CommentType>;
 
   return (
     <div className={styles.page}>

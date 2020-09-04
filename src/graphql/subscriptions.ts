@@ -96,10 +96,10 @@ export const onCreateProject = /* GraphQL */ `
       comments {
         items {
           id
-          projectID
+          createdAt
+          commentProjectId
           content
           creatorID
-          createdAt
           updatedAt
           creator {
             id
@@ -169,10 +169,10 @@ export const onUpdateProject = /* GraphQL */ `
       comments {
         items {
           id
-          projectID
+          createdAt
+          commentProjectId
           content
           creatorID
-          createdAt
           updatedAt
           creator {
             id
@@ -242,10 +242,10 @@ export const onDeleteProject = /* GraphQL */ `
       comments {
         items {
           id
-          projectID
+          createdAt
+          commentProjectId
           content
           creatorID
-          createdAt
           updatedAt
           creator {
             id
@@ -330,10 +330,10 @@ export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment {
     onCreateComment {
       id
-      projectID
+      createdAt
+      commentProjectId
       content
       creatorID
-      createdAt
       updatedAt
       creator {
         id
@@ -352,10 +352,10 @@ export const onUpdateComment = /* GraphQL */ `
   subscription OnUpdateComment {
     onUpdateComment {
       id
-      projectID
+      createdAt
+      commentProjectId
       content
       creatorID
-      createdAt
       updatedAt
       creator {
         id
@@ -374,10 +374,10 @@ export const onDeleteComment = /* GraphQL */ `
   subscription OnDeleteComment {
     onDeleteComment {
       id
-      projectID
+      createdAt
+      commentProjectId
       content
       creatorID
-      createdAt
       updatedAt
       creator {
         id

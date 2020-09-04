@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useFlash = (time = 4000) => {
+export const useFlash = (time = 7000) => {
   const [flash, setFlashState] = useState(null);
 
   const setFlash = (msg: string) => {
@@ -15,7 +15,7 @@ export const useFlash = (time = 4000) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useDelayedFlash = (time = 4000) => {
+export const useDelayedFlash = (time = 7000) => {
   const [flash, setFlashState] = useState(null);
 
   const setFlash = (msg: string) => {

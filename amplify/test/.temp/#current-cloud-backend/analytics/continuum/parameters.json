@@ -1,0 +1,21 @@
+{
+    "appName": "continuum",
+    "roleName": "pinpointLambdaRole8c360d84",
+    "cloudformationPolicyName": "cloudformationPolicy8c360d84",
+    "cloudWatchPolicyName": "cloudWatchPolicy8c360d84",
+    "pinpointPolicyName": "pinpointPolicy8c360d84",
+    "authPolicyName": "pinpoint_amplify_8c360d84",
+    "unauthPolicyName": "pinpoint_amplify_8c360d84",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

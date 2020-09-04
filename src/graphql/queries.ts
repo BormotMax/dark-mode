@@ -89,10 +89,10 @@ export const getProject = /* GraphQL */ `
       comments {
         items {
           id
-          projectID
+          createdAt
+          commentProjectId
           content
           creatorID
-          createdAt
           updatedAt
           creator {
             id
@@ -159,10 +159,10 @@ export const listProjects = /* GraphQL */ `
         comments {
           items {
             id
-            projectID
+            createdAt
+            commentProjectId
             content
             creatorID
-            createdAt
             updatedAt
             creator {
               id
@@ -239,10 +239,10 @@ export const projectsByFreelancer = /* GraphQL */ `
         comments {
           items {
             id
-            projectID
+            createdAt
+            commentProjectId
             content
             creatorID
-            createdAt
             updatedAt
             creator {
               id
@@ -315,10 +315,10 @@ export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
       id
-      projectID
+      createdAt
+      commentProjectId
       content
       creatorID
-      createdAt
       updatedAt
       creator {
         id
@@ -342,10 +342,10 @@ export const listComments = /* GraphQL */ `
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        projectID
+        createdAt
+        commentProjectId
         content
         creatorID
-        createdAt
         updatedAt
         creator {
           id

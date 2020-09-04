@@ -108,10 +108,10 @@ export const createProject = /* GraphQL */ `
       comments {
         items {
           id
-          projectID
+          createdAt
+          commentProjectId
           content
           creatorID
-          createdAt
           updatedAt
           creator {
             id
@@ -184,10 +184,10 @@ export const updateProject = /* GraphQL */ `
       comments {
         items {
           id
-          projectID
+          createdAt
+          commentProjectId
           content
           creatorID
-          createdAt
           updatedAt
           creator {
             id
@@ -260,10 +260,10 @@ export const deleteProject = /* GraphQL */ `
       comments {
         items {
           id
-          projectID
+          createdAt
+          commentProjectId
           content
           creatorID
-          createdAt
           updatedAt
           creator {
             id
@@ -360,10 +360,10 @@ export const createComment = /* GraphQL */ `
   ) {
     createComment(input: $input, condition: $condition) {
       id
-      projectID
+      createdAt
+      commentProjectId
       content
       creatorID
-      createdAt
       updatedAt
       creator {
         id
@@ -385,10 +385,10 @@ export const updateComment = /* GraphQL */ `
   ) {
     updateComment(input: $input, condition: $condition) {
       id
-      projectID
+      createdAt
+      commentProjectId
       content
       creatorID
-      createdAt
       updatedAt
       creator {
         id
@@ -410,10 +410,10 @@ export const deleteComment = /* GraphQL */ `
   ) {
     deleteComment(input: $input, condition: $condition) {
       id
-      projectID
+      createdAt
+      commentProjectId
       content
       creatorID
-      createdAt
       updatedAt
       creator {
         id

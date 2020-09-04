@@ -44,10 +44,11 @@ type Quote
 
 type Comment
 @model
-@key(name: "byProject", fields: ["projectID"])
+@key(name: "byProject", fields: ["commentProjectId"])
 @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
-  projectID: ID!
+  createdAt: AWSDateTime!
+  commentProjectId: ID!
   content: String!
   creatorID: ID!
   creator: User @connection(fields: ["creatorID"])

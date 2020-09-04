@@ -66,7 +66,6 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
   };
 
   const handleCreateComment = async (e: any) => {
-    console.log(e.keyCode);
     if (e.keyCode === undefined || e.keyCode === 13) {
       if (saving || content.trim() === '') return;
       setSaving(true);
@@ -76,7 +75,7 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
           mutation: gql(createComment),
           variables: {
             input: {
-              projectID,
+              commentProjectId: projectID,
               creatorID,
               content,
             },
@@ -95,7 +94,6 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
   const handleEnter = (e) => {
     if (e.which === 13 && !e.shiftKey) {
       e.preventDefault();
-      console.log('were doin it baby');
       e.keyCode = undefined;
       handleCreateComment(e);
     }
