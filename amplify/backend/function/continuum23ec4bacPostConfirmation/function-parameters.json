@@ -13,5 +13,6 @@
     "roleName": "continuum23ec4bacPostConfirmation",
     "skipEdit": true,
     "GROUP": "freelancer",
-    "triggerEventPath": "PostConfirmation.event.json"
+    "triggerEventPath": "PostConfirmation.event.json",
+    "permissions": {}
 }
