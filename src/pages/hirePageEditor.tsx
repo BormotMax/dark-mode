@@ -33,8 +33,7 @@ const HirePageEditor = ({ currentUser }) => {
   const [portfolioImages, setPortfolioImages] = useState({});
   const [bannerImage, setBannerImage] = useState(null);
   const [fileInputValues, setFileInputValues] = useState({});
-  const freelancerID = currentUser.username;
-  const { email } = currentUser.attributes;
+  const { email, sub: freelancerID } = currentUser.attributes;
 
   const [invalids, setInvalids] = useState<ValidationProps>({});
 

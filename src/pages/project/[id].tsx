@@ -21,7 +21,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id } = router.query;
   const [project, setProject] = useState(null);
-  const [viewerId] = useState(currentUser?.username || localStorage.getItem('viewerId'));
+  const [viewerId] = useState(currentUser?.attributes?.sub || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
 

@@ -277,7 +277,7 @@ const Hire: React.FC = () => {
             &copy; {new Date().getFullYear()} {hireInfo?.name}
           </div>
           <div className="tar mrl">
-            {currentUser?.username === hireInfo?.freelancerID && (
+            {currentUser?.attributes?.sub === hireInfo?.freelancerID && (
               <Link href="/hirePageEditor">
                 <a href="/hirePageEditor">
                   <Sprocket />
