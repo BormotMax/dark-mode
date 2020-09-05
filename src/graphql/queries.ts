@@ -15,6 +15,7 @@ export const listUsers = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -31,6 +32,7 @@ export const getUser = /* GraphQL */ `
       company
       email
       phone
+      signedOutAuthToken
       role
       createdAt
       updatedAt
@@ -52,6 +54,7 @@ export const getProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -62,6 +65,7 @@ export const getProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -100,6 +104,7 @@ export const getProject = /* GraphQL */ `
             company
             email
             phone
+            signedOutAuthToken
             role
             createdAt
             updatedAt
@@ -130,6 +135,7 @@ export const listProjects = /* GraphQL */ `
           company
           email
           phone
+          signedOutAuthToken
           role
           createdAt
           updatedAt
@@ -140,6 +146,7 @@ export const listProjects = /* GraphQL */ `
           company
           email
           phone
+          signedOutAuthToken
           role
           createdAt
           updatedAt
@@ -170,6 +177,7 @@ export const listProjects = /* GraphQL */ `
               company
               email
               phone
+              signedOutAuthToken
               role
               createdAt
               updatedAt
@@ -210,6 +218,7 @@ export const projectsByFreelancer = /* GraphQL */ `
           company
           email
           phone
+          signedOutAuthToken
           role
           createdAt
           updatedAt
@@ -220,6 +229,7 @@ export const projectsByFreelancer = /* GraphQL */ `
           company
           email
           phone
+          signedOutAuthToken
           role
           createdAt
           updatedAt
@@ -250,6 +260,7 @@ export const projectsByFreelancer = /* GraphQL */ `
               company
               email
               phone
+              signedOutAuthToken
               role
               createdAt
               updatedAt
@@ -326,6 +337,7 @@ export const getComment = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -353,6 +365,7 @@ export const listComments = /* GraphQL */ `
           company
           email
           phone
+          signedOutAuthToken
           role
           createdAt
           updatedAt

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { faClipboardUser } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classnames from 'classnames';
 
 interface TabGroupProps {
-  names: Array<string>
-  children: Array<JSX.Element>
+  names: Array<string>;
+  children: Array<JSX.Element> | JSX.Element;
 }
 
 export const TabGroup: React.FC<TabGroupProps> = ({ names, children }) => {
@@ -18,12 +21,16 @@ export const TabGroup: React.FC<TabGroupProps> = ({ names, children }) => {
             <li
               onKeyDown={() => setActiveTabIndex(i)}
               key={name}
-              className={i === activeTabIndex ? 'is-active' : ''}
+              className={classnames({ 'is-active': i === activeTabIndex })}
               onClick={() => setActiveTabIndex(i)}
             >
               {/*  bulma needs a here */}
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a className="text-bold">{name}</a>
+              <a>
+                <FontAwesomeIcon size="1x" color="#595959" icon={faClipboardUser} />
+                &nbsp;
+                {name}
+              </a>
             </li>
           ))}
         </ul>

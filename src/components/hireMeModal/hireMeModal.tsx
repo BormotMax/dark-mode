@@ -3,10 +3,12 @@ import { useState } from 'react';
 import axios from 'axios';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
+import { v4 as uuid } from 'uuid';
+import { useRouter } from 'next/router';
 import styles from './hireMeModal.module.scss';
 import { Comment } from '../comment';
 import { OvalButtonSmall } from '../buttons/buttons';
-import { CreateUserMutation, UserRole, GetUserQuery } from '../../API';
+import { UserRole, GetUserQuery } from '../../API';
 import { createUser, createProject } from '../../graphql/mutations';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
@@ -30,6 +32,7 @@ interface ValidationProps {
 const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelancerEmail, freelancerID, setFlash }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const router = useRouter();
 
   function validate({ name, company, email, phone, details }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -65,15 +68,16 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelanc
       });
 
       const existingClient: User = (getUserResponse.data as GetUserQuery)?.getUser;
+      const signedOutAuthToken = existingClient?.signedOutAuthToken || uuid();
 
       if (!existingClient) {
         await client.mutate({
           mutation: gql(createUser),
-          variables: { input: { id: email, name, company, email, phone, role: UserRole.CLIENT } },
+          variables: { input: { id: email, name, company, email, phone, role: UserRole.CLIENT, signedOutAuthToken } },
         });
       }
 
-      await client.mutate({
+      const createProjectResponse = await client.mutate({
         mutation: gql(createProject),
         variables: { input: { freelancerID, clientID: email, details } },
       });
@@ -90,6 +94,10 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelanc
       form.reset();
       setFlash("You're message has been sent. Please check your email.");
       handleClose();
+
+      router
+        .push(`/project/[id]?token=${signedOutAuthToken}`, `/project/${createProjectResponse.data.createProject.id}`, { shallow: true })
+        .then(() => window.scrollTo(0, 0));
     } catch (err) {
       console.log(err);
       setFlash(err.message);

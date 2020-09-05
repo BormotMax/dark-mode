@@ -46,7 +46,7 @@
     "react-images": "^1.1.7",
     "react-loading-skeleton": "^2.1.1",
     "sass": "^1.26.8",
-    "uuid": "^8.2.0"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",

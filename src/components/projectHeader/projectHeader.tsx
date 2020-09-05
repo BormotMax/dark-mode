@@ -6,7 +6,7 @@ import { useCurrentUser } from '../../hooks';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 interface ProjectHeaderProps {
-  headerText: string;
+  headerText?: string;
   tabColor?: HeaderTabColor;
   headerColor?: HeaderColor;
 }
@@ -42,7 +42,7 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
             <Logo />
           </a>
         </Link>
-        <div className={classnames(styles.headerText, 'is-hidden-mobile', styles[tabColor])}>{headerText}</div>
+        {headerText && <div className={classnames(styles.headerText, 'is-hidden-mobile', styles[tabColor])}>{headerText}</div>}
         <div>
           {currentUser && (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -55,7 +55,9 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
         </div>
       </div>
 
-      <div className={classnames(styles.headerTextMobile, styles.headerText, 'is-block-mobile', styles[tabColor])}>{headerText}</div>
+      {headerText && (
+        <div className={classnames(styles.headerTextMobile, styles.headerText, 'is-block-mobile', styles[tabColor])}>{headerText}</div>
+      )}
     </header>
   );
 };

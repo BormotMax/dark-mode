@@ -16,6 +16,7 @@ type User
   company: String
   email: String
   phone: String
+  signedOutAuthToken: String
   role: UserRole!
 }
 

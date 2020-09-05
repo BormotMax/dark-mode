@@ -13,6 +13,7 @@ export const createUser = /* GraphQL */ `
       company
       email
       phone
+      signedOutAuthToken
       role
       createdAt
       updatedAt
@@ -30,6 +31,7 @@ export const updateUser = /* GraphQL */ `
       company
       email
       phone
+      signedOutAuthToken
       role
       createdAt
       updatedAt
@@ -47,6 +49,7 @@ export const deleteUser = /* GraphQL */ `
       company
       email
       phone
+      signedOutAuthToken
       role
       createdAt
       updatedAt
@@ -71,6 +74,7 @@ export const createProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -81,6 +85,7 @@ export const createProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -119,6 +124,7 @@ export const createProject = /* GraphQL */ `
             company
             email
             phone
+            signedOutAuthToken
             role
             createdAt
             updatedAt
@@ -147,6 +153,7 @@ export const updateProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -157,6 +164,7 @@ export const updateProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -195,6 +203,7 @@ export const updateProject = /* GraphQL */ `
             company
             email
             phone
+            signedOutAuthToken
             role
             createdAt
             updatedAt
@@ -223,6 +232,7 @@ export const deleteProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -233,6 +243,7 @@ export const deleteProject = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -271,6 +282,7 @@ export const deleteProject = /* GraphQL */ `
             company
             email
             phone
+            signedOutAuthToken
             role
             createdAt
             updatedAt
@@ -371,6 +383,7 @@ export const createComment = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -396,6 +409,7 @@ export const updateComment = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt
@@ -421,6 +435,7 @@ export const deleteComment = /* GraphQL */ `
         company
         email
         phone
+        signedOutAuthToken
         role
         createdAt
         updatedAt

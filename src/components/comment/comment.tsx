@@ -34,7 +34,7 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarU
     name={comment.creator.name}
     createdAt={comment.createdAt}
     avatarUrl={avatarUrl || gravatarUrl(comment.creator.email)}
-    isMine={comment.creator.id === viewerId}
+    isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}
   >
     <div>{comment.content}</div>
   </Comment>
@@ -49,7 +49,7 @@ export const Comment: React.FC<CommentProps> = ({ name, createdAt, avatarUrl, ch
     })}
   >
     <div className={styles.header}>
-      <div className="text-2 text-normal text-blue">{name}</div>
+      <div>{name}</div>
       {createdAt && <div className="text-2 text-small text-gray">{new Date(createdAt).toDateString()}</div>}
     </div>
     <img alt="avatar" className={styles.avatar} src={avatarUrl || '/blankAvatar.jpg'} />

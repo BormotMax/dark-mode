@@ -1,10 +1,13 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+
 import gql from 'graphql-tag';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
+import { faComments } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../styles/project.module.scss';
-// import { TabGroup, NotesTab, QuotesTab, FilesTab } from '../../components/tabs';
+import { TabGroup, NotesTab, QuotesTab, FilesTab } from '../../components/tabs';
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { ProjectHeader, HeaderColor, HeaderTabColor } from '../../components/projectHeader';
 // import { QuoteProgress } from '../../components/quote';
@@ -16,14 +19,22 @@ import { useFlash } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
+import { ContactDetails } from '../../components/contactDetails/contactDetails';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, token } = router.query;
   const [project, setProject] = useState(null);
-  const [viewerId] = useState(currentUser?.attributes?.sub || localStorage.getItem('viewerId'));
+  const [viewerId, setViewerId] = useState(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
+
+  useEffect(() => {
+    setViewerId(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
+    if (token) {
+      localStorage.setItem('viewerId', token as string);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const execute = async () => {
@@ -61,19 +72,23 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     execute();
   }, []);
 
-  if (!viewerId) return <div>Not authorized</div>;
+  if (!viewerId) Router.push('/signIn');
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
   const { details, client, freelancer, createdAt, comments: cs } = project as Project;
 
   let viewer: User;
-  if (viewerId === client.id) {
+  // todo: allow signed in freelancer to view page if they're signedout token matches
+  if (viewerId === client.signedOutAuthToken) {
     viewer = client;
   } else if (viewerId === freelancer.id) {
     viewer = freelancer;
   }
-  if (!viewer) return <div>Not authorized</div>;
+  if (!viewer) {
+    Router.push('/signIn');
+    return null;
+  }
 
   // eslint-disable-next-line arrow-body-style
   const comments = (cs?.items || []).sort((e1, e2) => {
@@ -88,47 +103,47 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.body} container is-desktop`}>
-        <ProjectHeader headerText={client.company} tabColor={HeaderTabColor.PURPLE} headerColor={HeaderColor.GRAY} />
+        <ProjectHeader headerColor={HeaderColor.GRAY} />
         <div className={`${styles.columns} columns`}>
-          {/* <div className={classnames(styles.leftColumn, styles.column, 'column', 'is-two-thirds-desktop')}> */}
-          <div className={classnames(styles.leftColumn, styles.column, 'column')}>
+          <div className={classnames(styles.leftColumn, styles.column, 'column', 'is-two-thirds-desktop')}>
+            {/* <div className={classnames(styles.leftColumn, styles.column, 'column')}> */}
             <div className={styles.container}>
               <div className="mbm">
-                <span className="header-2-lg">First Contact from {client.name}</span>
-                <img className="vat mls" src="/wave.png" alt="hello" />
+                <h1 className={classnames('header-2-lg', styles.header)}>{client.company}</h1>
                 <div>
-                  <div className="header-2-md">Message</div>
-                  <div className={classnames('text-2', 'mbm', styles.message)}>{details}</div>
+                  <div className="header-2-md">
+                    <FontAwesomeIcon size="1x" color="#1D35579" icon={faComments} />
+                    &nbsp; Conversation
+                  </div>
+                  {/* <div className={classnames('text-2', 'mbm', styles.message)}>{details}</div> */}
                 </div>
-                <div className="text-slate">Submitted {new Date(createdAt).toDateString()}</div>
+                {/* <div className="text-slate">Submitted {new Date(createdAt).toDateString()}</div> */}
               </div>
               <div className={styles.comments}>
-                <div className={styles.header}>
+                {/* <div className={styles.header}>
                   <div>Comments</div>
                   <div className={styles.line} />
-                </div>
+                </div> */}
                 <div>
                   {comments.filter(Boolean).map((c) => (
-                    <CommentWrapper key={c.id} comment={c} viewerId={viewerId} />
+                    <CommentWrapper key={c.id} comment={c} viewerId={viewerId as string} />
                   ))}
                   <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
                 </div>
               </div>
             </div>
           </div>
-          {/* <div className={classnames('column', styles.column, styles.rightColumn)}>
-                    <div className={styles.container}>
-                      <TabGroup names={['QUOTES', 'NOTES', 'FILES']}>
-                        <QuotesTab quotes={quotes} />
-                        <NotesTab />
-                        <FilesTab files={files} />
-                      </TabGroup>
-                      <div className={styles.projectProgressHeader}>PROJECT PROGRESS</div>
-                      {quotes.filter(Boolean).map((quote, i) => (
-                        <QuoteProgress key={quote.id} i={i + 1} quote={quote} />
-                      ))}
-                    </div>
-                  </div> */}
+          <div className={classnames('column', styles.column, styles.rightColumn)}>
+            <div className={styles.container}>
+              <TabGroup names={['People']}>
+                <ContactDetails user={client} />
+              </TabGroup>
+              {/* <div className={styles.projectProgressHeader}>PROJECT PROGRESS</div> */}
+              {/* {quotes.filter(Boolean).map((quote, i) => ( */}
+              {/* <QuoteProgress key={quote.id} i={i + 1} quote={quote} /> */}
+              {/* ))} */}
+            </div>
+          </div>
         </div>
       </main>
     </div>
