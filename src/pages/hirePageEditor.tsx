@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { ProjectHeader } from '../components/projectHeader';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { FileUpload } from '../components/fileUpload';
-import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug } from '../graphql/mutations';
+import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug, updateUser } from '../graphql/mutations';
 import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery } from '../API';
 import { getHireMeInfo, getDomainSlug } from '../graphql/queries';
 import { client } from './_app';
@@ -235,6 +235,19 @@ const HirePageEditor = ({ currentUser }) => {
     } catch (err) {
       setFlash('There was an error updating your Hire Page info. Please contact support.');
       setSaving(false);
+    }
+    try {
+      await client.mutate({
+        mutation: gql(updateUser),
+        variables: {
+          input: {
+            id: freelancerID,
+            name: variables.name,
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
