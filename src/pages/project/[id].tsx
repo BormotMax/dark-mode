@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
@@ -76,7 +75,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { details, client, freelancer, createdAt, comments: cs } = project as Project;
+  const { client, freelancer, comments: cs } = project as Project;
 
   let viewer: User;
   // todo: allow signed in freelancer to view page if they're signedout token matches
@@ -98,10 +97,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   return (
     <div className={styles.page}>
       <div className="flash-message">{flash || delayedFlash}</div>
-      <Head>
-        <title>Continuum</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <aside className={classnames(styles.sideNav, 'is-hidden-touch')}>
         <Protected roles={[Role.FREELANCER]}>
           <SideNav />
@@ -119,9 +114,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
                     <FontAwesomeIcon size="1x" color="#1D35579" icon={faComments} />
                     &nbsp; Conversation
                   </div>
-                  {/* <div className={classnames('text-2', 'mbm', styles.message)}>{details}</div> */}
                 </div>
-                {/* <div className="text-slate">Submitted {new Date(createdAt).toDateString()}</div> */}
               </div>
               <div className={styles.comments}>
                 <div>

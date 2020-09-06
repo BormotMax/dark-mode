@@ -13,7 +13,7 @@ import Head from 'next/head';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import awsconfig from '../aws-exports';
-import { UserDataProvider } from '../hooks';
+import { UserDataProvider, LoggerProvider } from '../hooks';
 import { RouteIndicator } from '../components/routeChange';
 
 config.autoAddCss = false;
@@ -79,32 +79,34 @@ export const unauthClient = new AWSAppSyncClient(
 );
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
-  <UserDataProvider>
-    <RouteIndicator />
+  <LoggerProvider>
     <Head>
       <title>Continuum</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <ApolloProvider client={client}>
-      <Rehydrated>
-        <Head>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174215284-1" />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+    <RouteIndicator />
+    <UserDataProvider>
+      <ApolloProvider client={client}>
+        <Rehydrated>
+          <Head>
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174215284-1" />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'UA-174215284-1');
 `,
-            }}
-          />
-        </Head>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Component {...pageProps} />
-      </Rehydrated>
-    </ApolloProvider>
-  </UserDataProvider>
+              }}
+            />
+          </Head>
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Component {...pageProps} />
+        </Rehydrated>
+      </ApolloProvider>
+    </UserDataProvider>
+  </LoggerProvider>
 );
 
 export default MyApp;
