@@ -13,12 +13,15 @@ import { createUser, createProject } from '../../graphql/mutations';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
+import { useCurrentUser } from '../../hooks';
 
 interface HireMeModalFormProps {
   handleClose: Function;
   freelancerEmail: string;
   freelancerID: string;
   setFlash: Function;
+  setDelayedFlash: Function;
+  freelancerName: string;
 }
 
 interface ValidationProps {
@@ -29,10 +32,18 @@ interface ValidationProps {
   details?: string;
 }
 
-const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelancerEmail, freelancerID, setFlash }) => {
+const HireMeModalForm: React.FC<HireMeModalFormProps> = ({
+  handleClose,
+  freelancerEmail,
+  freelancerName,
+  freelancerID,
+  setFlash,
+  setDelayedFlash,
+}) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const router = useRouter();
+  const { currentUser } = useCurrentUser();
 
   function validate({ name, company, email, phone, details }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -48,8 +59,14 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelanc
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setSaving(true);
     setInvalids({});
+
+    if (currentUser?.attributes?.sub === freelancerID) {
+      setFlash("You can't contact yourself. Please log out first.");
+      return;
+    }
+
+    setSaving(true);
     const { form } = e.target;
     const formData = serialize(form as HTMLFormElement, { hash: true });
     const { name, company, email, phone, details } = formData;
@@ -91,9 +108,7 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelanc
       //   details,
       // });
 
-      form.reset();
-      setFlash("You're message has been sent. Please check your email.");
-      handleClose();
+      setDelayedFlash(`Thank you! ${freelancerName} will get back to you shortly.`);
 
       router
         .push(`/project/[id]?token=${signedOutAuthToken}`, `/project/${createProjectResponse.data.createProject.id}`, { shallow: true })
@@ -101,14 +116,13 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({ handleClose, freelanc
     } catch (err) {
       console.log(err);
       setFlash(err.message);
-    } finally {
       setSaving(false);
     }
   }
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
-      <div className={classnames('text-1')}>
+      <div>
         <div className="field is-horizontal">
           <div className="field-body">
             <div className="field">
@@ -174,6 +188,7 @@ interface HireMeModalProps {
   avatarUrl?: string;
   handleClose: Function;
   setFlash: Function;
+  setDelayedFlash: Function;
 }
 
 export const HireMeModal: React.FC<HireMeModalProps> = ({
@@ -183,15 +198,23 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
   avatarUrl,
   handleClose,
   setFlash,
+  setDelayedFlash,
 }) => (
   <div className={styles.hireMeModal}>
     <img src="/wave.png" alt="hello" />
-    <h1 className="header-2-lg">Hello There!</h1>
+    <h1 className="h1 vat">Hello There!</h1>
     <Comment isMine={false} name={freelancerName} avatarUrl={avatarUrl}>
       <div>{commentContent}</div>
     </Comment>
     <Comment>
-      <HireMeModalForm freelancerEmail={freelancerEmail} freelancerID={freelancerID} handleClose={handleClose} setFlash={setFlash} />
+      <HireMeModalForm
+        freelancerEmail={freelancerEmail}
+        freelancerID={freelancerID}
+        handleClose={handleClose}
+        freelancerName={freelancerName}
+        setFlash={setFlash}
+        setDelayedFlash={setDelayedFlash}
+      />
     </Comment>
   </div>
 );

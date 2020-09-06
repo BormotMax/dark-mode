@@ -50,7 +50,14 @@
     border-bottom: none;
     vertical-align: top;
     width: 100%;
+    padding: 5px;
     resize: none;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    color: #595959;
   }
 
   .commentBar {
@@ -83,6 +90,8 @@
 
     svg {
       cursor: pointer;
+      font-size: 1.3em; // font awesome icon is too small
+      vertical-align: middle;
     }
   }
 }

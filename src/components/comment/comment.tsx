@@ -53,7 +53,7 @@ export const Comment: React.FC<CommentProps> = ({ name, createdAt, avatarUrl, ch
       {createdAt && <div className="text-2 text-small text-gray">{new Date(createdAt).toDateString()}</div>}
     </div>
     <img alt="avatar" className={styles.avatar} src={avatarUrl || '/blankAvatar.jpg'} />
-    <div className={classnames(styles.commentContent, 'text-2', 'text-gray')}>{children}</div>
+    <div className={classnames(styles.commentContent)}>{children}</div>
   </div>
 );
 
@@ -107,7 +107,7 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
         className={styles.commentText}
         name="content"
         id="content"
-        rows={10}
+        rows={4}
       />
       <div className={styles.commentBar}>
         <span

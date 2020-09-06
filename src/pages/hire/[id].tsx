@@ -30,7 +30,7 @@ enum Tab {
 const Hire: React.FC = () => {
   const router = useRouter();
   const { currentUser } = useCurrentUser();
-  const [delayedFlash] = useDelayedFlash();
+  const [delayedFlash, setDelayedFlash] = useDelayedFlash();
   const [flash, setFlash] = useFlash();
   const { id } = router.query;
   const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
@@ -103,7 +103,7 @@ const Hire: React.FC = () => {
 
   return (
     <div className={classnames(styles.hire)}>
-      <div className="flash-message">{delayedFlash || flash}</div>
+      <div className="flash-message">{flash || delayedFlash}</div>
       <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
         <HireMeModal
           freelancerEmail={hireInfo?.email}
@@ -112,6 +112,7 @@ const Hire: React.FC = () => {
           freelancerID={hireInfo?.freelancerID}
           avatarUrl={gravatarUrl(hireInfo?.email)}
           setFlash={setFlash}
+          setDelayedFlash={setDelayedFlash}
         />
       </Modal>
       <ModalGateway>

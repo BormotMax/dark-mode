@@ -15,7 +15,7 @@ import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, Quote as QuoteType, AuthProps, User } from '../../types/custom';
 import { client as gqlClient, unauthClient } from '../_app';
 import { GetProjectQuery } from '../../API';
-import { useFlash } from '../../hooks';
+import { useFlash, useDelayedFlash } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
@@ -28,6 +28,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [viewerId, setViewerId] = useState(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
+  const [delayedFlash] = useDelayedFlash();
 
   useEffect(() => {
     setViewerId(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
@@ -97,7 +98,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   return (
     <div className={styles.page}>
-      <div className="flash-message">{flash}</div>
+      <div className="flash-message">{flash || delayedFlash}</div>
       <Head>
         <title>Continuum</title>
         <link rel="icon" href="/favicon.ico" />
@@ -109,7 +110,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
             {/* <div className={classnames(styles.leftColumn, styles.column, 'column')}> */}
             <div className={styles.container}>
               <div className="mbm">
-                <h1 className={classnames('header-2-lg', styles.header)}>{client.company}</h1>
+                <h1 className={classnames('h1', styles.header)}>{client.company}</h1>
                 <div>
                   <div className="header-2-md">
                     <FontAwesomeIcon size="1x" color="#1D35579" icon={faComments} />
