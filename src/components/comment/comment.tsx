@@ -75,7 +75,7 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
           mutation: gql(createComment),
           variables: {
             input: {
-              commentProjectId: projectID,
+              projectID,
               creatorID,
               content,
             },

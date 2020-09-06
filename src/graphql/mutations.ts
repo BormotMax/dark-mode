@@ -63,6 +63,7 @@ export const createProject = /* GraphQL */ `
   ) {
     createProject(input: $input, condition: $condition) {
       id
+      owner
       freelancerID
       clientID
       details
@@ -114,7 +115,7 @@ export const createProject = /* GraphQL */ `
         items {
           id
           createdAt
-          commentProjectId
+          projectID
           content
           creatorID
           updatedAt
@@ -142,6 +143,7 @@ export const updateProject = /* GraphQL */ `
   ) {
     updateProject(input: $input, condition: $condition) {
       id
+      owner
       freelancerID
       clientID
       details
@@ -193,7 +195,7 @@ export const updateProject = /* GraphQL */ `
         items {
           id
           createdAt
-          commentProjectId
+          projectID
           content
           creatorID
           updatedAt
@@ -221,6 +223,7 @@ export const deleteProject = /* GraphQL */ `
   ) {
     deleteProject(input: $input, condition: $condition) {
       id
+      owner
       freelancerID
       clientID
       details
@@ -272,7 +275,7 @@ export const deleteProject = /* GraphQL */ `
         items {
           id
           createdAt
-          commentProjectId
+          projectID
           content
           creatorID
           updatedAt
@@ -373,7 +376,7 @@ export const createComment = /* GraphQL */ `
     createComment(input: $input, condition: $condition) {
       id
       createdAt
-      commentProjectId
+      projectID
       content
       creatorID
       updatedAt
@@ -399,7 +402,7 @@ export const updateComment = /* GraphQL */ `
     updateComment(input: $input, condition: $condition) {
       id
       createdAt
-      commentProjectId
+      projectID
       content
       creatorID
       updatedAt
@@ -425,7 +428,7 @@ export const deleteComment = /* GraphQL */ `
     deleteComment(input: $input, condition: $condition) {
       id
       createdAt
-      commentProjectId
+      projectID
       content
       creatorID
       updatedAt

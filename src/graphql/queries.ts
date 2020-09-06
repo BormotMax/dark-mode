@@ -43,6 +43,7 @@ export const getProject = /* GraphQL */ `
   query GetProject($id: ID!) {
     getProject(id: $id) {
       id
+      owner
       freelancerID
       clientID
       details
@@ -94,7 +95,7 @@ export const getProject = /* GraphQL */ `
         items {
           id
           createdAt
-          commentProjectId
+          projectID
           content
           creatorID
           updatedAt
@@ -124,6 +125,7 @@ export const listProjects = /* GraphQL */ `
     listProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        owner
         freelancerID
         clientID
         details
@@ -167,7 +169,7 @@ export const listProjects = /* GraphQL */ `
           items {
             id
             createdAt
-            commentProjectId
+            projectID
             content
             creatorID
             updatedAt
@@ -207,6 +209,7 @@ export const projectsByFreelancer = /* GraphQL */ `
     ) {
       items {
         id
+        owner
         freelancerID
         clientID
         details
@@ -250,7 +253,7 @@ export const projectsByFreelancer = /* GraphQL */ `
           items {
             id
             createdAt
-            commentProjectId
+            projectID
             content
             creatorID
             updatedAt
@@ -327,7 +330,7 @@ export const getComment = /* GraphQL */ `
     getComment(id: $id) {
       id
       createdAt
-      commentProjectId
+      projectID
       content
       creatorID
       updatedAt
@@ -355,7 +358,7 @@ export const listComments = /* GraphQL */ `
       items {
         id
         createdAt
-        commentProjectId
+        projectID
         content
         creatorID
         updatedAt

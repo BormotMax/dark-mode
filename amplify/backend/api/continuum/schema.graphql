@@ -25,6 +25,7 @@ type Project
 @key(name: "byFreelancer", fields: ["freelancerID"], queryField: "projectsByFreelancer")
 @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
+  owner: String!
   freelancerID: ID!
   freelancer: User @connection(fields: ["freelancerID"])
   clientID: ID!
@@ -45,11 +46,11 @@ type Quote
 
 type Comment
 @model
-@key(name: "byProject", fields: ["commentProjectId"])
+@key(name: "byProject", fields: ["projectID", "createdAt"])
 @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   createdAt: AWSDateTime!
-  commentProjectId: ID!
+  projectID: ID!
   content: String!
   creatorID: ID!
   creator: User @connection(fields: ["creatorID"])

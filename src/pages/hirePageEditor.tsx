@@ -306,7 +306,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="url"
                       pattern="https?://.+"
-                      maxLength={65}
+                      maxLength={75}
                       size={35}
                       defaultValue={hireInfo?.twitterUrl}
                       placeholder="https://twitter.com/"
@@ -321,7 +321,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="url"
                       pattern="https?://.+"
-                      maxLength={65}
+                      maxLength={75}
                       size={35}
                       defaultValue={hireInfo?.dribbbleUrl}
                       placeholder="https://dribbble.com/"
@@ -336,7 +336,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="url"
                       pattern="https?://.+"
-                      maxLength={65}
+                      maxLength={75}
                       size={35}
                       defaultValue={hireInfo?.instagramUrl}
                       placeholder="https://www.instagram.com/"
@@ -351,7 +351,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className="input"
                       type="url"
                       pattern="https?://.+"
-                      maxLength={65}
+                      maxLength={75}
                       size={35}
                       defaultValue={hireInfo?.linkedInUrl}
                       placeholder="https://www.linkedin.com/in/"
@@ -366,7 +366,7 @@ const HirePageEditor = ({ currentUser }) => {
                       className={classnames('input', { 'is-danger': invalids.domainSlugID })}
                       type="text"
                       pattern="^continuum.works/hire/[A-Za-z0-9]+"
-                      maxLength={32}
+                      maxLength={50}
                       size={35}
                       defaultValue={`continuum.works/hire/${hireInfo?.domainSlug?.slug || ''}`}
                     />

@@ -96,7 +96,7 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({
 
       const createProjectResponse = await client.mutate({
         mutation: gql(createProject),
-        variables: { input: { freelancerID, clientID: email, details } },
+        variables: { input: { freelancerID, clientID: email, details, owner: freelancerID } },
       });
 
       // await axios.post('/api/sendEmail', {

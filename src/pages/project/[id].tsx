@@ -59,7 +59,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         subscriptionResult.subscribe({
           next: (comment) => {
             setProject((p) => {
-              if (comment.data.onCreateComment.commentProjectId !== p.id) {
+              if (comment.data.onCreateComment.projectID !== p.id) {
                 return p;
               }
               return { ...p, comments: { ...p.comments, items: [...p.comments.items, comment.data.onCreateComment] } };

@@ -51,6 +51,7 @@ export const onCreateProject = /* GraphQL */ `
   subscription OnCreateProject {
     onCreateProject {
       id
+      owner
       freelancerID
       clientID
       details
@@ -102,7 +103,7 @@ export const onCreateProject = /* GraphQL */ `
         items {
           id
           createdAt
-          commentProjectId
+          projectID
           content
           creatorID
           updatedAt
@@ -127,6 +128,7 @@ export const onUpdateProject = /* GraphQL */ `
   subscription OnUpdateProject {
     onUpdateProject {
       id
+      owner
       freelancerID
       clientID
       details
@@ -178,7 +180,7 @@ export const onUpdateProject = /* GraphQL */ `
         items {
           id
           createdAt
-          commentProjectId
+          projectID
           content
           creatorID
           updatedAt
@@ -203,6 +205,7 @@ export const onDeleteProject = /* GraphQL */ `
   subscription OnDeleteProject {
     onDeleteProject {
       id
+      owner
       freelancerID
       clientID
       details
@@ -254,7 +257,7 @@ export const onDeleteProject = /* GraphQL */ `
         items {
           id
           createdAt
-          commentProjectId
+          projectID
           content
           creatorID
           updatedAt
@@ -343,7 +346,7 @@ export const onCreateComment = /* GraphQL */ `
     onCreateComment {
       id
       createdAt
-      commentProjectId
+      projectID
       content
       creatorID
       updatedAt
@@ -366,7 +369,7 @@ export const onUpdateComment = /* GraphQL */ `
     onUpdateComment {
       id
       createdAt
-      commentProjectId
+      projectID
       content
       creatorID
       updatedAt
@@ -389,7 +392,7 @@ export const onDeleteComment = /* GraphQL */ `
     onDeleteComment {
       id
       createdAt
-      commentProjectId
+      projectID
       content
       creatorID
       updatedAt
