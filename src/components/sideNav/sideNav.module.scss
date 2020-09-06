@@ -1,5 +1,50 @@
 .sideNav {
   padding-top: 40px;
+  font-weight: normal;
+  transition: 0.3s left;
+  width: 150px;
+  left: 0;
+  position: relative;
+
+  &.closed {
+    left: calc(-100% + 25px);
+    width: 25px;
+    transition: 0.3s left, 0.3s width;
+
+    .hide {
+      visibility: hidden;
+      width: 0;
+    }
+    .navList {
+      display: none;
+    }
+  }
+
+  .upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 72px;
+
+    .close {
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      border-radius: 50%;
+
+      &:hover {
+        color: black;
+        background: lightgray;
+      }
+
+      svg {
+        vertical-align: middle;
+        position: relative;
+        left: -1px;
+      }
+    }
+  }
 
   .navList {
     margin-top: 51px;

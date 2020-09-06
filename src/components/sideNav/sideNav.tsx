@@ -1,9 +1,11 @@
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPersonSign, faComments, faRocket } from '@fortawesome/pro-light-svg-icons';
+import { faPersonSign, faComments, faRocket, faChevronLeft, faSignOut } from '@fortawesome/pro-light-svg-icons';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { faChevronRight } from '@fortawesome/pro-regular-svg-icons';
 import styles from './sideNav.module.scss';
 import { useCurrentUser } from '../../hooks';
 import { client } from '../../pages/_app';
@@ -13,6 +15,7 @@ import { Avatar } from '../avatar/avatar';
 
 export const SideNav: React.FC = () => {
   const { currentUser, signOut } = useCurrentUser();
+  const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
 
   const navToHirePage = async (e: any) => {
@@ -33,41 +36,61 @@ export const SideNav: React.FC = () => {
     }
   };
 
-  const handleLogout = (e) => {
-    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+  const handleLogout = (e: any) => {
+    if (e.keyCode === undefined || e.keyCode === 13) {
       signOut();
     }
   };
 
+  const toggle = (e: any) => {
+    if (e.keyCode === undefined || e.keyCode === 13) {
+      setIsOpen(!isOpen);
+    }
+  };
+
   return (
-    <div className={classnames(styles.sideNav)}>
-      <Avatar email={currentUser.attributes.email} />
-      &nbsp;&nbsp;
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a role="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
-        Logout
-      </a>
-      <ul className={classnames(styles.navList)}>
-        <li>
-          <FontAwesomeIcon size="1x" icon={faComments} />
-          &nbsp;&nbsp;Conversations
-        </li>
-        <li className={classnames(styles.inner)}>
-          <Link href="/projects">
-            <a href="/projects">
-              <FontAwesomeIcon size="1x" icon={faRocket} />
-              &nbsp;&nbsp;Projects
+    <div className={classnames(styles.sideNav, { [styles.closed]: !isOpen })}>
+      <div className={classnames(styles.upper)}>
+        <div className={classnames(styles.hide)}>
+          <>
+            <Avatar email={currentUser.attributes.email} />
+            &nbsp;&nbsp;
+          </>
+        </div>
+        <div role="button" className={classnames(styles.close)} tabIndex={0} onKeyDown={toggle} onClick={toggle}>
+          {isOpen ? <FontAwesomeIcon size="1x" icon={faChevronLeft} /> : <FontAwesomeIcon size="1x" icon={faChevronRight} />}
+        </div>
+      </div>
+      <>
+        <ul className={classnames(styles.navList)}>
+          <li>
+            <FontAwesomeIcon size="1x" icon={faComments} />
+            &nbsp;&nbsp;Conversations
+          </li>
+          <li className={classnames(styles.inner)}>
+            <Link href="/projects">
+              <a href="/projects">
+                <FontAwesomeIcon size="1x" icon={faRocket} />
+                &nbsp;&nbsp;Projects
+              </a>
+            </Link>
+          </li>
+          <li>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a tabIndex={0} role="link" onKeyDown={navToHirePage} onClick={navToHirePage}>
+              <FontAwesomeIcon size="1x" icon={faPersonSign} />
+              &nbsp;&nbsp;Hire Page
             </a>
-          </Link>
-        </li>
-        <li>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a tabIndex={0} role="link" onKeyDown={navToHirePage} onClick={navToHirePage}>
-            <FontAwesomeIcon size="1x" icon={faPersonSign} />
-            &nbsp;&nbsp;Hire Page
-          </a>
-        </li>
-      </ul>
+          </li>
+          <li>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a role="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
+              <FontAwesomeIcon size="1x" icon={faSignOut} />
+              &nbsp;&nbsp;Logout
+            </a>
+          </li>
+        </ul>
+      </>
     </div>
   );
 };
