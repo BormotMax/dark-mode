@@ -34,6 +34,7 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
       signOut();
     }
   };
+
   return (
     <header className={classnames(styles.header, styles[headerColor])}>
       <div className={styles.upper}>

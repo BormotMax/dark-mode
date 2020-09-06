@@ -49,6 +49,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
       setError(err.message);
     }
   }
+
   async function handleSignInClick(e: FormEvent) {
     e.preventDefault();
     setRequestPending(true);

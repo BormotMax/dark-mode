@@ -292,30 +292,30 @@ const Hire: React.FC = () => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  let host;
-  let username = null;
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   let host;
+//   let username = null;
 
-  host = req?.headers?.host;
+//   host = req?.headers?.host;
 
-  if (typeof window !== 'undefined') {
-    host = window.location.host;
-  }
+//   if (typeof window !== 'undefined') {
+//     host = window.location.host;
+//   }
 
-  if (host) {
-    const isDev = host.includes('localhost');
-    const splitHost = host.split('.');
+//   if (host) {
+//     const isDev = host.includes('localhost');
+//     const splitHost = host.split('.');
 
-    if ((!isDev && splitHost.length === 3) || (isDev && splitHost.length === 2)) {
-      if (username !== 'www') {
-        // eslint-disable-next-line prefer-destructuring
-        username = splitHost[0];
-      }
-    }
-  }
+//     if ((!isDev && splitHost.length === 3) || (isDev && splitHost.length === 2)) {
+//       if (username !== 'www') {
+//         // eslint-disable-next-line prefer-destructuring
+//         username = splitHost[0];
+//       }
+//     }
+//   }
 
-  return { props: { username } };
-}
+//   return { props: { username } };
+// }
 
 export default Hire;

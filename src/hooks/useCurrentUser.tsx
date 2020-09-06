@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Auth } from '@aws-amplify/auth';
+import { useRouter } from 'next/router';
 
 export const UserContext = React.createContext({
   pending: true,
@@ -13,11 +14,12 @@ export const useCurrentUser = (): any => useContext(UserContext);
 export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [pending, setPending] = useState(true);
+  const router = useRouter();
 
   const signOut = async () => {
     try {
       await Auth.signOut();
-      setCurrentUser(null);
+      router.push('/signIn');
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +51,7 @@ export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
     };
 
     execute();
-  }, []);
+  }, [router.pathname]);
 
   return <UserContext.Provider value={{ currentUser, pending, signIn, signOut }}>{children}</UserContext.Provider>;
 };

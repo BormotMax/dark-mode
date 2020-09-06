@@ -1,0 +1,20 @@
+.sideNav {
+  padding-top: 40px;
+
+  .navList {
+    margin-top: 51px;
+
+    .inner {
+      margin-left: 25px !important;
+    }
+  }
+
+  li,
+  a {
+    color: #595959;
+  }
+
+  a:hover {
+    color: black;
+  }
+}

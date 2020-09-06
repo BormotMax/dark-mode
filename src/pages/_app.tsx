@@ -14,6 +14,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import awsconfig from '../aws-exports';
 import { UserDataProvider } from '../hooks';
+import { RouteIndicator } from '../components/routeChange';
 
 config.autoAddCss = false;
 
@@ -79,6 +80,7 @@ export const unauthClient = new AWSAppSyncClient(
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <UserDataProvider>
+    <RouteIndicator />
     <Head>
       <title>Continuum</title>
       <link rel="icon" href="/favicon.ico" />

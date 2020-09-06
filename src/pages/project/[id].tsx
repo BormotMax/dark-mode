@@ -7,8 +7,7 @@ import { faComments } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../styles/project.module.scss';
 import { TabGroup } from '../../components/tabs';
-import { WithAuthentication, RouteType } from '../../components/withAuthentication';
-import { ProjectHeader, HeaderColor } from '../../components/projectHeader';
+import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
 import { unauthClient } from '../_app';
@@ -18,6 +17,8 @@ import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
 import { ContactDetails } from '../../components/contactDetails/contactDetails';
+import { SideNav } from '../../components/sideNav/sideNav';
+import { Protected } from '../../components/protected/protected';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -101,11 +102,15 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <title>Continuum</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <aside className={classnames(styles.sideNav)}>
+        <Protected roles={[Role.FREELANCER]} user={currentUser}>
+          <SideNav />
+        </Protected>
+      </aside>
       <main className={`${styles.body} container is-desktop`}>
-        <ProjectHeader headerColor={HeaderColor.GRAY} />
+        {/* <ProjectHeader headerColor={HeaderColor.GRAY} /> */}
         <div className={`${styles.columns} columns`}>
           <div className={classnames(styles.leftColumn, styles.column, 'column', 'is-two-thirds-desktop')}>
-            {/* <div className={classnames(styles.leftColumn, styles.column, 'column')}> */}
             <div className={styles.container}>
               <div className="mbm">
                 <h1 className={classnames('h1', styles.header)}>{client.company}</h1>
@@ -119,10 +124,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
                 {/* <div className="text-slate">Submitted {new Date(createdAt).toDateString()}</div> */}
               </div>
               <div className={styles.comments}>
-                {/* <div className={styles.header}>
-                  <div>Comments</div>
-                  <div className={styles.line} />
-                </div> */}
                 <div>
                   {comments.filter(Boolean).map((c) => (
                     <CommentWrapper key={c.id} comment={c} viewerId={viewerId as string} />
