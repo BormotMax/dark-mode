@@ -109,14 +109,25 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({
         variables: { input: { projectID, content: details, creatorID: existingClient.id } },
       });
 
-      // await axios.post('/api/sendEmail', {
-      //   to: freelancerEmail,
-      //   name,
-      //   company,
-      //   email,
-      //   phone,
-      //   details,
-      // });
+      await axios.post('/api/sendEmail', {
+        to: freelancerEmail,
+        name,
+        company,
+        email,
+        phone,
+        details,
+        type: 'NEW_CLIENT_CONTACT_FREELANCER',
+      });
+
+      await axios.post('/api/sendEmail', {
+        to: existingClient.email,
+        name,
+        company,
+        email,
+        phone,
+        details: `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`,
+        type: 'NEW_CLIENT_CONTACT_CLIENT',
+      });
 
       setDelayedFlash(`Thank you! ${freelancerName} will get back to you shortly.`);
 
