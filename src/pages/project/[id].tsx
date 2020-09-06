@@ -102,8 +102,8 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <title>Continuum</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <aside className={classnames(styles.sideNav)}>
-        <Protected roles={[Role.FREELANCER]} user={currentUser}>
+      <aside className={classnames(styles.sideNav, 'is-hidden-touch')}>
+        <Protected roles={[Role.FREELANCER]}>
           <SideNav />
         </Protected>
       </aside>

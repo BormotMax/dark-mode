@@ -50,13 +50,13 @@ export const SideNav: React.FC = () => {
       <ul className={classnames(styles.navList)}>
         <li>
           <FontAwesomeIcon size="1x" icon={faComments} />
-          &nbsp; Conversations
+          &nbsp;&nbsp;Conversations
         </li>
         <li className={classnames(styles.inner)}>
           <Link href="/projects">
             <a href="/projects">
               <FontAwesomeIcon size="1x" icon={faRocket} />
-              &nbsp;Projects
+              &nbsp;&nbsp;Projects
             </a>
           </Link>
         </li>
@@ -64,7 +64,7 @@ export const SideNav: React.FC = () => {
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a tabIndex={0} role="link" onKeyDown={navToHirePage} onClick={navToHirePage}>
             <FontAwesomeIcon size="1x" icon={faPersonSign} />
-            &nbsp; Hire Page
+            &nbsp;&nbsp;Hire Page
           </a>
         </li>
       </ul>

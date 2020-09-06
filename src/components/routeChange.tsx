@@ -1,7 +1,7 @@
 import Router from 'next/router';
 import React from 'react';
 
-const DONE_DURATION = 250;
+const DONE_DURATION = 550;
 
 export const RouteIndicator = () => {
   const [loading, setLoading] = React.useState(null);
