@@ -8,8 +8,8 @@ import { useRouter } from 'next/router';
 import styles from './hireMeModal.module.scss';
 import { Comment } from '../comment';
 import { OvalButtonSmall } from '../buttons/buttons';
-import { UserRole, GetUserQuery } from '../../API';
-import { createUser, createProject } from '../../graphql/mutations';
+import { UserRole, GetUserQuery, CreateUserMutation } from '../../API';
+import { createUser, createProject, createComment } from '../../graphql/mutations';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
@@ -84,19 +84,29 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({
         variables: { id: email },
       });
 
-      const existingClient: User = (getUserResponse.data as GetUserQuery)?.getUser;
+      let existingClient: User = (getUserResponse.data as GetUserQuery)?.getUser;
       const signedOutAuthToken = existingClient?.signedOutAuthToken || uuid();
 
       if (!existingClient) {
-        await client.mutate({
+        const { data }: { data: CreateUserMutation } = await client.mutate({
           mutation: gql(createUser),
           variables: { input: { id: email, name, company, email, phone, role: UserRole.CLIENT, signedOutAuthToken } },
         });
+
+        existingClient = data.createUser;
       }
 
       const createProjectResponse = await client.mutate({
         mutation: gql(createProject),
         variables: { input: { freelancerID, clientID: email, details, owner: freelancerID } },
+      });
+
+      const projectID = createProjectResponse.data.createProject.id;
+
+      // Create a comment from details, but also store it in the project.
+      await client.mutate({
+        mutation: gql(createComment),
+        variables: { input: { projectID, content: details, creatorID: existingClient.id } },
       });
 
       // await axios.post('/api/sendEmail', {
@@ -111,7 +121,7 @@ const HireMeModalForm: React.FC<HireMeModalFormProps> = ({
       setDelayedFlash(`Thank you! ${freelancerName} will get back to you shortly.`);
 
       router
-        .push(`/project/[id]?token=${signedOutAuthToken}`, `/project/${createProjectResponse.data.createProject.id}`, { shallow: true })
+        .push(`/project/[id]?token=${signedOutAuthToken}`, `/project/${projectID}`, { shallow: true })
         .then(() => window.scrollTo(0, 0));
     } catch (err) {
       console.log(err);

@@ -1,7 +1,7 @@
 .sideNav {
   padding-top: 40px;
   font-weight: normal;
-  transition: 0.3s left;
+  transition: 0.7s left;
   width: 150px;
   left: 0;
   position: relative;
@@ -9,7 +9,7 @@
   &.closed {
     left: calc(-100% + 25px);
     width: 25px;
-    transition: 0.3s left, 0.3s width;
+    transition: 0.7s left, 0.7s width;
 
     .hide {
       visibility: hidden;

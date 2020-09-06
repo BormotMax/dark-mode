@@ -1,5 +1,5 @@
 @use "src/mixins";
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .page {
   background: #e0e0e0;
@@ -12,10 +12,6 @@
   display: flex;
   @include desktop {
     padding: 33px;
-  }
-
-  .sideNav {
-    margin-right: 16px;
   }
 
   .body {
