@@ -1,19 +1,17 @@
 import Head from 'next/head';
 import Router, { useRouter } from 'next/router';
-
 import gql from 'graphql-tag';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import { faComments } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../styles/project.module.scss';
-import { TabGroup, NotesTab, QuotesTab, FilesTab } from '../../components/tabs';
+import { TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
-import { ProjectHeader, HeaderColor, HeaderTabColor } from '../../components/projectHeader';
-// import { QuoteProgress } from '../../components/quote';
+import { ProjectHeader, HeaderColor } from '../../components/projectHeader';
 import { getProject } from '../../graphql/queries';
-import { Project, Comment as CommentType, Quote as QuoteType, AuthProps, User } from '../../types/custom';
-import { client as gqlClient, unauthClient } from '../_app';
+import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
+import { unauthClient } from '../_app';
 import { GetProjectQuery } from '../../API';
 import { useFlash, useDelayedFlash } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
