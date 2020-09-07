@@ -8,6 +8,7 @@ import { Comment as CommentType } from '../../types/custom';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { unauthClient } from '../../pages/_app';
 import { createComment } from '../../graphql/mutations';
+import { useLogger } from '../../hooks';
 
 interface CommentWrapperProps {
   comment: CommentType;
@@ -60,6 +61,7 @@ export const Comment: React.FC<CommentProps> = ({ name, createdAt, avatarUrl, ch
 export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, projectID, creatorID }) => {
   const [content, setContent] = useState('');
   const [saving, setSaving] = useState(false);
+  const { logger } = useLogger();
 
   const handleChange = (e) => {
     setContent(e.target.value);
@@ -70,21 +72,21 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
       if (saving || content.trim() === '') return;
       setSaving(true);
 
+      const input = {
+        projectID,
+        creatorID,
+        content,
+      };
+
       try {
         await unauthClient.mutate({
           mutation: gql(createComment),
-          variables: {
-            input: {
-              projectID,
-              creatorID,
-              content,
-            },
-          },
+          variables: { input },
         });
 
         setContent('');
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        logger.error('NewComment: error creating comment', { error, input });
       } finally {
         setSaving(false);
       }

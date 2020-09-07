@@ -15,7 +15,7 @@ import { getHireMeInfo, getDomainSlug } from '../graphql/queries';
 import { client } from './_app';
 import styles from './styles/hireEdit.module.scss';
 import { DomainSlug } from '../types/custom';
-import { useDelayedFlash, useFlash } from '../hooks';
+import { useDelayedFlash, useFlash, useLogger } from '../hooks';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 
@@ -33,16 +33,18 @@ const HirePageEditor = ({ currentUser }) => {
   const [portfolioImages, setPortfolioImages] = useState({});
   const [bannerImage, setBannerImage] = useState(null);
   const [fileInputValues, setFileInputValues] = useState({});
-  const { email, sub: freelancerID } = currentUser.attributes;
-
+  const { logger } = useLogger();
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { email, sub: freelancerID } = currentUser.attributes;
 
   useEffect(() => {
     const execute = async () => {
+      const variables = { freelancerID };
+
       try {
         const res: { data: GetHireMeInfoQuery } = await client.query({
           query: gql(getHireMeInfo),
-          variables: { freelancerID },
+          variables,
         });
 
         const info = res.data.getHireMeInfo;
@@ -51,23 +53,25 @@ const HirePageEditor = ({ currentUser }) => {
           info.portfolioImages?.forEach(({ key, tag }) => {
             try {
               Storage.get(key).then((img) => setPortfolioImages({ ...portfolioImages, [tag]: img }));
-            } catch (err) {
-              console.log(err);
+            } catch (error) {
+              logger.error('HirePageEditor: error retrieving s3 image.', { error, input: key });
             }
           });
 
           if (info.bannerImage) {
+            const { key } = info.bannerImage;
             try {
-              Storage.get(info.bannerImage.key).then((b) => setBannerImage(b));
-            } catch (err) {
-              console.log(err);
+              Storage.get(key).then((b) => setBannerImage(b));
+            } catch (error) {
+              logger.error('HirePageEditor: error retrieving s3 image.', { error, input: key });
             }
           }
         }
 
         setHireInfo(info);
-      } catch (err) {
-        // setFlash('There was an error retreiving your Hire Page info. Please contact support');
+      } catch (error) {
+        setFlash("There was an error retreiving your Hire Page info. We're looking into it.");
+        logger.error('HirePageEditor: error retrieving Hire page info', { error, input: variables });
       } finally {
         setLoading(false);
       }
@@ -77,9 +81,7 @@ const HirePageEditor = ({ currentUser }) => {
 
   function validate({ domainSlugID }: ValidationProps) {
     const temp: ValidationProps = {};
-
     if (!domainSlugID) temp.domainSlugID = 'error';
-
     return temp;
   }
 
@@ -91,8 +93,8 @@ const HirePageEditor = ({ currentUser }) => {
     e.preventDefault();
     setSaving(true);
     setInvalids({});
-    const variables = serialize(e.target, { hash: true, empty: true });
-    const validation = validate(variables);
+    const formValues = serialize(e.target, { hash: true, empty: true });
+    const validation = validate(formValues);
 
     if (Object.keys(validation).length) {
       setInvalids(validation);
@@ -100,18 +102,31 @@ const HirePageEditor = ({ currentUser }) => {
       return;
     }
 
-    const domainSlugID = variables.domainSlugID.split('continuum.works/hire/', 2)[1];
+    const updateUserInput = {
+      id: freelancerID,
+      name: formValues.name,
+    };
 
-    variables.domainSlugID = domainSlugID;
+    try {
+      await client.mutate({
+        mutation: gql(updateUser),
+        variables: { input: updateUserInput },
+      });
+    } catch (error) {
+      logger.error('HirePageEditor: error updating User.', { error, input: updateUserInput });
+    }
 
+    const domainSlugID = formValues.domainSlugID.split('continuum.works/hire/', 2)[1];
+    formValues.domainSlugID = domainSlugID;
     let domainSlugExists = false;
     let domainSlugIsMine = false;
 
     // try to get existing DomainSlug
+    const getDomainSlugInput = { slug: formValues.domainSlugID };
     try {
       const getDomainSlugResult: { data: GetDomainSlugQuery } = await client.query({
         query: gql(getDomainSlug),
-        variables: { slug: variables.domainSlugID },
+        variables: getDomainSlugInput,
       });
 
       const getDomainSlugResponse: DomainSlug = getDomainSlugResult?.data?.getDomainSlug;
@@ -122,35 +137,53 @@ const HirePageEditor = ({ currentUser }) => {
       }
 
       if (domainSlugExists && !domainSlugIsMine) {
-        throw new Error('That domain is unavailable.');
+        setFlash('That domain is unavailable');
+        setSaving(false);
+        return;
       }
-    } catch (err) {
-      setFlash(err.message);
+    } catch (error) {
+      setFlash("Something went wrong. We're looking into it");
+      logger.error('HirePageEditor: error retrieving existing slug.', { error, input: getDomainSlugInput });
       setSaving(false);
       return;
     }
 
     // Create a new DomainSlug
     if (!domainSlugExists) {
+      const createDomainSlugInput = {
+        freelancerID,
+        slug: formValues.domainSlugID,
+      };
+
       try {
         const createDomainSlugResponse = await client.mutate({
           mutation: gql(createDomainSlug),
-          variables: {
-            input: {
-              freelancerID,
-              slug: variables.domainSlugID,
-            },
-          },
+          variables: { input: createDomainSlugInput },
         });
 
         const newSlug = createDomainSlugResponse?.data?.createDomainSlug?.slug;
         if (!newSlug) {
-          throw new Error('Could not save domain');
+          throw new Error();
         }
-      } catch (err) {
-        setFlash(err.message);
+      } catch (error) {
+        setFlash("Something went wrong. We're looking into it");
+        logger.error('HirePageEditor: error creating slug.', { error, createDomainSlugInput });
         setSaving(false);
         return;
+      }
+
+      // If this freelancer already had a domain slug and just created a new one, delete the existing one
+      const existingDomainSlug = hireInfo?.domainSlug?.slug;
+      if (existingDomainSlug) {
+        const deleteDomainSlugInput = { slug: existingDomainSlug };
+        try {
+          await client.mutate({
+            mutation: gql(deleteDomainSlug),
+            variables: { input: deleteDomainSlugInput },
+          });
+        } catch (error) {
+          logger.error('HirePageEditor: deleting old domain slug failed', { error, input: deleteDomainSlugInput });
+        }
       }
     }
 
@@ -164,18 +197,33 @@ const HirePageEditor = ({ currentUser }) => {
 
       if (file) {
         if (existingImage) {
-          Storage.remove(existingImage.key);
+          const { key } = existingImage;
+          try {
+            Storage.remove(key);
+          } catch (error) {
+            logger.error('HirePageEditor: error deleting image from s3', { error, input: key });
+          }
         }
 
         if (hireInfo?.bannerImage && name === 'banner') {
-          Storage.remove(hireInfo.bannerImage.key);
+          const { key } = hireInfo.bannerImage;
+          try {
+            Storage.remove(key);
+          } catch (error) {
+            logger.error('HirePageEditor: error deleting banner image from s3', { error, input: key });
+          }
         }
 
         const s3Key = `${uuid()}${file.name}`;
-        uploadPromises.push(Storage.put(s3Key, file));
+
+        try {
+          uploadPromises.push(Storage.put(s3Key, file));
+        } catch (error) {
+          logger.error('HirePageEditor: error adding image to s3', { error, input: s3Key });
+        }
 
         if (name === 'banner') {
-          variables.bannerImage = { key: s3Key, tag: name };
+          formValues.bannerImage = { key: s3Key, tag: name };
         } else {
           portfolioImageS3Objects.push({ key: s3Key, tag: name });
         }
@@ -187,32 +235,19 @@ const HirePageEditor = ({ currentUser }) => {
       }
     }
 
-    (variables as CreateHireMeInfoInput).portfolioImages = portfolioImageS3Objects;
+    (formValues as CreateHireMeInfoInput).portfolioImages = portfolioImageS3Objects;
+
+    const mutateHireMeInfoInput = {
+      freelancerID,
+      email,
+      ...formValues,
+    };
 
     try {
       const mutationResult = await client.mutate({
         mutation: hireInfo ? gql(updateHireMeInfo) : gql(createHireMeInfo),
-        variables: {
-          input: {
-            freelancerID,
-            email,
-            ...variables,
-          },
-        },
+        variables: { input: mutateHireMeInfoInput },
       });
-
-      // If this freelancer already had a domain slug and just created a new one, delete the existing one
-      const existingDomainSlug = hireInfo?.domainSlug?.slug;
-      if (!domainSlugExists && existingDomainSlug) {
-        try {
-          await client.mutate({
-            mutation: gql(deleteDomainSlug),
-            variables: { input: { slug: existingDomainSlug } },
-          });
-        } catch {
-          console.log('Could not delete existing domain slug');
-        }
-      }
 
       const info = hireInfo ? mutationResult?.data?.updateHireMeInfo : mutationResult?.data?.createHireMeInfo;
 
@@ -225,28 +260,19 @@ const HirePageEditor = ({ currentUser }) => {
           const slug = info?.domainSlug?.slug;
           if (slug) {
             router.push('/hire/[id]', `/hire/${slug}`, { shallow: true }).then(() => window.scrollTo(0, 0));
+          } else {
+            setFlash("Something went wrong. We're looking into it");
+            logger.error('HirePageEditor: After saving, there is no domain slug', { info: { hireInfoId: info.id } });
           }
         })
-        .catch(() => {
-          setFlash('Some images may not have saved. Refresh the page to see.');
-          setSaving(false);
+        .catch((error) => {
+          setFlash('Some images may not have saved. Refresh the page to check.');
+          logger.error('HirePageEditor: images not saved.', { error });
         });
-    } catch (err) {
-      setFlash('There was an error updating your Hire Page info. Please contact support.');
+    } catch (error) {
+      setFlash("Something went wrong. We're looking into it");
+      logger.error('HirePageEditor: update or create HireMeInfo failed', { error, input: mutateHireMeInfoInput });
       setSaving(false);
-    }
-    try {
-      await client.mutate({
-        mutation: gql(updateUser),
-        variables: {
-          input: {
-            id: freelancerID,
-            name: variables.name,
-          },
-        },
-      });
-    } catch (err) {
-      console.log(err);
     }
   };
 
