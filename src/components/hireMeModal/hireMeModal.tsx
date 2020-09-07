@@ -90,8 +90,8 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
         query: gql(getUser),
         variables: getUserInput,
       });
-    } catch (err) {
-      logger.error('HireMeModalForm: error ', { error: err, input: { email, input: getUserInput } });
+    } catch (error) {
+      logger.error('HireMeModal: error ', { error, input: { email, input: getUserInput } });
       setFlash("Something went wrong. We're looking into it");
       setSaving(false);
       return;
@@ -111,7 +111,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
 
         existingClient = data.createUser;
       } catch (error) {
-        logger.error('HireMeModalForm: error creating User', { error, input: createUserInput });
+        logger.error('HireMeModal: error creating User', { error, input: createUserInput });
         setFlash("Something went wrong. We're looking into it");
         setSaving(false);
         return;
@@ -127,7 +127,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
         variables: { input: createProjectInput },
       });
     } catch (error) {
-      logger.error('HireMeModalForm: error creating Project', { error, input: createProjectInput });
+      logger.error('HireMeModal: error creating Project', { error, input: createProjectInput });
       setFlash("Something went wrong. We're looking into it");
       setSaving(false);
       return;
@@ -142,7 +142,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
         variables: { input: createCommentInput },
       });
     } catch (error) {
-      logger.error('HireMeModalForm: error creating Comment', { error, input: createCommentInput });
+      logger.error('HireMeModal: error creating Comment', { error, input: createCommentInput });
     }
 
     const freelancerEmailInput = {
@@ -158,7 +158,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
     try {
       await axios.post('/api/sendEmail', freelancerEmailInput);
     } catch (error) {
-      logger.error('HireMeModalForm: error sending email to freelancer', { error, input: freelancerEmailInput });
+      logger.error('HireMeModal: error sending email to freelancer', { error, input: freelancerEmailInput });
     }
 
     const clientEmailInput = {
@@ -174,7 +174,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
     try {
       await axios.post('/api/sendEmail', clientEmailInput);
     } catch (error) {
-      logger.error('HireMeModalForm: error sending email to client', { error, input: clientEmailInput });
+      logger.error('HireMeModal: error sending email to client', { error, input: clientEmailInput });
     }
 
     setDelayedFlash(`Thank you! ${freelancerName} will get back to you shortly.`);

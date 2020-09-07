@@ -7,6 +7,7 @@ import { ResetPassword } from '../components/resetPassword';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
+import { useLogger } from '../hooks';
 
 interface ValidationProps {
   email?: string;
@@ -18,6 +19,7 @@ const ForgotPassword: React.FC = () => {
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { logger } = useLogger();
 
   function validate({ email }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -53,6 +55,7 @@ const ForgotPassword: React.FC = () => {
       setConfirming(true);
     } catch (err) {
       setError(err.message);
+      logger.error('ForgotPassword: error in Auth.forgotPassword', { error: err, input: formData.email });
       setRequestPending(false);
     }
   }

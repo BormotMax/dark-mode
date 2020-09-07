@@ -8,6 +8,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../pages/styles/authPage.module.scss';
 import { ProjectHeader } from '../projectHeader';
 import EmailIcon from '../../img/email.svg';
+import { useLogger } from '../../hooks';
 
 interface ResetPasswordProps {
   email: string;
@@ -24,6 +25,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
   const [isPasswordShowing, setPasswordShowing] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { logger } = useLogger();
 
   function validate({ code, password }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -54,13 +56,14 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
       await Auth.forgotPasswordSubmit(email, code, password);
       Router.push('/signIn');
     } catch (err) {
+      logger.error('ResetPassword: error in Auth.forgotPasswordSubmit', { error, input: { email, code } });
       setError(err.message);
       setRequestPending(false);
     }
   }
 
-  function handleEyeballClick(e) {
-    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+  function handleEyeballClick(e: any) {
+    if (e.keyCode === undefined || e.keyCode === 13) {
       setPasswordShowing(!isPasswordShowing);
     }
   }
