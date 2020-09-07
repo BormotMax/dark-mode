@@ -263,11 +263,13 @@ const HirePageEditor = ({ currentUser }) => {
           } else {
             setFlash("Something went wrong. We're looking into it");
             logger.error('HirePageEditor: After saving, there is no domain slug', { info: { hireInfoId: info.id } });
+            setSaving(false);
           }
         })
         .catch((error) => {
           setFlash('Some images may not have saved. Refresh the page to check.');
           logger.error('HirePageEditor: images not saved.', { error });
+          setSaving(false);
         });
     } catch (error) {
       setFlash("Something went wrong. We're looking into it");

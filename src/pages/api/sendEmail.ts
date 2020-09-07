@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-
 import { sendEmail } from './util/sendEmail';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

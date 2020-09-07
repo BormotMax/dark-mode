@@ -14,6 +14,7 @@ import { AuthProps } from '../types/custom';
 import EmailIcon from '../img/email.svg';
 import { ProjectHeader } from '../components/projectHeader';
 import { GoogleAuthButton } from '../components/googleAuthButton';
+import { useLogger } from '../hooks';
 
 interface ValidationProps {
   email?: string;
@@ -27,6 +28,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { logger } = useLogger();
 
   function validate({ email, password }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -41,12 +43,14 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     setError('');
     setInvalids({});
 
+    const federatedSignInInput = { provider: 'Google' };
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      await Auth.federatedSignIn({ provider: 'Google' });
+      await Auth.federatedSignIn(federatedSignInInput);
     } catch (err) {
       setError(err.message);
+      logger.error('SignIn: error in Auth.federatedSignIn', { error: err, input: federatedSignInInput });
     }
   }
 
@@ -80,8 +84,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         setConfirming(true);
       }
     } catch (err) {
-      // could not sign in
       setError(err.message);
+      logger.error('SignIn: error signing in', { error: err, input: { email, password } });
       setRequestPending(false);
 
       if (err.code === 'UserNotConfirmedException') {
@@ -93,8 +97,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     }
   }
 
-  function handleEyeballClick(e) {
-    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+  function handleEyeballClick(e: any) {
+    if (e.keyCode === undefined || e.keyCode === 13) {
       setPasswordShowing(!isPasswordShowing);
     }
   }
@@ -117,8 +121,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
           />
-          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
-          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
+          <div tabIndex={0} role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
             {isPasswordShowing ? (
               <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" />
             ) : (

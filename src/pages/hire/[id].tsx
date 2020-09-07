@@ -19,7 +19,7 @@ import { hireInfoByDomainSlug } from '../../graphql/queries';
 import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { useCurrentUser, useDelayedFlash, useFlash } from '../../hooks';
+import { useCurrentUser, useDelayedFlash, useFlash, useLogger } from '../../hooks';
 import { unauthClient as client } from '../_app';
 
 enum Tab {
@@ -42,15 +42,21 @@ const Hire: React.FC = () => {
   const [isCarouselOpen, setCarouselOpen] = useState(false);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(-1);
   const blurbTextElement = useRef(null);
+  const { logger } = useLogger();
 
   useEffect(() => {
     const execute = async () => {
       if (!id) return;
+      const hireInfoByDomainSlugInput = { domainSlugID: id };
       try {
         const { data }: { data: HireInfoByDomainSlugQuery } = await client.query({
           query: gql(hireInfoByDomainSlug),
-          variables: { domainSlugID: id },
+          variables: hireInfoByDomainSlugInput,
         });
+
+        if (data?.hireInfoByDomainSlug?.items?.length > 1) {
+          logger.error('Hire: freelancer has more than one HireInfo', { input: hireInfoByDomainSlugInput });
+        }
 
         const info = data?.hireInfoByDomainSlug?.items[0];
 
@@ -65,26 +71,27 @@ const Hire: React.FC = () => {
                   map[tag] = img;
                 }),
               );
-            } catch (err) {
-              console.log(err);
+            } catch (error) {
+              logger.error('Hire: error getting banner image', { error, input: key });
             }
           });
 
           Promise.all(promises).then(() => setPortfolioImages(map));
 
           if (info.bannerImage) {
+            const s3Key = info.bannerImage.key;
             try {
-              Storage.get(info.bannerImage.key).then((b) => setBannerImage(b));
-            } catch (err) {
-              console.log(err);
+              Storage.get(s3Key).then((b) => setBannerImage(b));
+            } catch (error) {
+              logger.error('Hire: error getting banner image', { error, input: s3Key });
             }
           }
         }
 
         setHireInfo(info);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
         setFlash('There has been an error. Please contact support');
+        logger.error('Hire: error getting hireInfoByDomainSlug', { error, input: hireInfoByDomainSlugInput });
       } finally {
         setLoading(false);
       }

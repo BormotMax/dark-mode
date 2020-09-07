@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { client } from './_app';
 import { ProjectsByFreelancerQuery } from '../API';
 import { projectsByFreelancer } from '../graphql/queries';
-import { useFlash } from '../hooks';
+import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
 
@@ -12,18 +12,21 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash(null);
+  const { logger } = useLogger();
 
   useEffect(() => {
     const execute = async () => {
+      const projectsByFreelancerInput = { freelancerID: currentUser.attributes.sub };
       try {
         const { data }: { data: ProjectsByFreelancerQuery } = await client.query({
           query: gql(projectsByFreelancer),
-          variables: { freelancerID: currentUser.attributes.sub },
+          variables: projectsByFreelancerInput,
         });
 
         setProjects(data.projectsByFreelancer.items);
-      } catch (err) {
-        setFlash('There was an error retreiving your Hire Page info. Please contact support.');
+      } catch (error) {
+        setFlash("There was an error retrieving your projects. We're looking into it");
+        logger.error('Projects: error retrieving projects', { error, input: projectsByFreelancerInput });
       } finally {
         setLoading(false);
       }

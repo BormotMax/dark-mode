@@ -11,7 +11,7 @@ import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
 import { unauthClient } from '../_app';
 import { GetProjectQuery } from '../../API';
-import { useFlash, useDelayedFlash } from '../../hooks';
+import { useFlash, useDelayedFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
@@ -27,6 +27,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
   const [delayedFlash] = useDelayedFlash();
+  const { logger } = useLogger();
 
   useEffect(() => {
     setViewerId(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
@@ -37,17 +38,18 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   useEffect(() => {
     const execute = async () => {
-      let result;
+      const getProjectInput = { id };
       try {
-        const res: { data: GetProjectQuery } = await unauthClient.query({
+        const getProjectResult: { data: GetProjectQuery } = await unauthClient.query({
           query: gql(getProject),
-          variables: { id },
+          variables: getProjectInput,
         });
 
-        result = res.data?.getProject;
-        setProject(result);
-      } catch (err) {
-        setFlash('There was an error retreiving your Hire Page info. Please contact support.');
+        const p: Project = getProjectResult.data?.getProject;
+        setProject(p);
+      } catch (error) {
+        setFlash("There was an error retrieving this project. We're looking into it.");
+        logger.error('Project: error retrieving Project.', { error, input: getProjectInput });
       } finally {
         setLoading(false);
       }
@@ -64,8 +66,9 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
             });
           },
         });
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        setFlash('Messaging may be unavailable. Try reloading the page.');
+        logger.error('Project: error subscribing to onCreateComment', { error });
       }
     };
     execute();

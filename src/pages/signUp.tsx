@@ -11,6 +11,7 @@ import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
 import NameIcon from '../img/name.svg';
 import { GoogleAuthButton } from '../components/googleAuthButton';
+import { useLogger } from '../hooks';
 
 interface ValidationProps {
   name?: string;
@@ -25,6 +26,7 @@ const SignUp: React.FC = () => {
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { logger } = useLogger();
 
   function validate({ name, email, password }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -51,7 +53,7 @@ const SignUp: React.FC = () => {
       return;
     }
 
-    const signupInfo = {
+    const signUpInput = {
       username: email,
       password,
       attributes: {
@@ -63,12 +65,13 @@ const SignUp: React.FC = () => {
     setEmailInState(email);
 
     try {
-      await Auth.signUp(signupInfo);
+      await Auth.signUp(signUpInput);
       setError('');
       setRequestPending(false);
       setConfirming(true);
     } catch (err) {
       setError(err.message);
+      logger.error('SignUp: error in Auth.signUp', { error: err, input: signUpInput });
       setRequestPending(false);
     }
   }
@@ -78,12 +81,14 @@ const SignUp: React.FC = () => {
     setError('');
     setInvalids({});
 
+    const federatedSignInInput = { provider: 'Google' };
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      await Auth.federatedSignIn({ provider: 'Google' });
+      await Auth.federatedSignIn(federatedSignInInput);
     } catch (err) {
       setError(err.message);
+      logger.error('SignIn: error in Auth.federatedSignIn', { error: err, input: federatedSignInInput });
     }
   }
 
