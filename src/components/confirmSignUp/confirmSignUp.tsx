@@ -9,6 +9,7 @@ import serialize from 'form-serialize';
 import styles from '../../pages/styles/authPage.module.scss';
 import s from './confirmSignUp.module.scss';
 import { ProjectHeader } from '../projectHeader';
+import { useLogger } from '../../hooks';
 
 interface ConfirmSignUpProps {
   email: string;
@@ -25,6 +26,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
   const [isRequestPending, setRequestPending] = useState(false);
   const [error, setError] = useState('');
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { logger } = useLogger();
 
   function validate({ code }: ValidationProps, exclude: Array<string> = []) {
     const temp: ValidationProps = {};
@@ -53,7 +55,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
       await Auth.confirmSignUp(email, code);
       Router.push('/signIn');
     } catch (err) {
-      console.log(err);
+      logger.error('ConfirmSignUp: error confirming sign up', { error: err, input: { email, code } });
       setError(err.message);
       setRequestPending(false);
     }
@@ -78,6 +80,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
         await Auth.resendSignUp(email);
         setError('A new code has been sent to your email.');
       } catch (err) {
+        logger.error('ConfirmSignUp: error resending auth code', { error: err, input: { email } });
         setError(err.message);
       } finally {
         setRequestPending(false);
