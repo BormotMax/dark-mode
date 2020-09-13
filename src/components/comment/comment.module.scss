@@ -1,6 +1,10 @@
 @import '~bulma/sass/utilities/_all.sass';
 
 .comment {
+  &:first-child {
+    margin-top: 0;
+  }
+
   @include tablet {
     margin: 17px 0 17px 48px;
   }
@@ -11,7 +15,7 @@
   border-radius: 30px;
 
   &Light {
-    background: #faf8f7;
+    background: #fbfaf8;
   }
   &Dark {
     background: #f5f8ff;

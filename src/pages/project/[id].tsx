@@ -2,8 +2,6 @@ import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
-import { faComments } from '@fortawesome/pro-light-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../styles/project.module.scss';
 import { TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
@@ -18,6 +16,7 @@ import { onCreateComment } from '../../graphql/subscriptions';
 import { ContactDetails } from '../../components/contactDetails/contactDetails';
 import { SideNav } from '../../components/sideNav/sideNav';
 import { Protected } from '../../components/protected/protected';
+import { Header } from '../../components/header';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -100,25 +99,18 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   return (
     <div className={styles.page}>
       <div className="flash-message">{flash || delayedFlash}</div>
-      <aside className={classnames(styles.sideNav, 'is-hidden-touch')}>
-        <Protected roles={[Role.FREELANCER]}>
-          <SideNav />
-        </Protected>
-      </aside>
+      <Header headerText={client.company} />
       <main className={`${styles.body} container is-desktop`}>
-        {/* <ProjectHeader headerColor={HeaderColor.GRAY} /> */}
         <div className={`${styles.columns} columns`}>
-          <div className={classnames(styles.leftColumn, styles.column, 'column', 'is-two-thirds-desktop')}>
+          <div className={classnames('column', 'is-narrow', styles.navColumn, 'is-hidden-touch')}>
             <div className={styles.container}>
-              <div className="mbm">
-                <h1 className={classnames('h1', styles.header)}>{client.company}</h1>
-                <div>
-                  <div className="header-2-md">
-                    <FontAwesomeIcon size="1x" color="#1D35579" icon={faComments} />
-                    &nbsp; Conversation
-                  </div>
-                </div>
-              </div>
+              <Protected roles={[Role.FREELANCER]}>
+                <SideNav />
+              </Protected>
+            </div>
+          </div>
+          <div className={classnames(styles.leftColumn, styles.column, 'column')}>
+            <div className={styles.container}>
               <div className={styles.comments}>
                 <div>
                   {comments.filter(Boolean).map((c) => (
@@ -129,15 +121,11 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
               </div>
             </div>
           </div>
-          <div className={classnames('column', styles.column, styles.rightColumn)}>
+          <div className={classnames('column', 'is-narrow', styles.column, styles.rightColumn)}>
             <div className={styles.container}>
               <TabGroup names={['People']}>
                 <ContactDetails user={client} />
               </TabGroup>
-              {/* <div className={styles.projectProgressHeader}>PROJECT PROGRESS</div> */}
-              {/* {quotes.filter(Boolean).map((quote, i) => ( */}
-              {/* <QuoteProgress key={quote.id} i={i + 1} quote={quote} /> */}
-              {/* ))} */}
             </div>
           </div>
         </div>

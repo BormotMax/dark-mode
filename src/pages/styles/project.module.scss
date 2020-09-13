@@ -1,57 +1,21 @@
 @use "src/mixins";
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .page {
-  background: #e0e0e0;
+  background: white;
   min-height: 100vh;
   font-family: Poppins;
   font-style: normal;
   font-weight: 300;
   font-size: 16px;
   line-height: 24px;
-  display: flex;
-  @include desktop {
-    padding: 33px;
-  }
 
   .body {
-    border-radius: 40px;
-    padding-bottom: 150px;
-
     .columns {
-      overflow: hidden;
-      background: white;
+      padding-top: 30px;
 
-      .column {
-        padding: 0px;
-      }
-
-      @include desktop {
-        border-radius: 40px;
-      }
-
-      .container {
-        padding: 30px;
-      }
-
-      .leftColumn {
-        box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.05);
-        z-index: 0;
-
-        .header {
-          margin-top: 0;
-          padding-bottom: 14px;
-          border-bottom: 1px solid #eeeeee;
-        }
-      }
-
-      .rightColumn {
-        background: #faf8f7;
-        font-family: Poppins;
-        font-style: normal;
-        font-weight: 300;
-        font-size: 16px;
-        line-height: 24px;
+      .navColumn {
+        margin-right: 60px;
       }
     }
   }
@@ -67,25 +31,5 @@
 
   .message {
     white-space: pre-wrap;
-  }
-
-  .comments {
-    .header {
-      font-family: Roboto, sans-serif;
-      display: flex;
-      font-size: 36px;
-      line-height: 42px;
-      margin-bottom: 30px;
-      color: #3c78fb;
-
-      .line {
-        border: 1px solid #8093a6;
-        opacity: 0.3;
-        margin-left: 15px;
-        flex: 1;
-        height: 0;
-        align-self: center;
-      }
-    }
   }
 }
