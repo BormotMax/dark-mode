@@ -291,7 +291,7 @@
   .featureGrid {
     display: grid;
     justify-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 380px));
+    grid-template-columns: repeat(auto-fit, minmax(auto, 380px));
     justify-items: center;
     column-gap: 16px;
     row-gap: 16px;
