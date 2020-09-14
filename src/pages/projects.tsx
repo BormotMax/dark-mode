@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import Link from 'next/link';
+import classnames from 'classnames';
 import { client } from './_app';
 import { ProjectsByFreelancerQuery } from '../API';
 import { projectsByFreelancer } from '../graphql/queries';
 import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
-import { AuthProps } from '../types/custom';
+import { AuthProps, Project } from '../types/custom';
+import { PageLayoutOne } from '../components/pageLayoutOne';
+import { Comment } from '../components/comment';
+import { gravatarUrl } from '../helpers/gravatarUrl';
+import styles from './styles/projects.module.scss';
 
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
@@ -37,18 +42,24 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div>
-      <div className="flash-message">{flash}</div>
-      <>
-        {projects.map((p) => (
-          <div key={p.id}>
-            <Link href="/project/[id]" as={`/project/${p.id}`}>
-              <a href={`/project/${p.id}`}>{p.id}</a>
-            </Link>
-          </div>
-        ))}
-      </>
-    </div>
+    <PageLayoutOne headerText="Projects" flash={flash}>
+      <div className={classnames('column', 'is-7', styles.projects)}>
+        <div className="flash-message">{flash}</div>
+        <>
+          {projects.map((p: Project) => (
+            <div key={p.id}>
+              <Link href="/project/[id]" as={`/project/${p.id}`}>
+                <a href={`/project/${p.id}`}>
+                  <Comment name={p.client.name} avatarUrl={gravatarUrl(p.client.email)}>
+                    <div className={classnames(styles.projectName)}>{p.client.company}</div>
+                  </Comment>
+                </a>
+              </Link>
+            </div>
+          ))}
+        </>
+      </div>
+    </PageLayoutOne>
   );
 };
 

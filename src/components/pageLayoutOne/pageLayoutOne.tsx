@@ -16,7 +16,7 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerTe
     <Header headerText={headerText} />
     <main className={`${styles.body} container is-desktop`}>
       <div className={`${styles.columns} columns`}>
-        <div className={classnames('column', 'is-narrow', styles.navColumn, 'is-hidden-touch')}>
+        <div className={classnames('column', 'is-narrow', styles.navColumn, 'is-hidden-mobile')}>
           <Protected roles={[Role.FREELANCER]}>
             <SideNav />
           </Protected>

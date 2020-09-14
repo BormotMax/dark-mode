@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({ headerText }) => {
         <div className={classnames(styles.headerText)}>{headerText}</div>
         <div className={classnames(styles.right)}>
           <Protected roles={[Role.FREELANCER]}>
-            <div className={classnames('is-hidden-desktop')} tabIndex={0} role="button" onKeyDown={toggleNav} onClick={toggleNav}>
+            <div className={classnames('is-hidden-tablet')} tabIndex={0} role="button" onKeyDown={toggleNav} onClick={toggleNav}>
               <FontAwesomeIcon icon={faBars} />
             </div>
           </Protected>
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ headerText }) => {
         </div>
         <Protected roles={[Role.FREELANCER]}>
           {isNavOpen && (
-            <div className={classnames('is-hidden-desktop', styles.nav)}>
+            <div className={classnames('is-hidden-tablet', styles.nav)}>
               <SideNav />
             </div>
           )}
