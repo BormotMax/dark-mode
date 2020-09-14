@@ -152,6 +152,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
       email,
       phone,
       details,
+      projectUrl: `https://continuum.works/project/${projectID}`,
       type: 'NEW_CLIENT_CONTACT_FREELANCER',
     };
 

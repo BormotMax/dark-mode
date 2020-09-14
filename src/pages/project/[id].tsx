@@ -8,7 +8,7 @@ import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
 import { unauthClient } from '../_app';
 import { GetProjectQuery } from '../../API';
-import { useFlash, useDelayedFlash, useLogger } from '../../hooks';
+import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
@@ -22,7 +22,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [viewerId, setViewerId] = useState(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
-  const [delayedFlash] = useDelayedFlash();
   const { logger } = useLogger();
 
   useEffect(() => {
@@ -94,7 +93,8 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   }) as Array<CommentType>;
 
   return (
-    <PageLayoutOne headerText={client.company} flash={flash || delayedFlash}>
+    <PageLayoutOne headerText={client.company}>
+      <div className="flash-message">{flash}</div>
       <div className={classnames('column')}>
         {comments.filter(Boolean).map((c) => (
           <CommentWrapper key={c.id} comment={c} viewerId={viewerId as string} />
