@@ -19,13 +19,14 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id, token } = router.query;
   const [project, setProject] = useState(null);
-  const [viewerId, setViewerId] = useState(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
+  const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useFlash();
   const { logger } = useLogger();
+  const currentUserId = currentUser?.attributes?.sub;
 
   useEffect(() => {
-    setViewerId(currentUser?.attributes?.sub || token || localStorage.getItem('viewerId'));
+    setViewerId(token || localStorage.getItem('viewerId'));
     if (token) {
       localStorage.setItem('viewerId', token as string);
     }
@@ -69,17 +70,17 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     execute();
   }, []);
 
-  if (!viewerId) Router.push('/signIn');
+  if (!viewerId && !currentUserId) Router.push('/signIn');
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
   const { client, freelancer, comments: cs } = project as Project;
 
   let viewer: User;
-  // todo: allow signed in freelancer to view page if they're signedout token matches
-  if (viewerId === client.signedOutAuthToken) {
+  // the viewer could be an authenticated Freelancer, but in this case they are acting as a Client User
+  if (viewerId && viewerId === client.signedOutAuthToken) {
     viewer = client;
-  } else if (viewerId === freelancer.id) {
+  } else if (currentUserId && currentUserId === freelancer.id) {
     viewer = freelancer;
   }
   if (!viewer) {
