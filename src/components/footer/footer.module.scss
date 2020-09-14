@@ -1,45 +1,28 @@
 @import '~bulma/sass/utilities/_all.sass';
 
 .footer {
-  text-align: center;
-  font-family: Roboto, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: Roboto;
+  font-style: normal;
   font-weight: normal;
   font-size: 20px;
-  color: #f1faee;
-  padding: 48px 75px;
+  line-height: 28px;
+  color: #595959;
+  padding: 42px 0;
+  justify-content: center;
+  text-align: center;
 
-  .left {
-    text-align: center;
-
-    @include tablet {
-      text-align: left;
-    }
+  & > * {
+    margin: 0 20px;
   }
 
-  .right {
-    display: flex;
-    justify-content: center;
-
-    @include tablet {
-      justify-content: flex-end;
-    }
-
-    .left {
-      margin-right: 15px;
-    }
-
-    a {
-      color: inherit;
-    }
+  a {
+    color: inherit;
   }
-}
 
-.radius {
-  border-radius: 40px 40px 0 0;
-}
-
-.dark {
-  background: #333333 !important;
-  opacity: 0.6;
-  color: #bdbdbd !important;
+  @include tablet {
+    justify-content: initial;
+    text-align: initial;
+  }
 }

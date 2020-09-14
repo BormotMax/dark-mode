@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/pro-light-svg-icons';
 import { useState } from 'react';
+import Link from 'next/link';
 import Logo from '../../img/logo2.svg';
 import styles from './header.module.scss';
 import { useCurrentUser } from '../../hooks';
@@ -34,7 +35,11 @@ export const Header: React.FC<HeaderProps> = ({ headerText }) => {
   return (
     <div className={classnames(styles.header)}>
       <div className={classnames(styles.inner, 'container', 'is-desktop')}>
-        <Logo />
+        <Link href="/">
+          <a href="/">
+            <Logo />
+          </a>
+        </Link>
         <div className={classnames(styles.headerText)}>{headerText}</div>
         <div className={classnames(styles.right)}>
           <Protected roles={[Role.FREELANCER]}>

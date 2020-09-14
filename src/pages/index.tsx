@@ -1,7 +1,16 @@
 import Link from 'next/link';
 import classnames from 'classnames';
-import { faFireAlt, faHandshake, faFunnelDollar } from '@fortawesome/pro-light-svg-icons';
-import { faCubes } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faFireAlt,
+  faHandshake,
+  faFunnelDollar,
+  faCommentsAlt,
+  faRocket,
+  faFileInvoice,
+  faFileInvoiceDollar,
+  faPersonSign,
+} from '@fortawesome/pro-light-svg-icons';
+import { faCubes, faHeart } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
@@ -60,6 +69,7 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
             </div>
           </nav>
           <div className={styles.headerAndBody}>
+            <img src="/home.png" alt="home-page" />
             <div className={styles.header}>Continuum Works</div>
             <div className={styles.body}>
               The all-in-one collaboration tool for freelancers and their clients. Specialized for the needs of freelancers&#8212;not teams.
@@ -68,42 +78,27 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
               {!currentUser && (
                 <Link href="/signUp">
                   <a href="/signUp">
-                    <button type="button" className={classnames(styles.ctaButton)}>
+                    <button type="button" className={classnames(styles.ctaButton, 'is-hidden-tablet')}>
                       Try Continuum for Free
                     </button>
                   </a>
                 </Link>
               )}
-              {/* <Link href="/howItWorks">
-                <a className={styles.navItem} href="/howItWorks">
-                  Learn&nbsp;a&nbsp;bit&nbsp;more
-                </a>
-              </Link> */}
             </div>
           </div>
-          <div className={styles.highlight}>
-            Made with
-            <img src="/heart.png" alt="heart" />
-            for
-            <i> all </i>
-            the folks who freelance
-          </div>
+          <span className={styles.highlight}>
+            Made with <FontAwesomeIcon size="1x" icon={faHeart} /> for Freelance Creatives
+          </span>
         </div>
       </div>
 
       <div className={styles.middleContainer}>
         <div className={classnames('container')}>
           <div className={styles.freelancers}>
-            {[...Array(3)].map((e, i) => (
+            {[...Array(6)].map((e, i) => (
               // eslint-disable-next-line react/no-array-index-key
-              <div key={i} className={classnames(styles.freelancerTypeContainer, styles.freelancerTypeContainer__desktopLarge)}>
-                <img src={`/Freelancer-${i}.png`} alt="freelancer type" />
-              </div>
-            ))}
-            {[...Array(3)].map((e, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={i + 3} className={classnames(styles.freelancerTypeContainer, styles.freelancerTypeContainer__desktop)}>
-                <img src={`/Freelancer-${i + 3}.png`} alt="freelancer type" />
+              <div key={i + 12} className={classnames(styles.freelancerTypeContainer)}>
+                <img src={`/Freelancer-${i + 12}.png`} alt="freelancer type" />
               </div>
             ))}
             {[...Array(3)].map((e, i) => (
@@ -118,12 +113,6 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
                 <img src={`/Freelancer-${i + 9}.png`} alt="freelancer type" />
               </div>
             ))}
-            {[...Array(6)].map((e, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={i + 12} className={classnames(styles.freelancerTypeContainer)}>
-                <img src={`/Freelancer-${i + 12}.png`} alt="freelancer type" />
-              </div>
-            ))}
           </div>
           <div className={styles.upperLayover}>
             <div className="inner">
@@ -133,6 +122,26 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
                 as a freelancer
               </div>
               <div className={styles.upperLayoverSubHeader}>Be up and in business in 5 minutes</div>
+              <div className={classnames(styles.featureGrid)}>
+                <GridItem
+                  header="Conversations"
+                  body="Continuum provides meaningful metrics designed to be easy to use."
+                  icon={faCommentsAlt}
+                />
+                <GridItem
+                  header="Project Management"
+                  body="Continuum provides meaningful metrics designed to be easy to use."
+                  icon={faRocket}
+                />
+                <GridItem header="CRM" body="Continuum provides meaningful metrics designed to be easy to use." icon={faFunnelDollar} />
+                <GridItem header="Quotes" body="Continuum provides meaningful metrics designed to be easy to use." icon={faFileInvoice} />
+                <GridItem
+                  header="Invoice & Payments"
+                  body="Continuum provides meaningful metrics designed to be easy to use."
+                  icon={faFileInvoiceDollar}
+                />
+                <GridItem header="Hire Page" body="Continuum provides meaningful metrics designed to be easy to use." icon={faPersonSign} />
+              </div>
               <div className="columns is-desktop">
                 <div className="column is-7">
                   <img src="/hirePageExample.png" alt="hire page example" />
@@ -230,18 +239,7 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
               </div>
             </div>
           </div>
-          <div className={styles.ctaAboveFooter}>
-            {!currentUser && (
-              <Link href="/signUp">
-                <a href="/signUp">
-                  <button type="button" className={classnames(styles.ctaButton)}>
-                    Try Continuum for Free
-                  </button>
-                </a>
-              </Link>
-            )}
-          </div>
-          <Footer dark radius />
+          <Footer />
         </div>
       </div>
     </div>
@@ -249,3 +247,15 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
 };
 
 export default WithAuthentication(Home, { routeType: RouteType.NO_REDIRECT });
+
+const GridItem = ({ header, body, icon }) => (
+  <div className={classnames(styles.gridItem)}>
+    <div className={classnames(styles.gridItemIcon)}>
+      <FontAwesomeIcon size="3x" color="#e0e0e0" icon={icon} />
+    </div>
+    <div>
+      <div className={classnames(styles.gridItemHeader)}>{header}</div>
+      <div>{body}</div>
+    </div>
+  </div>
+);

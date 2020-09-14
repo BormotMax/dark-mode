@@ -15,6 +15,9 @@
     z-index: 1;
 
     @include tablet {
+      a {
+        justify-self: flex-start;
+      }
       grid-template-columns: 150px auto 150px;
       grid-template-rows: auto;
       align-items: center;
