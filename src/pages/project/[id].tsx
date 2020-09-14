@@ -2,9 +2,8 @@ import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
-import styles from '../styles/project.module.scss';
 import { TabGroup } from '../../components/tabs';
-import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
+import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
 import { unauthClient } from '../_app';
@@ -14,9 +13,7 @@ import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
 import { ContactDetails } from '../../components/contactDetails/contactDetails';
-import { SideNav } from '../../components/sideNav/sideNav';
-import { Protected } from '../../components/protected/protected';
-import { Header } from '../../components/header';
+import { PageLayoutOne } from '../../components/pageLayoutOne';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -97,40 +94,19 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   }) as Array<CommentType>;
 
   return (
-    <div className={styles.page}>
-      <div className="flash-message">{flash || delayedFlash}</div>
-      <Header headerText={client.company} />
-      <main className={`${styles.body} container is-desktop`}>
-        <div className={`${styles.columns} columns`}>
-          <div className={classnames('column', 'is-narrow', styles.navColumn, 'is-hidden-touch')}>
-            <div className={styles.container}>
-              <Protected roles={[Role.FREELANCER]}>
-                <SideNav />
-              </Protected>
-            </div>
-          </div>
-          <div className={classnames(styles.leftColumn, styles.column, 'column')}>
-            <div className={styles.container}>
-              <div className={styles.comments}>
-                <div>
-                  {comments.filter(Boolean).map((c) => (
-                    <CommentWrapper key={c.id} comment={c} viewerId={viewerId as string} />
-                  ))}
-                  <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classnames('column', 'is-narrow', styles.column, styles.rightColumn)}>
-            <div className={styles.container}>
-              <TabGroup names={['People']}>
-                <ContactDetails user={client} />
-              </TabGroup>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+    <PageLayoutOne headerText={client.company} flash={flash || delayedFlash}>
+      <div className={classnames('column')}>
+        {comments.filter(Boolean).map((c) => (
+          <CommentWrapper key={c.id} comment={c} viewerId={viewerId as string} />
+        ))}
+        <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
+      </div>
+      <div className={classnames('column', 'is-narrow')}>
+        <TabGroup names={['People']}>
+          <ContactDetails user={client} />
+        </TabGroup>
+      </div>
+    </PageLayoutOne>
   );
 };
 

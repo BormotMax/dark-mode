@@ -1,12 +1,14 @@
 import classnames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/pro-light-svg-icons';
+import { useState } from 'react';
 import Logo from '../../img/logo2.svg';
 import styles from './header.module.scss';
 import { useCurrentUser } from '../../hooks';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/pro-light-svg-icons';
 import { SideNav } from '../sideNav/sideNav';
-import { useState } from 'react';
+import { Protected } from '../protected/protected';
+import { Role } from '../withAuthentication';
 
 interface HeaderProps {
   headerText?: string;
@@ -35,9 +37,11 @@ export const Header: React.FC<HeaderProps> = ({ headerText }) => {
         <Logo />
         <div className={classnames(styles.headerText)}>{headerText}</div>
         <div className={classnames(styles.right)}>
-          <div className={classnames('is-hidden-desktop')} tabIndex={0} role="button" onKeyDown={toggleNav} onClick={toggleNav}>
-            <FontAwesomeIcon icon={faBars} />
-          </div>
+          <Protected roles={[Role.FREELANCER]}>
+            <div className={classnames('is-hidden-desktop')} tabIndex={0} role="button" onKeyDown={toggleNav} onClick={toggleNav}>
+              <FontAwesomeIcon icon={faBars} />
+            </div>
+          </Protected>
           <div className={classnames(styles.rightInner)}>
             {currentUser && (
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -46,14 +50,16 @@ export const Header: React.FC<HeaderProps> = ({ headerText }) => {
               </a>
             )}
 
-            {email ? <img alt="avatar" className={styles.avatar} src={gravatarUrl(email)} /> : <div className={styles.avatar} />}
+            <img alt="avatar" className={styles.avatar} src={gravatarUrl(email)} />
           </div>
         </div>
-        {isNavOpen && (
-          <div className={classnames('is-hidden-desktop', styles.nav)}>
-            <SideNav />
-          </div>
-        )}
+        <Protected roles={[Role.FREELANCER]}>
+          {isNavOpen && (
+            <div className={classnames('is-hidden-desktop', styles.nav)}>
+              <SideNav />
+            </div>
+          )}
+        </Protected>
       </div>
     </div>
   );

@@ -1,35 +1,11 @@
 @use "src/mixins";
 @import '~bulma/sass/utilities/_all.sass';
 
-.page {
-  background: white;
-  min-height: 100vh;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 24px;
-
-  .body {
-    .columns {
-      padding-top: 30px;
-
-      .navColumn {
-        margin-right: 60px;
-      }
-    }
-  }
-
-  .projectProgressHeader {
-    @include mixins.header-1-sm;
-    text-align: center;
-    color: #3c78fb;
-    border-bottom: 4px solid #3c78fb;
-    padding-bottom: 17px;
-    margin-bottom: 17px;
-  }
-
-  .message {
-    white-space: pre-wrap;
-  }
+.projectProgressHeader {
+  @include mixins.header-1-sm;
+  text-align: center;
+  color: #3c78fb;
+  border-bottom: 4px solid #3c78fb;
+  padding-bottom: 17px;
+  margin-bottom: 17px;
 }
