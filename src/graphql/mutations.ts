@@ -63,11 +63,11 @@ export const createProject = /* GraphQL */ `
   ) {
     createProject(input: $input, condition: $condition) {
       id
+      createdAt
       owner
       freelancerID
       clientID
       details
-      createdAt
       updatedAt
       freelancer {
         id
@@ -143,11 +143,11 @@ export const updateProject = /* GraphQL */ `
   ) {
     updateProject(input: $input, condition: $condition) {
       id
+      createdAt
       owner
       freelancerID
       clientID
       details
-      createdAt
       updatedAt
       freelancer {
         id
@@ -223,11 +223,11 @@ export const deleteProject = /* GraphQL */ `
   ) {
     deleteProject(input: $input, condition: $condition) {
       id
+      createdAt
       owner
       freelancerID
       clientID
       details
-      createdAt
       updatedAt
       freelancer {
         id

@@ -22,9 +22,10 @@ type User
 
 type Project
 @model
-@key(name: "byFreelancer", fields: ["freelancerID"], queryField: "projectsByFreelancer")
+@key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
 @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
+  createdAt: AWSDateTime!
   owner: String!
   freelancerID: ID!
   freelancer: User @connection(fields: ["freelancerID"])

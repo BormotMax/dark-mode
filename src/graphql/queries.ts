@@ -43,11 +43,11 @@ export const getProject = /* GraphQL */ `
   query GetProject($id: ID!) {
     getProject(id: $id) {
       id
+      createdAt
       owner
       freelancerID
       clientID
       details
-      createdAt
       updatedAt
       freelancer {
         id
@@ -125,11 +125,11 @@ export const listProjects = /* GraphQL */ `
     listProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        createdAt
         owner
         freelancerID
         clientID
         details
-        createdAt
         updatedAt
         freelancer {
           id
@@ -195,6 +195,7 @@ export const listProjects = /* GraphQL */ `
 export const projectsByFreelancer = /* GraphQL */ `
   query ProjectsByFreelancer(
     $freelancerID: ID
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelProjectFilterInput
     $limit: Int
@@ -202,6 +203,7 @@ export const projectsByFreelancer = /* GraphQL */ `
   ) {
     projectsByFreelancer(
       freelancerID: $freelancerID
+      createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -209,11 +211,11 @@ export const projectsByFreelancer = /* GraphQL */ `
     ) {
       items {
         id
+        createdAt
         owner
         freelancerID
         clientID
         details
-        createdAt
         updatedAt
         freelancer {
           id

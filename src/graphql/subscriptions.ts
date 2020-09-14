@@ -51,11 +51,11 @@ export const onCreateProject = /* GraphQL */ `
   subscription OnCreateProject {
     onCreateProject {
       id
+      createdAt
       owner
       freelancerID
       clientID
       details
-      createdAt
       updatedAt
       freelancer {
         id
@@ -128,11 +128,11 @@ export const onUpdateProject = /* GraphQL */ `
   subscription OnUpdateProject {
     onUpdateProject {
       id
+      createdAt
       owner
       freelancerID
       clientID
       details
-      createdAt
       updatedAt
       freelancer {
         id
@@ -205,11 +205,11 @@ export const onDeleteProject = /* GraphQL */ `
   subscription OnDeleteProject {
     onDeleteProject {
       id
+      createdAt
       owner
       freelancerID
       clientID
       details
-      createdAt
       updatedAt
       freelancer {
         id

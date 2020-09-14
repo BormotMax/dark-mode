@@ -42,9 +42,9 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <PageLayoutOne headerText="Projects" flash={flash}>
+    <PageLayoutOne headerText="Projects">
+      <div className="flash-message">{flash}</div>
       <div className={classnames('column', 'is-7', styles.projects)}>
-        <div className="flash-message">{flash}</div>
         <>
           {projects.map((p: Project) => (
             <div key={p.id}>

@@ -91,6 +91,7 @@ export type DeleteUserInput = {
 
 export type CreateProjectInput = {
   id?: string | null,
+  createdAt?: string | null,
   owner: string,
   freelancerID: string,
   clientID: string,
@@ -98,6 +99,7 @@ export type CreateProjectInput = {
 };
 
 export type ModelProjectConditionInput = {
+  createdAt?: ModelStringInput | null,
   freelancerID?: ModelIDInput | null,
   clientID?: ModelIDInput | null,
   details?: ModelStringInput | null,
@@ -124,6 +126,7 @@ export type ModelIDInput = {
 
 export type UpdateProjectInput = {
   id: string,
+  createdAt?: string | null,
   owner?: string | null,
   freelancerID?: string | null,
   clientID?: string | null,
@@ -315,6 +318,7 @@ export type ModelUserFilterInput = {
 
 export type ModelProjectFilterInput = {
   id?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   owner?: ModelStringInput | null,
   freelancerID?: ModelIDInput | null,
   clientID?: ModelIDInput | null,
@@ -322,6 +326,16 @@ export type ModelProjectFilterInput = {
   and?: Array< ModelProjectFilterInput | null > | null,
   or?: Array< ModelProjectFilterInput | null > | null,
   not?: ModelProjectFilterInput | null,
+};
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
 export enum ModelSortDirection {
@@ -454,11 +468,11 @@ export type CreateProjectMutation = {
   createProject:  {
     __typename: "Project",
     id: string,
+    createdAt: string,
     owner: string,
     freelancerID: string,
     clientID: string,
     details: string | null,
-    createdAt: string,
     updatedAt: string,
     freelancer:  {
       __typename: "User",
@@ -545,11 +559,11 @@ export type UpdateProjectMutation = {
   updateProject:  {
     __typename: "Project",
     id: string,
+    createdAt: string,
     owner: string,
     freelancerID: string,
     clientID: string,
     details: string | null,
-    createdAt: string,
     updatedAt: string,
     freelancer:  {
       __typename: "User",
@@ -636,11 +650,11 @@ export type DeleteProjectMutation = {
   deleteProject:  {
     __typename: "Project",
     id: string,
+    createdAt: string,
     owner: string,
     freelancerID: string,
     clientID: string,
     details: string | null,
-    createdAt: string,
     updatedAt: string,
     freelancer:  {
       __typename: "User",
@@ -1520,11 +1534,11 @@ export type GetProjectQuery = {
   getProject:  {
     __typename: "Project",
     id: string,
+    createdAt: string,
     owner: string,
     freelancerID: string,
     clientID: string,
     details: string | null,
-    createdAt: string,
     updatedAt: string,
     freelancer:  {
       __typename: "User",
@@ -1614,11 +1628,11 @@ export type ListProjectsQuery = {
     items:  Array< {
       __typename: "Project",
       id: string,
+      createdAt: string,
       owner: string,
       freelancerID: string,
       clientID: string,
       details: string | null,
-      createdAt: string,
       updatedAt: string,
       freelancer:  {
         __typename: "User",
@@ -1691,6 +1705,7 @@ export type ListProjectsQuery = {
 
 export type ProjectsByFreelancerQueryVariables = {
   freelancerID?: string | null,
+  createdAt?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelProjectFilterInput | null,
   limit?: number | null,
@@ -1703,11 +1718,11 @@ export type ProjectsByFreelancerQuery = {
     items:  Array< {
       __typename: "Project",
       id: string,
+      createdAt: string,
       owner: string,
       freelancerID: string,
       clientID: string,
       details: string | null,
-      createdAt: string,
       updatedAt: string,
       freelancer:  {
         __typename: "User",
@@ -2400,11 +2415,11 @@ export type OnCreateProjectSubscription = {
   onCreateProject:  {
     __typename: "Project",
     id: string,
+    createdAt: string,
     owner: string,
     freelancerID: string,
     clientID: string,
     details: string | null,
-    createdAt: string,
     updatedAt: string,
     freelancer:  {
       __typename: "User",
@@ -2486,11 +2501,11 @@ export type OnUpdateProjectSubscription = {
   onUpdateProject:  {
     __typename: "Project",
     id: string,
+    createdAt: string,
     owner: string,
     freelancerID: string,
     clientID: string,
     details: string | null,
-    createdAt: string,
     updatedAt: string,
     freelancer:  {
       __typename: "User",
@@ -2572,11 +2587,11 @@ export type OnDeleteProjectSubscription = {
   onDeleteProject:  {
     __typename: "Project",
     id: string,
+    createdAt: string,
     owner: string,
     freelancerID: string,
     clientID: string,
     details: string | null,
-    createdAt: string,
     updatedAt: string,
     freelancer:  {
       __typename: "User",
