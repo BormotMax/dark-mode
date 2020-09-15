@@ -7,12 +7,22 @@
     }
   }
 
-  li,
   a {
     color: #595959;
+    padding: 7px;
+    width: 100%;
+
+    svg {
+      color: black;
+    }
   }
 
   a:hover {
     color: black;
+  }
+
+  .current {
+    border-radius: 9px;
+    background: #e0e0e0;
   }
 }

@@ -7,15 +7,16 @@ import Logo from '../../img/logo2.svg';
 import styles from './header.module.scss';
 import { useCurrentUser } from '../../hooks';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { SideNav } from '../sideNav/sideNav';
+import { SideNav, Page } from '../sideNav/sideNav';
 import { Protected } from '../protected/protected';
 import { Role } from '../withAuthentication';
 
 interface HeaderProps {
   headerText?: string;
+  page: Page;
 }
 
-export const Header: React.FC<HeaderProps> = ({ headerText }) => {
+export const Header: React.FC<HeaderProps> = ({ headerText, page }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { currentUser, signOut } = useCurrentUser();
   const email = currentUser?.attributes?.email;
@@ -61,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({ headerText }) => {
         <Protected roles={[Role.FREELANCER]}>
           {isNavOpen && (
             <div className={classnames('is-hidden-tablet', styles.nav)}>
-              <SideNav />
+              <SideNav page={page} />
             </div>
           )}
         </Protected>

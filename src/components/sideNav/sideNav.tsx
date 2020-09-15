@@ -10,7 +10,16 @@ import { client } from '../../pages/_app';
 import { getHireMeInfo } from '../../graphql/queries';
 import { GetHireMeInfoQuery } from '../../API';
 
-export const SideNav: React.FC = () => {
+export enum Page {
+  PROJECTS,
+  HIRE,
+}
+
+interface SideNavProps {
+  page?: Page;
+}
+
+export const SideNav: React.FC<SideNavProps> = ({ page }) => {
   const { currentUser } = useCurrentUser();
   const router = useRouter();
   const { logger } = useLogger();
@@ -42,7 +51,7 @@ export const SideNav: React.FC = () => {
   return (
     <div className={classnames(styles.sideNav)}>
       <ul className={classnames(styles.navList)}>
-        <li>
+        <li className={classnames({ [styles.current]: page === Page.PROJECTS })}>
           <Link href="/projects">
             <a href="/projects">
               <FontAwesomeIcon size="1x" icon={faRocket} />
@@ -50,7 +59,7 @@ export const SideNav: React.FC = () => {
             </a>
           </Link>
         </li>
-        <li>
+        <li className={classnames({ [styles.current]: page === Page.HIRE })}>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a tabIndex={0} role="link" onKeyDown={navToHirePage} onClick={navToHirePage}>
             <FontAwesomeIcon size="1x" icon={faPersonSign} />

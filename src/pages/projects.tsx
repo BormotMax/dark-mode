@@ -12,6 +12,7 @@ import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Comment } from '../components/comment';
 import { gravatarUrl } from '../helpers/gravatarUrl';
 import styles from './styles/projects.module.scss';
+import { Page } from '../components/sideNav/sideNav';
 
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
@@ -42,7 +43,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <PageLayoutOne headerText="Projects">
+    <PageLayoutOne headerText="Projects" page={Page.PROJECTS}>
       <div className={classnames('column', 'is-7', styles.projects)}>
         <>
           {projects.map((p: Project) => (
