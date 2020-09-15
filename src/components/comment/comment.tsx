@@ -30,6 +30,32 @@ interface NewCommentProps {
   creatorID: string;
 }
 
+const getRelativeTime = (createdAt: Date) => {
+  const now = new Date();
+  const secondsElapsed = (now.getTime() - createdAt.getTime()) / 1000;
+  const minutesElapsed = secondsElapsed / 60;
+  const hoursElapsed = minutesElapsed / 60;
+  const daysElapsed = hoursElapsed / 24;
+
+  if (minutesElapsed < 91) {
+    return `${String(Math.floor(minutesElapsed))} minutes ago`;
+  }
+
+  if (hoursElapsed < 24) {
+    return `${String(Math.floor(hoursElapsed))} hours ago`;
+  }
+
+  if (daysElapsed < 2) {
+    return 'Yesterday';
+  }
+
+  if (daysElapsed < 4) {
+    return `${String(Math.floor(daysElapsed))} days ago`;
+  }
+
+  return createdAt.toLocaleDateString();
+};
+
 export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarUrl, viewerId }) => (
   <Comment
     name={comment.creator.name}
@@ -51,7 +77,7 @@ export const Comment: React.FC<CommentProps> = ({ name, createdAt, avatarUrl, ch
   >
     <div className={styles.header}>
       <div>{name}</div>
-      {createdAt && <div className="text-2 text-small text-gray">{new Date(createdAt).toDateString()}</div>}
+      {createdAt && <div className="text-2 text-small text-gray">{getRelativeTime(new Date(createdAt))}</div>}
     </div>
     <img alt="avatar" className={styles.avatar} src={avatarUrl || '/blankAvatar.jpg'} />
     <div className={classnames(styles.commentContent)}>{children}</div>
