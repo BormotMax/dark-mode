@@ -21,7 +21,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [project, setProject] = useState(null);
   const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
-  const [flash, setFlash] = useFlash();
+  const { setFlash } = useFlash();
   const { logger } = useLogger();
   const currentUserId = currentUser?.attributes?.sub;
 
@@ -95,7 +95,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   return (
     <PageLayoutOne headerText={client.company}>
-      <div className="flash-message">{flash}</div>
       <div className={classnames('column')}>
         {comments.filter(Boolean).map((c) => (
           <CommentWrapper key={c.id} comment={c} viewerId={viewerId as string} />

@@ -85,7 +85,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
       }
     } catch (err) {
       setError(err.message);
-      logger.error('SignIn: error signing in', { error: err, input: { email, password } });
+      logger.error('SignIn: error signing in', { error: err, input: { email } });
       setRequestPending(false);
 
       if (err.code === 'UserNotConfirmedException') {

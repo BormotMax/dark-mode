@@ -16,7 +16,7 @@ import styles from './styles/projects.module.scss';
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [flash, setFlash] = useFlash(null);
+  const { setFlash } = useFlash();
   const { logger } = useLogger();
 
   useEffect(() => {
@@ -43,7 +43,6 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   return (
     <PageLayoutOne headerText="Projects">
-      <div className="flash-message">{flash}</div>
       <div className={classnames('column', 'is-7', styles.projects)}>
         <>
           {projects.map((p: Project) => (

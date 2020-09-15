@@ -19,7 +19,7 @@ import { hireInfoByDomainSlug } from '../../graphql/queries';
 import { HireMeModal } from '../../components/hireMeModal';
 import { Modal } from '../../components/modal';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { useCurrentUser, useDelayedFlash, useFlash, useLogger } from '../../hooks';
+import { useCurrentUser, useFlash, useLogger } from '../../hooks';
 import { unauthClient as client } from '../_app';
 
 enum Tab {
@@ -30,8 +30,7 @@ enum Tab {
 const Hire: React.FC = () => {
   const router = useRouter();
   const { currentUser } = useCurrentUser();
-  const [delayedFlash, setDelayedFlash] = useDelayedFlash();
-  const [flash, setFlash] = useFlash();
+  const { setFlash, setDelayedFlash } = useFlash();
   const { id } = router.query;
   const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
   const [hireInfo, setHireInfo] = useState(null);
@@ -110,7 +109,6 @@ const Hire: React.FC = () => {
 
   return (
     <div className={classnames(styles.hire)}>
-      <div className="flash-message">{flash || delayedFlash}</div>
       <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
         <HireMeModal
           freelancerEmail={hireInfo?.email}

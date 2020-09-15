@@ -1,41 +1,45 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useFlash = (time = 7000) => {
+const FLASH_MESSAGE_TIME = 7000;
+const LOCAL_STORAGE_KEY = 'continuum_flash';
+
+export const FlashContext = React.createContext({
+  setFlash: null,
+  setDelayedFlash: null,
+});
+
+export const useFlash = (): any => useContext(FlashContext);
+
+export const FlashProvider: React.FC = ({ children }) => {
   const [flash, setFlashState] = useState(null);
-
-  const setFlash = (msg: string) => {
-    setFlashState(msg);
-    setTimeout(() => {
-      setFlashState(null);
-    }, time);
-  };
-
-  return [flash, setFlash];
-};
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useDelayedFlash = (time = 7000) => {
-  const [flash, setFlashState] = useState(null);
-
-  const setFlash = (msg: string) => {
-    setFlashState(msg);
-    setTimeout(() => {
-      setFlashState(null);
-    }, time);
-  };
-
-  const setFlashInStorage = (msg: string) => {
-    localStorage.setItem('flash', msg);
-  };
 
   useEffect(() => {
-    const msg = localStorage.getItem('flash');
+    const msg = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (msg) {
-      setFlash(msg);
-      localStorage.removeItem('flash');
-    }
-  }, []);
+      setFlashState(msg);
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
 
-  return [flash, setFlashInStorage];
+      setTimeout(() => {
+        setFlashState(null);
+      }, FLASH_MESSAGE_TIME);
+    }
+  });
+
+  const setFlash = (msg: string) => {
+    setFlashState(msg);
+    setTimeout(() => {
+      setFlashState(null);
+    }, FLASH_MESSAGE_TIME);
+  };
+
+  const setDelayedFlash = (msg: string) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, msg);
+  };
+
+  return (
+    <FlashContext.Provider value={{ setFlash, setDelayedFlash }}>
+      <div className="flash-message">{flash}</div>
+      {children}
+    </FlashContext.Provider>
+  );
 };

@@ -23,6 +23,7 @@
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
+    "react/jsx-props-no-spreading": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",

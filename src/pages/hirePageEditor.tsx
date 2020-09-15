@@ -15,7 +15,7 @@ import { getHireMeInfo, getDomainSlug } from '../graphql/queries';
 import { client } from './_app';
 import styles from './styles/hireEdit.module.scss';
 import { DomainSlug } from '../types/custom';
-import { useDelayedFlash, useFlash, useLogger } from '../hooks';
+import { useFlash, useLogger } from '../hooks';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 
@@ -25,8 +25,7 @@ interface ValidationProps {
 
 const HirePageEditor = ({ currentUser }) => {
   const router = useRouter();
-  const [_, setDelayedFlash] = useDelayedFlash();
-  const [flash, setFlash] = useFlash();
+  const { setFlash, setDelayedFlash } = useFlash();
   const [hireInfo, setHireInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -282,7 +281,6 @@ const HirePageEditor = ({ currentUser }) => {
 
   return (
     <div className={styles.hirePageEditor}>
-      <div className="flash-message">{flash}</div>
       <ProjectHeader headerText="Hire Page Editor" />
       <div className="container is-desktop">
         <main className={styles.main}>
