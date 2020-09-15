@@ -5,7 +5,7 @@ import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import styles from './sideNav.module.scss';
-import { useCurrentUser, useLogger } from '../../hooks';
+import { useCurrentUser, useLogger, useFlash } from '../../hooks';
 import { client } from '../../pages/_app';
 import { getHireMeInfo } from '../../graphql/queries';
 import { GetHireMeInfoQuery } from '../../API';
@@ -14,6 +14,7 @@ export const SideNav: React.FC = () => {
   const { currentUser } = useCurrentUser();
   const router = useRouter();
   const { logger } = useLogger();
+  const { setFlash } = useFlash();
 
   const navToHirePage = async (e: any) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
@@ -29,11 +30,11 @@ export const SideNav: React.FC = () => {
           router.push('/hire/[id]', `/hire/${slug}`);
         } else {
           logger.error('SideNav: no slug to nav to hire page', { input: getHireMeInfoInput });
-          // todo: setFlash("Make sure you've filled out the Hire Page Editor first.")
+          setFlash("Make sure you've filled out the Hire Page Editor first.");
         }
       } catch (error) {
         logger.error('SideNav: error getting HireMeInfo', { error, input: getHireMeInfoInput });
-        // todo: setFlash("Something went wrong. We're looking into it");
+        setFlash("Something went wrong. We're looking into it");
       }
     }
   };

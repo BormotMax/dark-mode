@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import classnames from 'classnames';
@@ -30,7 +28,7 @@ enum Tab {
 const Hire: React.FC = () => {
   const router = useRouter();
   const { currentUser } = useCurrentUser();
-  const { setFlash, setDelayedFlash } = useFlash();
+  const { setFlash } = useFlash();
   const { id } = router.query;
   const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
   const [hireInfo, setHireInfo] = useState(null);
@@ -116,8 +114,6 @@ const Hire: React.FC = () => {
           freelancerName={hireInfo?.name}
           freelancerID={hireInfo?.freelancerID}
           avatarUrl={gravatarUrl(hireInfo?.email)}
-          setFlash={setFlash}
-          setDelayedFlash={setDelayedFlash}
         />
       </Modal>
       <ModalGateway>
@@ -191,7 +187,13 @@ const Hire: React.FC = () => {
                 </div>
               ) : (
                 portfolioImages['portfolio-1'] && (
-                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-1'])} className={styles.portfolioImage}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => toggleCarousel(portfolioImages['portfolio-1'])}
+                    onClick={() => toggleCarousel(portfolioImages['portfolio-1'])}
+                    className={styles.portfolioImage}
+                  >
                     <img src={portfolioImages['portfolio-1']} alt="portfolio" />
                   </div>
                 )
@@ -202,7 +204,13 @@ const Hire: React.FC = () => {
                 </div>
               ) : (
                 portfolioImages['portfolio-2'] && (
-                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-2'])} className={styles.portfolioImage}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => toggleCarousel(portfolioImages['portfolio-2'])}
+                    onClick={() => toggleCarousel(portfolioImages['portfolio-2'])}
+                    className={styles.portfolioImage}
+                  >
                     <img src={portfolioImages['portfolio-2']} alt="portfolio" />
                   </div>
                 )
@@ -213,7 +221,13 @@ const Hire: React.FC = () => {
                 </div>
               ) : (
                 portfolioImages['portfolio-3'] && (
-                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-3'])} className={styles.portfolioImage}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => toggleCarousel(portfolioImages['portfolio-3'])}
+                    onClick={() => toggleCarousel(portfolioImages['portfolio-3'])}
+                    className={styles.portfolioImage}
+                  >
                     <img src={portfolioImages['portfolio-3']} alt="portfolio" />
                   </div>
                 )
@@ -224,7 +238,13 @@ const Hire: React.FC = () => {
                 </div>
               ) : (
                 portfolioImages['portfolio-4'] && (
-                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-4'])} className={styles.portfolioImage}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => toggleCarousel(portfolioImages['portfolio-4'])}
+                    onClick={() => toggleCarousel(portfolioImages['portfolio-4'])}
+                    className={styles.portfolioImage}
+                  >
                     <img src={portfolioImages['portfolio-4']} alt="portfolio" />
                   </div>
                 )
@@ -235,7 +255,13 @@ const Hire: React.FC = () => {
                 </div>
               ) : (
                 portfolioImages['portfolio-5'] && (
-                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-5'])} className={styles.portfolioImage}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => toggleCarousel(portfolioImages['portfolio-5'])}
+                    onClick={() => toggleCarousel(portfolioImages['portfolio-5'])}
+                    className={styles.portfolioImage}
+                  >
                     <img src={portfolioImages['portfolio-5']} alt="portfolio" />
                   </div>
                 )
@@ -246,7 +272,13 @@ const Hire: React.FC = () => {
                 </div>
               ) : (
                 portfolioImages['portfolio-6'] && (
-                  <div onClick={() => toggleCarousel(portfolioImages['portfolio-6'])} className={styles.portfolioImage}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => toggleCarousel(portfolioImages['portfolio-6'])}
+                    onClick={() => toggleCarousel(portfolioImages['portfolio-6'])}
+                    className={styles.portfolioImage}
+                  >
                     <img src={portfolioImages['portfolio-6']} alt="portfolio" />
                   </div>
                 )

@@ -11,7 +11,7 @@ import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
 import NameIcon from '../img/name.svg';
 import { GoogleAuthButton } from '../components/googleAuthButton';
-import { useLogger } from '../hooks';
+import { useLogger, useFlash } from '../hooks';
 
 interface ValidationProps {
   name?: string;
@@ -24,13 +24,12 @@ const SignUp: React.FC = () => {
   const [isPasswordShowing, setPasswordShowing] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
-  const [error, setError] = useState('');
+  const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
 
   function validate({ name, email, password }: ValidationProps) {
     const temp: ValidationProps = {};
-
     if (!name) temp.name = 'error';
     if (!email) temp.email = 'error';
     if (!password) temp.password = 'error';
@@ -40,7 +39,7 @@ const SignUp: React.FC = () => {
   async function handleCreateAccountClick(e: FormEvent) {
     e.preventDefault();
     setRequestPending(true);
-    setError('');
+    setFlash('');
     setInvalids({});
 
     const formData = serialize(e.target, { hash: true });
@@ -66,19 +65,19 @@ const SignUp: React.FC = () => {
 
     try {
       await Auth.signUp(signUpInput);
-      setError('');
+      setFlash('');
       setRequestPending(false);
       setConfirming(true);
-    } catch (err) {
-      setError(err.message);
-      logger.error('SignUp: error in Auth.signUp', { error: err, input: signUpInput });
+    } catch (error) {
+      setFlash(error.message);
+      logger.error('SignUp: error in Auth.signUp', { error, input: signUpInput });
       setRequestPending(false);
     }
   }
 
   async function handleSignUpwithGoogleClick(e: MouseEvent) {
     e.preventDefault();
-    setError('');
+    setFlash('');
     setInvalids({});
 
     const federatedSignInInput = { provider: 'Google' };
@@ -86,14 +85,14 @@ const SignUp: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       await Auth.federatedSignIn(federatedSignInInput);
-    } catch (err) {
-      setError(err.message);
-      logger.error('SignIn: error in Auth.federatedSignIn', { error: err, input: federatedSignInInput });
+    } catch (error) {
+      setFlash(error.message);
+      logger.error('SignIn: error in Auth.federatedSignIn', { error, input: federatedSignInInput });
     }
   }
 
-  function handleEyeballClick(e) {
-    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+  function handleEyeballClick(e: any) {
+    if (e.keyCode === undefined || e.keyCode === 13) {
       setPasswordShowing(!isPasswordShowing);
     }
   }
@@ -102,7 +101,6 @@ const SignUp: React.FC = () => {
     <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} />
   ) : (
     <div className={styles.authPage}>
-      <div className="flash-message">{error}</div>
       <ProjectHeader headerText="Sign Up for Continuum" />
       <form onSubmit={handleCreateAccountClick} className={styles.body}>
         <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>Sign Up with Google</GoogleAuthButton>

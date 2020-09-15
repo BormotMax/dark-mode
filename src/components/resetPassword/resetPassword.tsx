@@ -8,7 +8,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../pages/styles/authPage.module.scss';
 import { ProjectHeader } from '../projectHeader';
 import EmailIcon from '../../img/email.svg';
-import { useLogger } from '../../hooks';
+import { useLogger, useFlash } from '../../hooks';
 
 interface ResetPasswordProps {
   email: string;
@@ -23,7 +23,7 @@ interface ValidationProps {
 export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
   const [isRequestPending, setRequestPending] = useState(false);
   const [isPasswordShowing, setPasswordShowing] = useState(false);
-  const [error, setError] = useState('');
+  const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
 
@@ -39,7 +39,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
     e.preventDefault();
 
     setRequestPending(true);
-    setError('');
+    setFlash('');
     setInvalids({});
 
     const formData = serialize(e.target, { hash: true });
@@ -55,9 +55,9 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
     try {
       await Auth.forgotPasswordSubmit(email, code, password);
       Router.push('/signIn');
-    } catch (err) {
+    } catch (error) {
       logger.error('ResetPassword: error in Auth.forgotPasswordSubmit', { error, input: { email, code } });
-      setError(err.message);
+      setFlash(error.message);
       setRequestPending(false);
     }
   }
@@ -70,7 +70,6 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
 
   return (
     <div className={styles.authPage}>
-      <div className="flash-message">{error}</div>
       <ProjectHeader headerText="Reset your password" />
       <form onSubmit={handleSubmit} className={styles.body}>
         <div className={styles.inputWrapper}>
@@ -94,8 +93,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
             placeholder="New Password"
             autoComplete="new-password"
           />
-          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
-          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
+          <div role="button" className={styles.eyeIconWrapper} tabIndex={0} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
             {isPasswordShowing ? (
               <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" />
             ) : (

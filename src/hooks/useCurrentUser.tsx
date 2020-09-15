@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Auth } from '@aws-amplify/auth';
 import { useRouter } from 'next/router';
 import { useLogger } from './useLogger';
+import { useFlash } from './useFlash';
 
 export const UserContext = React.createContext({
   pending: true,
@@ -12,11 +13,12 @@ export const UserContext = React.createContext({
 
 export const useCurrentUser = (): any => useContext(UserContext);
 
-export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
+export const UserDataProvider: React.FC = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [pending, setPending] = useState(true);
   const router = useRouter();
   const { logger } = useLogger();
+  const { setFlash } = useFlash();
 
   const signOut = async () => {
     try {
@@ -24,7 +26,7 @@ export const UserDataProvider: React.FC = ({ children }: { children: any }) => {
       router.push('/signIn');
     } catch (error) {
       logger.error('UserDataProvider: error signing out', { error });
-      // todo: setFlash("There was an error while trying to sign out.")
+      setFlash('There was an error while trying to sign out.');
     }
   };
 

@@ -14,7 +14,7 @@ import { AuthProps } from '../types/custom';
 import EmailIcon from '../img/email.svg';
 import { ProjectHeader } from '../components/projectHeader';
 import { GoogleAuthButton } from '../components/googleAuthButton';
-import { useLogger } from '../hooks';
+import { useLogger, useFlash } from '../hooks';
 
 interface ValidationProps {
   email?: string;
@@ -26,13 +26,12 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   const [isPasswordShowing, setPasswordShowing] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
-  const [error, setError] = useState('');
+  const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
 
   function validate({ email, password }: ValidationProps) {
     const temp: ValidationProps = {};
-
     if (!email) temp.email = 'error';
     if (!password) temp.password = 'error';
     return temp;
@@ -40,7 +39,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
 
   async function handleGoogleSignInClick(e: MouseEvent) {
     e.preventDefault();
-    setError('');
+    setFlash('');
     setInvalids({});
 
     const federatedSignInInput = { provider: 'Google' };
@@ -48,21 +47,20 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       await Auth.federatedSignIn(federatedSignInInput);
-    } catch (err) {
-      setError(err.message);
-      logger.error('SignIn: error in Auth.federatedSignIn', { error: err, input: federatedSignInInput });
+    } catch (error) {
+      setFlash(error.message);
+      logger.error('SignIn: error in Auth.federatedSignIn', { error, input: federatedSignInInput });
     }
   }
 
   async function handleSignInClick(e: FormEvent) {
     e.preventDefault();
     setRequestPending(true);
-    setError('');
+    setFlash('');
     setInvalids({});
 
     const formData = serialize(e.target, { hash: true });
     const { email, password } = formData;
-
     const validation = validate(formData);
 
     if (Object.keys(validation).length) {
@@ -78,20 +76,19 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
       // If the user is confirmed, withAuthentication HOC will redirect to /hirePageEditor
       // and the following lines won't be executed
       if (!isConfirmed) {
-        setError('');
+        setFlash('');
         setRequestPending(false);
-
         setConfirming(true);
       }
-    } catch (err) {
-      setError(err.message);
-      logger.error('SignIn: error signing in', { error: err, input: { email } });
+    } catch (error) {
+      setFlash(error.message);
+      logger.error('SignIn: error signing in', { error, input: { email } });
       setRequestPending(false);
 
-      if (err.code === 'UserNotConfirmedException') {
-        setError('');
+      if (error.code === 'UserNotConfirmedException') {
+        setFlash('');
         setConfirming(true);
-      } else if (err.code === 'PasswordResetRequiredException') {
+      } else if (error.code === 'PasswordResetRequiredException') {
         Router.push('/forgotPassword');
       }
     }
@@ -108,7 +105,6 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   ) : (
     <div className={pageStyles.authPage}>
       <ProjectHeader headerText="Sign In to Continuum" />
-      <div className="flash-message">{error}</div>
       <form onSubmit={handleSignInClick} className={pageStyles.body}>
         <div className={pageStyles.inputWrapper}>
           <input name="email" className={`${invalids.email ? pageStyles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />

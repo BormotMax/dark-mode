@@ -13,7 +13,7 @@ import { createUser, createProject, createComment } from '../../graphql/mutation
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
-import { useCurrentUser, useLogger } from '../../hooks';
+import { useCurrentUser, useLogger, useFlash } from '../../hooks';
 
 const commentContent = 'Thank you for your interest in the work I do. Please tell me a bit more about yourself and your project. Thanks!';
 
@@ -23,8 +23,6 @@ interface HireMeModalProps {
   freelancerID: string;
   avatarUrl?: string;
   handleClose: Function;
-  setFlash: Function;
-  setDelayedFlash: Function;
 }
 
 interface ValidationProps {
@@ -35,19 +33,13 @@ interface ValidationProps {
   details?: string;
 }
 
-export const HireMeModal: React.FC<HireMeModalProps> = ({
-  freelancerEmail,
-  freelancerName,
-  freelancerID,
-  setFlash,
-  setDelayedFlash,
-  avatarUrl,
-}) => {
+export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freelancerName, freelancerID, avatarUrl }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const router = useRouter();
   const { currentUser } = useCurrentUser();
   const { logger } = useLogger();
+  const { setFlash, setDelayedFlash } = useFlash();
 
   function validate({ name, company, email, phone, details }: ValidationProps) {
     const temp: ValidationProps = {};

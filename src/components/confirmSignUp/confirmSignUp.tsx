@@ -1,15 +1,11 @@
-/* eslint-disable jsx-a11y/interactive-supports-focus */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
-import { useState, FormEvent, KeyboardEvent, MouseEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
 import styles from '../../pages/styles/authPage.module.scss';
 import s from './confirmSignUp.module.scss';
 import { ProjectHeader } from '../projectHeader';
-import { useLogger } from '../../hooks';
+import { useLogger, useFlash } from '../../hooks';
 
 interface ConfirmSignUpProps {
   email: string;
@@ -24,7 +20,7 @@ interface ValidationProps {
 
 export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage, setConfirming }) => {
   const [isRequestPending, setRequestPending] = useState(false);
-  const [error, setError] = useState('');
+  const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
 
@@ -38,7 +34,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
   async function handleConfirmClick(e: FormEvent) {
     e.preventDefault();
     setRequestPending(true);
-    setError('');
+    setFlash('');
     setInvalids({});
 
     const formData = serialize(e.target, { hash: true });
@@ -54,17 +50,17 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
     try {
       await Auth.confirmSignUp(email, code);
       Router.push('/signIn');
-    } catch (err) {
-      logger.error('ConfirmSignUp: error confirming sign up', { error: err, input: { email, code } });
-      setError(err.message);
+    } catch (error) {
+      logger.error('ConfirmSignUp: error confirming sign up', { error, input: { email, code } });
+      setFlash(error.message);
       setRequestPending(false);
     }
   }
 
-  async function handleResendCode(e: KeyboardEvent | MouseEvent) {
-    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+  async function handleResendCode(e: any) {
+    if (e.keyCode === undefined || e.keyCode === 13) {
       setRequestPending(true);
-      setError('');
+      setFlash('');
       setInvalids({});
 
       const formData = serialize((e.target as HTMLFormElement).parentElement, { hash: true });
@@ -78,10 +74,10 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
 
       try {
         await Auth.resendSignUp(email);
-        setError('A new code has been sent to your email.');
-      } catch (err) {
-        logger.error('ConfirmSignUp: error resending auth code', { error: err, input: { email } });
-        setError(err.message);
+        setFlash('A new code has been sent to your email.');
+      } catch (error) {
+        logger.error('ConfirmSignUp: error resending auth code', { error, input: { email } });
+        setFlash(error.message);
       } finally {
         setRequestPending(false);
       }
@@ -90,7 +86,6 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
 
   return (
     <div className={styles.authPage}>
-      <div className="flash-message">{error}</div>
       <ProjectHeader headerText="Confirm Sign Up" />
       <form onSubmit={handleConfirmClick} className={styles.body}>
         <input
@@ -118,7 +113,8 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
           Confirm
         </button>
         <div>
-          <a role="link" onClick={() => setConfirming(false)}>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a role="link" tabIndex={0} onKeyDown={() => setConfirming(false)} onClick={() => setConfirming(false)}>
             Back to {parentPage === 'signIn' ? 'Sign In' : 'Sign Up'}
           </a>
         </div>

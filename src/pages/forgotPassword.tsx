@@ -7,7 +7,7 @@ import { ResetPassword } from '../components/resetPassword';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
-import { useLogger } from '../hooks';
+import { useLogger, useFlash } from '../hooks';
 
 interface ValidationProps {
   email?: string;
@@ -17,27 +17,24 @@ const ForgotPassword: React.FC = () => {
   const [emailInState, setEmailInState] = useState('');
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
-  const [error, setError] = useState('');
+  const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
 
   function validate({ email }: ValidationProps) {
     const temp: ValidationProps = {};
-
     if (!email) temp.email = 'error';
     return temp;
   }
 
   async function handleSendCodeClick(e: FormEvent) {
     e.preventDefault();
-
     setRequestPending(true);
-    setError('');
+    setFlash('');
     setInvalids({});
 
     const formData = serialize(e.target as HTMLFormElement, { hash: true });
     const { email } = formData;
-
     const validation = validate(formData as { email: string });
 
     if (Object.keys(validation).length) {
@@ -50,12 +47,12 @@ const ForgotPassword: React.FC = () => {
 
     try {
       await Auth.forgotPassword(formData.email);
-      setError('');
+      setFlash('');
       setRequestPending(false);
       setConfirming(true);
-    } catch (err) {
-      setError(err.message);
-      logger.error('ForgotPassword: error in Auth.forgotPassword', { error: err, input: formData.email });
+    } catch (error) {
+      setFlash(error.message);
+      logger.error('ForgotPassword: error in Auth.forgotPassword', { error, input: formData.email });
       setRequestPending(false);
     }
   }
@@ -64,7 +61,6 @@ const ForgotPassword: React.FC = () => {
     <ResetPassword email={emailInState} />
   ) : (
     <div className={styles.authPage}>
-      <div className="flash-message">{error}</div>
       <ProjectHeader headerText="Reset your password" />
       <form onSubmit={handleSendCodeClick} className={styles.body}>
         <div className={styles.inputWrapper}>
