@@ -77,13 +77,19 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const { client, freelancer, comments: cs } = project as Project;
 
   let viewer: User;
+
   // the viewer could be an authenticated Freelancer, but in this case they are acting as a Client User
-  if (viewerId && viewerId === client.signedOutAuthToken) {
-    viewer = client;
-  } else if (currentUserId && currentUserId === freelancer.id) {
+  if (currentUserId && currentUserId === freelancer.id) {
     viewer = freelancer;
+  } else if (viewerId && viewerId === client.signedOutAuthToken) {
+    if (currentUserId) {
+      logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
+    }
+    viewer = client;
   }
+
   if (!viewer) {
+    logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
     Router.push('/signIn');
     return null;
   }
@@ -97,7 +103,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     <PageLayoutOne headerText={client.company}>
       <div className={classnames('column')}>
         {comments.filter(Boolean).map((c) => (
-          <CommentWrapper key={c.id} comment={c} viewerId={viewerId as string} />
+          <CommentWrapper key={c.id} comment={c} viewerId={viewer.id as string} />
         ))}
         <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
       </div>
