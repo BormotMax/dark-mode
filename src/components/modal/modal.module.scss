@@ -1,0 +1,9 @@
+.isActive {
+  top: 0 !important;
+}
+
+.modalContent {
+  transition-property: top;
+  transition-duration: 0.4s;
+  top: -100%;
+}

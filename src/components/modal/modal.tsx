@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import classnames from 'classnames';
-import { useEffect } from 'react';
+import styles from './modal.module.scss';
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,6 +8,8 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) => {
+  const [isModalDown, setIsModalDown] = useState(false);
+
   function handleKeyDown(e) {
     if (e.keyCode === 27) {
       handleClose();
@@ -21,6 +24,16 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) =
     };
   }, []);
 
+  // This causes the isActive class to get applied after the top value is already -100%
+  // so that the modal transitions to a top = 0.
+  useEffect(() => {
+    if (isOpen) {
+      setIsModalDown(true);
+    } else {
+      setIsModalDown(false);
+    }
+  }, [isOpen]);
+
   if (isOpen) {
     document.querySelector('html').classList.add('is-clipped');
   } else {
@@ -30,7 +43,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) =
   return (
     <div className={classnames('modal', { 'is-active': isOpen })}>
       <div aria-hidden="true" onClick={() => handleClose()} className="modal-background" />
-      <div className="modal-content">{children}</div>
+      <div className={classnames('modal-content', styles.modalContent, { [styles.isActive]: isModalDown })}>{children}</div>
       <button onClick={() => handleClose()} type="button" className="modal-close is-large" aria-label="close" />
     </div>
   );
