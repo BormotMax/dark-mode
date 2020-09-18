@@ -125,22 +125,34 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
               <div className={classnames(styles.featureGrid)}>
                 <GridItem
                   header="Conversations"
-                  body="Continuum provides meaningful metrics designed to be easy to use."
+                  body="Engage quickly and meaningfully with people interested in your work."
                   icon={faCommentsAlt}
                 />
                 <GridItem
                   header="Project Management"
-                  body="Continuum provides meaningful metrics designed to be easy to use."
+                  body="Text-message-style project management with conversations, files, quotes, invoices and payments all in one thread."
                   icon={faRocket}
                 />
-                <GridItem header="CRM" body="Continuum provides meaningful metrics designed to be easy to use." icon={faFunnelDollar} />
-                <GridItem header="Quotes" body="Continuum provides meaningful metrics designed to be easy to use." icon={faFileInvoice} />
+                <GridItem
+                  header="CRM"
+                  body="Stay on top of sales with our visual CRM to see site visitors, conversations and conversations to quotes, invoices and payments."
+                  icon={faFunnelDollar}
+                />
+                <GridItem
+                  header="Quotes"
+                  body="Generate easy quotes that present inline to your clients to accept. Receive a deposit payment upon acceptance."
+                  icon={faFileInvoice}
+                />
                 <GridItem
                   header="Invoice & Payments"
-                  body="Continuum provides meaningful metrics designed to be easy to use."
+                  body="Create tasks and track time to generate invoices and receive payments in the Continuum project space."
                   icon={faFileInvoiceDollar}
                 />
-                <GridItem header="Hire Page" body="Continuum provides meaningful metrics designed to be easy to use." icon={faPersonSign} />
+                <GridItem
+                  header="Hire Page"
+                  body="Paste our conversation code into your own website, or use our supasimple form to generate a Hire Page to show your best work and convert visitors to clients."
+                  icon={faPersonSign}
+                />
               </div>
               <div className="columns is-desktop">
                 <div className="column is-7">
