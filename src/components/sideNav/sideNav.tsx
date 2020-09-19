@@ -13,6 +13,7 @@ import { GetHireMeInfoQuery } from '../../API';
 export enum Page {
   PROJECTS,
   HIRE,
+  HIRE_EDITOR,
 }
 
 interface SideNavProps {
@@ -59,13 +60,21 @@ export const SideNav: React.FC<SideNavProps> = ({ page }) => {
             </a>
           </Link>
         </li>
-        <li className={classnames({ [styles.current]: page === Page.HIRE })}>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <li className={classnames({ [styles.current]: page === Page.HIRE_EDITOR })}>
+          <Link href="/hirePageEditor">
+            <a href="/hirePageEditor">
+              <FontAwesomeIcon size="1x" icon={faPersonSign} />
+              &nbsp;&nbsp;Hire Page
+            </a>
+          </Link>
+        </li>
+        {/* <li className={classnames({ [styles.current]: page === Page.HIRE })}>
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <a tabIndex={0} role="link" onKeyDown={navToHirePage} onClick={navToHirePage}>
             <FontAwesomeIcon size="1x" icon={faPersonSign} />
             &nbsp;&nbsp;Hire Page
           </a>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

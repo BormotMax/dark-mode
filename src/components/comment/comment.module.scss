@@ -1,4 +1,4 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .comment {
   &:first-child {
@@ -16,10 +16,11 @@
   border-radius: 30px;
 
   &Light {
-    background: #fbfaf8;
+    background: #fafafa;
   }
+
   &Dark {
-    background: #f5f8ff;
+    background: #fcfcfc;
   }
 
   .header {

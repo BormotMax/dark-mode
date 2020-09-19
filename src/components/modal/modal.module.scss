@@ -2,6 +2,10 @@
   top: 0 !important;
 }
 
+.modalBackground {
+  opacity: 0.2;
+}
+
 .modalContent {
   transition-property: top;
   transition-duration: 0.4s;

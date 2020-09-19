@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import Link from 'next/link';
 import styles from './projectHeader.module.scss';
-import Logo from '../../img/logo_gray.svg';
+import Logo from '../../img/logo2.svg';
 import { useCurrentUser } from '../../hooks';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 
@@ -29,15 +29,15 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
   const { currentUser, signOut } = useCurrentUser();
   const email = currentUser?.attributes?.email;
 
-  const handleLogout = (e) => {
-    if ((e as any).keyCode === undefined || (e as any).keyCode === 13) {
+  const handleLogout = (e: any) => {
+    if (e.keyCode === undefined || e.keyCode === 13) {
       signOut();
     }
   };
 
   return (
     <header className={classnames(styles.header, styles[headerColor])}>
-      <div className={styles.upper}>
+      <div className={classnames(styles.upper, { [styles.center]: !currentUser })}>
         <Link href="/">
           <a href="/">
             <Logo />
@@ -51,8 +51,11 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
               Logout
             </a>
           )}
-
-          {email ? <img alt="avatar" className={styles.avatar} src={gravatarUrl(email)} /> : <div className={styles.avatar} />}
+          {email ? (
+            <img alt="avatar" className={styles.avatar} src={gravatarUrl(email)} />
+          ) : (
+            <div className={classnames(styles.avatar, 'is-hidden-touch')} />
+          )}
         </div>
       </div>
 

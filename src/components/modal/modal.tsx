@@ -42,7 +42,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) =
 
   return (
     <div className={classnames('modal', { 'is-active': isOpen })}>
-      <div aria-hidden="true" onClick={() => handleClose()} className="modal-background" />
+      <div aria-hidden="true" onClick={() => handleClose()} className={classnames('modal-background', styles.modalBackground)} />
       <div className={classnames('modal-content', styles.modalContent, { [styles.isActive]: isModalDown })}>{children}</div>
       <button onClick={() => handleClose()} type="button" className="modal-close is-large" aria-label="close" />
     </div>

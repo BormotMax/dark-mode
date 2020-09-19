@@ -1,21 +1,35 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .header {
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  background: #595959;
+  color: white;
+  a {
+    color: white;
+  }
 
   .inner {
     display: grid;
     text-align: center;
     grid-template-rows: repeat(3, auto);
     row-gap: 18px;
-    padding: 18px;
+    padding: 14px;
     grid-template-columns: auto;
     justify-items: center;
     position: relative;
     z-index: 1;
 
+    svg {
+      color: white;
+    }
+
     @include tablet {
+      svg {
+        vertical-align: bottom;
+      }
       a {
+        &:hover {
+          text-decoration: underline;
+        }
         justify-self: flex-start;
       }
       grid-template-columns: 150px auto 150px;
@@ -34,7 +48,6 @@
       font-weight: normal;
       font-size: 32px;
       line-height: 37px;
-      color: #1d3557;
     }
 
     .right {
@@ -54,11 +67,12 @@
 
         img {
           margin-left: 10px;
+          border: 2px solid #f4f3ee;
         }
 
         .avatar {
-          height: 37px;
-          width: 37px;
+          height: 48px;
+          width: 48px;
           border-radius: 50%;
         }
       }

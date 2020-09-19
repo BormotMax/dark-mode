@@ -1,15 +1,28 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .header {
   min-height: 108px;
   text-align: center;
 
   .upper {
+    &.center {
+      justify-content: center;
+    }
+
+    @include tablet {
+      &.center {
+        justify-content: space-between;
+      }
+    }
+
     display: flex;
     justify-content: space-between;
 
     svg {
       margin: 24px;
+      height: 60px;
+      width: 60px;
+      vertical-align: bottom;
     }
 
     .avatar {
