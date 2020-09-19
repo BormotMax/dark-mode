@@ -22,7 +22,10 @@
   }
 
   .current {
-    border-radius: 9px;
-    background: #e0e0e0;
+    // border-radius: 9px;
+    // background: #e0e0e0;
+    & > * {
+      color: black !important;
+    }
   }
 }

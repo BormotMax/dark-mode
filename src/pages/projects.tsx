@@ -45,22 +45,23 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   return (
     <PageLayoutOne headerText="Projects" page={Page.PROJECTS}>
       <div className={classnames('column', 'is-7', styles.projects)}>
-        {!projects.length ? <div>You don&apos;t have any projects yet.</div>
-          : (
-            <>
-              {projects.map((p: Project) => (
-                <div key={p.id}>
-                  <Link href="/project/[id]" as={`/project/${p.id}`}>
-                    <a href={`/project/${p.id}`}>
-                      <Comment name={p.client.name} avatarUrl={gravatarUrl(p.client.email)}>
-                        <div className={classnames(styles.projectName)}>{p.client.company}</div>
-                      </Comment>
-                    </a>
-                  </Link>
-                </div>
-              ))}
-            </>
-          )}
+        {!projects.length ? (
+          <div>You don&apos;t have any projects yet.</div>
+        ) : (
+          <>
+            {projects.map((p: Project) => (
+              <div key={p.id}>
+                <Link href="/project/[id]" as={`/project/${p.id}`}>
+                  <a href={`/project/${p.id}`}>
+                    <Comment name={p.client.name} avatarUrl={gravatarUrl(p.client.email)} backgroundColor="#f4f3ee">
+                      <div className={classnames(styles.projectName)}>{p.client.company}</div>
+                    </Comment>
+                  </a>
+                </Link>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </PageLayoutOne>
   );

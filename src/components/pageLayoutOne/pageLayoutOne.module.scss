@@ -1,8 +1,8 @@
 @use "src/mixins";
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .page {
-  background: white;
+  background: #f4f3ee;
   min-height: 100vh;
   font-family: Poppins;
   font-style: normal;
@@ -15,7 +15,11 @@
       padding-top: 30px;
 
       .navColumn {
-        margin-right: 60px;
+        margin: 8px 24px 0 0;
+        padding: 20px 70px 20px 20px;
+        height: fit-content;
+        border-radius: 30px;
+        background: white;
       }
     }
   }

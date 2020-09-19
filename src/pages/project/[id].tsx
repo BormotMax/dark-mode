@@ -14,6 +14,7 @@ import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
 import { ContactDetails } from '../../components/contactDetails/contactDetails';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
+import styles from '../styles/project.module.scss';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -108,9 +109,11 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
       </div>
       <div className={classnames('column', 'is-narrow')}>
-        <TabGroup names={['People']}>
-          <ContactDetails user={client} />
-        </TabGroup>
+        <div className={classnames(styles.tabGroupWrapper)}>
+          <TabGroup names={['People']}>
+            <ContactDetails user={client} />
+          </TabGroup>
+        </div>
       </div>
     </PageLayoutOne>
   );
