@@ -10,17 +10,11 @@
   font-size: 16px;
   line-height: 24px;
 
-  .body {
-    .columns {
-      padding-top: 30px;
-
-      .navColumn {
-        margin: 8px 24px 0 0;
-        padding: 20px 70px 20px 20px;
-        height: fit-content;
-        border-radius: 30px;
-        background: white;
-      }
+  .pageContent {
+    @include tablet {
+      padding-left: 20px;
     }
+
+    margin: initial;
   }
 }

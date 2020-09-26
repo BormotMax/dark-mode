@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { faClipboardUser } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
+import styles from './tab.module.scss';
 
 interface TabGroupProps {
   names: Array<string>;
@@ -12,7 +13,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({ names, children }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
-    <div>
+    <div className={styles.tabGroup}>
       <div className="tabs is-fullwidth">
         <ul>
           {names.map((name, i) => (

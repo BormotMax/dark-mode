@@ -13,10 +13,10 @@
   min-height: 128px;
   padding: 16px 34px 20px 38px;
   position: relative;
-  border-radius: 30px;
+  border-radius: 4px;
 
   &Light {
-    background: #fafafa;
+    background: #ffffff;
   }
 
   &Dark {
@@ -55,7 +55,7 @@
 
   .commentText {
     border: 1px solid #e0e0e0;
-    border-radius: 8px 8px 0 0;
+    border-radius: 4px 4px 0 0;
     border-bottom: none;
     vertical-align: top;
     width: 100%;
@@ -70,7 +70,7 @@
   }
 
   .commentBar {
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 4px 4px;
     background: white;
     border: 1px solid #e0e0e0;
     padding: 6px;

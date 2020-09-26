@@ -1,6 +1,12 @@
+.tabGroup {
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
 .genericTab {
-    font-weight: normal;
-    font-size: 18px;
-    font-family: Roboto, sans-serif;
-    color: #1d3557;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: Roboto, sans-serif;
+  color: #1d3557;
 }

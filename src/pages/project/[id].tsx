@@ -16,6 +16,7 @@ import { ContactDetails } from '../../components/contactDetails/contactDetails';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
 import styles from '../styles/project.module.scss';
 import { TasksAndTimeTab } from '../../components/tabs/tasksAndTimeTab';
+import { Page } from '../../components/nav/nav';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -102,23 +103,25 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   }) as Array<CommentType>;
 
   return (
-    <PageLayoutOne headerText={client.company}>
-      <div className={classnames('column')}>
-        {comments.filter(Boolean).map((c) => (
-          <CommentWrapper key={c.id} comment={c} viewerId={viewer.id as string} />
-        ))}
-        <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
-      </div>
-      <div className={classnames('column', 'is-narrow')}>
-        <div className={classnames(styles.tabGroupWrapper)}>
-          <TabGroup names={['People']}>
-            <ContactDetails user={client} />
-          </TabGroup>
-          {quotes.items.length > 0 && (
-            <TabGroup names={['Tasks & Time']}>
-              <TasksAndTimeTab quotes={quotes.items} />
+    <PageLayoutOne headerText={client.company} page={Page.PROJECT}>
+      <div className={classnames('columns')}>
+        <div className={classnames('column')}>
+          {comments.filter(Boolean).map((c) => (
+            <CommentWrapper key={c.id} comment={c} viewerId={viewer.id as string} />
+          ))}
+          <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
+        </div>
+        <div className={classnames('column', 'is-narrow')}>
+          <div className={classnames(styles.tabGroupWrapper)}>
+            <TabGroup names={['People']}>
+              <ContactDetails user={client} />
             </TabGroup>
-          )}
+            {quotes.items.length > 0 && (
+              <TabGroup names={['Tasks & Time']}>
+                <TasksAndTimeTab quotes={quotes.items} />
+              </TabGroup>
+            )}
+          </div>
         </div>
       </div>
     </PageLayoutOne>

@@ -13,12 +13,10 @@ export const ContactDetails: React.FC<ContactDetailsProps> = ({ user }) => (
   <div className={classnames(styles.contactDetails)}>
     <div className={classnames(styles.header)}>
       <FontAwesomeIcon size="1x" color="#595959" icon={faClipboardUser} />
-      <span>Contact Details</span>
+      <span>{user.name}</span>
     </div>
     <div className={classnames(styles.content)}>
-      <div className={classnames(styles.left)}>
-        <Avatar email={user.email} />
-      </div>
+      <Avatar email={user.email} />
       <div className={classnames(styles.right)}>
         <div>{user.name}</div>
         <div>{user.company}</div>

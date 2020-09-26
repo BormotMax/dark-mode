@@ -1,81 +1,18 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .header {
-  background: #595959;
-  color: white;
-  a {
-    color: white;
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 24px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+
+  @include tablet {
+    padding-left: 0;
   }
+}
 
-  .inner {
-    display: grid;
-    text-align: center;
-    grid-template-rows: repeat(3, auto);
-    row-gap: 18px;
-    padding: 14px;
-    grid-template-columns: auto;
-    justify-items: center;
-    position: relative;
-    z-index: 1;
-
-    svg {
-      color: white;
-    }
-
-    @include tablet {
-      svg {
-        vertical-align: bottom;
-      }
-      a {
-        &:hover {
-          text-decoration: underline;
-        }
-        justify-self: flex-start;
-      }
-      grid-template-columns: 150px auto 150px;
-      grid-template-rows: auto;
-      align-items: center;
-      justify-items: initial;
-      justify-content: space-between;
-    }
-
-    .nav {
-      width: 100%;
-    }
-
-    .headerText {
-      font-family: Roboto;
-      font-weight: normal;
-      font-size: 32px;
-      line-height: 37px;
-    }
-
-    .right {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
-
-      @include tablet {
-        justify-content: flex-end;
-      }
-
-      .rightInner {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-
-        img {
-          margin-left: 10px;
-          border: 2px solid #f4f3ee;
-        }
-
-        .avatar {
-          height: 48px;
-          width: 48px;
-          border-radius: 50%;
-        }
-      }
-    }
-  }
+.nav {
+  padding: 12px;
 }

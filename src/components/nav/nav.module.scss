@@ -1,0 +1,68 @@
+@import '~bulma/sass/utilities/_all.sass';
+
+.sideNav {
+  background: #333333;
+  color: #bdbdbd;
+
+  a {
+    color: #bdbdbd;
+
+    svg {
+      color: #bdbdbd;
+    }
+  }
+
+  .current {
+    background: #000000;
+  }
+}
+
+.mobileNav {
+  color: #595959;
+  a {
+    color: #595959;
+
+    svg {
+      color: #595959;
+    }
+  }
+
+  li:hover {
+    background: #c4bfa4;
+  }
+
+  .current {
+    background: #c4bfa4;
+  }
+}
+
+.nav {
+  font-weight: normal;
+
+  @include tablet {
+    width: 250px;
+    min-height: 100vh;
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 39px;
+    align-items: center;
+  }
+
+  .avatar {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    border: 2px solid #eeeeee;
+  }
+
+  a {
+    padding: 6px 10px;
+  }
+
+  li {
+    border-radius: 4px;
+  }
+}

@@ -1,9 +1,11 @@
 import classnames from 'classnames';
 import styles from './pageLayoutOne.module.scss';
 import { Role } from '../withAuthentication';
-import { SideNav, Page } from '../sideNav/sideNav';
+import { SideNav } from '../nav/sideNav';
 import { Protected } from '../protected/protected';
 import { Header } from '../header';
+import { Page } from '../nav/nav';
+import { MobileNav } from '../nav/mobileNav';
 
 interface PageLayoutOneProps {
   headerText?: string;
@@ -12,16 +14,16 @@ interface PageLayoutOneProps {
 
 export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerText, page }) => (
   <div className={styles.page}>
-    <Header headerText={headerText} page={page} />
-    <main className={`${styles.body} container is-desktop`}>
-      <div className={`${styles.columns} columns`}>
-        <Protected roles={[Role.FREELANCER]}>
-          <div className={classnames('column', 'is-narrow', styles.navColumn, 'is-hidden-mobile')}>
-            <SideNav page={page} />
-          </div>
-        </Protected>
-        <>{children}</>
+    <div className="columns">
+      <Protected roles={[Role.FREELANCER]}>
+        <SideNav page={page} />
+      </Protected>
+      <div className="column">
+        <div className={classnames('container', 'is-desktop', styles.pageContent)}>
+          <Header headerText={headerText} page={page} />
+          {children}
+        </div>
       </div>
-    </main>
+    </div>
   </div>
 );
