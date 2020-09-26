@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CheckList } from '../checkList';
-import styles from './quote.module.scss';
+import styles from './quoteProgress.module.scss';
 import DownChevron from '../../img/downChevron.svg';
 import UpChevron from '../../img/upChevron.svg';
 import { Quote, Task } from '../../types/custom';
@@ -21,8 +21,8 @@ function calcPercentDone(tasks: Array<Task>) {
 }
 
 interface QuoteProps {
-  quote: Quote
-  i: number
+  quote: Quote;
+  i: number;
 }
 
 export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i }) => {
@@ -37,11 +37,7 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i }) => {
   return (
     <div className={styles.quote}>
       <div className={styles.header}>
-        <div className="header-1-sm">
-          TASKS FOR QUOTE
-          {' '}
-          {i}
-        </div>
+        <div className="header-1-sm">TASKS FOR QUOTE {i}</div>
         <div
           onClick={() => setShowing(!isShowing)}
           role="button"
@@ -54,11 +50,7 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i }) => {
       </div>
       <div className={`${isShowing ? '' : 'hidden'}`}>
         <div className={styles.progressContainer}>
-          <progress
-            className="progress is-large is-primary"
-            max="1"
-            value={percentDone}
-          />
+          <progress className="progress is-large is-primary" max="1" value={percentDone} />
         </div>
         <form className="text-1 text-gray">
           <CheckList

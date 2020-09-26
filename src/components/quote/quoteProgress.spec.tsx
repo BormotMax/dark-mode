@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { QuoteProgress } from './quote';
+import { QuoteProgress } from './quoteProgress';
 import { Quote } from '../../types/custom';
 
 const quote: Quote = {

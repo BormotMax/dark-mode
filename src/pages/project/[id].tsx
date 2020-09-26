@@ -15,6 +15,7 @@ import { onCreateComment } from '../../graphql/subscriptions';
 import { ContactDetails } from '../../components/contactDetails/contactDetails';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
 import styles from '../styles/project.module.scss';
+import { TasksAndTimeTab } from '../../components/tabs/tasksAndTimeTab';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -75,7 +76,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { client, freelancer, comments: cs } = project as Project;
+  const { client, freelancer, comments: cs, quotes } = project as Project;
 
   let viewer: User;
 
@@ -113,6 +114,11 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
           <TabGroup names={['People']}>
             <ContactDetails user={client} />
           </TabGroup>
+          {quotes.items.length > 0 && (
+            <TabGroup names={['Tasks & Time']}>
+              <TasksAndTimeTab quotes={quotes.items} />
+            </TabGroup>
+          )}
         </div>
       </div>
     </PageLayoutOne>
