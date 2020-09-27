@@ -3,10 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/pro-light-svg-icons';
 import { useState } from 'react';
 import styles from './header.module.scss';
-import { SideNav } from '../nav/sideNav';
 import { Protected } from '../protected/protected';
 import { Role } from '../withAuthentication';
-import { PageTitle } from '../nav/nav';
+import { PageTitle, Page } from '../nav/nav';
 import { MobileNav } from '../nav/mobileNav';
 
 interface HeaderProps {
