@@ -13,29 +13,29 @@ jobs:
         run: npm i
       - name: Run tests
         run: npm test
-        
-  deploy_prod:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        
-      - name: Configure Amplify Master
-        uses: ambientlight/amplify-cli-action@0.2.1
-        with:
-          amplify_command: configure
-          amplify_env: master
-          amplify_arguments: --categories {"auth":{"googleAppIdUserPool":"googleAppId","googleAppSecretUserPool":"googleAppSecret"}}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
 
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v19
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: '--prod'
-          vercel-org-id: ${{ secrets.ORG_ID}}  #Required
-          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
-          scope: ${{ secrets.VERCEL_SCOPE }}
+  # deploy_prod:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: Configure Amplify Master
+  #       uses: ambientlight/amplify-cli-action@0.2.1
+  #       with:
+  #         amplify_command: configure
+  #         amplify_env: master
+  #         amplify_arguments: --categories {"auth":{"googleAppIdUserPool":"googleAppId","googleAppSecretUserPool":"googleAppSecret"}}
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: us-east-1
+
+  #     - name: Deploy to Vercel
+  #       uses: amondnet/vercel-action@v19
+  #       with:
+  #         vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         vercel-args: '--prod'
+  #         vercel-org-id: ${{ secrets.ORG_ID}}  #Required
+  #         vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
+  #         scope: ${{ secrets.VERCEL_SCOPE }}
