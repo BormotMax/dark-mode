@@ -12,11 +12,11 @@ import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
-import { ContactDetails } from '../../components/contactDetails/contactDetails';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
 import styles from '../styles/project.module.scss';
 import { TasksAndTimeTab } from '../../components/tabs/tasksAndTimeTab';
 import { Page } from '../../components/nav/nav';
+import { ContactPreview } from '../../components/contactPreview';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -116,7 +116,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <div className={classnames('column', 'is-narrow')}>
           <div className={classnames(styles.tabGroupWrapper)}>
             <TabGroup names={['People']}>
-              <ContactDetails user={client} />
+              <ContactPreview users={clients.items.map((c) => c.client)} />
             </TabGroup>
             {quotes.items.length > 0 && (
               <TabGroup names={['Tasks & Time']}>
