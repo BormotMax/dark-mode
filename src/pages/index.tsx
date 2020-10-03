@@ -41,8 +41,8 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
               )}
               {!currentUser && (
                 <Link href="/signUp">
-                  <a href="/signUp">
-                    <button type="button" className={classnames(styles.ctaButton)}>
+                  <a href="/signUp" className={classnames(styles.ctaButtonAnchor)}>
+                    <button tabIndex={-1} type="button" className={classnames(styles.ctaButton)}>
                       Try Continuum for Free
                     </button>
                   </a>

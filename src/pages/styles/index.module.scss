@@ -12,19 +12,44 @@
     flex-direction: column;
   }
 
-  .ctaButton {
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 18px;
-    letter-spacing: 0.271875px;
-    align-self: center;
-    padding: 15px 20px;
-    margin: 0 15px;
-    background: #3c78fb;
-    color: white;
-    border: none;
+  .ctaButtonAnchor {
+    outline: none;
+    &:active:hover,
+    &:focus {
+      .ctaButton {
+        top: 5px;
+        left: -5px;
+        outline: none;
 
-    &:hover {
+        &:before {
+          display: none;
+        }
+      }
+    }
+    .ctaButton {
+      outline: none;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: 0.271875px;
+      align-self: center;
+      padding: 15px 30px;
+      position: relative;
+      margin: 0 20px;
+      background: #3c78fb;
+      color: white;
+      border: none;
+
+      &:before {
+        content: '';
+        border: 3px solid #3c78fb;
+        width: 100%;
+        height: 100%;
+        display: block;
+        top: 5px;
+        left: -5px;
+        position: absolute;
+      }
     }
   }
 
