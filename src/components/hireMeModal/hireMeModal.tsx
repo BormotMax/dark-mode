@@ -9,7 +9,7 @@ import styles from './hireMeModal.module.scss';
 import { Comment } from '../comment';
 import { OvalButtonSmall } from '../buttons/buttons';
 import { UserRole, GetUserQuery, CreateUserMutation } from '../../API';
-import { createUser, createProject, createComment } from '../../graphql/mutations';
+import { createUser, createProject, createComment, createProjectClient, createProjectFreelancer } from '../../graphql/mutations';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
@@ -135,6 +135,28 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
       });
     } catch (error) {
       logger.error('HireMeModal: error creating Comment', { error, input: createCommentInput });
+    }
+
+    // Create the M:M joining record associating a client with a project
+    const createProjectClientInput = { clientID: existingClient.id, projectID };
+    try {
+      await client.mutate({
+        mutation: gql(createProjectClient),
+        variables: { input: createProjectClientInput },
+      });
+    } catch (error) {
+      logger.error('HireMeModal: error creating ProjectClient', { error, input: createProjectClientInput });
+    }
+
+    // Create the M:M joining record associating a freelancer with a project
+    const createProjectFreelancerInput = { freelancerID, projectID };
+    try {
+      await client.mutate({
+        mutation: gql(createProjectFreelancer),
+        variables: { input: createProjectFreelancerInput },
+      });
+    } catch (error) {
+      logger.error('HireMeModal: error creating ProjectFreelancer', { error, input: createProjectFreelancerInput });
     }
 
     const freelancerEmailInput = {

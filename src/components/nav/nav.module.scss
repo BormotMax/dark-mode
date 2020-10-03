@@ -6,14 +6,29 @@
 
   a {
     color: #bdbdbd;
-
-    svg {
-      color: #bdbdbd;
-    }
   }
 
-  .current {
-    background: #000000;
+  ul {
+    li {
+      border-radius: 100px;
+      &:hover {
+        background: #464646;
+      }
+    }
+
+    a {
+      color: #bdbdbd;
+      padding: 6px 10px;
+      width: 100%;
+
+      svg {
+        color: #828282;
+      }
+    }
+
+    .current {
+      background: #464646;
+    }
   }
 }
 
@@ -56,13 +71,5 @@
     width: 48px;
     border-radius: 50%;
     border: 2px solid #eeeeee;
-  }
-
-  a {
-    padding: 6px 10px;
-  }
-
-  li {
-    border-radius: 4px;
   }
 }

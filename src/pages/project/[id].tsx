@@ -77,18 +77,20 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { client, freelancer, comments: cs, quotes } = project as Project;
+  const { client, comments: cs, quotes, clients, freelancers } = project as Project;
 
   let viewer: User;
+  const viewingClientItem = clients.items.find((c) => viewerId && c.client.signedOutAuthToken === viewerId);
+  const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.freelancer.id === currentUserId);
 
   // the viewer could be an authenticated Freelancer, but in this case they are acting as a Client User
-  if (currentUserId && currentUserId === freelancer.id) {
-    viewer = freelancer;
-  } else if (viewerId && viewerId === client.signedOutAuthToken) {
+  if (viewingFreelancerItem?.freelancer) {
+    viewer = viewingFreelancerItem.freelancer;
+  } else if (viewingClientItem?.client) {
     if (currentUserId) {
       logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
     }
-    viewer = client;
+    viewer = viewingClientItem.client;
   }
 
   if (!viewer) {
