@@ -1,13 +1,7 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .hirePageEditor {
-  background: #faf8f7;
-  // fixes white gap on tablet
-  padding-bottom: 1px;
-
   .main {
-    margin-top: 17px;
-
     textarea {
       color: #8093a6;
     }

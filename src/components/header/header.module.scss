@@ -7,10 +7,6 @@
   padding: 12px;
   display: flex;
   justify-content: space-between;
-
-  @include tablet {
-    padding-left: 0;
-  }
 }
 
 .nav {
