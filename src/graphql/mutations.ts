@@ -56,6 +56,156 @@ export const deleteUser = /* GraphQL */ `
     }
   }
 `;
+export const createProjectClient = /* GraphQL */ `
+  mutation CreateProjectClient(
+    $input: CreateProjectClientInput!
+    $condition: ModelProjectClientConditionInput
+  ) {
+    createProjectClient(input: $input, condition: $condition) {
+      id
+      clientID
+      projectID
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const updateProjectClient = /* GraphQL */ `
+  mutation UpdateProjectClient(
+    $input: UpdateProjectClientInput!
+    $condition: ModelProjectClientConditionInput
+  ) {
+    updateProjectClient(input: $input, condition: $condition) {
+      id
+      clientID
+      projectID
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const deleteProjectClient = /* GraphQL */ `
+  mutation DeleteProjectClient(
+    $input: DeleteProjectClientInput!
+    $condition: ModelProjectClientConditionInput
+  ) {
+    deleteProjectClient(input: $input, condition: $condition) {
+      id
+      clientID
+      projectID
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const createProjectFreelancer = /* GraphQL */ `
+  mutation CreateProjectFreelancer(
+    $input: CreateProjectFreelancerInput!
+    $condition: ModelProjectFreelancerConditionInput
+  ) {
+    createProjectFreelancer(input: $input, condition: $condition) {
+      id
+      freelancerID
+      projectID
+      createdAt
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const updateProjectFreelancer = /* GraphQL */ `
+  mutation UpdateProjectFreelancer(
+    $input: UpdateProjectFreelancerInput!
+    $condition: ModelProjectFreelancerConditionInput
+  ) {
+    updateProjectFreelancer(input: $input, condition: $condition) {
+      id
+      freelancerID
+      projectID
+      createdAt
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const deleteProjectFreelancer = /* GraphQL */ `
+  mutation DeleteProjectFreelancer(
+    $input: DeleteProjectFreelancerInput!
+    $condition: ModelProjectFreelancerConditionInput
+  ) {
+    deleteProjectFreelancer(input: $input, condition: $condition) {
+      id
+      freelancerID
+      projectID
+      createdAt
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 export const createProject = /* GraphQL */ `
   mutation CreateProject(
     $input: CreateProjectInput!
@@ -90,6 +240,48 @@ export const createProject = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          createdAt
+          updatedAt
+          client {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
       }
       quotes {
         items {
@@ -171,6 +363,48 @@ export const updateProject = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          createdAt
+          updatedAt
+          client {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
       quotes {
         items {
           id
@@ -250,6 +484,48 @@ export const deleteProject = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          createdAt
+          updatedAt
+          client {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
       }
       quotes {
         items {

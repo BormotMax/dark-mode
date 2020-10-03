@@ -20,15 +20,25 @@ type User
   role: UserRole!
 }
 
-# type ClientProject
-#   @model
-#   @key(name: "byProject", fields: ["projectID"])
-#   @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
-#   id: ID!
-#   clientID: ID!
-#   client: User! @connection(name: "ClientProjects")
-#   project: Project! @connection(name: "ProjectClients")
-# }
+type ProjectClient
+  @model
+  @key(name: "byProject", fields: ["projectID"])
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  id: ID!
+  clientID: ID!
+  client: User @connection(fields: ["clientID"])
+  projectID: ID!
+}
+
+type ProjectFreelancer
+  @model
+  @key(name: "byProject", fields: ["projectID"])
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  id: ID!
+  freelancerID: ID!
+  freelancer: User @connection(fields: ["freelancerID"])
+  projectID: ID!
+}
 
 type Project
   @model
@@ -44,6 +54,8 @@ type Project
   comments: [Comment] @connection(keyName: "byProject", fields: ["id"])
   quotes: [Quote] @connection(keyName: "byProject", fields: ["id"])
   details: String
+  clients: [ProjectClient!]! @connection(keyName: "byProject", fields: ["id"])
+  freelancers: [ProjectFreelancer!]! @connection(keyName: "byProject", fields: ["id"])
 }
 
 type Quote

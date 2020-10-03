@@ -47,6 +47,138 @@ export const onDeleteUser = /* GraphQL */ `
     }
   }
 `;
+export const onCreateProjectClient = /* GraphQL */ `
+  subscription OnCreateProjectClient {
+    onCreateProjectClient {
+      id
+      clientID
+      projectID
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onUpdateProjectClient = /* GraphQL */ `
+  subscription OnUpdateProjectClient {
+    onUpdateProjectClient {
+      id
+      clientID
+      projectID
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onDeleteProjectClient = /* GraphQL */ `
+  subscription OnDeleteProjectClient {
+    onDeleteProjectClient {
+      id
+      clientID
+      projectID
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onCreateProjectFreelancer = /* GraphQL */ `
+  subscription OnCreateProjectFreelancer {
+    onCreateProjectFreelancer {
+      id
+      freelancerID
+      projectID
+      createdAt
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onUpdateProjectFreelancer = /* GraphQL */ `
+  subscription OnUpdateProjectFreelancer {
+    onUpdateProjectFreelancer {
+      id
+      freelancerID
+      projectID
+      createdAt
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onDeleteProjectFreelancer = /* GraphQL */ `
+  subscription OnDeleteProjectFreelancer {
+    onDeleteProjectFreelancer {
+      id
+      freelancerID
+      projectID
+      createdAt
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 export const onCreateProject = /* GraphQL */ `
   subscription OnCreateProject {
     onCreateProject {
@@ -78,6 +210,48 @@ export const onCreateProject = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          createdAt
+          updatedAt
+          client {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
       }
       quotes {
         items {
@@ -156,6 +330,48 @@ export const onUpdateProject = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          createdAt
+          updatedAt
+          client {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
       quotes {
         items {
           id
@@ -232,6 +448,48 @@ export const onDeleteProject = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          createdAt
+          updatedAt
+          client {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
       }
       quotes {
         items {

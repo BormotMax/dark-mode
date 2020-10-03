@@ -39,6 +39,112 @@ export const getUser = /* GraphQL */ `
     }
   }
 `;
+export const getProjectClient = /* GraphQL */ `
+  query GetProjectClient($id: ID!) {
+    getProjectClient(id: $id) {
+      id
+      clientID
+      projectID
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const listProjectClients = /* GraphQL */ `
+  query ListProjectClients(
+    $filter: ModelProjectClientFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProjectClients(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        clientID
+        projectID
+        createdAt
+        updatedAt
+        client {
+          id
+          name
+          company
+          email
+          phone
+          signedOutAuthToken
+          role
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getProjectFreelancer = /* GraphQL */ `
+  query GetProjectFreelancer($id: ID!) {
+    getProjectFreelancer(id: $id) {
+      id
+      freelancerID
+      projectID
+      createdAt
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const listProjectFreelancers = /* GraphQL */ `
+  query ListProjectFreelancers(
+    $filter: ModelProjectFreelancerFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProjectFreelancers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        freelancerID
+        projectID
+        createdAt
+        updatedAt
+        freelancer {
+          id
+          name
+          company
+          email
+          phone
+          signedOutAuthToken
+          role
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const getProject = /* GraphQL */ `
   query GetProject($id: ID!) {
     getProject(id: $id) {
@@ -70,6 +176,48 @@ export const getProject = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          createdAt
+          updatedAt
+          client {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
       }
       quotes {
         items {
@@ -152,6 +300,48 @@ export const listProjects = /* GraphQL */ `
           role
           createdAt
           updatedAt
+        }
+        clients {
+          items {
+            id
+            clientID
+            projectID
+            createdAt
+            updatedAt
+            client {
+              id
+              name
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        freelancers {
+          items {
+            id
+            freelancerID
+            projectID
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
         }
         quotes {
           items {
@@ -238,6 +428,48 @@ export const projectsByFreelancer = /* GraphQL */ `
           role
           createdAt
           updatedAt
+        }
+        clients {
+          items {
+            id
+            clientID
+            projectID
+            createdAt
+            updatedAt
+            client {
+              id
+              name
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        freelancers {
+          items {
+            id
+            freelancerID
+            projectID
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
         }
         quotes {
           items {

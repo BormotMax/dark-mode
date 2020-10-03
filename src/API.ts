@@ -89,6 +89,70 @@ export type DeleteUserInput = {
   id?: string | null,
 };
 
+export type CreateProjectClientInput = {
+  id?: string | null,
+  clientID: string,
+  projectID: string,
+};
+
+export type ModelProjectClientConditionInput = {
+  clientID?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
+  and?: Array< ModelProjectClientConditionInput | null > | null,
+  or?: Array< ModelProjectClientConditionInput | null > | null,
+  not?: ModelProjectClientConditionInput | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type UpdateProjectClientInput = {
+  id: string,
+  clientID?: string | null,
+  projectID?: string | null,
+};
+
+export type DeleteProjectClientInput = {
+  id?: string | null,
+};
+
+export type CreateProjectFreelancerInput = {
+  id?: string | null,
+  freelancerID: string,
+  projectID: string,
+};
+
+export type ModelProjectFreelancerConditionInput = {
+  freelancerID?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
+  and?: Array< ModelProjectFreelancerConditionInput | null > | null,
+  or?: Array< ModelProjectFreelancerConditionInput | null > | null,
+  not?: ModelProjectFreelancerConditionInput | null,
+};
+
+export type UpdateProjectFreelancerInput = {
+  id: string,
+  freelancerID?: string | null,
+  projectID?: string | null,
+};
+
+export type DeleteProjectFreelancerInput = {
+  id?: string | null,
+};
+
 export type CreateProjectInput = {
   id?: string | null,
   createdAt?: string | null,
@@ -106,22 +170,6 @@ export type ModelProjectConditionInput = {
   and?: Array< ModelProjectConditionInput | null > | null,
   or?: Array< ModelProjectConditionInput | null > | null,
   not?: ModelProjectConditionInput | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type UpdateProjectInput = {
@@ -316,6 +364,24 @@ export type ModelUserFilterInput = {
   not?: ModelUserFilterInput | null,
 };
 
+export type ModelProjectClientFilterInput = {
+  id?: ModelIDInput | null,
+  clientID?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
+  and?: Array< ModelProjectClientFilterInput | null > | null,
+  or?: Array< ModelProjectClientFilterInput | null > | null,
+  not?: ModelProjectClientFilterInput | null,
+};
+
+export type ModelProjectFreelancerFilterInput = {
+  id?: ModelIDInput | null,
+  freelancerID?: ModelIDInput | null,
+  projectID?: ModelIDInput | null,
+  and?: Array< ModelProjectFreelancerFilterInput | null > | null,
+  or?: Array< ModelProjectFreelancerFilterInput | null > | null,
+  not?: ModelProjectFreelancerFilterInput | null,
+};
+
 export type ModelProjectFilterInput = {
   id?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
@@ -459,6 +525,174 @@ export type DeleteUserMutation = {
   } | null,
 };
 
+export type CreateProjectClientMutationVariables = {
+  input: CreateProjectClientInput,
+  condition?: ModelProjectClientConditionInput | null,
+};
+
+export type CreateProjectClientMutation = {
+  createProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    client:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type UpdateProjectClientMutationVariables = {
+  input: UpdateProjectClientInput,
+  condition?: ModelProjectClientConditionInput | null,
+};
+
+export type UpdateProjectClientMutation = {
+  updateProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    client:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type DeleteProjectClientMutationVariables = {
+  input: DeleteProjectClientInput,
+  condition?: ModelProjectClientConditionInput | null,
+};
+
+export type DeleteProjectClientMutation = {
+  deleteProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    client:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type CreateProjectFreelancerMutationVariables = {
+  input: CreateProjectFreelancerInput,
+  condition?: ModelProjectFreelancerConditionInput | null,
+};
+
+export type CreateProjectFreelancerMutation = {
+  createProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    freelancer:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type UpdateProjectFreelancerMutationVariables = {
+  input: UpdateProjectFreelancerInput,
+  condition?: ModelProjectFreelancerConditionInput | null,
+};
+
+export type UpdateProjectFreelancerMutation = {
+  updateProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    freelancer:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type DeleteProjectFreelancerMutationVariables = {
+  input: DeleteProjectFreelancerInput,
+  condition?: ModelProjectFreelancerConditionInput | null,
+};
+
+export type DeleteProjectFreelancerMutation = {
+  deleteProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    freelancer:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
 export type CreateProjectMutationVariables = {
   input: CreateProjectInput,
   condition?: ModelProjectConditionInput | null,
@@ -497,6 +731,54 @@ export type CreateProjectMutation = {
       role: UserRole,
       createdAt: string,
       updatedAt: string,
+    } | null,
+    clients:  {
+      __typename: "ModelProjectClientConnection",
+      items:  Array< {
+        __typename: "ProjectClient",
+        id: string,
+        clientID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        client:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    freelancers:  {
+      __typename: "ModelProjectFreelancerConnection",
+      items:  Array< {
+        __typename: "ProjectFreelancer",
+        id: string,
+        freelancerID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        freelancer:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
     quotes:  {
       __typename: "ModelQuoteConnection",
@@ -589,6 +871,54 @@ export type UpdateProjectMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    clients:  {
+      __typename: "ModelProjectClientConnection",
+      items:  Array< {
+        __typename: "ProjectClient",
+        id: string,
+        clientID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        client:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    freelancers:  {
+      __typename: "ModelProjectFreelancerConnection",
+      items:  Array< {
+        __typename: "ProjectFreelancer",
+        id: string,
+        freelancerID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        freelancer:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     quotes:  {
       __typename: "ModelQuoteConnection",
       items:  Array< {
@@ -679,6 +1009,54 @@ export type DeleteProjectMutation = {
       role: UserRole,
       createdAt: string,
       updatedAt: string,
+    } | null,
+    clients:  {
+      __typename: "ModelProjectClientConnection",
+      items:  Array< {
+        __typename: "ProjectClient",
+        id: string,
+        clientID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        client:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    freelancers:  {
+      __typename: "ModelProjectFreelancerConnection",
+      items:  Array< {
+        __typename: "ProjectFreelancer",
+        id: string,
+        freelancerID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        freelancer:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
     quotes:  {
       __typename: "ModelQuoteConnection",
@@ -1526,6 +1904,126 @@ export type GetUserQuery = {
   } | null,
 };
 
+export type GetProjectClientQueryVariables = {
+  id: string,
+};
+
+export type GetProjectClientQuery = {
+  getProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    client:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type ListProjectClientsQueryVariables = {
+  filter?: ModelProjectClientFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListProjectClientsQuery = {
+  listProjectClients:  {
+    __typename: "ModelProjectClientConnection",
+    items:  Array< {
+      __typename: "ProjectClient",
+      id: string,
+      clientID: string,
+      projectID: string,
+      createdAt: string,
+      updatedAt: string,
+      client:  {
+        __typename: "User",
+        id: string,
+        name: string | null,
+        company: string | null,
+        email: string | null,
+        phone: string | null,
+        signedOutAuthToken: string | null,
+        role: UserRole,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetProjectFreelancerQueryVariables = {
+  id: string,
+};
+
+export type GetProjectFreelancerQuery = {
+  getProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    freelancer:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type ListProjectFreelancersQueryVariables = {
+  filter?: ModelProjectFreelancerFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListProjectFreelancersQuery = {
+  listProjectFreelancers:  {
+    __typename: "ModelProjectFreelancerConnection",
+    items:  Array< {
+      __typename: "ProjectFreelancer",
+      id: string,
+      freelancerID: string,
+      projectID: string,
+      createdAt: string,
+      updatedAt: string,
+      freelancer:  {
+        __typename: "User",
+        id: string,
+        name: string | null,
+        company: string | null,
+        email: string | null,
+        phone: string | null,
+        signedOutAuthToken: string | null,
+        role: UserRole,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
 export type GetProjectQueryVariables = {
   id: string,
 };
@@ -1563,6 +2061,54 @@ export type GetProjectQuery = {
       role: UserRole,
       createdAt: string,
       updatedAt: string,
+    } | null,
+    clients:  {
+      __typename: "ModelProjectClientConnection",
+      items:  Array< {
+        __typename: "ProjectClient",
+        id: string,
+        clientID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        client:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    freelancers:  {
+      __typename: "ModelProjectFreelancerConnection",
+      items:  Array< {
+        __typename: "ProjectFreelancer",
+        id: string,
+        freelancerID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        freelancer:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
     quotes:  {
       __typename: "ModelQuoteConnection",
@@ -1658,6 +2204,54 @@ export type ListProjectsQuery = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      clients:  {
+        __typename: "ModelProjectClientConnection",
+        items:  Array< {
+          __typename: "ProjectClient",
+          id: string,
+          clientID: string,
+          projectID: string,
+          createdAt: string,
+          updatedAt: string,
+          client:  {
+            __typename: "User",
+            id: string,
+            name: string | null,
+            company: string | null,
+            email: string | null,
+            phone: string | null,
+            signedOutAuthToken: string | null,
+            role: UserRole,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      freelancers:  {
+        __typename: "ModelProjectFreelancerConnection",
+        items:  Array< {
+          __typename: "ProjectFreelancer",
+          id: string,
+          freelancerID: string,
+          projectID: string,
+          createdAt: string,
+          updatedAt: string,
+          freelancer:  {
+            __typename: "User",
+            id: string,
+            name: string | null,
+            company: string | null,
+            email: string | null,
+            phone: string | null,
+            signedOutAuthToken: string | null,
+            role: UserRole,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
       quotes:  {
         __typename: "ModelQuoteConnection",
         items:  Array< {
@@ -1747,6 +2341,54 @@ export type ProjectsByFreelancerQuery = {
         role: UserRole,
         createdAt: string,
         updatedAt: string,
+      } | null,
+      clients:  {
+        __typename: "ModelProjectClientConnection",
+        items:  Array< {
+          __typename: "ProjectClient",
+          id: string,
+          clientID: string,
+          projectID: string,
+          createdAt: string,
+          updatedAt: string,
+          client:  {
+            __typename: "User",
+            id: string,
+            name: string | null,
+            company: string | null,
+            email: string | null,
+            phone: string | null,
+            signedOutAuthToken: string | null,
+            role: UserRole,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      freelancers:  {
+        __typename: "ModelProjectFreelancerConnection",
+        items:  Array< {
+          __typename: "ProjectFreelancer",
+          id: string,
+          freelancerID: string,
+          projectID: string,
+          createdAt: string,
+          updatedAt: string,
+          freelancer:  {
+            __typename: "User",
+            id: string,
+            name: string | null,
+            company: string | null,
+            email: string | null,
+            phone: string | null,
+            signedOutAuthToken: string | null,
+            role: UserRole,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+        } | null > | null,
+        nextToken: string | null,
       } | null,
       quotes:  {
         __typename: "ModelQuoteConnection",
@@ -2411,6 +3053,144 @@ export type OnDeleteUserSubscription = {
   } | null,
 };
 
+export type OnCreateProjectClientSubscription = {
+  onCreateProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    client:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateProjectClientSubscription = {
+  onUpdateProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    client:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteProjectClientSubscription = {
+  onDeleteProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    client:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnCreateProjectFreelancerSubscription = {
+  onCreateProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    freelancer:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateProjectFreelancerSubscription = {
+  onUpdateProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    freelancer:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteProjectFreelancerSubscription = {
+  onDeleteProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    createdAt: string,
+    updatedAt: string,
+    freelancer:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
 export type OnCreateProjectSubscription = {
   onCreateProject:  {
     __typename: "Project",
@@ -2444,6 +3224,54 @@ export type OnCreateProjectSubscription = {
       role: UserRole,
       createdAt: string,
       updatedAt: string,
+    } | null,
+    clients:  {
+      __typename: "ModelProjectClientConnection",
+      items:  Array< {
+        __typename: "ProjectClient",
+        id: string,
+        clientID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        client:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    freelancers:  {
+      __typename: "ModelProjectFreelancerConnection",
+      items:  Array< {
+        __typename: "ProjectFreelancer",
+        id: string,
+        freelancerID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        freelancer:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
     quotes:  {
       __typename: "ModelQuoteConnection",
@@ -2531,6 +3359,54 @@ export type OnUpdateProjectSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    clients:  {
+      __typename: "ModelProjectClientConnection",
+      items:  Array< {
+        __typename: "ProjectClient",
+        id: string,
+        clientID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        client:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    freelancers:  {
+      __typename: "ModelProjectFreelancerConnection",
+      items:  Array< {
+        __typename: "ProjectFreelancer",
+        id: string,
+        freelancerID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        freelancer:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     quotes:  {
       __typename: "ModelQuoteConnection",
       items:  Array< {
@@ -2616,6 +3492,54 @@ export type OnDeleteProjectSubscription = {
       role: UserRole,
       createdAt: string,
       updatedAt: string,
+    } | null,
+    clients:  {
+      __typename: "ModelProjectClientConnection",
+      items:  Array< {
+        __typename: "ProjectClient",
+        id: string,
+        clientID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        client:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    freelancers:  {
+      __typename: "ModelProjectFreelancerConnection",
+      items:  Array< {
+        __typename: "ProjectFreelancer",
+        id: string,
+        freelancerID: string,
+        projectID: string,
+        createdAt: string,
+        updatedAt: string,
+        freelancer:  {
+          __typename: "User",
+          id: string,
+          name: string | null,
+          company: string | null,
+          email: string | null,
+          phone: string | null,
+          signedOutAuthToken: string | null,
+          role: UserRole,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
     quotes:  {
       __typename: "ModelQuoteConnection",
