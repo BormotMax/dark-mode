@@ -281,7 +281,6 @@ const HirePageEditor = ({ currentUser }) => {
 
   return (
     <div className={styles.hirePageEditor}>
-      <ProjectHeader headerText="Hire Page Editor" />
       <div className="container is-desktop">
         <main className={styles.main}>
           <form onSubmit={(e) => handleSubmit(e)}>
@@ -455,7 +454,7 @@ const HirePageEditor = ({ currentUser }) => {
               <button
                 disabled={saving}
                 type="submit"
-                className={classnames('oval-btn-2', 'oval-btn-2--inline', 'button', { 'is-loading': saving })}
+                className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': saving })}
               >
                 SAVE
               </button>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classnames from 'classnames';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import styles from './styles/authPage.module.scss';
@@ -101,12 +102,13 @@ const SignUp: React.FC = () => {
     <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} />
   ) : (
     <div className={styles.authPage}>
-      <ProjectHeader headerText="Sign Up for Continuum" />
+      <ProjectHeader />
       <form onSubmit={handleCreateAccountClick} className={styles.body}>
+        <div className={classnames(styles.header)}>Sign up for Continuum</div>
         <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>Sign Up with Google</GoogleAuthButton>
-        <div className="text-1 text-gray mbm">Or, sign up with Email</div>
+        <div className="text-1 text-drkgray mbm">Or, sign up with Email</div>
         <div className={styles.inputWrapper}>
-          <input name="name" className={`${invalids.name ? styles[invalids.name] : ''} input-1`} type="text" placeholder="Name" />
+          <input name="name" className={`${invalids.name ? styles[invalids.name] : ''} input-1`} type="text" placeholder="Full Name" />
           <NameIcon />
         </div>
         <div className={styles.inputWrapper}>
@@ -138,7 +140,7 @@ const SignUp: React.FC = () => {
         <button
           disabled={isRequestPending}
           type="submit"
-          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Create a Free Account
         </button>

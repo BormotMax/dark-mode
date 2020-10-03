@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import styles from './styles/authPage.module.scss';
+import classnames from 'classnames';
 import { ResetPassword } from '../components/resetPassword';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { ProjectHeader } from '../components/projectHeader';
@@ -61,8 +62,9 @@ const ForgotPassword: React.FC = () => {
     <ResetPassword email={emailInState} />
   ) : (
     <div className={styles.authPage}>
-      <ProjectHeader headerText="Reset your password" />
+      <ProjectHeader />
       <form onSubmit={handleSendCodeClick} className={styles.body}>
+        <div className={classnames(styles.header)}>Reset your password</div>
         <div className={styles.inputWrapper}>
           <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
           <EmailIcon />
@@ -70,7 +72,7 @@ const ForgotPassword: React.FC = () => {
         <button
           disabled={isRequestPending}
           type="submit"
-          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Send Code
         </button>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
+import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../pages/styles/authPage.module.scss';
@@ -70,8 +71,9 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
 
   return (
     <div className={styles.authPage}>
-      <ProjectHeader headerText="Reset your password" />
+      <ProjectHeader />
       <form onSubmit={handleSubmit} className={styles.body}>
+        <div className={classnames(styles.header)}>Reset your password</div>
         <div className={styles.inputWrapper}>
           <input
             readOnly
@@ -104,7 +106,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
         <button
           disabled={isRequestPending}
           type="submit"
-          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Reset Password
         </button>

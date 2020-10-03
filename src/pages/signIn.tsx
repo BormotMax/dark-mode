@@ -5,6 +5,7 @@ import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Auth } from '@aws-amplify/auth';
+import classnames from 'classnames';
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import ForgotPassword from '../img/forgotPassword.svg';
 import styles from './styles/signIn.module.scss';
@@ -104,8 +105,9 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     <ConfirmSignUp email={emailInState} parentPage="signIn" setConfirming={setConfirming} />
   ) : (
     <div className={pageStyles.authPage}>
-      <ProjectHeader headerText="Sign In to Continuum" />
+      <ProjectHeader />
       <form onSubmit={handleSignInClick} className={pageStyles.body}>
+        <div className={classnames(pageStyles.header)}>Sign In to Continuum</div>
         <div className={pageStyles.inputWrapper}>
           <input name="email" className={`${invalids.email ? pageStyles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
           <EmailIcon />
@@ -135,11 +137,11 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         <button
           disabled={isRequestPending}
           type="submit"
-          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Sign In
         </button>
-        <div className="text-1 text-gray">Or...</div>
+        <div className="text-1 text-drkgray">Or...</div>
         <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton>
         <div>
           No account?{' '}

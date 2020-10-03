@@ -1,4 +1,13 @@
 .authPage {
+  .header {
+    font-family: Poppins;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    margin-bottom: 36px;
+  }
+
   .inputWrapper {
     position: relative;
 
@@ -20,7 +29,7 @@
 
   .body {
     max-width: 336px;
-    margin: 60px auto;
+    margin: auto;
   }
 
   a {

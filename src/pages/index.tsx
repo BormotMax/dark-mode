@@ -7,7 +7,7 @@ import { WithAuthentication, RouteType } from '../components/withAuthentication'
 import { AuthProps } from '../types/custom';
 import { Footer } from '../components/footer';
 import styles from './styles/index.module.scss';
-import Logo from '../img/homeLogo.svg';
+import Logo from '../img/logo2.svg';
 
 const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
   const handleSignOutClick = (e: any) => {
@@ -224,8 +224,9 @@ const Feature = ({ imageSrc, header, content, bullets, reverse = false }) => (
         <div className={classnames(styles.textColumn)}>
           <div className={styles.rightColumnHeader}>{header}</div>
           <div className={styles.rightColumnBody}>{content}</div>
-          {bullets.map((b) => (
-            <div key={b}>{b}</div>
+          {bullets.map((b, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <div key={i}>{b}</div>
           ))}
         </div>
       </div>

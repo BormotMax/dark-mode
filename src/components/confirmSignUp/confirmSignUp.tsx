@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
 import serialize from 'form-serialize';
+import classnames from 'classnames';
 import styles from '../../pages/styles/authPage.module.scss';
 import s from './confirmSignUp.module.scss';
 import { ProjectHeader } from '../projectHeader';
@@ -86,8 +87,9 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
 
   return (
     <div className={styles.authPage}>
-      <ProjectHeader headerText="Confirm Sign Up" />
+      <ProjectHeader />
       <form onSubmit={handleConfirmClick} className={styles.body}>
+        <div className={classnames(styles.header)}>Confirm Sign Up</div>
         <input
           readOnly
           value={email}
@@ -101,14 +103,14 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
           onClick={handleResendCode}
           tabIndex={0}
           role="button"
-          className={`${s.resendCode} text-1 text-gray tal`}
+          className={`${s.resendCode} text-1 text-drkgray tal`}
         >
           Resend code
         </div>
         <button
           disabled={isRequestPending}
           type="submit"
-          className={`${isRequestPending ? 'is-loading' : ''} oval-btn-2 mbm button is-primary`}
+          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Confirm
         </button>
