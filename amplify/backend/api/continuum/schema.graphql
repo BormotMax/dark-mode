@@ -1,16 +1,16 @@
 type User
-@model
-@auth(
-  rules: [
-    # allow all authenticated users ability to create
-    # allow owners ability to update and delete
-    { allow: owner }
-    # allow all authenticated users to read
-    { allow: private, operations: [read] }
-    # allow all guest users (not authenticated) to read
-    { allow: public, provider: iam }
-  ]
-) {
+  @model
+  @auth(
+    rules: [
+      # allow all authenticated users ability to create
+      # allow owners ability to update and delete
+      { allow: owner }
+      # allow all authenticated users to read
+      { allow: private, operations: [read] }
+      # allow all guest users (not authenticated) to read
+      { allow: public, provider: iam }
+    ]
+  ) {
   id: ID!
   name: String
   company: String
@@ -20,10 +20,20 @@ type User
   role: UserRole!
 }
 
+# type ClientProject
+#   @model
+#   @key(name: "byProject", fields: ["projectID"])
+#   @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+#   id: ID!
+#   clientID: ID!
+#   client: User! @connection(name: "ClientProjects")
+#   project: Project! @connection(name: "ProjectClients")
+# }
+
 type Project
-@model
-@key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @model
+  @key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   createdAt: AWSDateTime!
   owner: String!
@@ -37,18 +47,18 @@ type Project
 }
 
 type Quote
-@model
-@key(name: "byProject", fields: ["projectID"])
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @model
+  @key(name: "byProject", fields: ["projectID"])
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   projectID: ID!
   tasks: [Task] @connection(keyName: "byQuote", fields: ["id"])
 }
 
 type Comment
-@model
-@key(name: "byProject", fields: ["projectID", "createdAt"])
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @model
+  @key(name: "byProject", fields: ["projectID", "createdAt"])
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   createdAt: AWSDateTime!
   projectID: ID!
@@ -58,9 +68,9 @@ type Comment
 }
 
 type Task
-@model
-@key(name: "byQuote", fields: ["quoteID"])
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @model
+  @key(name: "byQuote", fields: ["quoteID"])
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   quoteID: ID!
   text: String!
@@ -73,10 +83,10 @@ type S3Object {
 }
 
 type HireMeInfo
-@model
-@key(fields: ["freelancerID"])
-@key(name: "byDomainSlug", fields: ["domainSlugID"], queryField: "hireInfoByDomainSlug")
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @model
+  @key(fields: ["freelancerID"])
+  @key(name: "byDomainSlug", fields: ["domainSlugID"], queryField: "hireInfoByDomainSlug")
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   freelancerID: ID!
   name: String
   title: String
@@ -95,9 +105,9 @@ type HireMeInfo
 }
 
 type DomainSlug
-@model
-@key(fields: ["slug"])
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @model
+  @key(fields: ["slug"])
+  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   slug: ID!
   freelancerID: ID!
   hireMeInfo: HireMeInfo @connection(fields: ["freelancerID"])

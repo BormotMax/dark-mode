@@ -54,7 +54,7 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
           {email ? (
             <img alt="avatar" className={styles.avatar} src={gravatarUrl(email)} />
           ) : (
-            <div className={classnames(styles.avatar, 'is-hidden-touch')} />
+            <div className={classnames(styles.avatar, 'is-hidden-mobile')} />
           )}
         </div>
       </div>
