@@ -195,8 +195,8 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
           }
           bullets={['👋 Page visitors', '👋 Page visitors', '👋 Page visitors', '👋 Page visitors', '👋 Page visitors']}
         />
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 };
