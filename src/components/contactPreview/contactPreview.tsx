@@ -25,6 +25,7 @@ interface ContactPreviewProps {
 
 export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [usersState, setUsersState] = useState(users);
 
   const openAddPersonModal = (e) => {
     e.stopPropagation();
@@ -36,17 +37,21 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
     setIsModalOpen(false);
   };
 
+  const addUserToList = (user) => {
+    setUsersState((existingUsers) => [user, ...existingUsers]);
+  };
+
   return (
     <>
       <div className={classnames(styles.addPerson)}>
         <span onClick={openAddPersonModal}>
           <FontAwesomeIcon color="#595959" icon={faUserPlus} />
           <InPlaceModal isOpen={isModalOpen} close={closeAddPersonModal}>
-            <ModalContent close={() => setIsModalOpen(false)} projectID={projectID} />
+            <ModalContent close={() => setIsModalOpen(false)} projectID={projectID} addUserToList={addUserToList} />
           </InPlaceModal>
         </span>
       </div>
-      {users.map((u) => (
+      {usersState.map((u) => (
         <div key={u.id} className={classnames(styles.contactPreview)}>
           <Avatar email={u.email} />
           <div>
@@ -68,9 +73,10 @@ interface ValidationProps {
 interface ModalContentProps {
   close: Function;
   projectID: string;
+  addUserToList: Function;
 }
 
-const ModalContent = ({ close, projectID }) => {
+const ModalContent = ({ close, projectID, addUserToList }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
@@ -161,6 +167,7 @@ const ModalContent = ({ close, projectID }) => {
       // }
     }
 
+    addUserToList(existingClient);
     close();
   }
 
