@@ -116,7 +116,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <div className={classnames('column', 'is-narrow')}>
           <div className={classnames(styles.tabGroupWrapper)}>
             <TabGroup names={['People']}>
-              <ContactPreview users={clients.items.map((c) => c.client)} />
+              <ContactPreview users={clients.items.map((c) => c.client)} projectID={project.id} />
             </TabGroup>
             {quotes.items.length > 0 && (
               <TabGroup names={['Tasks & Time']}>

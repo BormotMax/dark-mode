@@ -9,6 +9,7 @@
   line-height: 21px;
   color: #828282;
   padding: 4px 16px 4px 4px;
+  margin: 4px 0;
 
   .title {
     font-weight: normal;
@@ -19,16 +20,15 @@
     height: 32px;
     width: 32px;
     margin-right: 8px;
-    border: 1px solid #828282;
   }
 }
 
 .addPerson {
   text-align: right;
   margin: calc(-1.5rem + 8px) 0 8px 0;
-  cursor: pointer;
 
   span {
+    cursor: pointer;
     position: relative;
   }
 

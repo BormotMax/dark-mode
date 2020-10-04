@@ -2,6 +2,9 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
 import { useState } from 'react';
+import serialize from 'form-serialize';
+import gql from 'graphql-tag';
+import { v4 as uuid } from 'uuid';
 import { User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import styles from './contactPreview.module.scss';
@@ -9,12 +12,18 @@ import { InPlaceModal } from '../inPlaceModal/inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import Unchecked from '../../img/unchecked.svg';
 import Checked from '../../img/checkmark.svg';
+import { useLogger, useFlash } from '../../hooks';
+import { client } from '../../pages/_app';
+import { getUser } from '../../graphql/queries';
+import { GetUserQuery, UserRole, CreateUserMutation } from '../../API';
+import { createUser, createProjectClient } from '../../graphql/mutations';
 
 interface ContactPreviewProps {
   users: User[];
+  projectID: string;
 }
 
-export const ContactPreview: React.FC<ContactPreviewProps> = ({ users }) => {
+export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openAddPersonModal = (e) => {
@@ -33,7 +42,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users }) => {
         <span onClick={openAddPersonModal}>
           <FontAwesomeIcon color="#595959" icon={faUserPlus} />
           <InPlaceModal isOpen={isModalOpen} close={closeAddPersonModal}>
-            <ModalContent />
+            <ModalContent close={() => setIsModalOpen(false)} projectID={projectID} />
           </InPlaceModal>
         </span>
       </div>
@@ -49,13 +58,112 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users }) => {
   );
 };
 
-const ModalContent = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+interface ValidationProps {
+  name?: string;
+  email?: string;
+  title?: string;
+  userType?: string;
+}
 
-  const invalids = { email: undefined, name: undefined, title: undefined };
-  const isSaving = false;
+interface ModalContentProps {
+  close: Function;
+  projectID: string;
+}
+
+const ModalContent = ({ close, projectID }) => {
+  const [isSaving, setSaving] = useState(false);
+  const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { logger } = useLogger();
+  const { setFlash } = useFlash();
+
+  function validate({ name, email, userType }: ValidationProps) {
+    const temp: ValidationProps = {};
+    if (!name) temp.name = 'error';
+    if (!email) temp.email = 'error';
+    if (!userType) temp.userType = 'error';
+    return temp;
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setInvalids({});
+    setSaving(true);
+
+    const { form } = e.target;
+    const formData = serialize(form as HTMLFormElement, { hash: true });
+    const { name, email, userType } = formData;
+    const validation = validate(formData);
+
+    if (Object.keys(validation).length) {
+      setInvalids(validation);
+      setSaving(false);
+      return;
+    }
+
+    // Check if there is an existing user with this email. The primary (id) key's value is the client's email.
+    let getUserResponse;
+    const getUserInput = { id: email };
+    try {
+      getUserResponse = await client.query({
+        query: gql(getUser),
+        variables: getUserInput,
+      });
+    } catch (error) {
+      logger.error('ContactPreviewModalContent: error while finding existing user', { error, input: { email, input: getUserInput } });
+      setFlash("Something went wrong. We're looking into it");
+      close();
+      return;
+    }
+
+    let existingClient: User = (getUserResponse.data as GetUserQuery)?.getUser;
+    const signedOutAuthToken = existingClient?.signedOutAuthToken || uuid();
+
+    // If there wasn't an existing User record with this email, create one.
+    if (!existingClient) {
+      const createUserInput = { id: email, name, email, role: UserRole.CLIENT, signedOutAuthToken };
+      try {
+        const { data }: { data: CreateUserMutation } = await client.mutate({
+          mutation: gql(createUser),
+          variables: { input: createUserInput },
+        });
+
+        existingClient = data.createUser;
+      } catch (error) {
+        logger.error('HireMeModal: error creating User', { error, input: createUserInput });
+        setFlash("Something went wrong. We're looking into it");
+        close();
+        return;
+      }
+    }
+
+    if (userType === UserRole.CLIENT) {
+      // Create the M:M joining record associating a client with a project
+      const createProjectClientInput = { clientID: existingClient.id, projectID };
+      try {
+        await client.mutate({
+          mutation: gql(createProjectClient),
+          variables: { input: createProjectClientInput },
+        });
+      } catch (error) {
+        logger.error('HireMeModal: error creating ProjectClient', { error, input: createProjectClientInput });
+      }
+    } else if (userType === UserRole.FREELANCER) {
+      // We're not ready for this. Does the freelancer need an existing account?
+      // Create the M:M joining record associating a freelancer with a project
+      // const createProjectFreelancerInput = { freelancerID, projectID };
+      // try {
+      //   await client.mutate({
+      //     mutation: gql(createProjectFreelancer),
+      //     variables: { input: createProjectFreelancerInput },
+      //   });
+      // } catch (error) {
+      //   logger.error('HireMeModal: error creating ProjectFreelancer', { error, input: createProjectFreelancerInput });
+      // }
+    }
+
+    close();
+  }
+
   return (
     <form className={classnames(styles.addPersonModal)} onSubmit={(e) => handleSubmit(e)}>
       <div className="field">
@@ -84,7 +192,7 @@ const ModalContent = () => {
       </div>
       <div className={classnames(styles.radioGroup, 'control')}>
         <label className={classnames(styles.radio, 'radio')}>
-          <input type="radio" name="userType" />
+          <input type="radio" name="userType" value={UserRole.CLIENT} />
           <span className={classnames(styles.checkmarks)}>
             <span className={classnames(styles.unchecked)}>
               <Unchecked />
@@ -96,7 +204,7 @@ const ModalContent = () => {
           Client&apos;s Team
         </label>
         <label className={classnames(styles.radio, 'radio')}>
-          <input type="radio" name="userType" />
+          <input type="radio" name="userType" value={UserRole.FREELANCER} disabled />
           <span className={classnames(styles.checkmarks)}>
             <span className={classnames(styles.unchecked)}>
               <Unchecked />
