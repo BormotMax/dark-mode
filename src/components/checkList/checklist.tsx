@@ -1,22 +1,19 @@
-import { ChangeEvent } from 'react';
 import BlueCheckmark from '../../img/blueCheckmark.svg';
 import Unchecked from '../../img/unchecked.svg';
 import styles from './checklist.module.scss';
 
 interface CheckListProps {
   listItems: Array<{
-    id: string,
-    completed: boolean,
-    listItem: string
-  }>
-  name: string
-  callback: Function
-  editable?: boolean
+    id: string;
+    completed: boolean;
+    listItem: string;
+  }>;
+  name: string;
+  callback: Function;
+  editable?: boolean;
 }
 
-export const CheckList: React.FC<CheckListProps> = ({
-  listItems, name, callback, editable = true,
-}) => {
+export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback, editable = true }) => {
   function handleCheckboxChange() {
     const inputs: any = document.querySelectorAll<HTMLFormElement>(`.${name}`);
     const items = [];
@@ -58,12 +55,8 @@ export const CheckList: React.FC<CheckListProps> = ({
         </li>
       ) : (
         <li key={item.id}>
-          <span className="li__bullet">
-            {item.completed ? <BlueCheckmark /> : <Unchecked />}
-          </span>
-          <span className={item.completed ? 'strikethrough' : ''}>
-            {item.listItem}
-          </span>
+          <span className="li__bullet">{item.completed ? <BlueCheckmark /> : <Unchecked />}</span>
+          <span className={item.completed ? 'strikethrough' : ''}>{item.listItem}</span>
         </li>
       )))}
     </ul>

@@ -1,0 +1,33 @@
+.modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: initial;
+}
+
+.modalContent {
+  position: relative;
+  cursor: initial;
+  font-family: Roboto, sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #828282;
+
+  input {
+    background: #fafafa;
+    margin-top: 4px;
+    border: 1px solid #eeeeee;
+    box-sizing: border-box;
+    border-radius: 4px;
+    height: 32px;
+  }
+
+  &Inner {
+    position: absolute;
+    right: 0;
+  }
+}

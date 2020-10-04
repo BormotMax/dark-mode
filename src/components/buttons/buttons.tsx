@@ -7,12 +7,12 @@ interface ButtonProps {
   onClick: Function;
 }
 
-export const OvalButtonSmall: React.FC<ButtonProps> = ({ text, isSaving, onClick }) => (
+export const ButtonSmall: React.FC<ButtonProps> = ({ text, isSaving, onClick }) => (
   <button
     onClick={(e) => onClick(e)}
     disabled={isSaving}
     type="submit"
-    className={classnames(styles.button, styles.ovalButtonSmall, { [styles.loading]: isSaving })}
+    className={classnames(styles.button, styles.buttonSmall, { [styles.loading]: isSaving })}
   >
     {text}
   </button>

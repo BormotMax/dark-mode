@@ -1,4 +1,4 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .button {
   cursor: pointer;
@@ -16,22 +16,22 @@
   }
 }
 
-.ovalButtonSmall {
-  background: white;
+.buttonSmall {
+  color: white;
   border: 2px solid #3c78fb;
-  border-radius: 40px;
-  font-family: Roboto, sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 33px;
+  border-radius: 4px;
   letter-spacing: 0.271875px;
   text-align: center;
-  padding: 0 25px;
-  color: #3c78fb;
+  padding: 2px 30px;
+  background: #3c78fb;
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
 
   &:hover {
-    color: white;
-    background: #3c78fb;
+    background: white;
+    color: #3c78fb;
   }
 
   &.loading {

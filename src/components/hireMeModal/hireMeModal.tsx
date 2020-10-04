@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 import styles from './hireMeModal.module.scss';
 import { Comment } from '../comment';
-import { OvalButtonSmall } from '../buttons/buttons';
+import { ButtonSmall } from '../buttons/buttons';
 import { UserRole, GetUserQuery, CreateUserMutation } from '../../API';
 import { createUser, createProject, createComment, createProjectClient, createProjectFreelancer } from '../../graphql/mutations';
 import { unauthClient as client } from '../../pages/_app';
@@ -262,7 +262,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
             </div>
           </div>
           <div className={styles.reply}>
-            <OvalButtonSmall text="Reply" isSaving={isSaving} onClick={handleSubmit} />
+            <ButtonSmall text="Reply" isSaving={isSaving} onClick={handleSubmit} />
           </div>
         </form>
       </Comment>
