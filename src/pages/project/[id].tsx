@@ -35,23 +35,27 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     }
   }, [currentUser]);
 
+  const fetchProject = async () => {
+    const getProjectInput = { id };
+    try {
+      const getProjectResult: { data: GetProjectQuery } = await unauthClient.query({
+        query: gql(getProject),
+        variables: getProjectInput,
+      });
+
+      const p: Project = getProjectResult.data?.getProject;
+      setProject(p);
+    } catch (error) {
+      setFlash("There was an error retrieving this project. We're looking into it.");
+      logger.error('Project: error retrieving Project.', { error, input: getProjectInput });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const execute = async () => {
-      const getProjectInput = { id };
-      try {
-        const getProjectResult: { data: GetProjectQuery } = await unauthClient.query({
-          query: gql(getProject),
-          variables: getProjectInput,
-        });
-
-        const p: Project = getProjectResult.data?.getProject;
-        setProject(p);
-      } catch (error) {
-        setFlash("There was an error retrieving this project. We're looking into it.");
-        logger.error('Project: error retrieving Project.', { error, input: getProjectInput });
-      } finally {
-        setLoading(false);
-      }
+      fetchProject();
 
       try {
         const subscriptionResult = unauthClient.subscribe({ query: gql(onCreateComment) });
@@ -78,7 +82,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (!project) return <div>Not found</div>;
 
   const { client, comments: cs, quotes, clients, freelancers } = project as Project;
-
   let viewer: User;
   const viewingClientItem = clients.items.find((c) => viewerId && c.client.signedOutAuthToken === viewerId);
   const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.freelancer.id === currentUserId);
@@ -116,7 +119,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <div className={classnames('column', 'is-narrow')}>
           <div className={classnames(styles.tabGroupWrapper)}>
             <TabGroup names={['People']}>
-              <ContactPreview users={clients.items.map((c) => c.client)} projectID={project.id} />
+              <ContactPreview users={clients.items.map((c) => c.client)} projectID={project.id} refreshUsers={fetchProject} />
             </TabGroup>
             {quotes.items.length > 0 && (
               <TabGroup names={['Tasks & Time']}>

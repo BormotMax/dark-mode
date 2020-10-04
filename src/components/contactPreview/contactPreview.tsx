@@ -21,15 +21,17 @@ import { createUser, createProjectClient } from '../../graphql/mutations';
 interface ContactPreviewProps {
   users: User[];
   projectID: string;
+  refreshUsers: Function;
 }
 
-export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID }) => {
+export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID, refreshUsers }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [usersState, setUsersState] = useState(users);
 
   const openAddPersonModal = (e) => {
-    e.stopPropagation();
-    setIsModalOpen(true);
+    if (e.keyCode === undefined || e.keyCode === 13) {
+      e.stopPropagation();
+      setIsModalOpen(true);
+    }
   };
 
   const closeAddPersonModal = (e) => {
@@ -37,28 +39,26 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
     setIsModalOpen(false);
   };
 
-  const addUserToList = (user) => {
-    setUsersState((existingUsers) => [user, ...existingUsers]);
-  };
-
   return (
     <>
       <div className={classnames(styles.addPerson)}>
-        <span onClick={openAddPersonModal}>
+        <span role="button" tabIndex={0} onKeyDown={openAddPersonModal} onClick={openAddPersonModal}>
           <FontAwesomeIcon color="#595959" icon={faUserPlus} />
           <InPlaceModal isOpen={isModalOpen} close={closeAddPersonModal}>
-            <ModalContent close={() => setIsModalOpen(false)} projectID={projectID} addUserToList={addUserToList} />
+            <ModalContent close={() => setIsModalOpen(false)} projectID={projectID} refreshUsers={refreshUsers} users={users} />
           </InPlaceModal>
         </span>
       </div>
-      {usersState.map((u) => (
-        <div key={u.id} className={classnames(styles.contactPreview)}>
-          <Avatar email={u.email} />
-          <div>
-            {u.name}, <span className={classnames(styles.title)}>Creative Director</span>
+      {users
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((u) => (
+          <div key={u.id} className={classnames(styles.contactPreview)}>
+            <Avatar email={u.email} />
+            <div>
+              {u.name}, <span className={classnames(styles.title)}>Creative Director</span>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </>
   );
 };
@@ -73,10 +73,11 @@ interface ValidationProps {
 interface ModalContentProps {
   close: Function;
   projectID: string;
-  addUserToList: Function;
+  refreshUsers: Function;
+  users: User[];
 }
 
-const ModalContent = ({ close, projectID, addUserToList }) => {
+const ModalContent = ({ close, projectID, refreshUsers, users }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
@@ -142,7 +143,7 @@ const ModalContent = ({ close, projectID, addUserToList }) => {
       }
     }
 
-    if (userType === UserRole.CLIENT) {
+    if (userType === UserRole.CLIENT && !users.find((u) => u.id === existingClient.id)) {
       // Create the M:M joining record associating a client with a project
       const createProjectClientInput = { clientID: existingClient.id, projectID };
       try {
@@ -154,6 +155,7 @@ const ModalContent = ({ close, projectID, addUserToList }) => {
         logger.error('HireMeModal: error creating ProjectClient', { error, input: createProjectClientInput });
       }
     } else if (userType === UserRole.FREELANCER) {
+      // todo: make sure the freelancer isn't already added to this project
       // We're not ready for this. Does the freelancer need an existing account?
       // Create the M:M joining record associating a freelancer with a project
       // const createProjectFreelancerInput = { freelancerID, projectID };
@@ -167,7 +169,7 @@ const ModalContent = ({ close, projectID, addUserToList }) => {
       // }
     }
 
-    addUserToList(existingClient);
+    refreshUsers();
     close();
   }
 
