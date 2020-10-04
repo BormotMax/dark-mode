@@ -1,7 +1,7 @@
 // Add global styles here
 @use "src/mixins";
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 body {
   line-height: 28px !important;
@@ -52,7 +52,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -311,22 +311,31 @@ li {
   }
 }
 
-.oval-btn-3 {
-  background: white;
+.btn-small {
+  color: white;
   border: 2px solid #3c78fb;
-  border-radius: 40px;
-  font-family: Roboto, sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 33px;
+  border-radius: 4px;
   letter-spacing: 0.271875px;
   text-align: center;
-  padding: 0 25px;
-  color: #3c78fb;
-  cursor: pointer;
+  padding: 2px 30px;
+  background: #3c78fb;
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
 
   &:hover {
-    color: white;
+    background: transparent;
+    color: #3c78fb;
+  }
+}
+
+.btn-invert {
+  color: #3c78fb !important;
+  background: transparent;
+
+  &:hover {
+    color: white !important;
     background: #3c78fb;
   }
 }

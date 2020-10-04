@@ -1,4 +1,4 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .button {
   cursor: pointer;
@@ -30,7 +30,7 @@
   line-height: 24px;
 
   &:hover {
-    background: white;
+    background: transparent;
     color: #3c78fb;
   }
 

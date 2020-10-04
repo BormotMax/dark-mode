@@ -1,9 +1,9 @@
 import styles from './fileInput.module.scss';
 
 interface FileInputProps {
-  name: string
+  name: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  onChange: Function
+  onChange: Function;
 }
 
 export const FileInput: React.FC<FileInputProps> = ({ name, onChange }) => (
@@ -16,6 +16,6 @@ export const FileInput: React.FC<FileInputProps> = ({ name, onChange }) => (
       accept="image/png, image/jpeg, image/gif, image/jpg"
       onChange={(e) => onChange(e)}
     />
-    <div className="oval-btn-3">Browse</div>
+    <div className="btn-small btn-invert">Browse</div>
   </label>
 );

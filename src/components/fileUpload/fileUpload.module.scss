@@ -1,79 +1,79 @@
 @import "~bulma/sass/utilities/_all.sass";
 
 .fileUpload {
-    width: 100%;
-    margin-bottom: 20px;
+  width: 100%;
+  margin-bottom: 20px;
 
-    .dropArea {
-        position: relative;
-        height: 0;
-        &--square {
-            padding-top: calc(100% - 6px);
-        }
-        &--wide {
-            padding-top: calc(58.2% - 8px);
-        }
-        border: 3px dashed #bdbdbd;
-        border-radius: 16px;
-        text-align: center;
-        background: #f2f2f2;
-        margin-bottom: 10px;
+  .dropArea {
+    position: relative;
+    height: 0;
+    &--square {
+      padding-top: calc(100% - 6px);
+    }
+    &--wide {
+      padding-top: calc(58.2% - 8px);
+    }
+    border: 3px dashed #eeeeee;
+    border-radius: 4px;
+    text-align: center;
+    background: white;
+    margin-bottom: 10px;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 
-        & * {
-            pointer-events: none;
-        }
-
-        svg {
-            position: absolute;
-            top: calc(50% - 27.5px);
-        }
-
-        img {
-            width: 100%;
-            position: absolute;
-            top: 0;
-            height: 100%;
-            object-fit: cover;
-            object-position: 0 0;
-        }
+    & * {
+      pointer-events: none;
     }
 
-    .dragOver {
-        border: 3px dashed #3c78fb !important;
+    svg {
+      position: absolute;
+      top: calc(50% - 27.5px);
     }
 
-    .loading {
-        position: relative;
-        pointer-events: none;
-        opacity: 0.5;
-        border: 3px solid #bdbdbd;
+    img {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      height: 100%;
+      object-fit: cover;
+      object-position: 0 0;
+    }
+  }
 
-        svg {
-            visibility: hidden;
-        }
+  .dragOver {
+    border: 3px dashed #3c78fb !important;
+  }
 
-        &:after {
-            @include loader;
-            position: absolute;
-            top: calc(50% - 2.5em);
-            left: calc(50% - 2.5em);
-            width: 5em;
-            height: 5em;
-            border-width: 0.25em;
-        }
+  .loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.5;
+    border: 3px solid #eeeeee;
+
+    svg {
+      visibility: hidden;
     }
 
-    .done {
-        border: 3px solid #bdbdbd;
+    &:after {
+      @include loader;
+      position: absolute;
+      top: calc(50% - 2.5em);
+      left: calc(50% - 2.5em);
+      width: 5em;
+      height: 5em;
+      border-width: 0.25em;
     }
+  }
 
-    .beneathDropArea {
-        text-align: right;
-        white-space: pre-wrap;
-    }
+  .done {
+    border: 3px solid #eeeeee;
+  }
+
+  .beneathDropArea {
+    text-align: right;
+    white-space: pre-wrap;
+  }
 }
