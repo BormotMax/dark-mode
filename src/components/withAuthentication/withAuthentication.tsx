@@ -58,7 +58,7 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options: W
           }
 
           // this is a signed out page
-          Router.push('/hirePageEditor');
+          Router.push('/projects');
           return null;
         }
 

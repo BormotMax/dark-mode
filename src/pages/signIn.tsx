@@ -74,7 +74,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
 
     try {
       const isConfirmed = await signIn(email, password);
-      // If the user is confirmed, withAuthentication HOC will redirect to /hirePageEditor
+      // If the user is confirmed, withAuthentication HOC will redirect to /projects
       // and the following lines won't be executed
       if (!isConfirmed) {
         setFlash('');
