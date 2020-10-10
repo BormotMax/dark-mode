@@ -10,7 +10,7 @@ interface InPlaceModalProps {
 
 export const InPlaceModal: React.FC<InPlaceModalProps> = ({ isOpen, close, children }) => (isOpen ? (
   <>
-    <div tabIndex={-1} className={classnames(styles.modal)} onClick={() => close()} />
+    <div tabIndex={-1} className={classnames(styles.modal)} onClick={(e) => close(e)} />
     <div className={classnames(styles.modalContent)}>
       <div className={classnames(styles.modalContentInner)}>{children}</div>
     </div>

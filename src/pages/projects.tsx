@@ -43,7 +43,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <PageLayoutOne page={Page.PROJECTS}>
+    <PageLayoutOne page={Page.PROJECTS} headerButton={<NewProjectButton />}>
       <div className={classnames('column', 'is-7', styles.projects)}>
         {!projects.length ? (
           <div>You don&apos;t have any projects yet.</div>
@@ -68,3 +68,15 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
 };
 
 export default WithAuthentication(ProjectsPage, { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.FREELANCER] });
+
+const NewProjectButton = () => {
+  const onClick = (e) => {
+    console.log('hello world');
+  };
+
+  return (
+    <button onClick={onClick} type="button">
+      Test
+    </button>
+  );
+};

@@ -5,14 +5,14 @@ import { SideNav } from '../nav/sideNav';
 import { Protected, ProtectedElse } from '../protected/protected';
 import { Header } from '../header';
 import { Page } from '../nav/nav';
-import { MobileNav } from '../nav/mobileNav';
 
 interface PageLayoutOneProps {
   headerText?: string;
+  headerButton?: JSX.Element;
   page?: Page;
 }
 
-export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerText, page }) => (
+export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerText, page, headerButton }) => (
   <div className={styles.page}>
     <div className="columns">
       <Protected roles={[Role.FREELANCER]}>
@@ -20,7 +20,9 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerTe
         <div className="column">
           {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
           <div className={classnames('container', 'is-desktop', styles.pageContent)}>
-            <Header headerText={headerText} page={page} />
+            <Header headerText={headerText} page={page}>
+              {headerButton}
+            </Header>
             {children}
           </div>
         </div>

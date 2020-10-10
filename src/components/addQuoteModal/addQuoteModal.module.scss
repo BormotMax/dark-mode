@@ -1,0 +1,25 @@
+.addQuoteModal {
+  text-align: right;
+  margin: calc(-1.5rem + 8px) 0 8px 0;
+
+  span {
+    cursor: pointer;
+    position: relative;
+  }
+
+  .addPersonModal {
+    text-align: left;
+    background: white;
+    padding: 16px;
+    box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    input {
+      width: 100%;
+    }
+
+    .save {
+      text-align: right;
+    }
+  }
+}

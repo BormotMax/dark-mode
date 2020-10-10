@@ -17,6 +17,8 @@ import styles from '../styles/project.module.scss';
 import { TasksAndTimeTab } from '../../components/tabs/tasksAndTimeTab';
 import { Page } from '../../components/nav/nav';
 import { ContactPreview } from '../../components/contactPreview';
+import { AddQuoteModal } from '../../components/addQuoteModal';
+import { QuotePreview } from '../../components/quotePreview';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -121,11 +123,15 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
             <TabGroup names={['People']}>
               <ContactPreview users={clients.items.map((c) => c.client)} projectID={project.id} refreshUsers={fetchProject} />
             </TabGroup>
-            {quotes.items.length > 0 && (
-              <TabGroup names={['Tasks & Time']}>
-                <TasksAndTimeTab quotes={quotes.items} />
-              </TabGroup>
-            )}
+            {/* <TabGroup names={['Tasks & Time', 'Financial']}>
+              <TasksAndTimeTab quotes={quotes.items} />
+              <div>
+                <AddQuoteModal projectID={project.id} />
+                {quotes.items.map((q) => (
+                  <QuotePreview key={q.id} quote={q} />
+                ))}
+              </div>
+            </TabGroup> */}
           </div>
         </div>
       </div>
