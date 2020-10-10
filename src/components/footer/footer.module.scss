@@ -1,33 +1,71 @@
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .footer {
   background: #333333;
-  margin-top: 100px;
+  margin-top: 30px;
+  display: flex;
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #eeeeee;
+  letter-spacing: 0.271875px;
+  padding: 61px 48px;
+  justify-content: space-between;
+  align-items: center;
 
-  .footerContainer {
+  flex-direction: column;
+  @include tablet {
+    flex-direction: row;
+  }
+
+  .left {
     display: flex;
-    flex-wrap: wrap;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 28px;
-    color: white;
-    padding: 42px 0;
-    justify-content: center;
+    flex-direction: column;
     text-align: center;
+    margin: auto;
 
-    & > * {
-      margin: 0 20px;
+    > * {
+      margin-bottom: 25px;
     }
 
-    a {
+    @include desktop {
+      margin: initial;
+      text-align: left;
+      flex-direction: row;
+
+      > * {
+        margin-right: 25px;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .right {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    @include desktop {
+      margin: initial;
+    }
+
+    > * {
+      &:not(:first-child) {
+        margin-left: 44px;
+      }
+    }
+
+    path {
+      fill: white;
+      stroke: white;
+    }
+  }
+
+  a {
+    color: inherit;
+    &:hover {
       color: inherit;
-    }
-
-    @include tablet {
-      justify-content: initial;
-      text-align: initial;
+      text-decoration: underline;
     }
   }
 }

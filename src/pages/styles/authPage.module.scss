@@ -8,21 +8,6 @@
     margin-bottom: 36px;
   }
 
-  .inputWrapper {
-    position: relative;
-
-    svg {
-      position: absolute;
-      top: calc(50% - 7px);
-      right: 15px;
-      width: 21px;
-    }
-
-    .eyeIconWrapper {
-      cursor: pointer;
-    }
-  }
-
   text-align: center;
   background: #faf8f7;
   height: 100vh;
@@ -35,6 +20,25 @@
   a {
     text-decoration: underline;
   }
+}
+
+.inputWrapper {
+  position: relative;
+
+  svg {
+    position: absolute;
+    top: calc(50% - 7px);
+    right: 15px;
+    width: 21px;
+  }
+
+  .eyeIconWrapper {
+    cursor: pointer;
+  }
+}
+
+.inlineInput {
+  display: flex;
 }
 
 .error {
