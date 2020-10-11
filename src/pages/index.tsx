@@ -16,6 +16,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (confirmed === 'false') {
       setFlash('Success! Now check your email to confirm your subscription.');
+    } else if (confirmed === 'true') {
+      setFlash('Subscription confirmed! Expect some great emails headed your way very soon.');
     }
   }, [confirmed]);
 
