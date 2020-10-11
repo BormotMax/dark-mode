@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { Footer } from '../components/footer';
 import styles from './styles/index.module.scss';
 import Logo from '../img/logoWithText.svg';
-import Launching from '../img/launching.svg';
+import LogoMobile from '../img/logoWithTextMobile.svg';
 import { useFlash } from '../hooks';
 
 const Home: React.FC = () => {
@@ -23,16 +23,22 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.home}>
-      <div className={classnames('container')}>
+      <div className={classnames('container', styles.pageContainer)}>
         <div className={styles.upperContainer}>
           <div className={styles.navbar}>
             <div className={styles.logo}>
-              <Logo />
+              <span className="is-hidden-mobile">
+                <Logo />
+              </span>
+              <span className="is-hidden-tablet">
+                <LogoMobile />
+              </span>
             </div>
-            <Launching />
+            <div className={classnames(styles.launching)}>Launching December 2020 🎉</div>
           </div>
           <div className={styles.headerAndBody}>
-            <img src="/home.png" alt="home-page" />
+            <img className="is-hidden-mobile" src="/home.png" alt="home-page" />
+            <img className="is-hidden-tablet" src="/homeMobile.png" alt="home-page" />
             <div className={styles.header}>Continuum Works</div>
             <div className={styles.body}>
               The all-in-one platform for solo creatives to run a thriving freelance business from anywhere 🌎
@@ -52,7 +58,7 @@ const Home: React.FC = () => {
           </div>
         </div>
         <div className={styles.upperLayoverHeader}>
-          With <u>all</u> the tools you need to <i>flourish</i> 🌟 as a freelancer
+          With all the tools you need to <i>flourish</i> 🌟 as a freelancer
         </div>
         <div className={styles.upperLayoverSubHeader}>Be up and in business in 5 minutes ⏱️</div>
         <div className={classnames(styles.featureGrid)}>
@@ -81,8 +87,8 @@ const Home: React.FC = () => {
             body="Use our supasimple form to generate a Hire Page to show your best work and convert visitors to clients."
           />
         </div>
+        <Subscribe />
       </div>
-      <Subscribe />
       <Footer />
     </div>
   );
