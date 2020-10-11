@@ -43,7 +43,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <PageLayoutOne page={Page.PROJECTS} headerButton={<NewProjectButton />}>
+    <PageLayoutOne page={Page.PROJECTS}>
       <div className={classnames('column', 'is-7', styles.projects)}>
         {!projects.length ? (
           <div>You don&apos;t have any projects yet.</div>

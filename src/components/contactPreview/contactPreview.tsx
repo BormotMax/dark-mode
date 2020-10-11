@@ -201,7 +201,7 @@ const ModalContent = ({ close, projectID, refreshUsers, users }) => {
       </div>
       <div className={classnames(styles.radioGroup, 'control')}>
         <label className={classnames(styles.radio, 'radio')}>
-          <input type="radio" name="userType" value={UserRole.CLIENT} />
+          <input type="radio" name="userType" checked value={UserRole.CLIENT} />
           <span className={classnames(styles.checkmarks)}>
             <span className={classnames(styles.unchecked)}>
               <Unchecked />
@@ -212,7 +212,7 @@ const ModalContent = ({ close, projectID, refreshUsers, users }) => {
           </span>
           Client&apos;s Team
         </label>
-        <label className={classnames(styles.radio, 'radio')}>
+        {/* <label className={classnames(styles.radio, 'radio')}>
           <input type="radio" name="userType" value={UserRole.FREELANCER} disabled />
           <span className={classnames(styles.checkmarks)}>
             <span className={classnames(styles.unchecked)}>
@@ -223,7 +223,7 @@ const ModalContent = ({ close, projectID, refreshUsers, users }) => {
             </span>
           </span>
           My Team
-        </label>
+        </label> */}
       </div>
       <div className={styles.save}>
         <ButtonSmall text="Save" isSaving={isSaving} onClick={handleSubmit} />
