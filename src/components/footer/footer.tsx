@@ -17,13 +17,13 @@ export const Footer: React.FC = () => (
       <div>Copyright &copy; 2020 Continuum&nbsp;Works</div>
     </div>
     <div className={classnames(styles.right)}>
-      <a target="_blank" rel="noreferrer" href="https://twitter.com/continuumworks">
+      <a href="https://twitter.com/continuumworks">
         <Twitter />
       </a>
-      <a target="_blank" rel="noreferrer" href="https://www.instagram.com/continuumworks/">
+      <a href="https://www.instagram.com/continuumworks/">
         <InstagramLogo />
       </a>
-      <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/company/continuumworks">
+      <a href="https://www.linkedin.com/company/continuumworks">
         <LinkedInLogo />
       </a>
     </div>

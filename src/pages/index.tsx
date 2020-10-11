@@ -1,13 +1,9 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import classnames from 'classnames';
-import { faHeart } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Footer } from '../components/footer';
 import styles from './styles/index.module.scss';
-import formStyles from './styles/authPage.module.scss';
 import Logo from '../img/logoWithText.svg';
 import Launching from '../img/launching.svg';
-import EmailIcon from '../img/email.svg';
 
 const Home: React.FC = () => (
   <div className={styles.home}>
@@ -22,14 +18,14 @@ const Home: React.FC = () => (
         <div className={styles.headerAndBody}>
           <img src="/home.png" alt="home-page" />
           <div className={styles.header}>Continuum Works</div>
-          <div className={styles.body}>The all-in-one platform for solo creatives to run a thriving freelance business from anywhere</div>
+          <div className={styles.body}>
+            The all-in-one platform for solo creatives to run a thriving freelance business from anywhere 🌎
+          </div>
         </div>
         <Subscribe />
       </div>
       <div className={styles.freelancersWrapper}>
-        <div className={styles.highlight}>
-          Made with <FontAwesomeIcon size="1x" icon={faHeart} /> for Freelance Creatives
-        </div>
+        <div className={styles.highlight}>Made with ❤️ for Freelance Creatives 🎨</div>
         <div className={styles.freelancers}>
           {[...Array(12)].map((e, i) => (
             // eslint-disable-next-line react/no-array-index-key
@@ -40,34 +36,32 @@ const Home: React.FC = () => (
         </div>
       </div>
       <div className={styles.upperLayoverHeader}>
-        With <u>all</u> the tools you need to
-        <i> flourish </i>
-        as a freelancer
+        With <u>all</u> the tools you need to <i>flourish</i> 🌟 as a freelancer
       </div>
-      <div className={styles.upperLayoverSubHeader}>Be up and in business in 5 minutes</div>
+      <div className={styles.upperLayoverSubHeader}>Be up and in business in 5 minutes ⏱️</div>
       <div className={classnames(styles.featureGrid)}>
         <GridItem
-          header="Conversations"
+          header="💬 Conversations"
           body="Engage quickly and meaningfully with people interested in your work. Paste our conversation widget code in your site or use your Hire Page."
         />
         <GridItem
-          header="Project Management"
+          header="🐝 Project Management"
           body="Text-message-style project management with conversations, files, quotes, invoices and payments all in one thread."
         />
         <GridItem
-          header="CRM"
+          header="🤓 CRM"
           body="Stay on top of sales with our visual CRM to see site visitors, conversations, quotes, invoices and payments."
         />
         <GridItem
-          header="Quotes"
+          header="🤗 Quotes"
           body="Generate easy quotes that present inline to your clients to accept. Receive a deposit payment upon acceptance."
         />
         <GridItem
-          header="Invoice & Payments"
+          header="🤑 Invoices & Payments"
           body="Create tasks and track time to generate invoices and receive payments in the Continuum project space."
         />
         <GridItem
-          header="Hire Page"
+          header="🍒 Hire Page"
           body="Use our supasimple form to generate a Hire Page to show your best work and convert visitors to clients."
         />
       </div>
@@ -90,7 +84,7 @@ const GridItem = ({ header, body }) => (
 
 const Subscribe = () => (
   <div className={classnames(styles.join)}>
-    <div className={classnames(styles.joinText)}>Join our private beta</div>
+    <div className={classnames(styles.joinText)}>Join our private beta ✨</div>
     <form
       action="https://app.convertkit.com/forms/1732432/subscriptions"
       className="seva-form formkit-form"
