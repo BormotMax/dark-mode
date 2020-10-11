@@ -30,7 +30,7 @@ const Home: React.FC = () => (
           {[...Array(12)].map((e, i) => (
             // eslint-disable-next-line react/no-array-index-key
             <div key={i} className={classnames(styles.freelancerTypeContainer)}>
-              <img src={`/Freelancer-${i}.png`} alt="freelancer type" />
+              <img src={`/Freelancer with Title-${i}.png`} alt="freelancer type" />
             </div>
           ))}
         </div>
