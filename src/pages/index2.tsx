@@ -9,7 +9,7 @@ import { Footer } from '../components/footer';
 import styles from './styles/index.module.scss';
 import Logo from '../img/logo2.svg';
 
-const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
+const HomeTwo: React.FC<AuthProps> = ({ currentUser, signOut }) => {
   const handleSignOutClick = (e: any) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
       signOut();
@@ -201,7 +201,7 @@ const Home: React.FC<AuthProps> = ({ currentUser, signOut }) => {
   );
 };
 
-export default WithAuthentication(Home, { routeType: RouteType.NO_REDIRECT });
+export default WithAuthentication(HomeTwo, { routeType: RouteType.NO_REDIRECT });
 
 const GridItem = ({ header, body }) => (
   <div className={classnames(styles.gridItem)}>
