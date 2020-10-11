@@ -1,75 +1,90 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import classnames from 'classnames';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { Footer } from '../components/footer';
 import styles from './styles/index.module.scss';
 import Logo from '../img/logoWithText.svg';
 import Launching from '../img/launching.svg';
+import { useFlash } from '../hooks';
 
-const Home: React.FC = () => (
-  <div className={styles.home}>
-    <div className={classnames('container')}>
-      <div className={styles.upperContainer}>
-        <div className={styles.navbar}>
-          <div className={styles.logo}>
-            <Logo />
-          </div>
-          <Launching />
-        </div>
-        <div className={styles.headerAndBody}>
-          <img src="/home.png" alt="home-page" />
-          <div className={styles.header}>Continuum Works</div>
-          <div className={styles.body}>
-            The all-in-one platform for solo creatives to run a thriving freelance business from anywhere 🌎
-          </div>
-        </div>
-        <Subscribe />
-      </div>
-      <div className={styles.freelancersWrapper}>
-        <div className={styles.highlight}>Made with ❤️ for Freelance Creatives 🎨</div>
-        <div className={styles.freelancers}>
-          {[...Array(12)].map((e, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <div key={i} className={classnames(styles.freelancerTypeContainer)}>
-              <img src={`/Freelancer with Title-${i}.png`} alt="freelancer type" />
+const Home: React.FC = () => {
+  const router = useRouter();
+  const { confirmed } = router.query;
+  const { setFlash } = useFlash();
+
+  useEffect(() => {
+    if (confirmed === 'false') {
+      setFlash('Success! Now check your email to confirm your subscription.');
+    }
+  }, [confirmed]);
+
+  return (
+    <div className={styles.home}>
+      <div className={classnames('container')}>
+        <div className={styles.upperContainer}>
+          <div className={styles.navbar}>
+            <div className={styles.logo}>
+              <Logo />
             </div>
-          ))}
+            <Launching />
+          </div>
+          <div className={styles.headerAndBody}>
+            <img src="/home.png" alt="home-page" />
+            <div className={styles.header}>Continuum Works</div>
+            <div className={styles.body}>
+              The all-in-one platform for solo creatives to run a thriving freelance business from anywhere 🌎
+            </div>
+          </div>
+          <Subscribe />
+        </div>
+        <div className={styles.freelancersWrapper}>
+          <div className={styles.highlight}>Made with ❤️ for Freelance Creatives 🎨</div>
+          <div className={styles.freelancers}>
+            {[...Array(12)].map((e, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={i} className={classnames(styles.freelancerTypeContainer)}>
+                <img src={`/Freelancer with Title-${i}.png`} alt="freelancer type" />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.upperLayoverHeader}>
+          With <u>all</u> the tools you need to <i>flourish</i> 🌟 as a freelancer
+        </div>
+        <div className={styles.upperLayoverSubHeader}>Be up and in business in 5 minutes ⏱️</div>
+        <div className={classnames(styles.featureGrid)}>
+          <GridItem
+            header="💬 Conversations"
+            body="Engage quickly and meaningfully with people interested in your work. Paste our conversation widget code in your site or use your Hire Page."
+          />
+          <GridItem
+            header="🐝 Project Management"
+            body="Text-message-style project management with conversations, files, quotes, invoices and payments all in one thread."
+          />
+          <GridItem
+            header="🤓 CRM"
+            body="Stay on top of sales with our visual CRM to see site visitors, conversations, quotes, invoices and payments."
+          />
+          <GridItem
+            header="🤗 Quotes"
+            body="Generate easy quotes that present inline to your clients to accept. Receive a deposit payment upon acceptance."
+          />
+          <GridItem
+            header="🤑 Invoices & Payments"
+            body="Create tasks and track time to generate invoices and receive payments in the Continuum project space."
+          />
+          <GridItem
+            header="🍒 Hire Page"
+            body="Use our supasimple form to generate a Hire Page to show your best work and convert visitors to clients."
+          />
         </div>
       </div>
-      <div className={styles.upperLayoverHeader}>
-        With <u>all</u> the tools you need to <i>flourish</i> 🌟 as a freelancer
-      </div>
-      <div className={styles.upperLayoverSubHeader}>Be up and in business in 5 minutes ⏱️</div>
-      <div className={classnames(styles.featureGrid)}>
-        <GridItem
-          header="💬 Conversations"
-          body="Engage quickly and meaningfully with people interested in your work. Paste our conversation widget code in your site or use your Hire Page."
-        />
-        <GridItem
-          header="🐝 Project Management"
-          body="Text-message-style project management with conversations, files, quotes, invoices and payments all in one thread."
-        />
-        <GridItem
-          header="🤓 CRM"
-          body="Stay on top of sales with our visual CRM to see site visitors, conversations, quotes, invoices and payments."
-        />
-        <GridItem
-          header="🤗 Quotes"
-          body="Generate easy quotes that present inline to your clients to accept. Receive a deposit payment upon acceptance."
-        />
-        <GridItem
-          header="🤑 Invoices & Payments"
-          body="Create tasks and track time to generate invoices and receive payments in the Continuum project space."
-        />
-        <GridItem
-          header="🍒 Hire Page"
-          body="Use our supasimple form to generate a Hire Page to show your best work and convert visitors to clients."
-        />
-      </div>
+      <Subscribe />
+      <Footer />
     </div>
-    <Subscribe />
-    <Footer />
-  </div>
-);
+  );
+};
 
 export default Home;
 
