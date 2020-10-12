@@ -48,13 +48,18 @@ const Home: React.FC = () => {
         </div>
         <div className={styles.freelancersWrapper}>
           <div className={styles.highlight}>Made with ❤️ for Freelance Creatives 🎨</div>
-          <div className={styles.freelancers}>
+          <div className={classnames(styles.freelancers, styles.nonMobileFreelancers)}>
             {[...Array(12)].map((e, i) => (
               // eslint-disable-next-line react/no-array-index-key
               <div key={i} className={classnames(styles.freelancerTypeContainer)}>
                 <img src={`/Freelancer with Title-${i}.png`} alt="freelancer type" />
               </div>
             ))}
+          </div>
+          <div className={classnames(styles.freelancers, styles.mobileFreelancers)}>
+            <div className={classnames(styles.freelancerTypeContainer)}>
+              <img src="/Freelancer with Title-mobile.png" alt="freelancer type" />
+            </div>
           </div>
         </div>
         <div className={styles.upperLayoverHeader}>
