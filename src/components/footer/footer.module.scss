@@ -5,28 +5,29 @@
   display: flex;
   font-family: Roboto;
   font-weight: normal;
-  font-size: 18px;
-  line-height: 21px;
   color: #eeeeee;
-  letter-spacing: 0.271875px;
-  padding: 61px 48px;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.27175px;
+  padding: 34px 24px 48px 24px;
   justify-content: space-between;
-  align-items: center;
-
   flex-direction: column;
+
   @include tablet {
+    padding: 61px 48px;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  @include desktop {
+    align-items: center;
     flex-direction: row;
   }
 
   .left {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    margin: auto;
-
-    > * {
-      margin-bottom: 25px;
-    }
+    margin-bottom: 47px;
 
     @include desktop {
       margin: initial;
