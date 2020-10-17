@@ -43,7 +43,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <PageLayoutOne page={Page.PROJECTS}>
+    <PageLayoutOne page={Page.PROJECTS} headerText="Projects > All Projects">
       <div className={classnames('column', 'is-7', styles.projects)}>
         {!projects.length ? (
           <div>You don&apos;t have any projects yet.</div>
@@ -53,7 +53,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
               <div key={p.id}>
                 <Link href="/project/[id]" as={`/project/${p.id}`}>
                   <a href={`/project/${p.id}`}>
-                    <Comment name={p.client.name} avatarUrl={gravatarUrl(p.client.email)} backgroundColor="#f4f3ee">
+                    <Comment name={p.client.name} avatarUrl={gravatarUrl(p.client.email)} backgroundColor="#eeeeee">
                       <div className={classnames(styles.projectName)}>{p.client.company}</div>
                     </Comment>
                   </a>

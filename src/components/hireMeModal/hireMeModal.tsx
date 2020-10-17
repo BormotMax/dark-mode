@@ -200,10 +200,10 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
     <div className={styles.hireMeModal}>
       <img src="/wave.png" alt="hello" />
       <h1 className="h1 vat">Hello There!</h1>
-      <Comment isMine={false} name={freelancerName} avatarUrl={avatarUrl}>
+      <Comment isMine={false} name={freelancerName} avatarUrl={avatarUrl} backgroundColor="#ffffff" commentColor="#F5F8FF">
         <div>{commentContent}</div>
       </Comment>
-      <Comment>
+      <Comment backgroundColor="#ffffff" commentColor="#FAF8F7">
         <form onSubmit={(e) => handleSubmit(e)}>
           <div>
             <div className="field is-horizontal">

@@ -281,7 +281,7 @@ const HirePageEditor = ({ currentUser }) => {
   if (loading) return null;
 
   return (
-    <PageLayoutOne page={Page.HIRE_EDITOR}>
+    <PageLayoutOne page={Page.HIRE_EDITOR} headerText="Hire Page Editor">
       <div className={styles.hirePageEditor}>
         <div className="container is-desktop">
           <main className={styles.main}>

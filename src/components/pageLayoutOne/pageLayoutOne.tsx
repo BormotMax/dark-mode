@@ -7,7 +7,7 @@ import { Header } from '../header';
 import { Page } from '../nav/nav';
 
 interface PageLayoutOneProps {
-  headerText?: string;
+  headerText?: string | JSX.Element;
   headerButton?: JSX.Element;
   page?: Page;
 }

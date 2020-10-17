@@ -1,7 +1,7 @@
 import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
@@ -19,6 +19,7 @@ import { Page } from '../../components/nav/nav';
 import { ContactPreview } from '../../components/contactPreview';
 import { AddQuoteModal } from '../../components/addQuoteModal';
 import { QuotePreview } from '../../components/quotePreview';
+import Link from 'next/link';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -110,7 +111,17 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   }) as Array<CommentType>;
 
   return (
-    <PageLayoutOne headerText={client.company} page={Page.PROJECT}>
+    <PageLayoutOne
+      headerText={
+        <>
+          <Link href="/projects">
+            <a href="/projects">Projects</a>
+          </Link>
+          &nbsp;&gt;&nbsp;{client.company}
+        </>
+      }
+      page={Page.PROJECT}
+    >
       <div className={classnames('columns')}>
         <div className={classnames('column')}>
           {comments.filter(Boolean).map((c) => (

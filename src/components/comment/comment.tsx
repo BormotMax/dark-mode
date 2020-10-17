@@ -10,8 +10,6 @@ import { unauthClient } from '../../pages/_app';
 import { createComment } from '../../graphql/mutations';
 import { useLogger } from '../../hooks';
 
-const BACKGROUND_COLOR = '#f4f3ee';
-
 interface CommentWrapperProps {
   comment: CommentType;
   avatarUrl?: string;
@@ -24,6 +22,7 @@ interface CommentProps {
   avatarUrl?: string;
   isMine?: boolean;
   backgroundColor?: string;
+  commentColor?: string;
 }
 
 interface NewCommentProps {
@@ -65,19 +64,27 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarU
     createdAt={comment.createdAt}
     avatarUrl={avatarUrl || gravatarUrl(comment.creator.email)}
     isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}
-    backgroundColor={BACKGROUND_COLOR}
   >
     <div>{comment.content}</div>
   </Comment>
 );
 
 // eslint-disable-next-line object-curly-newline
-export const Comment: React.FC<CommentProps> = ({ name, createdAt, avatarUrl, children, isMine = true, backgroundColor = 'white' }) => (
+export const Comment: React.FC<CommentProps> = ({
+  name,
+  createdAt,
+  avatarUrl,
+  children,
+  isMine = true,
+  backgroundColor = '#eeeeee',
+  commentColor,
+}) => (
   <div
     className={classnames(styles.comment, {
       [styles.commentDark]: !isMine,
       [styles.commentLight]: isMine,
     })}
+    style={commentColor ? { background: commentColor } : {}}
   >
     <div className={styles.header}>
       <div>{name}</div>
@@ -131,7 +138,7 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
     }
   };
   return (
-    <Comment name={name} avatarUrl={avatarUrl} isMine backgroundColor={BACKGROUND_COLOR}>
+    <Comment name={name} avatarUrl={avatarUrl} isMine>
       <textarea
         onChange={handleChange}
         onKeyPress={handleEnter}
