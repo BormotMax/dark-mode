@@ -8,7 +8,7 @@ import { ProjectClient, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import styles from './contactPreview.module.scss';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import { InPlaceModal } from '../inPlaceModal/inPlaceModal';
+import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal/inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import Unchecked from '../../img/unchecked.svg';
 import Checked from '../../img/checkmark.svg';
@@ -30,7 +30,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
   return (
     <>
       <div className={classnames(styles.addPerson)}>
-        <InPlaceModal button={<FontAwesomeIcon color="#595959" icon={faUserPlus} />}>
+        <InPlaceModal variant={InPlaceModalVariants.BLOCK} button={<FontAwesomeIcon color="#595959" icon={faUserPlus} />}>
           <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} />
         </InPlaceModal>
       </div>
@@ -38,6 +38,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
         .sort((a, b) => a.user.name.localeCompare(b.user.name))
         .map((projectMember) => (
           <InPlaceModal
+            variant={InPlaceModalVariants.BLOCK}
             key={projectMember.id}
             button={
               <div

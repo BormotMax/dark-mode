@@ -41,11 +41,10 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
   const { logger } = useLogger();
   const { setFlash, setDelayedFlash } = useFlash();
 
-  function validate({ name, company, email, phone, details }: ValidationProps) {
+  function validate({ name, email, phone, details }: ValidationProps) {
     const temp: ValidationProps = {};
 
     if (!name) temp.name = 'error';
-    if (!company) temp.company = 'error';
     if (!email) temp.email = 'error';
     if (!phone) temp.phone = 'error';
     if (!details) temp.details = 'error';
@@ -112,7 +111,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
 
     // Create a project, assigning the above user as the client
     let createProjectResponse;
-    const createProjectInput = { freelancerID, clientID: existingClient.id, details, owner: freelancerID };
+    const createProjectInput = { freelancerID, company, clientID: existingClient.id, owner: freelancerID };
     try {
       createProjectResponse = await client.mutate({
         mutation: gql(createProject),

@@ -67,8 +67,10 @@ type Project
   comments: [Comment] @connection(keyName: "byProject", fields: ["id"])
   quotes: [Quote] @connection(keyName: "byProject", fields: ["id"])
   details: String
+  title: String
   clients: [ProjectClient!]! @connection(keyName: "byProject", fields: ["id"])
   freelancers: [ProjectFreelancer!]! @connection(keyName: "byProject", fields: ["id"])
+  company: String
 }
 
 type Quote

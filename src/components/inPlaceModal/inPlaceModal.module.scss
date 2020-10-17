@@ -19,6 +19,16 @@
   line-height: 16px;
   color: #828282;
 
+  label {
+    font-size: 14px;
+  }
+
+  textarea {
+    background: #fafafa;
+    resize: none;
+    margin-top: 4px;
+  }
+
   input {
     background: #fafafa;
     margin-top: 4px;
@@ -29,6 +39,7 @@
   }
 
   &Inner {
+    width: 332px;
     position: absolute;
     right: 0;
     text-align: left;
@@ -36,6 +47,14 @@
     padding: 16px;
     box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+
+    &--wide {
+      width: 668px;
+    }
+
+    &--block {
+      width: 100%;
+    }
 
     input {
       width: 100%;

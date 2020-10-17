@@ -158,6 +158,8 @@ export const getProject = /* GraphQL */ `
       freelancerID
       clientID
       details
+      title
+      company
       updatedAt
       freelancer {
         id
@@ -284,6 +286,8 @@ export const listProjects = /* GraphQL */ `
         freelancerID
         clientID
         details
+        title
+        company
         updatedAt
         freelancer {
           id
@@ -414,6 +418,8 @@ export const projectsByFreelancer = /* GraphQL */ `
         freelancerID
         clientID
         details
+        title
+        company
         updatedAt
         freelancer {
           id

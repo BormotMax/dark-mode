@@ -4,11 +4,17 @@ import classnames from 'classnames';
 import React, { useState } from 'react';
 import styles from './inPlaceModal.module.scss';
 
-interface InPlaceModalProps {
-  button: JSX.Element;
+export enum InPlaceModalVariants {
+  WIDE,
+  BLOCK,
 }
 
-export const InPlaceModal: React.FC<InPlaceModalProps> = ({ children, button }) => {
+interface InPlaceModalProps {
+  button: JSX.Element;
+  variant?: InPlaceModalVariants;
+}
+
+export const InPlaceModal: React.FC<InPlaceModalProps> = ({ children, button, variant }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = (e) => {
@@ -32,8 +38,15 @@ export const InPlaceModal: React.FC<InPlaceModalProps> = ({ children, button }) 
         <>
           <div tabIndex={-1} className={classnames(styles.modal)} onClick={closeAddPersonModal} />
           <div className={classnames(styles.modalContent)}>
-            {/* @ts-ignore */}
-            <div className={classnames(styles.modalContentInner)}>{React.cloneElement(children, { close: closeAddPersonModal })}</div>
+            <div
+              className={classnames(styles.modalContentInner, {
+                [styles['modalContentInner--wide']]: variant === InPlaceModalVariants.WIDE,
+                [styles['modalContentInner--block']]: variant === InPlaceModalVariants.BLOCK,
+              })}
+            >
+              {/* @ts-ignore */}
+              {React.cloneElement(children, { close: closeAddPersonModal })}
+            </div>
           </div>
         </>
       ) : null}
