@@ -8,8 +8,7 @@ export const sendEmail = async ({ to, name, company, email, phone, details, type
   if (type === 'NEW_CLIENT_CONTACT_FREELANCER') {
     msg = {
       to,
-      from: 'Continuum',
-      // from: 'notifications@continuum.works',
+      from: { email: 'notifications@continuum.works', name: 'Continuum' },
       replyTo: email || 'notifications@continuum.works',
       subject: `New client contact from ${name}`,
       text: `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nPhone: ${phone}\nDetails: ${details}\nProject Space: ${projectUrl}\n\n`,
@@ -18,8 +17,7 @@ export const sendEmail = async ({ to, name, company, email, phone, details, type
   } else if (type === 'NEW_CLIENT_CONTACT_CLIENT') {
     msg = {
       to,
-      // from: 'notifications@continuum.works',
-      from: 'Continuum',
+      from: { email: 'notifications@continuum.works', name: 'Continuum' },
       replyTo: 'notifications@continuum.works',
       subject: 'Your new project space on Continuum.',
       text: `Hi ${name}\n\nHere's a link to your project space: ${details}\n\n`,
