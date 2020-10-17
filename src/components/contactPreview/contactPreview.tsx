@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { ProjectClient, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import styles from './contactPreview.module.scss';
+import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import { InPlaceModal } from '../inPlaceModal/inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import Unchecked from '../../img/unchecked.svg';
@@ -24,62 +25,44 @@ interface ContactPreviewProps {
 }
 
 export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID, refreshUsers }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  const openAddPersonModal = (e) => {
-    if (e.keyCode === undefined || e.keyCode === 13) {
-      e.stopPropagation();
-      setIsModalOpen(true);
-    }
-  };
-
-  const closeAddPersonModal = (e) => {
-    e?.stopPropagation();
-    setSelectedUser(null);
-    setIsModalOpen(false);
-  };
 
   return (
     <>
       <div className={classnames(styles.addPerson)}>
-        <span role="button" tabIndex={0} onKeyDown={openAddPersonModal} onClick={openAddPersonModal}>
-          <FontAwesomeIcon color="#595959" icon={faUserPlus} />
-          <InPlaceModal isOpen={isModalOpen} close={closeAddPersonModal}>
-            <ModalContent
-              close={closeAddPersonModal}
-              projectID={projectID}
-              refreshUsers={refreshUsers}
-              users={users}
-              selectedUser={selectedUser}
-            />
-          </InPlaceModal>
-        </span>
+        <InPlaceModal button={<FontAwesomeIcon color="#595959" icon={faUserPlus} />}>
+          <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} />
+        </InPlaceModal>
       </div>
       {users
         .sort((a, b) => a.user.name.localeCompare(b.user.name))
         .map((projectMember) => (
-          <div
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              setSelectedUser(projectMember);
-              openAddPersonModal(e);
-            }}
-            onClick={(e) => {
-              setSelectedUser(projectMember);
-              openAddPersonModal(e);
-            }}
-            key={projectMember.user.id}
-            className={classnames(styles.contactPreview)}
+          <InPlaceModal
+            key={projectMember.id}
+            button={
+              <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  setSelectedUser(projectMember);
+                }}
+                onClick={(e) => {
+                  setSelectedUser(projectMember);
+                }}
+                key={projectMember.user.id}
+                className={classnames(styles.contactPreview)}
+              >
+                <Avatar email={projectMember.user.email} />
+                <div>
+                  {projectMember.user.name}
+                  {projectMember.title && ', '}
+                  <span className={classnames(styles.title)}>{projectMember.title}</span>
+                </div>
+              </div>
+            }
           >
-            <Avatar email={projectMember.user.email} />
-            <div>
-              {projectMember.user.name}
-              {projectMember.title && ', '}
-              <span className={classnames(styles.title)}>{projectMember.title}</span>
-            </div>
-          </div>
+            <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} selectedUser={selectedUser} />
+          </InPlaceModal>
         ))}
     </>
   );
@@ -93,11 +76,11 @@ interface ValidationProps {
 }
 
 interface ModalContentProps {
-  close: Function;
   projectID: string;
   refreshUsers: Function;
   users: ProjectClient[];
-  selectedUser: ProjectClient;
+  selectedUser?: ProjectClient;
+  close?: Function;
 }
 
 const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUsers, users, selectedUser }) => {
@@ -259,7 +242,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   }
 
   return (
-    <form className={classnames(styles.addPersonModal)} onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <div className="field">
         <label htmlFor="name" className="label">
           Name
@@ -305,39 +288,39 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           />
         </div>
       </div>
-      <div className={classnames(styles.radioGroup, 'control')}>
-        <label className={classnames(styles.radio, 'radio')}>
+      <div className={classnames(modalStyles.radioGroup, 'control')}>
+        <label className={classnames(modalStyles.radio, 'radio')}>
           <input
-            onChange={(e) => setUserType(e.target.value)}
+            onChange={(e) => setUserType(UserRole[e.target.value])}
             type="radio"
             value={UserRole.CLIENT}
             checked={userType === UserRole.CLIENT}
             name="userType"
           />
-          <span className={classnames(styles.checkmarks)}>
-            <span className={classnames(styles.unchecked)}>
+          <span className={classnames(modalStyles.checkmarks)}>
+            <span className={classnames(modalStyles.unchecked)}>
               <Unchecked />
             </span>
-            <span className={classnames(styles.checked)}>
+            <span className={classnames(modalStyles.checked)}>
               <Checked />
             </span>
           </span>
           Client&apos;s Team
         </label>
-        {/* <label className={classnames(styles.radio, 'radio')}>
+        {/* <label className={classnames(modalStyles.radio, 'radio')}>
           <input type="radio" name="userType" value={UserRole.FREELANCER} disabled />
-          <span className={classnames(styles.checkmarks)}>
-            <span className={classnames(styles.unchecked)}>
+          <span className={classnames(modalStyles.checkmarks)}>
+            <span className={classnames(modalStyles.unchecked)}>
               <Unchecked />
             </span>
-            <span className={classnames(styles.checked)}>
+            <span className={classnames(modalStyles.checked)}>
               <Checked />
             </span>
           </span>
           My Team
         </label> */}
       </div>
-      <div className={styles.save}>
+      <div className={modalStyles.save}>
         <ButtonSmall text="Save" isSaving={isSaving} onClick={handleSubmit} />
       </div>
     </form>

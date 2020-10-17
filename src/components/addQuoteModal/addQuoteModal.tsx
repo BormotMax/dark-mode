@@ -11,34 +11,17 @@ interface AddQuoteModalProps {
 }
 
 export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = (e) => {
-    if (e.keyCode === undefined || e.keyCode === 13) {
-      e.stopPropagation();
-      setIsOpen(true);
-    }
-  };
-
-  const closeModal = (e) => {
-    e.stopPropagation();
-    setIsOpen(false);
-  };
-
   return (
     <div className={classnames(styles.addQuoteModal)}>
-      <span role="button" tabIndex={0} onKeyDown={openModal} onClick={openModal}>
-        <FontAwesomeIcon color="#595959" icon={faUserPlus} />
-        <InPlaceModal isOpen={isOpen} close={closeModal}>
-          <ModalContent close={closeModal} projectID={projectID} />
-        </InPlaceModal>
-      </span>
+      <InPlaceModal button={<FontAwesomeIcon color="#595959" icon={faUserPlus} />}>
+        <ModalContent projectID={projectID} />
+      </InPlaceModal>
     </div>
   );
 };
 
 interface ModalContentProps {
-  close: Function;
+  close?: Function;
   projectID: string;
 }
 

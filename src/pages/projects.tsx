@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import classnames from 'classnames';
@@ -13,6 +13,9 @@ import { Comment } from '../components/comment';
 import { gravatarUrl } from '../helpers/gravatarUrl';
 import styles from './styles/projects.module.scss';
 import { Page } from '../components/nav/nav';
+import { ButtonSmall } from '../components/buttons/buttons';
+import { InPlaceModal } from '../components/inPlaceModal';
+import { CreateProjectModal } from '../components/createProjectModal';
 
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
@@ -43,7 +46,15 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <PageLayoutOne page={Page.PROJECTS} headerText="Projects > All Projects">
+    <PageLayoutOne
+      page={Page.PROJECTS}
+      headerText="Projects > All Projects"
+      headerButton={
+        <InPlaceModal button={<ButtonSmall text="New Project" />}>
+          <CreateProjectModal />
+        </InPlaceModal>
+      }
+    >
       <div className={classnames('column', 'is-7', styles.projects)}>
         {!projects.length ? (
           <div>You don&apos;t have any projects yet.</div>
@@ -68,13 +79,3 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
 };
 
 export default WithAuthentication(ProjectsPage, { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.FREELANCER] });
-
-const NewProjectButton = () => {
-  const onClick = (e) => {};
-
-  return (
-    <button onClick={onClick} type="button">
-      Test
-    </button>
-  );
-};
