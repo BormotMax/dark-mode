@@ -2,21 +2,9 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateUserInput = {
+export type DeleteUserInput = {
   id?: string | null,
-  name?: string | null,
-  company?: string | null,
-  email?: string | null,
-  phone?: string | null,
-  signedOutAuthToken?: string | null,
-  role: UserRole,
 };
-
-export enum UserRole {
-  FREELANCER = "FREELANCER",
-  CLIENT = "CLIENT",
-}
-
 
 export type ModelUserConditionInput = {
   name?: ModelStringInput | null,
@@ -75,25 +63,14 @@ export type ModelUserRoleInput = {
   ne?: UserRole | null,
 };
 
-export type UpdateUserInput = {
-  id: string,
-  name?: string | null,
-  company?: string | null,
-  email?: string | null,
-  phone?: string | null,
-  signedOutAuthToken?: string | null,
-  role?: UserRole | null,
-};
+export enum UserRole {
+  FREELANCER = "FREELANCER",
+  CLIENT = "CLIENT",
+}
 
-export type DeleteUserInput = {
-  id?: string | null,
-};
 
-export type CreateProjectClientInput = {
+export type DeleteProjectClientInput = {
   id?: string | null,
-  clientID: string,
-  projectID: string,
-  title?: string | null,
 };
 
 export type ModelProjectClientConditionInput = {
@@ -121,22 +98,8 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdateProjectClientInput = {
-  id: string,
-  clientID?: string | null,
-  projectID?: string | null,
-  title?: string | null,
-};
-
-export type DeleteProjectClientInput = {
+export type DeleteProjectFreelancerInput = {
   id?: string | null,
-};
-
-export type CreateProjectFreelancerInput = {
-  id?: string | null,
-  freelancerID: string,
-  projectID: string,
-  title?: string | null,
 };
 
 export type ModelProjectFreelancerConditionInput = {
@@ -148,15 +111,52 @@ export type ModelProjectFreelancerConditionInput = {
   not?: ModelProjectFreelancerConditionInput | null,
 };
 
+export type CreateUserInput = {
+  id?: string | null,
+  name?: string | null,
+  company?: string | null,
+  email?: string | null,
+  phone?: string | null,
+  signedOutAuthToken?: string | null,
+  role: UserRole,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  name?: string | null,
+  company?: string | null,
+  email?: string | null,
+  phone?: string | null,
+  signedOutAuthToken?: string | null,
+  role?: UserRole | null,
+};
+
+export type CreateProjectClientInput = {
+  id?: string | null,
+  clientID: string,
+  projectID: string,
+  title?: string | null,
+};
+
+export type UpdateProjectClientInput = {
+  id: string,
+  clientID?: string | null,
+  projectID?: string | null,
+  title?: string | null,
+};
+
+export type CreateProjectFreelancerInput = {
+  id?: string | null,
+  freelancerID: string,
+  projectID: string,
+  title?: string | null,
+};
+
 export type UpdateProjectFreelancerInput = {
   id: string,
   freelancerID?: string | null,
   projectID?: string | null,
   title?: string | null,
-};
-
-export type DeleteProjectFreelancerInput = {
-  id?: string | null,
 };
 
 export type CreateProjectInput = {
@@ -473,6 +473,84 @@ export type ModelDomainSlugFilterInput = {
   not?: ModelDomainSlugFilterInput | null,
 };
 
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser:  {
+    __typename: "User",
+    id: string,
+    name: string | null,
+    company: string | null,
+    email: string | null,
+    phone: string | null,
+    signedOutAuthToken: string | null,
+    role: UserRole,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteProjectClientMutationVariables = {
+  input: DeleteProjectClientInput,
+  condition?: ModelProjectClientConditionInput | null,
+};
+
+export type DeleteProjectClientMutation = {
+  deleteProjectClient:  {
+    __typename: "ProjectClient",
+    id: string,
+    clientID: string,
+    projectID: string,
+    title: string | null,
+    createdAt: string,
+    updatedAt: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type DeleteProjectFreelancerMutationVariables = {
+  input: DeleteProjectFreelancerInput,
+  condition?: ModelProjectFreelancerConditionInput | null,
+};
+
+export type DeleteProjectFreelancerMutation = {
+  deleteProjectFreelancer:  {
+    __typename: "ProjectFreelancer",
+    id: string,
+    freelancerID: string,
+    projectID: string,
+    title: string | null,
+    createdAt: string,
+    updatedAt: string,
+    user:  {
+      __typename: "User",
+      id: string,
+      name: string | null,
+      company: string | null,
+      email: string | null,
+      phone: string | null,
+      signedOutAuthToken: string | null,
+      role: UserRole,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -500,26 +578,6 @@ export type UpdateUserMutationVariables = {
 
 export type UpdateUserMutation = {
   updateUser:  {
-    __typename: "User",
-    id: string,
-    name: string | null,
-    company: string | null,
-    email: string | null,
-    phone: string | null,
-    signedOutAuthToken: string | null,
-    role: UserRole,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteUserMutationVariables = {
-  input: DeleteUserInput,
-  condition?: ModelUserConditionInput | null,
-};
-
-export type DeleteUserMutation = {
-  deleteUser:  {
     __typename: "User",
     id: string,
     name: string | null,
@@ -591,35 +649,6 @@ export type UpdateProjectClientMutation = {
   } | null,
 };
 
-export type DeleteProjectClientMutationVariables = {
-  input: DeleteProjectClientInput,
-  condition?: ModelProjectClientConditionInput | null,
-};
-
-export type DeleteProjectClientMutation = {
-  deleteProjectClient:  {
-    __typename: "ProjectClient",
-    id: string,
-    clientID: string,
-    projectID: string,
-    title: string | null,
-    createdAt: string,
-    updatedAt: string,
-    user:  {
-      __typename: "User",
-      id: string,
-      name: string | null,
-      company: string | null,
-      email: string | null,
-      phone: string | null,
-      signedOutAuthToken: string | null,
-      role: UserRole,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-  } | null,
-};
-
 export type CreateProjectFreelancerMutationVariables = {
   input: CreateProjectFreelancerInput,
   condition?: ModelProjectFreelancerConditionInput | null,
@@ -656,35 +685,6 @@ export type UpdateProjectFreelancerMutationVariables = {
 
 export type UpdateProjectFreelancerMutation = {
   updateProjectFreelancer:  {
-    __typename: "ProjectFreelancer",
-    id: string,
-    freelancerID: string,
-    projectID: string,
-    title: string | null,
-    createdAt: string,
-    updatedAt: string,
-    user:  {
-      __typename: "User",
-      id: string,
-      name: string | null,
-      company: string | null,
-      email: string | null,
-      phone: string | null,
-      signedOutAuthToken: string | null,
-      role: UserRole,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-  } | null,
-};
-
-export type DeleteProjectFreelancerMutationVariables = {
-  input: DeleteProjectFreelancerInput,
-  condition?: ModelProjectFreelancerConditionInput | null,
-};
-
-export type DeleteProjectFreelancerMutation = {
-  deleteProjectFreelancer:  {
     __typename: "ProjectFreelancer",
     id: string,
     freelancerID: string,

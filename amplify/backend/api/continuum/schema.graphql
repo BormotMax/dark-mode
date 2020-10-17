@@ -2,13 +2,12 @@ type User
   @model
   @auth(
     rules: [
-      # allow all authenticated users ability to create
-      # allow owners ability to update and delete
+      # owners
       { allow: owner }
-      # allow all authenticated users to read
-      { allow: private, operations: [read] }
-      # allow all guest users (not authenticated) to read
-      { allow: public, provider: iam }
+      # all authenticated users
+      { allow: private, operations: [create, read, update] }
+      # all guest users
+      { allow: public, provider: iam, operations: [create, read, update] }
     ]
   ) {
   id: ID!
@@ -23,7 +22,13 @@ type User
 type ProjectClient
   @model
   @key(name: "byProject", fields: ["projectID"])
-  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [create, read, update] }
+      { allow: public, provider: iam, operations: [create, read, update] }
+    ]
+  ) {
   id: ID!
   clientID: ID!
   user: User @connection(fields: ["clientID"])
@@ -34,7 +39,13 @@ type ProjectClient
 type ProjectFreelancer
   @model
   @key(name: "byProject", fields: ["projectID"])
-  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [create, read, update] }
+      { allow: public, provider: iam, operations: [create, read, update] }
+    ]
+  ) {
   id: ID!
   freelancerID: ID!
   user: User @connection(fields: ["freelancerID"])

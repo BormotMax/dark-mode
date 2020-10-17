@@ -50,8 +50,6 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID }) => {
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSubmit = (e) => {
-    console.log('submitting');
-    console.log(projectID);
     close(e);
   };
 

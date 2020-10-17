@@ -70,9 +70,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
 export default WithAuthentication(ProjectsPage, { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.FREELANCER] });
 
 const NewProjectButton = () => {
-  const onClick = (e) => {
-    console.log('hello world');
-  };
+  const onClick = (e) => {};
 
   return (
     <button onClick={onClick} type="button">

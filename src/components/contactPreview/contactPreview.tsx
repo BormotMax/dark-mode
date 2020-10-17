@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
 import { useState } from 'react';
-import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { ProjectClient, User } from '../../types/custom';
@@ -13,10 +12,10 @@ import { ButtonSmall } from '../buttons/buttons';
 import Unchecked from '../../img/unchecked.svg';
 import Checked from '../../img/checkmark.svg';
 import { useLogger, useFlash } from '../../hooks';
-import { client } from '../../pages/_app';
+import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { GetUserQuery, UserRole, CreateUserMutation } from '../../API';
-import { createUser, createProjectClient } from '../../graphql/mutations';
+import { createUser, createProjectClient, updateUser, updateProjectClient } from '../../graphql/mutations';
 
 interface ContactPreviewProps {
   users: ProjectClient[];
@@ -26,6 +25,7 @@ interface ContactPreviewProps {
 
 export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID, refreshUsers }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const openAddPersonModal = (e) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
@@ -35,7 +35,8 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
   };
 
   const closeAddPersonModal = (e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
+    setSelectedUser(null);
     setIsModalOpen(false);
   };
 
@@ -45,14 +46,33 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
         <span role="button" tabIndex={0} onKeyDown={openAddPersonModal} onClick={openAddPersonModal}>
           <FontAwesomeIcon color="#595959" icon={faUserPlus} />
           <InPlaceModal isOpen={isModalOpen} close={closeAddPersonModal}>
-            <ModalContent close={() => setIsModalOpen(false)} projectID={projectID} refreshUsers={refreshUsers} users={users} />
+            <ModalContent
+              close={closeAddPersonModal}
+              projectID={projectID}
+              refreshUsers={refreshUsers}
+              users={users}
+              selectedUser={selectedUser}
+            />
           </InPlaceModal>
         </span>
       </div>
       {users
         .sort((a, b) => a.user.name.localeCompare(b.user.name))
         .map((projectMember) => (
-          <div key={projectMember.user.id} className={classnames(styles.contactPreview)}>
+          <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              setSelectedUser(projectMember);
+              openAddPersonModal(e);
+            }}
+            onClick={(e) => {
+              setSelectedUser(projectMember);
+              openAddPersonModal(e);
+            }}
+            key={projectMember.user.id}
+            className={classnames(styles.contactPreview)}
+          >
             <Avatar email={projectMember.user.email} />
             <div>
               {projectMember.user.name}
@@ -77,15 +97,20 @@ interface ModalContentProps {
   projectID: string;
   refreshUsers: Function;
   users: ProjectClient[];
+  selectedUser: ProjectClient;
 }
 
-const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUsers, users }) => {
+const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUsers, users, selectedUser }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
   const { setFlash } = useFlash();
+  const [name, setName] = useState(selectedUser?.user?.name || '');
+  const [title, setTitle] = useState(selectedUser?.title || '');
+  const [email, setEmail] = useState(selectedUser?.user?.email || '');
+  const [userType, setUserType] = useState(selectedUser?.user.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
 
-  function validate({ name, email, userType }: ValidationProps) {
+  function validate() {
     const temp: ValidationProps = {};
     if (!name) temp.name = 'error';
     if (!email) temp.email = 'error';
@@ -93,22 +118,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     return temp;
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setInvalids({});
-    setSaving(true);
-
-    const { form } = e.target;
-    const formData = serialize(form as HTMLFormElement, { hash: true });
-    const { name, title, email, userType } = formData;
-    const validation = validate(formData);
-
-    if (Object.keys(validation).length) {
-      setInvalids(validation);
-      setSaving(false);
-      return;
-    }
-
+  const createProjectMember = async () => {
     // Check if there is an existing user with this email. The primary (id) key's value is the client's email.
     let getUserResponse;
     const getUserInput = { id: email };
@@ -147,7 +157,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
 
         existingClient = data.createUser;
       } catch (error) {
-        logger.error('HireMeModal: error creating User', { error, input: createUserInput });
+        logger.error('ContactPreviewModalContent: error creating User', { error, input: createUserInput });
         setFlash("Something went wrong. We're looking into it");
         close();
         return;
@@ -163,12 +173,13 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           variables: { input: createProjectClientInput },
         });
       } catch (error) {
-        logger.error('HireMeModal: error creating ProjectClient', { error, input: createProjectClientInput });
+        logger.error('ContactPreviewModalContent: error creating ProjectClient', { error, input: createProjectClientInput });
       }
     } else if (userType === UserRole.FREELANCER) {
       // todo: make sure the freelancer isn't already added to this project
       // We're not ready for this. Does the freelancer need an existing account?
       // Create the M:M joining record associating a freelancer with a project
+      // don't save name, that will be from the freelancers user object.
       // const createProjectFreelancerInput = { freelancerID, projectID, title };
       // try {
       //   await client.mutate({
@@ -176,8 +187,71 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       //     variables: { input: createProjectFreelancerInput },
       //   });
       // } catch (error) {
-      //   logger.error('HireMeModal: error creating ProjectFreelancer', { error, input: createProjectFreelancerInput });
+      //   logger.error('ContactPreviewModalContent: error creating ProjectFreelancer', { error, input: createProjectFreelancerInput });
       // }
+    }
+  };
+
+  const updateProjectMember = async () => {
+    // only allow updating name, email is the PK
+    // can't update name if this is a freelancer (that's done in profile or somewhere else)
+
+    if (selectedUser.user.role === UserRole.CLIENT) {
+      const updateUserInput = { id: selectedUser.user.id, name };
+
+      try {
+        await client.mutate({
+          mutation: gql(updateUser),
+          variables: { input: updateUserInput },
+        });
+      } catch (error) {
+        logger.error('ContactPreviewModalContent: error updating User', { error, input: updateUserInput });
+        setFlash("Something went wrong. We're looking into it");
+      }
+    }
+
+    if (selectedUser.user.role === UserRole.CLIENT) {
+      const updateProjectClientInput = { id: selectedUser.id, title };
+      try {
+        await client.mutate({
+          mutation: gql(updateProjectClient),
+          variables: { input: updateProjectClientInput },
+        });
+      } catch (error) {
+        logger.error('ContactPreviewModalContent: error updating ProjectClient', { error, input: updateProjectClientInput });
+        setFlash("Something went wrong. We're looking into it");
+      }
+    } else if (selectedUser.user.role === UserRole.FREELANCER) {
+      // todo: change this to update association. can only update title
+      // const createProjectFreelancerInput = { freelancerID, projectID, title };
+      // try {
+      //   await client.mutate({
+      //     mutation: gql(createProjectFreelancer),
+      //     variables: { input: createProjectFreelancerInput },
+      //   });
+      // } catch (error) {
+      //   logger.error('HireMeModal: error updating ProjectFreelancer', { error, input: createProjectFreelancerInput });
+      // }
+    }
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setInvalids({});
+    setSaving(true);
+
+    const validation = validate();
+
+    if (Object.keys(validation).length) {
+      setInvalids(validation);
+      setSaving(false);
+      return;
+    }
+
+    if (selectedUser) {
+      await updateProjectMember();
+    } else {
+      await createProjectMember();
     }
 
     refreshUsers();
@@ -191,7 +265,14 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           Name
         </label>
         <div className="control">
-          <input name="name" className={classnames('input', { 'is-danger': invalids.name })} type="text" />
+          <input
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            name="name"
+            className={classnames('input', { 'is-danger': invalids.name })}
+            type="text"
+          />
         </div>
       </div>
       <div className="field">
@@ -199,7 +280,13 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           Title
         </label>
         <div className="control">
-          <input name="title" className={classnames('input', { 'is-danger': invalids.title })} type="text" />
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            name="title"
+            className={classnames('input', { 'is-danger': invalids.title })}
+            type="text"
+          />
         </div>
       </div>
       <div className="field">
@@ -207,12 +294,26 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           Email
         </label>
         <div className="control">
-          <input required name="email" className={classnames('input', { 'is-danger': invalids.email })} type="email" maxLength={48} />
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            name="email"
+            className={classnames('input', { 'is-danger': invalids.email })}
+            type="email"
+            maxLength={48}
+          />
         </div>
       </div>
       <div className={classnames(styles.radioGroup, 'control')}>
         <label className={classnames(styles.radio, 'radio')}>
-          <input type="radio" name="userType" checked value={UserRole.CLIENT} />
+          <input
+            onChange={(e) => setUserType(e.target.value)}
+            type="radio"
+            value={UserRole.CLIENT}
+            checked={userType === UserRole.CLIENT}
+            name="userType"
+          />
           <span className={classnames(styles.checkmarks)}>
             <span className={classnames(styles.unchecked)}>
               <Unchecked />

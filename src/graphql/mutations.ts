@@ -2,6 +2,76 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      id
+      name
+      company
+      email
+      phone
+      signedOutAuthToken
+      role
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteProjectClient = /* GraphQL */ `
+  mutation DeleteProjectClient(
+    $input: DeleteProjectClientInput!
+    $condition: ModelProjectClientConditionInput
+  ) {
+    deleteProjectClient(input: $input, condition: $condition) {
+      id
+      clientID
+      projectID
+      title
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const deleteProjectFreelancer = /* GraphQL */ `
+  mutation DeleteProjectFreelancer(
+    $input: DeleteProjectFreelancerInput!
+    $condition: ModelProjectFreelancerConditionInput
+  ) {
+    deleteProjectFreelancer(input: $input, condition: $condition) {
+      id
+      freelancerID
+      projectID
+      title
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -26,24 +96,6 @@ export const updateUser = /* GraphQL */ `
     $condition: ModelUserConditionInput
   ) {
     updateUser(input: $input, condition: $condition) {
-      id
-      name
-      company
-      email
-      phone
-      signedOutAuthToken
-      role
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    deleteUser(input: $input, condition: $condition) {
       id
       name
       company
@@ -108,32 +160,6 @@ export const updateProjectClient = /* GraphQL */ `
     }
   }
 `;
-export const deleteProjectClient = /* GraphQL */ `
-  mutation DeleteProjectClient(
-    $input: DeleteProjectClientInput!
-    $condition: ModelProjectClientConditionInput
-  ) {
-    deleteProjectClient(input: $input, condition: $condition) {
-      id
-      clientID
-      projectID
-      title
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
 export const createProjectFreelancer = /* GraphQL */ `
   mutation CreateProjectFreelancer(
     $input: CreateProjectFreelancerInput!
@@ -166,32 +192,6 @@ export const updateProjectFreelancer = /* GraphQL */ `
     $condition: ModelProjectFreelancerConditionInput
   ) {
     updateProjectFreelancer(input: $input, condition: $condition) {
-      id
-      freelancerID
-      projectID
-      title
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const deleteProjectFreelancer = /* GraphQL */ `
-  mutation DeleteProjectFreelancer(
-    $input: DeleteProjectFreelancerInput!
-    $condition: ModelProjectFreelancerConditionInput
-  ) {
-    deleteProjectFreelancer(input: $input, condition: $condition) {
       id
       freelancerID
       projectID
