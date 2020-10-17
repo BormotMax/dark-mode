@@ -65,9 +65,10 @@ export const createProjectClient = /* GraphQL */ `
       id
       clientID
       projectID
+      title
       createdAt
       updatedAt
-      client {
+      user {
         id
         name
         company
@@ -90,9 +91,10 @@ export const updateProjectClient = /* GraphQL */ `
       id
       clientID
       projectID
+      title
       createdAt
       updatedAt
-      client {
+      user {
         id
         name
         company
@@ -115,9 +117,10 @@ export const deleteProjectClient = /* GraphQL */ `
       id
       clientID
       projectID
+      title
       createdAt
       updatedAt
-      client {
+      user {
         id
         name
         company
@@ -140,9 +143,10 @@ export const createProjectFreelancer = /* GraphQL */ `
       id
       freelancerID
       projectID
+      title
       createdAt
       updatedAt
-      freelancer {
+      user {
         id
         name
         company
@@ -165,9 +169,10 @@ export const updateProjectFreelancer = /* GraphQL */ `
       id
       freelancerID
       projectID
+      title
       createdAt
       updatedAt
-      freelancer {
+      user {
         id
         name
         company
@@ -190,9 +195,10 @@ export const deleteProjectFreelancer = /* GraphQL */ `
       id
       freelancerID
       projectID
+      title
       createdAt
       updatedAt
-      freelancer {
+      user {
         id
         name
         company
@@ -246,9 +252,10 @@ export const createProject = /* GraphQL */ `
           id
           clientID
           projectID
+          title
           createdAt
           updatedAt
-          client {
+          user {
             id
             name
             company
@@ -267,9 +274,10 @@ export const createProject = /* GraphQL */ `
           id
           freelancerID
           projectID
+          title
           createdAt
           updatedAt
-          freelancer {
+          user {
             id
             name
             company
@@ -368,9 +376,10 @@ export const updateProject = /* GraphQL */ `
           id
           clientID
           projectID
+          title
           createdAt
           updatedAt
-          client {
+          user {
             id
             name
             company
@@ -389,9 +398,10 @@ export const updateProject = /* GraphQL */ `
           id
           freelancerID
           projectID
+          title
           createdAt
           updatedAt
-          freelancer {
+          user {
             id
             name
             company
@@ -490,9 +500,10 @@ export const deleteProject = /* GraphQL */ `
           id
           clientID
           projectID
+          title
           createdAt
           updatedAt
-          client {
+          user {
             id
             name
             company
@@ -511,9 +522,10 @@ export const deleteProject = /* GraphQL */ `
           id
           freelancerID
           projectID
+          title
           createdAt
           updatedAt
-          freelancer {
+          user {
             id
             name
             company

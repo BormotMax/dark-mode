@@ -45,9 +45,10 @@ export const getProjectClient = /* GraphQL */ `
       id
       clientID
       projectID
+      title
       createdAt
       updatedAt
-      client {
+      user {
         id
         name
         company
@@ -72,9 +73,10 @@ export const listProjectClients = /* GraphQL */ `
         id
         clientID
         projectID
+        title
         createdAt
         updatedAt
-        client {
+        user {
           id
           name
           company
@@ -96,9 +98,10 @@ export const getProjectFreelancer = /* GraphQL */ `
       id
       freelancerID
       projectID
+      title
       createdAt
       updatedAt
-      freelancer {
+      user {
         id
         name
         company
@@ -127,9 +130,10 @@ export const listProjectFreelancers = /* GraphQL */ `
         id
         freelancerID
         projectID
+        title
         createdAt
         updatedAt
-        freelancer {
+        user {
           id
           name
           company
@@ -182,9 +186,10 @@ export const getProject = /* GraphQL */ `
           id
           clientID
           projectID
+          title
           createdAt
           updatedAt
-          client {
+          user {
             id
             name
             company
@@ -203,9 +208,10 @@ export const getProject = /* GraphQL */ `
           id
           freelancerID
           projectID
+          title
           createdAt
           updatedAt
-          freelancer {
+          user {
             id
             name
             company
@@ -306,9 +312,10 @@ export const listProjects = /* GraphQL */ `
             id
             clientID
             projectID
+            title
             createdAt
             updatedAt
-            client {
+            user {
               id
               name
               company
@@ -327,9 +334,10 @@ export const listProjects = /* GraphQL */ `
             id
             freelancerID
             projectID
+            title
             createdAt
             updatedAt
-            freelancer {
+            user {
               id
               name
               company
@@ -434,9 +442,10 @@ export const projectsByFreelancer = /* GraphQL */ `
             id
             clientID
             projectID
+            title
             createdAt
             updatedAt
-            client {
+            user {
               id
               name
               company
@@ -455,9 +464,10 @@ export const projectsByFreelancer = /* GraphQL */ `
             id
             freelancerID
             projectID
+            title
             createdAt
             updatedAt
-            freelancer {
+            user {
               id
               name
               company

@@ -27,7 +27,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [project, setProject] = useState(null);
   const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
   const [loading, setLoading] = useState(true);
-  const { setFlash } = useFlash();
+  const { setFlash, setDelayedFlash } = useFlash();
   const { logger } = useLogger();
   const currentUserId = currentUser?.attributes?.sub;
 
@@ -86,17 +86,18 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   const { client, comments: cs, quotes, clients, freelancers } = project as Project;
   let viewer: User;
-  const viewingClientItem = clients.items.find((c) => viewerId && c.client.signedOutAuthToken === viewerId);
-  const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.freelancer.id === currentUserId);
+  const viewingClientItem = clients.items.find((c) => viewerId && c.user.signedOutAuthToken === viewerId);
+  const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.user.id === currentUserId);
 
-  // the viewer could be an authenticated Freelancer, but in this case they are acting as a Client User
-  if (viewingFreelancerItem?.freelancer) {
-    viewer = viewingFreelancerItem.freelancer;
-  } else if (viewingClientItem?.client) {
+  if (viewingFreelancerItem?.user) {
+    viewer = viewingFreelancerItem.user;
+  } else if (viewingClientItem?.user) {
     if (currentUserId) {
       logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
+      setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
+      Router.push('/projects');
     }
-    viewer = viewingClientItem.client;
+    viewer = viewingClientItem.user;
   }
 
   if (!viewer) {
@@ -132,7 +133,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <div className={classnames('column', 'is-narrow')}>
           <div className={classnames(styles.tabGroupWrapper)}>
             <TabGroup names={['People']}>
-              <ContactPreview users={clients.items.map((c) => c.client)} projectID={project.id} refreshUsers={fetchProject} />
+              <ContactPreview users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
             </TabGroup>
             {/* <TabGroup names={['Tasks & Time', 'Financial']}>
               <TasksAndTimeTab quotes={quotes.items} />

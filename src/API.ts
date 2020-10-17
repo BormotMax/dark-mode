@@ -93,11 +93,13 @@ export type CreateProjectClientInput = {
   id?: string | null,
   clientID: string,
   projectID: string,
+  title?: string | null,
 };
 
 export type ModelProjectClientConditionInput = {
   clientID?: ModelIDInput | null,
   projectID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
   and?: Array< ModelProjectClientConditionInput | null > | null,
   or?: Array< ModelProjectClientConditionInput | null > | null,
   not?: ModelProjectClientConditionInput | null,
@@ -123,6 +125,7 @@ export type UpdateProjectClientInput = {
   id: string,
   clientID?: string | null,
   projectID?: string | null,
+  title?: string | null,
 };
 
 export type DeleteProjectClientInput = {
@@ -133,11 +136,13 @@ export type CreateProjectFreelancerInput = {
   id?: string | null,
   freelancerID: string,
   projectID: string,
+  title?: string | null,
 };
 
 export type ModelProjectFreelancerConditionInput = {
   freelancerID?: ModelIDInput | null,
   projectID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
   and?: Array< ModelProjectFreelancerConditionInput | null > | null,
   or?: Array< ModelProjectFreelancerConditionInput | null > | null,
   not?: ModelProjectFreelancerConditionInput | null,
@@ -147,6 +152,7 @@ export type UpdateProjectFreelancerInput = {
   id: string,
   freelancerID?: string | null,
   projectID?: string | null,
+  title?: string | null,
 };
 
 export type DeleteProjectFreelancerInput = {
@@ -368,6 +374,7 @@ export type ModelProjectClientFilterInput = {
   id?: ModelIDInput | null,
   clientID?: ModelIDInput | null,
   projectID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
   and?: Array< ModelProjectClientFilterInput | null > | null,
   or?: Array< ModelProjectClientFilterInput | null > | null,
   not?: ModelProjectClientFilterInput | null,
@@ -377,6 +384,7 @@ export type ModelProjectFreelancerFilterInput = {
   id?: ModelIDInput | null,
   freelancerID?: ModelIDInput | null,
   projectID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
   and?: Array< ModelProjectFreelancerFilterInput | null > | null,
   or?: Array< ModelProjectFreelancerFilterInput | null > | null,
   not?: ModelProjectFreelancerFilterInput | null,
@@ -536,9 +544,10 @@ export type CreateProjectClientMutation = {
     id: string,
     clientID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    client:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -564,9 +573,10 @@ export type UpdateProjectClientMutation = {
     id: string,
     clientID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    client:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -592,9 +602,10 @@ export type DeleteProjectClientMutation = {
     id: string,
     clientID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    client:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -620,9 +631,10 @@ export type CreateProjectFreelancerMutation = {
     id: string,
     freelancerID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    freelancer:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -648,9 +660,10 @@ export type UpdateProjectFreelancerMutation = {
     id: string,
     freelancerID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    freelancer:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -676,9 +689,10 @@ export type DeleteProjectFreelancerMutation = {
     id: string,
     freelancerID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    freelancer:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -739,9 +753,10 @@ export type CreateProjectMutation = {
         id: string,
         clientID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        client:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -763,9 +778,10 @@ export type CreateProjectMutation = {
         id: string,
         freelancerID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        freelancer:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -878,9 +894,10 @@ export type UpdateProjectMutation = {
         id: string,
         clientID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        client:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -902,9 +919,10 @@ export type UpdateProjectMutation = {
         id: string,
         freelancerID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        freelancer:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -1017,9 +1035,10 @@ export type DeleteProjectMutation = {
         id: string,
         clientID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        client:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -1041,9 +1060,10 @@ export type DeleteProjectMutation = {
         id: string,
         freelancerID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        freelancer:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -1914,9 +1934,10 @@ export type GetProjectClientQuery = {
     id: string,
     clientID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    client:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -1945,9 +1966,10 @@ export type ListProjectClientsQuery = {
       id: string,
       clientID: string,
       projectID: string,
+      title: string | null,
       createdAt: string,
       updatedAt: string,
-      client:  {
+      user:  {
         __typename: "User",
         id: string,
         name: string | null,
@@ -1974,9 +1996,10 @@ export type GetProjectFreelancerQuery = {
     id: string,
     freelancerID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    freelancer:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -2005,9 +2028,10 @@ export type ListProjectFreelancersQuery = {
       id: string,
       freelancerID: string,
       projectID: string,
+      title: string | null,
       createdAt: string,
       updatedAt: string,
-      freelancer:  {
+      user:  {
         __typename: "User",
         id: string,
         name: string | null,
@@ -2069,9 +2093,10 @@ export type GetProjectQuery = {
         id: string,
         clientID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        client:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -2093,9 +2118,10 @@ export type GetProjectQuery = {
         id: string,
         freelancerID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        freelancer:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -2211,9 +2237,10 @@ export type ListProjectsQuery = {
           id: string,
           clientID: string,
           projectID: string,
+          title: string | null,
           createdAt: string,
           updatedAt: string,
-          client:  {
+          user:  {
             __typename: "User",
             id: string,
             name: string | null,
@@ -2235,9 +2262,10 @@ export type ListProjectsQuery = {
           id: string,
           freelancerID: string,
           projectID: string,
+          title: string | null,
           createdAt: string,
           updatedAt: string,
-          freelancer:  {
+          user:  {
             __typename: "User",
             id: string,
             name: string | null,
@@ -2349,9 +2377,10 @@ export type ProjectsByFreelancerQuery = {
           id: string,
           clientID: string,
           projectID: string,
+          title: string | null,
           createdAt: string,
           updatedAt: string,
-          client:  {
+          user:  {
             __typename: "User",
             id: string,
             name: string | null,
@@ -2373,9 +2402,10 @@ export type ProjectsByFreelancerQuery = {
           id: string,
           freelancerID: string,
           projectID: string,
+          title: string | null,
           createdAt: string,
           updatedAt: string,
-          freelancer:  {
+          user:  {
             __typename: "User",
             id: string,
             name: string | null,
@@ -3059,9 +3089,10 @@ export type OnCreateProjectClientSubscription = {
     id: string,
     clientID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    client:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -3082,9 +3113,10 @@ export type OnUpdateProjectClientSubscription = {
     id: string,
     clientID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    client:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -3105,9 +3137,10 @@ export type OnDeleteProjectClientSubscription = {
     id: string,
     clientID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    client:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -3128,9 +3161,10 @@ export type OnCreateProjectFreelancerSubscription = {
     id: string,
     freelancerID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    freelancer:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -3151,9 +3185,10 @@ export type OnUpdateProjectFreelancerSubscription = {
     id: string,
     freelancerID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    freelancer:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -3174,9 +3209,10 @@ export type OnDeleteProjectFreelancerSubscription = {
     id: string,
     freelancerID: string,
     projectID: string,
+    title: string | null,
     createdAt: string,
     updatedAt: string,
-    freelancer:  {
+    user:  {
       __typename: "User",
       id: string,
       name: string | null,
@@ -3232,9 +3268,10 @@ export type OnCreateProjectSubscription = {
         id: string,
         clientID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        client:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -3256,9 +3293,10 @@ export type OnCreateProjectSubscription = {
         id: string,
         freelancerID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        freelancer:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -3366,9 +3404,10 @@ export type OnUpdateProjectSubscription = {
         id: string,
         clientID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        client:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -3390,9 +3429,10 @@ export type OnUpdateProjectSubscription = {
         id: string,
         freelancerID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        freelancer:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -3500,9 +3540,10 @@ export type OnDeleteProjectSubscription = {
         id: string,
         clientID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        client:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,
@@ -3524,9 +3565,10 @@ export type OnDeleteProjectSubscription = {
         id: string,
         freelancerID: string,
         projectID: string,
+        title: string | null,
         createdAt: string,
         updatedAt: string,
-        freelancer:  {
+        user:  {
           __typename: "User",
           id: string,
           name: string | null,

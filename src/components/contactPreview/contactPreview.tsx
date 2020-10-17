@@ -5,7 +5,7 @@ import { useState } from 'react';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
-import { User } from '../../types/custom';
+import { ProjectClient, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import styles from './contactPreview.module.scss';
 import { InPlaceModal } from '../inPlaceModal/inPlaceModal';
@@ -19,7 +19,7 @@ import { GetUserQuery, UserRole, CreateUserMutation } from '../../API';
 import { createUser, createProjectClient } from '../../graphql/mutations';
 
 interface ContactPreviewProps {
-  users: User[];
+  users: ProjectClient[];
   projectID: string;
   refreshUsers: Function;
 }
@@ -50,12 +50,14 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
         </span>
       </div>
       {users
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((u) => (
-          <div key={u.id} className={classnames(styles.contactPreview)}>
-            <Avatar email={u.email} />
+        .sort((a, b) => a.user.name.localeCompare(b.user.name))
+        .map((projectMember) => (
+          <div key={projectMember.user.id} className={classnames(styles.contactPreview)}>
+            <Avatar email={projectMember.user.email} />
             <div>
-              {u.name}, <span className={classnames(styles.title)}>Creative Director</span>
+              {projectMember.user.name}
+              {projectMember.title && ', '}
+              <span className={classnames(styles.title)}>{projectMember.title}</span>
             </div>
           </div>
         ))}
@@ -74,10 +76,10 @@ interface ModalContentProps {
   close: Function;
   projectID: string;
   refreshUsers: Function;
-  users: User[];
+  users: ProjectClient[];
 }
 
-const ModalContent = ({ close, projectID, refreshUsers, users }) => {
+const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUsers, users }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
@@ -98,7 +100,7 @@ const ModalContent = ({ close, projectID, refreshUsers, users }) => {
 
     const { form } = e.target;
     const formData = serialize(form as HTMLFormElement, { hash: true });
-    const { name, email, userType } = formData;
+    const { name, title, email, userType } = formData;
     const validation = validate(formData);
 
     if (Object.keys(validation).length) {
@@ -123,6 +125,15 @@ const ModalContent = ({ close, projectID, refreshUsers, users }) => {
     }
 
     let existingClient: User = (getUserResponse.data as GetUserQuery)?.getUser;
+
+    // todo: if the user is a freelancer
+    // - and they have an account, we will find it before this form is submitted
+    // make the association with the project, and send the email
+    // no need to fill out name or image.
+    // - and they don't have an account, send an email. don't create a user object,
+    // one will get created when they sign up. Do create an association, but use a
+    // field pending email. Then, when they sign up, update the association with their id.
+
     const signedOutAuthToken = existingClient?.signedOutAuthToken || uuid();
 
     // If there wasn't an existing User record with this email, create one.
@@ -143,9 +154,9 @@ const ModalContent = ({ close, projectID, refreshUsers, users }) => {
       }
     }
 
-    if (userType === UserRole.CLIENT && !users.find((u) => u.id === existingClient.id)) {
+    if (userType === UserRole.CLIENT && !users.map((u) => u.user).find((u) => u.id === existingClient.id)) {
       // Create the M:M joining record associating a client with a project
-      const createProjectClientInput = { clientID: existingClient.id, projectID };
+      const createProjectClientInput = { clientID: existingClient.id, projectID, title };
       try {
         await client.mutate({
           mutation: gql(createProjectClient),
@@ -158,7 +169,7 @@ const ModalContent = ({ close, projectID, refreshUsers, users }) => {
       // todo: make sure the freelancer isn't already added to this project
       // We're not ready for this. Does the freelancer need an existing account?
       // Create the M:M joining record associating a freelancer with a project
-      // const createProjectFreelancerInput = { freelancerID, projectID };
+      // const createProjectFreelancerInput = { freelancerID, projectID, title };
       // try {
       //   await client.mutate({
       //     mutation: gql(createProjectFreelancer),

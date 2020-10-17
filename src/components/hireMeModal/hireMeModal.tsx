@@ -57,8 +57,8 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
     e.preventDefault();
     setInvalids({});
 
-    if (currentUser?.attributes?.sub === freelancerID) {
-      setFlash("You can't contact yourself. Please log out first.");
+    if (currentUser?.attributes?.sub) {
+      setFlash("You can't contact a freelancer while signed in as a freelancer.");
       return;
     }
 

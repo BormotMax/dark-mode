@@ -26,8 +26,9 @@ type ProjectClient
   @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   clientID: ID!
-  client: User @connection(fields: ["clientID"])
+  user: User @connection(fields: ["clientID"])
   projectID: ID!
+  title: String
 }
 
 type ProjectFreelancer
@@ -36,8 +37,9 @@ type ProjectFreelancer
   @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   freelancerID: ID!
-  freelancer: User @connection(fields: ["freelancerID"])
+  user: User @connection(fields: ["freelancerID"])
   projectID: ID!
+  title: String
 }
 
 type Project
