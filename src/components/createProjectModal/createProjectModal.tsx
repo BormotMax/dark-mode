@@ -9,6 +9,7 @@ import { createProject, createProjectFreelancer } from '../../graphql/mutations'
 
 interface CreateProjectModalProps {
   close?: Function;
+  refetchData: Function;
 }
 
 interface ValidationProps {
@@ -17,7 +18,7 @@ interface ValidationProps {
   company?: string;
 }
 
-export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close }) => {
+export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, refetchData }) => {
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [company, setCompany] = useState('');
@@ -52,7 +53,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close })
     // Create a project
     let createProjectResponse;
     const freelancerID = currentUser.attributes.sub;
-    const createProjectInput = { freelancerID, company, owner: freelancerID, title, details };
+    const createProjectInput = { company, owner: freelancerID, title, details };
     try {
       createProjectResponse = await client.mutate({
         mutation: gql(createProject),
@@ -79,6 +80,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close })
     }
 
     close();
+    refetchData();
   };
 
   return (

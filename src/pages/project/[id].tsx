@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { TabGroup } from '../../components/tabs';
-import { WithAuthentication, RouteType } from '../../components/withAuthentication';
+import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
 import { unauthClient } from '../_app';
@@ -20,6 +20,7 @@ import { ContactPreview } from '../../components/contactPreview';
 import { AddQuoteModal } from '../../components/addQuoteModal';
 import { QuotePreview } from '../../components/quotePreview';
 import Link from 'next/link';
+import { Protected, ProtectedElse } from '../../components/protected/protected';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -116,9 +117,12 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     <PageLayoutOne
       headerText={
         <>
-          <Link href="/projects">
-            <a href="/projects">Projects</a>
-          </Link>
+          <Protected roles={[Role.FREELANCER]}>
+            <Link href="/projects">
+              <a href="/projects">Projects</a>
+            </Link>
+          </Protected>
+          <ProtectedElse roles={[Role.FREELANCER]}>Projects</ProtectedElse>
           &nbsp;&gt;&nbsp;{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}
         </>
       }
@@ -131,7 +135,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
           ))}
           <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
         </div>
-        <div className={classnames('column', 'is-narrow')}>
+        <div className={classnames('column', 'is-narrow', styles.rightColumn)}>
           <div className={classnames(styles.tabGroupWrapper)}>
             <TabGroup names={['People']}>
               <ContactPreview users={clients.items} projectID={project.id} refreshUsers={fetchProject} />

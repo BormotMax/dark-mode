@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import Link from 'next/link';
 import classnames from 'classnames';
 import { client } from './_app';
-import { ProjectsByFreelancerQuery } from '../API';
+import { ModelSortDirection, ProjectsByFreelancerQuery } from '../API';
 import { projectsByFreelancer } from '../graphql/queries';
 import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
@@ -21,24 +21,25 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const { setFlash } = useFlash();
   const { logger } = useLogger();
 
-  useEffect(() => {
-    const execute = async () => {
-      const projectsByFreelancerInput = { freelancerID: currentUser.attributes.sub };
-      try {
-        const { data }: { data: ProjectsByFreelancerQuery } = await client.query({
-          query: gql(projectsByFreelancer),
-          variables: projectsByFreelancerInput,
-        });
+  const getProjects = async () => {
+    const projectsByFreelancerInput = { freelancerID: currentUser.attributes.sub, sortDirection: ModelSortDirection.DESC };
+    try {
+      const { data }: { data: ProjectsByFreelancerQuery } = await client.query({
+        query: gql(projectsByFreelancer),
+        variables: projectsByFreelancerInput,
+      });
 
-        setProjects(data.projectsByFreelancer.items.map((p) => p.project));
-      } catch (error) {
-        setFlash("There was an error retrieving your projects. We're looking into it");
-        logger.error('Projects: error retrieving projects', { error, input: projectsByFreelancerInput });
-      } finally {
-        setLoading(false);
-      }
-    };
-    execute();
+      setProjects(data.projectsByFreelancer.items.map((p) => p.project));
+    } catch (error) {
+      setFlash("There was an error retrieving your projects. We're looking into it");
+      logger.error('Projects: error retrieving projects', { error, input: projectsByFreelancerInput });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProjects();
   }, []);
 
   if (loading) return <div>Loading...</div>;
@@ -49,11 +50,11 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
       headerText="Projects > All Projects"
       headerButton={
         <InPlaceModal button={<ButtonSmall text="New Project" />}>
-          <CreateProjectModal />
+          <CreateProjectModal refetchData={getProjects} />
         </InPlaceModal>
       }
     >
-      <div className={classnames('column', 'is-7', styles.projects)}>
+      <div className={classnames('column', styles.projects)}>
         {!projects.length ? (
           <div>You don&apos;t have any projects yet.</div>
         ) : (

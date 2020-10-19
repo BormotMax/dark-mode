@@ -202,6 +202,18 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               title
               company
               updatedAt
+              clients {
+                nextToken
+              }
+              freelancers {
+                nextToken
+              }
+              quotes {
+                nextToken
+              }
+              comments {
+                nextToken
+              }
             }
           }
           nextToken
@@ -213,6 +225,14 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
             createdAt
             updatedAt
             tasks {
+              items {
+                id
+                quoteID
+                text
+                completed
+                createdAt
+                updatedAt
+              }
               nextToken
             }
           }
@@ -325,6 +345,18 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
               title
               company
               updatedAt
+              clients {
+                nextToken
+              }
+              freelancers {
+                nextToken
+              }
+              quotes {
+                nextToken
+              }
+              comments {
+                nextToken
+              }
             }
           }
           nextToken
@@ -336,6 +368,14 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
             createdAt
             updatedAt
             tasks {
+              items {
+                id
+                quoteID
+                text
+                completed
+                createdAt
+                updatedAt
+              }
               nextToken
             }
           }
@@ -448,6 +488,18 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               title
               company
               updatedAt
+              clients {
+                nextToken
+              }
+              freelancers {
+                nextToken
+              }
+              quotes {
+                nextToken
+              }
+              comments {
+                nextToken
+              }
             }
           }
           nextToken
@@ -459,6 +511,14 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
             createdAt
             updatedAt
             tasks {
+              items {
+                id
+                quoteID
+                text
+                completed
+                createdAt
+                updatedAt
+              }
               nextToken
             }
           }
@@ -553,15 +613,45 @@ export const onCreateProject = /* GraphQL */ `
             company
             updatedAt
             clients {
+              items {
+                id
+                clientID
+                projectID
+                isInitialContact
+                createdAt
+                updatedAt
+              }
               nextToken
             }
             freelancers {
+              items {
+                id
+                createdAt
+                freelancerID
+                projectID
+                isInitialContact
+                updatedAt
+              }
               nextToken
             }
             quotes {
+              items {
+                id
+                projectID
+                createdAt
+                updatedAt
+              }
               nextToken
             }
             comments {
+              items {
+                id
+                createdAt
+                projectID
+                content
+                creatorID
+                updatedAt
+              }
               nextToken
             }
           }
@@ -676,15 +766,45 @@ export const onUpdateProject = /* GraphQL */ `
             company
             updatedAt
             clients {
+              items {
+                id
+                clientID
+                projectID
+                isInitialContact
+                createdAt
+                updatedAt
+              }
               nextToken
             }
             freelancers {
+              items {
+                id
+                createdAt
+                freelancerID
+                projectID
+                isInitialContact
+                updatedAt
+              }
               nextToken
             }
             quotes {
+              items {
+                id
+                projectID
+                createdAt
+                updatedAt
+              }
               nextToken
             }
             comments {
+              items {
+                id
+                createdAt
+                projectID
+                content
+                creatorID
+                updatedAt
+              }
               nextToken
             }
           }
@@ -799,15 +919,45 @@ export const onDeleteProject = /* GraphQL */ `
             company
             updatedAt
             clients {
+              items {
+                id
+                clientID
+                projectID
+                isInitialContact
+                createdAt
+                updatedAt
+              }
               nextToken
             }
             freelancers {
+              items {
+                id
+                createdAt
+                freelancerID
+                projectID
+                isInitialContact
+                updatedAt
+              }
               nextToken
             }
             quotes {
+              items {
+                id
+                projectID
+                createdAt
+                updatedAt
+              }
               nextToken
             }
             comments {
+              items {
+                id
+                createdAt
+                projectID
+                content
+                creatorID
+                updatedAt
+              }
               nextToken
             }
           }
@@ -1117,8 +1267,34 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               instagramUrl
               linkedInUrl
               domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
               createdAt
               updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
             }
           }
         }
@@ -1212,8 +1388,34 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               instagramUrl
               linkedInUrl
               domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
               createdAt
               updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
             }
           }
         }
@@ -1307,8 +1509,34 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               instagramUrl
               linkedInUrl
               domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
               createdAt
               updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
             }
           }
         }
@@ -1397,6 +1625,19 @@ export const onCreateDomainSlug = /* GraphQL */ `
               freelancerID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
           }
         }
@@ -1485,6 +1726,19 @@ export const onUpdateDomainSlug = /* GraphQL */ `
               freelancerID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
           }
         }
@@ -1573,6 +1827,19 @@ export const onDeleteDomainSlug = /* GraphQL */ `
               freelancerID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
           }
         }

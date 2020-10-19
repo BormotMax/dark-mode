@@ -111,7 +111,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
 
     // Create a project
     let createProjectResponse;
-    const createProjectInput = { freelancerID, company, owner: freelancerID };
+    const createProjectInput = { company, owner: freelancerID };
     try {
       createProjectResponse = await client.mutate({
         mutation: gql(createProject),

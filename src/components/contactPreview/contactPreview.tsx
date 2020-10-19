@@ -132,7 +132,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
 
     // If there wasn't an existing User record with this email, create one.
     if (!existingClient) {
-      const createUserInput = { id: email, name, email, role: UserRole.CLIENT, signedOutAuthToken };
+      const createUserInput = { id: email, name, email, title, role: UserRole.CLIENT, signedOutAuthToken };
       try {
         const { data }: { data: CreateUserMutation } = await client.mutate({
           mutation: gql(createUser),
@@ -150,7 +150,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
 
     if (userType === UserRole.CLIENT && !users.map((u) => u.user).find((u) => u.id === existingClient.id)) {
       // Create the M:M joining record associating a client with a project
-      const createProjectClientInput = { clientID: existingClient.id, projectID, title };
+      const createProjectClientInput = { clientID: existingClient.id, projectID };
       try {
         await client.mutate({
           mutation: gql(createProjectClient),
@@ -164,7 +164,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       // We're not ready for this. Does the freelancer need an existing account?
       // Create the M:M joining record associating a freelancer with a project
       // don't save name, that will be from the freelancers user object.
-      // const createProjectFreelancerInput = { freelancerID, projectID, title };
+      // const createProjectFreelancerInput = { freelancerID, projectID };
       // try {
       //   await client.mutate({
       //     mutation: gql(createProjectFreelancer),
@@ -181,7 +181,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     // can't update name if this is a freelancer (that's done in profile or somewhere else)
 
     if (selectedUser.user.role === UserRole.CLIENT) {
-      const updateUserInput = { id: selectedUser.user.id, name };
+      const updateUserInput = { id: selectedUser.user.id, name, title };
 
       try {
         await client.mutate({
@@ -195,7 +195,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     }
 
     if (selectedUser.user.role === UserRole.CLIENT) {
-      const updateProjectClientInput = { id: selectedUser.id, title };
+      const updateProjectClientInput = { id: selectedUser.id };
       try {
         await client.mutate({
           mutation: gql(updateProjectClient),
@@ -207,7 +207,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       }
     } else if (selectedUser.user.role === UserRole.FREELANCER) {
       // todo: change this to update association. can only update title
-      // const createProjectFreelancerInput = { freelancerID, projectID, title };
+      // const createProjectFreelancerInput = { freelancerID, projectID };
       // try {
       //   await client.mutate({
       //     mutation: gql(createProjectFreelancer),
