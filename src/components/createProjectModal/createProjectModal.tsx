@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
+import gql from 'graphql-tag';
 import { ButtonSmall } from '../buttons/buttons';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
+import { client } from '../../pages/_app';
+import { useCurrentUser, useLogger, useFlash } from '../../hooks';
+import { createProject, createProjectFreelancer } from '../../graphql/mutations';
 
-interface CreateProjectModalProps {}
+interface CreateProjectModalProps {
+  close?: Function;
+}
 
 interface ValidationProps {
   title?: string;
@@ -11,12 +17,15 @@ interface ValidationProps {
   company?: string;
 }
 
-export const CreateProjectModal: React.FC<CreateProjectModalProps> = () => {
+export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close }) => {
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [company, setCompany] = useState('');
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const { currentUser } = useCurrentUser();
+  const { logger } = useLogger();
+  const { setFlash } = useFlash();
 
   function validate() {
     const temp: ValidationProps = {};
@@ -27,7 +36,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = () => {
     return temp;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setInvalids({});
     setSaving(true);
@@ -40,8 +49,36 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = () => {
       return;
     }
 
-    // todo: create a new project
-    console.log(title, details, company);
+    // Create a project
+    let createProjectResponse;
+    const freelancerID = currentUser.attributes.sub;
+    const createProjectInput = { freelancerID, company, owner: freelancerID, title, details };
+    try {
+      createProjectResponse = await client.mutate({
+        mutation: gql(createProject),
+        variables: { input: createProjectInput },
+      });
+    } catch (error) {
+      logger.error('CreateProjectModal: error creating Project', { error, input: createProjectInput });
+      setFlash("Something went wrong. We're looking into it");
+      close();
+      return;
+    }
+
+    // Create the M:M joining record associating a freelancer with a project
+    const projectID = createProjectResponse.data.createProject.id;
+    const createProjectFreelancerInput = { freelancerID, projectID };
+    try {
+      await client.mutate({
+        mutation: gql(createProjectFreelancer),
+        variables: { input: createProjectFreelancerInput },
+      });
+    } catch (error) {
+      logger.error('CreateProjectModal: error creating ProjectFreelancer', { error, input: createProjectFreelancerInput });
+      setFlash("Something went wrong. We're looking into it");
+    }
+
+    close();
   };
 
   return (

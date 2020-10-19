@@ -34,6 +34,7 @@ type ProjectClient
   user: User @connection(fields: ["clientID"])
   projectID: ID!
   title: String
+  isInitialContact: Boolean
 }
 
 type ProjectFreelancer
@@ -56,14 +57,18 @@ type ProjectFreelancer
 type Project
   @model
   @key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
-  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: private, operations: [create, read, update, delete] }
+      { allow: public, provider: iam, operations: [create, read] }
+    ]
+  ) {
   id: ID!
   createdAt: AWSDateTime!
   owner: String!
   freelancerID: ID!
   freelancer: User @connection(fields: ["freelancerID"])
-  clientID: ID!
-  client: User @connection(fields: ["clientID"])
   comments: [Comment] @connection(keyName: "byProject", fields: ["id"])
   quotes: [Quote] @connection(keyName: "byProject", fields: ["id"])
   details: String

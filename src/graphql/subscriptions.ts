@@ -54,6 +54,7 @@ export const onCreateProjectClient = /* GraphQL */ `
       clientID
       projectID
       title
+      isInitialContact
       createdAt
       updatedAt
       user {
@@ -77,6 +78,7 @@ export const onUpdateProjectClient = /* GraphQL */ `
       clientID
       projectID
       title
+      isInitialContact
       createdAt
       updatedAt
       user {
@@ -100,6 +102,7 @@ export const onDeleteProjectClient = /* GraphQL */ `
       clientID
       projectID
       title
+      isInitialContact
       createdAt
       updatedAt
       user {
@@ -192,23 +195,11 @@ export const onCreateProject = /* GraphQL */ `
       createdAt
       owner
       freelancerID
-      clientID
       details
       title
       company
       updatedAt
       freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      client {
         id
         name
         company
@@ -225,6 +216,7 @@ export const onCreateProject = /* GraphQL */ `
           clientID
           projectID
           title
+          isInitialContact
           createdAt
           updatedAt
           user {
@@ -315,23 +307,11 @@ export const onUpdateProject = /* GraphQL */ `
       createdAt
       owner
       freelancerID
-      clientID
       details
       title
       company
       updatedAt
       freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      client {
         id
         name
         company
@@ -348,6 +328,7 @@ export const onUpdateProject = /* GraphQL */ `
           clientID
           projectID
           title
+          isInitialContact
           createdAt
           updatedAt
           user {
@@ -438,23 +419,11 @@ export const onDeleteProject = /* GraphQL */ `
       createdAt
       owner
       freelancerID
-      clientID
       details
       title
       company
       updatedAt
       freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      client {
         id
         name
         company
@@ -471,6 +440,7 @@ export const onDeleteProject = /* GraphQL */ `
           clientID
           projectID
           title
+          isInitialContact
           createdAt
           updatedAt
           user {

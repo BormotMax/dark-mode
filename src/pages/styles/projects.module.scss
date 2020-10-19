@@ -11,4 +11,39 @@
     line-height: 28px;
     color: #1d3557;
   }
+
+  @import '~bulma/sass/utilities/_all.sass';
+
+  .comment {
+    background: white;
+    &:first-child {
+      margin-top: 0;
+    }
+
+    @include tablet {
+      margin: 17px 0px;
+    }
+
+    margin: 17px 0;
+    padding: 16px;
+    border-radius: 8px;
+
+    .header {
+      font-family: Poppins;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 28px;
+      color: #828282;
+    }
+
+    .commentContent {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: Roboto;
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 28px;
+      color: #1d3557;
+    }
+  }
 }

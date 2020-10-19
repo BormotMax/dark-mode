@@ -23,6 +23,7 @@ interface CommentProps {
   isMine?: boolean;
   backgroundColor?: string;
   commentColor?: string;
+  noAvatar?: boolean;
 }
 
 interface NewCommentProps {
@@ -78,6 +79,7 @@ export const Comment: React.FC<CommentProps> = ({
   isMine = true,
   backgroundColor = '#eeeeee',
   commentColor,
+  noAvatar,
 }) => (
   <div
     className={classnames(styles.comment, {
@@ -90,7 +92,9 @@ export const Comment: React.FC<CommentProps> = ({
       <div>{name}</div>
       {createdAt && <div className="text-2 text-small text-gray">{getRelativeTime(new Date(createdAt))}</div>}
     </div>
-    <img alt="avatar" className={styles.avatar} style={{ borderColor: backgroundColor }} src={avatarUrl || '/blankAvatar.jpg'} />
+    {!noAvatar && (
+      <img alt="avatar" className={styles.avatar} style={{ borderColor: backgroundColor }} src={avatarUrl || '/blankAvatar.jpg'} />
+    )}
     <div className={classnames(styles.commentContent)}>{children}</div>
   </div>
 );

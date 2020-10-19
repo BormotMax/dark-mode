@@ -30,6 +30,7 @@ export const deleteProjectClient = /* GraphQL */ `
       clientID
       projectID
       title
+      isInitialContact
       createdAt
       updatedAt
       user {
@@ -72,272 +73,6 @@ export const deleteProjectFreelancer = /* GraphQL */ `
     }
   }
 `;
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
-      id
-      name
-      company
-      email
-      phone
-      signedOutAuthToken
-      role
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      id
-      name
-      company
-      email
-      phone
-      signedOutAuthToken
-      role
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createProjectClient = /* GraphQL */ `
-  mutation CreateProjectClient(
-    $input: CreateProjectClientInput!
-    $condition: ModelProjectClientConditionInput
-  ) {
-    createProjectClient(input: $input, condition: $condition) {
-      id
-      clientID
-      projectID
-      title
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const updateProjectClient = /* GraphQL */ `
-  mutation UpdateProjectClient(
-    $input: UpdateProjectClientInput!
-    $condition: ModelProjectClientConditionInput
-  ) {
-    updateProjectClient(input: $input, condition: $condition) {
-      id
-      clientID
-      projectID
-      title
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const createProjectFreelancer = /* GraphQL */ `
-  mutation CreateProjectFreelancer(
-    $input: CreateProjectFreelancerInput!
-    $condition: ModelProjectFreelancerConditionInput
-  ) {
-    createProjectFreelancer(input: $input, condition: $condition) {
-      id
-      freelancerID
-      projectID
-      title
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const updateProjectFreelancer = /* GraphQL */ `
-  mutation UpdateProjectFreelancer(
-    $input: UpdateProjectFreelancerInput!
-    $condition: ModelProjectFreelancerConditionInput
-  ) {
-    updateProjectFreelancer(input: $input, condition: $condition) {
-      id
-      freelancerID
-      projectID
-      title
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const createProject = /* GraphQL */ `
-  mutation CreateProject(
-    $input: CreateProjectInput!
-    $condition: ModelProjectConditionInput
-  ) {
-    createProject(input: $input, condition: $condition) {
-      id
-      createdAt
-      owner
-      freelancerID
-      clientID
-      details
-      title
-      company
-      updatedAt
-      freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      client {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      clients {
-        items {
-          id
-          clientID
-          projectID
-          title
-          createdAt
-          updatedAt
-          user {
-            id
-            name
-            company
-            email
-            phone
-            signedOutAuthToken
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-      freelancers {
-        items {
-          id
-          freelancerID
-          projectID
-          title
-          createdAt
-          updatedAt
-          user {
-            id
-            name
-            company
-            email
-            phone
-            signedOutAuthToken
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-      quotes {
-        items {
-          id
-          projectID
-          createdAt
-          updatedAt
-          tasks {
-            items {
-              id
-              quoteID
-              text
-              completed
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-        }
-        nextToken
-      }
-      comments {
-        items {
-          id
-          createdAt
-          projectID
-          content
-          creatorID
-          updatedAt
-          creator {
-            id
-            name
-            company
-            email
-            phone
-            signedOutAuthToken
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-`;
 export const updateProject = /* GraphQL */ `
   mutation UpdateProject(
     $input: UpdateProjectInput!
@@ -348,23 +83,11 @@ export const updateProject = /* GraphQL */ `
       createdAt
       owner
       freelancerID
-      clientID
       details
       title
       company
       updatedAt
       freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      client {
         id
         name
         company
@@ -381,6 +104,7 @@ export const updateProject = /* GraphQL */ `
           clientID
           projectID
           title
+          isInitialContact
           createdAt
           updatedAt
           user {
@@ -474,23 +198,11 @@ export const deleteProject = /* GraphQL */ `
       createdAt
       owner
       freelancerID
-      clientID
       details
       title
       company
       updatedAt
       freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      client {
         id
         name
         company
@@ -507,6 +219,264 @@ export const deleteProject = /* GraphQL */ `
           clientID
           projectID
           title
+          isInitialContact
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      freelancers {
+        items {
+          id
+          freelancerID
+          projectID
+          title
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      quotes {
+        items {
+          id
+          projectID
+          createdAt
+          updatedAt
+          tasks {
+            items {
+              id
+              quoteID
+              text
+              completed
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        nextToken
+      }
+      comments {
+        items {
+          id
+          createdAt
+          projectID
+          content
+          creatorID
+          updatedAt
+          creator {
+            id
+            name
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      name
+      company
+      email
+      phone
+      signedOutAuthToken
+      role
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      id
+      name
+      company
+      email
+      phone
+      signedOutAuthToken
+      role
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createProjectClient = /* GraphQL */ `
+  mutation CreateProjectClient(
+    $input: CreateProjectClientInput!
+    $condition: ModelProjectClientConditionInput
+  ) {
+    createProjectClient(input: $input, condition: $condition) {
+      id
+      clientID
+      projectID
+      title
+      isInitialContact
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const updateProjectClient = /* GraphQL */ `
+  mutation UpdateProjectClient(
+    $input: UpdateProjectClientInput!
+    $condition: ModelProjectClientConditionInput
+  ) {
+    updateProjectClient(input: $input, condition: $condition) {
+      id
+      clientID
+      projectID
+      title
+      isInitialContact
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const createProjectFreelancer = /* GraphQL */ `
+  mutation CreateProjectFreelancer(
+    $input: CreateProjectFreelancerInput!
+    $condition: ModelProjectFreelancerConditionInput
+  ) {
+    createProjectFreelancer(input: $input, condition: $condition) {
+      id
+      freelancerID
+      projectID
+      title
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const updateProjectFreelancer = /* GraphQL */ `
+  mutation UpdateProjectFreelancer(
+    $input: UpdateProjectFreelancerInput!
+    $condition: ModelProjectFreelancerConditionInput
+  ) {
+    updateProjectFreelancer(input: $input, condition: $condition) {
+      id
+      freelancerID
+      projectID
+      title
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const createProject = /* GraphQL */ `
+  mutation CreateProject(
+    $input: CreateProjectInput!
+    $condition: ModelProjectConditionInput
+  ) {
+    createProject(input: $input, condition: $condition) {
+      id
+      createdAt
+      owner
+      freelancerID
+      details
+      title
+      company
+      updatedAt
+      freelancer {
+        id
+        name
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
+      clients {
+        items {
+          id
+          clientID
+          projectID
+          title
+          isInitialContact
           createdAt
           updatedAt
           user {

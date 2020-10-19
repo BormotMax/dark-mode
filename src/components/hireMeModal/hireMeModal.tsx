@@ -109,9 +109,9 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
       }
     }
 
-    // Create a project, assigning the above user as the client
+    // Create a project
     let createProjectResponse;
-    const createProjectInput = { freelancerID, company, clientID: existingClient.id, owner: freelancerID };
+    const createProjectInput = { freelancerID, company, owner: freelancerID };
     try {
       createProjectResponse = await client.mutate({
         mutation: gql(createProject),
@@ -137,7 +137,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
     }
 
     // Create the M:M joining record associating a client with a project
-    const createProjectClientInput = { clientID: existingClient.id, projectID };
+    const createProjectClientInput = { clientID: existingClient.id, projectID, isInitialContact: true };
     try {
       await client.mutate({
         mutation: gql(createProjectClient),

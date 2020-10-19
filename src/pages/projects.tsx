@@ -61,15 +61,17 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
         ) : (
           <>
             {projects.map((p: Project) => (
-              <div key={p.id}>
-                <Link href="/project/[id]" as={`/project/${p.id}`}>
-                  <a href={`/project/${p.id}`}>
-                    <Comment name={p.client.name} avatarUrl={gravatarUrl(p.client.email)} backgroundColor="#eeeeee">
-                      <div className={classnames(styles.projectName)}>{p.client.company}</div>
-                    </Comment>
-                  </a>
-                </Link>
-              </div>
+              <Link key={p.id} href="/project/[id]" as={`/project/${p.id}`}>
+                <a href={`/project/${p.id}`}>
+                  <div className={classnames(styles.comment)}>
+                    <div className={styles.header}>
+                      {/* todo: click to change title */}
+                      <div>{p.title || p.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</div>
+                    </div>
+                    <div className={classnames(styles.commentContent)}>{p.details || 'Client contact'}</div>
+                  </div>
+                </a>
+              </Link>
             ))}
           </>
         )}

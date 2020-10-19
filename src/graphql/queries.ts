@@ -46,6 +46,7 @@ export const getProjectClient = /* GraphQL */ `
       clientID
       projectID
       title
+      isInitialContact
       createdAt
       updatedAt
       user {
@@ -74,6 +75,7 @@ export const listProjectClients = /* GraphQL */ `
         clientID
         projectID
         title
+        isInitialContact
         createdAt
         updatedAt
         user {
@@ -156,23 +158,11 @@ export const getProject = /* GraphQL */ `
       createdAt
       owner
       freelancerID
-      clientID
       details
       title
       company
       updatedAt
       freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
-      client {
         id
         name
         company
@@ -189,6 +179,7 @@ export const getProject = /* GraphQL */ `
           clientID
           projectID
           title
+          isInitialContact
           createdAt
           updatedAt
           user {
@@ -284,23 +275,11 @@ export const listProjects = /* GraphQL */ `
         createdAt
         owner
         freelancerID
-        clientID
         details
         title
         company
         updatedAt
         freelancer {
-          id
-          name
-          company
-          email
-          phone
-          signedOutAuthToken
-          role
-          createdAt
-          updatedAt
-        }
-        client {
           id
           name
           company
@@ -317,6 +296,7 @@ export const listProjects = /* GraphQL */ `
             clientID
             projectID
             title
+            isInitialContact
             createdAt
             updatedAt
             user {
@@ -416,23 +396,11 @@ export const projectsByFreelancer = /* GraphQL */ `
         createdAt
         owner
         freelancerID
-        clientID
         details
         title
         company
         updatedAt
         freelancer {
-          id
-          name
-          company
-          email
-          phone
-          signedOutAuthToken
-          role
-          createdAt
-          updatedAt
-        }
-        client {
           id
           name
           company
@@ -449,6 +417,7 @@ export const projectsByFreelancer = /* GraphQL */ `
             clientID
             projectID
             title
+            isInitialContact
             createdAt
             updatedAt
             user {

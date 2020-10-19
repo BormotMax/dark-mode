@@ -111,6 +111,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     return new Date(e1.createdAt).getTime() - new Date(e2.createdAt).getTime();
   }) as Array<CommentType>;
 
+  // /* todo: click to change title */
   return (
     <PageLayoutOne
       headerText={
@@ -118,7 +119,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
           <Link href="/projects">
             <a href="/projects">Projects</a>
           </Link>
-          &nbsp;&gt;&nbsp;{client.company}
+          &nbsp;&gt;&nbsp;{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}
         </>
       }
       page={Page.PROJECT}
