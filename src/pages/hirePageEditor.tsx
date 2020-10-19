@@ -9,8 +9,8 @@ import { useRouter } from 'next/router';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { FileUpload } from '../components/fileUpload';
 import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug, updateUser } from '../graphql/mutations';
-import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery } from '../API';
-import { getHireMeInfo, getDomainSlug } from '../graphql/queries';
+import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery, GetUserQuery } from '../API';
+import { getHireMeInfo, getDomainSlug, getUser } from '../graphql/queries';
 import { client } from './_app';
 import styles from './styles/hireEdit.module.scss';
 import { DomainSlug } from '../types/custom';
@@ -28,6 +28,7 @@ const HirePageEditor = ({ currentUser }) => {
   const router = useRouter();
   const { setFlash, setDelayedFlash } = useFlash();
   const [hireInfo, setHireInfo] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [portfolioImages, setPortfolioImages] = useState({});
@@ -35,16 +36,31 @@ const HirePageEditor = ({ currentUser }) => {
   const [fileInputValues, setFileInputValues] = useState({});
   const { logger } = useLogger();
   const [invalids, setInvalids] = useState<ValidationProps>({});
-  const { email, sub: freelancerID } = currentUser.attributes;
+  const { sub: freelancerID } = currentUser.attributes;
 
   useEffect(() => {
     const execute = async () => {
-      const variables = { freelancerID };
+      const getUserInput = { id: freelancerID };
 
+      // getUser
+      try {
+        const res: { data: GetUserQuery } = await client.query({
+          query: gql(getUser),
+          variables: getUserInput,
+        });
+
+        setUser(res.data.getUser);
+      } catch (error) {
+        setFlash("There was an error retreiving your user info. We're looking into it.");
+        logger.error('HirePageEditor: error retrieving User info', { error, input: getUserInput });
+      }
+
+      // get hireMeInfo
+      const getHireMeInfoInput = { freelancerID };
       try {
         const res: { data: GetHireMeInfoQuery } = await client.query({
           query: gql(getHireMeInfo),
-          variables,
+          variables: getHireMeInfoInput,
         });
 
         const info = res.data.getHireMeInfo;
@@ -71,7 +87,7 @@ const HirePageEditor = ({ currentUser }) => {
         setHireInfo(info);
       } catch (error) {
         setFlash("There was an error retreiving your Hire Page info. We're looking into it.");
-        logger.error('HirePageEditor: error retrieving Hire page info', { error, input: variables });
+        logger.error('HirePageEditor: error retrieving Hire page info', { error, input: getHireMeInfoInput });
       } finally {
         setLoading(false);
       }
@@ -93,8 +109,9 @@ const HirePageEditor = ({ currentUser }) => {
     e.preventDefault();
     setSaving(true);
     setInvalids({});
-    const formValues = serialize(e.target, { hash: true, empty: true });
-    const validation = validate(formValues);
+    const allFormValues = serialize(e.target, { hash: true, empty: true });
+    const validation = validate(allFormValues);
+    const { name, title, ...formValues } = allFormValues;
 
     if (Object.keys(validation).length) {
       setInvalids(validation);
@@ -104,7 +121,8 @@ const HirePageEditor = ({ currentUser }) => {
 
     const updateUserInput = {
       id: freelancerID,
-      name: formValues.name,
+      name,
+      title,
     };
 
     try {
@@ -191,9 +209,9 @@ const HirePageEditor = ({ currentUser }) => {
     const uploadPromises = [];
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const name of imageInputNames) {
-      const file = fileInputValues[name];
-      const existingImage = hireInfo?.portfolioImages?.find((img) => name === img.tag);
+    for (const imageInputName of imageInputNames) {
+      const file = fileInputValues[imageInputName];
+      const existingImage = hireInfo?.portfolioImages?.find((img) => imageInputName === img.tag);
 
       if (file) {
         if (existingImage) {
@@ -205,7 +223,7 @@ const HirePageEditor = ({ currentUser }) => {
           }
         }
 
-        if (hireInfo?.bannerImage && name === 'banner') {
+        if (hireInfo?.bannerImage && imageInputName === 'banner') {
           const { key } = hireInfo.bannerImage;
           try {
             Storage.remove(key);
@@ -222,14 +240,14 @@ const HirePageEditor = ({ currentUser }) => {
           logger.error('HirePageEditor: error adding image to s3', { error, input: s3Key });
         }
 
-        if (name === 'banner') {
-          formValues.bannerImage = { key: s3Key, tag: name };
+        if (imageInputName === 'banner') {
+          formValues.bannerImage = { key: s3Key, tag: imageInputName };
         } else {
-          portfolioImageS3Objects.push({ key: s3Key, tag: name });
+          portfolioImageS3Objects.push({ key: s3Key, tag: imageInputName });
         }
       } else if (existingImage) {
         // if the existing image is the banner image, just leave the DB and S3 as is
-        if (name !== 'banner') {
+        if (imageInputName !== 'banner') {
           portfolioImageS3Objects.push({ key: existingImage.key, tag: existingImage.tag });
         }
       }
@@ -239,7 +257,6 @@ const HirePageEditor = ({ currentUser }) => {
 
     const mutateHireMeInfoInput = {
       freelancerID,
-      email,
       ...formValues,
     };
 
@@ -280,6 +297,7 @@ const HirePageEditor = ({ currentUser }) => {
 
   if (loading) return null;
 
+  console.log(hireInfo);
   return (
     <PageLayoutOne page={Page.HIRE_EDITOR} headerText="Hire Page Editor">
       <div className={styles.hirePageEditor}>
@@ -291,13 +309,13 @@ const HirePageEditor = ({ currentUser }) => {
                   <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
-                      <input name="name" className="input" type="text" maxLength={48} size={35} defaultValue={hireInfo?.name} />
+                      <input name="name" className="input" type="text" maxLength={48} size={35} defaultValue={user?.name} />
                     </div>
                   </div>
                   <div className="field">
                     <label className="label">Title</label>
                     <div className="control">
-                      <input name="title" className="input" type="text" maxLength={32} size={35} defaultValue={hireInfo?.title} />
+                      <input name="title" className="input" type="text" maxLength={32} size={35} defaultValue={user?.title} />
                     </div>
                   </div>
                   <div className="field">

@@ -44,6 +44,7 @@ const Hire: React.FC = () => {
   useEffect(() => {
     const execute = async () => {
       if (!id) return;
+
       const hireInfoByDomainSlugInput = { domainSlugID: id };
       try {
         const { data }: { data: HireInfoByDomainSlugQuery } = await client.query({
@@ -104,16 +105,17 @@ const Hire: React.FC = () => {
   };
 
   if (!loading && !hireInfo) return <div>There is no hire page here, yet.</div>;
+  if (!hireInfo) return <div>Loading...</div>;
 
   return (
     <div className={classnames(styles.hire)}>
       <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
         <HireMeModal
-          freelancerEmail={hireInfo?.email}
+          freelancerEmail={hireInfo.freelancer.email}
           handleClose={() => setModalOpen(false)}
-          freelancerName={hireInfo?.name}
-          freelancerID={hireInfo?.freelancerID}
-          avatarUrl={gravatarUrl(hireInfo?.email)}
+          freelancerName={hireInfo.freelancer.name}
+          freelancerID={hireInfo.freelancerID}
+          avatarUrl={gravatarUrl(hireInfo.freelancer.email)}
         />
       </Modal>
       <ModalGateway>
@@ -126,8 +128,8 @@ const Hire: React.FC = () => {
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         <div className={classnames(styles.upper)}>
           <div className={styles.bannerImage__mobile}>
-            {!hireInfo?.bannerImage && null}
-            {hireInfo?.bannerImage &&
+            {!hireInfo.bannerImage && null}
+            {hireInfo.bannerImage &&
               (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
@@ -135,22 +137,22 @@ const Hire: React.FC = () => {
               ))}
           </div>
           <div className={classnames(styles.leftContainer)}>
-            <div className={classnames('text-small-caps', styles.name)}>{hireInfo?.name}</div>
-            <div className={classnames(styles.title, 'h1')}>{hireInfo?.title}</div>
+            <div className={classnames('text-small-caps', styles.name)}>{hireInfo.freelancer.name}</div>
+            <div className={classnames(styles.title, 'h1')}>{hireInfo.freelancer.title}</div>
             <div ref={blurbTextElement} className={styles.blurbText}>
-              {hireInfo?.blurbText}
+              {hireInfo.blurbText}
             </div>
-            {!loading && hireInfo?.buttonText && (
+            {!loading && hireInfo.buttonText && (
               <div className="tar">
                 <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
-                  {hireInfo?.buttonText}
+                  {hireInfo.buttonText}
                 </button>
               </div>
             )}
           </div>
           <div className={styles.bannerImage__desktop}>
-            {!hireInfo?.bannerImage && null}
-            {hireInfo?.bannerImage &&
+            {!hireInfo.bannerImage && null}
+            {hireInfo.bannerImage &&
               (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
@@ -285,37 +287,37 @@ const Hire: React.FC = () => {
               )}
             </div>
           )}
-          {selectedTab === Tab.ABOUT && <div className={classnames(styles.about)}>{hireInfo?.aboutText}</div>}
+          {selectedTab === Tab.ABOUT && <div className={classnames(styles.about)}>{hireInfo.aboutText}</div>}
         </div>
         <div className={styles.footer}>
           <div>
-            {hireInfo?.twitterUrl && hireInfo?.twitterUrl.length > 0 && (
-              <a target="_blank" rel="noreferrer" href={hireInfo?.twitterUrl}>
+            {hireInfo.twitterUrl && hireInfo.twitterUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo.twitterUrl}>
                 <Twitter />
               </a>
             )}
-            {hireInfo?.dribbbleUrl && hireInfo?.dribbbleUrl.length > 0 && (
-              <a target="_blank" rel="noreferrer" href={hireInfo?.dribbbleUrl}>
+            {hireInfo.dribbbleUrl && hireInfo.dribbbleUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo.dribbbleUrl}>
                 <Dribbble />
               </a>
             )}
-            {hireInfo?.instagramUrl && hireInfo?.instagramUrl.length > 0 && (
-              <a target="_blank" rel="noreferrer" href={hireInfo?.instagramUrl}>
+            {hireInfo.instagramUrl && hireInfo.instagramUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo.instagramUrl}>
                 <InstagramLogo />
               </a>
             )}
-            {hireInfo?.linkedInUrl && hireInfo?.linkedInUrl.length > 0 && (
-              <a target="_blank" rel="noreferrer" href={hireInfo?.linkedInUrl}>
+            {hireInfo.linkedInUrl && hireInfo.linkedInUrl.length > 0 && (
+              <a target="_blank" rel="noreferrer" href={hireInfo.linkedInUrl}>
                 <LinkedInLogo />
               </a>
             )}
           </div>
           <div className={styles.copyright}>
             {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-            &copy; {new Date().getFullYear()} {hireInfo?.name}
+            &copy; {new Date().getFullYear()} {hireInfo.freelancer.name}
           </div>
           <div className="tar mrl">
-            {currentUser?.attributes?.sub === hireInfo?.freelancerID && (
+            {currentUser?.attributes?.sub === hireInfo.freelancerID && (
               <Link href="/hirePageEditor">
                 <a href="/hirePageEditor">
                   <Sprocket />

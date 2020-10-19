@@ -84,7 +84,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { client, comments: cs, quotes, clients, freelancers } = project as Project;
+  const { comments: cs, quotes, clients, freelancers } = project as Project;
   let viewer: User;
   const viewingClientItem = clients.items.find((c) => viewerId && c.user.signedOutAuthToken === viewerId);
   const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.user.id === currentUserId);

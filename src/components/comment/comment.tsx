@@ -61,7 +61,7 @@ const getRelativeTime = (createdAt: Date) => {
 
 export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarUrl, viewerId }) => (
   <Comment
-    name={comment.creator.name}
+    name={comment.creator.name || comment.creator.email}
     createdAt={comment.createdAt}
     avatarUrl={avatarUrl || gravatarUrl(comment.creator.email)}
     isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}

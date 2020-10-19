@@ -9,8 +9,6 @@ import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { AuthProps, Project } from '../types/custom';
 import { PageLayoutOne } from '../components/pageLayoutOne';
-import { Comment } from '../components/comment';
-import { gravatarUrl } from '../helpers/gravatarUrl';
 import styles from './styles/projects.module.scss';
 import { Page } from '../components/nav/nav';
 import { ButtonSmall } from '../components/buttons/buttons';
@@ -32,7 +30,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
           variables: projectsByFreelancerInput,
         });
 
-        setProjects(data.projectsByFreelancer.items);
+        setProjects(data.projectsByFreelancer.items.map((p) => p.project));
       } catch (error) {
         setFlash("There was an error retrieving your projects. We're looking into it");
         logger.error('Projects: error retrieving projects', { error, input: projectsByFreelancerInput });

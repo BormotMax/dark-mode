@@ -12,6 +12,7 @@ type User
   ) {
   id: ID!
   name: String
+  title: String
   company: String
   email: String
   phone: String
@@ -33,13 +34,13 @@ type ProjectClient
   clientID: ID!
   user: User @connection(fields: ["clientID"])
   projectID: ID!
-  title: String
   isInitialContact: Boolean
 }
 
 type ProjectFreelancer
   @model
   @key(name: "byProject", fields: ["projectID"])
+  @key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
   @auth(
     rules: [
       { allow: owner }
@@ -48,15 +49,16 @@ type ProjectFreelancer
     ]
   ) {
   id: ID!
+  createdAt: AWSDateTime!
   freelancerID: ID!
   user: User @connection(fields: ["freelancerID"])
   projectID: ID!
-  title: String
+  project: Project @connection(fields: ["projectID"])
+  isInitialContact: Boolean
 }
 
 type Project
   @model
-  @key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
   @auth(
     rules: [
       { allow: owner, operations: [create, read, update, delete] }
@@ -67,8 +69,6 @@ type Project
   id: ID!
   createdAt: AWSDateTime!
   owner: String!
-  freelancerID: ID!
-  freelancer: User @connection(fields: ["freelancerID"])
   comments: [Comment] @connection(keyName: "byProject", fields: ["id"])
   quotes: [Quote] @connection(keyName: "byProject", fields: ["id"])
   details: String
@@ -120,9 +120,7 @@ type HireMeInfo
   @key(name: "byDomainSlug", fields: ["domainSlugID"], queryField: "hireInfoByDomainSlug")
   @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   freelancerID: ID!
-  name: String
-  title: String
-  email: String!
+  freelancer: User @connection(fields: ["freelancerID"])
   buttonText: String
   blurbText: String
   aboutText: String

@@ -56,8 +56,8 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
                 <Avatar email={projectMember.user.email} />
                 <div>
                   {projectMember.user.name}
-                  {projectMember.title && ', '}
-                  <span className={classnames(styles.title)}>{projectMember.title}</span>
+                  {projectMember.user.title && ', '}
+                  <span className={classnames(styles.title)}>{projectMember.user.title}</span>
                 </div>
               </div>
             }
@@ -90,7 +90,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   const { logger } = useLogger();
   const { setFlash } = useFlash();
   const [name, setName] = useState(selectedUser?.user?.name || '');
-  const [title, setTitle] = useState(selectedUser?.title || '');
+  const [title, setTitle] = useState(selectedUser?.user.title || '');
   const [email, setEmail] = useState(selectedUser?.user?.email || '');
   const [userType, setUserType] = useState(selectedUser?.user.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
 

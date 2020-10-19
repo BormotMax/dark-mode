@@ -10,6 +10,7 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       id
       name
+      title
       company
       email
       phone
@@ -29,13 +30,13 @@ export const deleteProjectClient = /* GraphQL */ `
       id
       clientID
       projectID
-      title
       isInitialContact
       createdAt
       updatedAt
       user {
         id
         name
+        title
         company
         email
         phone
@@ -54,14 +55,15 @@ export const deleteProjectFreelancer = /* GraphQL */ `
   ) {
     deleteProjectFreelancer(input: $input, condition: $condition) {
       id
+      createdAt
       freelancerID
       projectID
-      title
-      createdAt
+      isInitialContact
       updatedAt
       user {
         id
         name
+        title
         company
         email
         phone
@@ -69,6 +71,105 @@ export const deleteProjectFreelancer = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      project {
+        id
+        createdAt
+        owner
+        details
+        title
+        company
+        updatedAt
+        clients {
+          items {
+            id
+            clientID
+            projectID
+            isInitialContact
+            createdAt
+            updatedAt
+            user {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        freelancers {
+          items {
+            id
+            createdAt
+            freelancerID
+            projectID
+            isInitialContact
+            updatedAt
+            user {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+            project {
+              id
+              createdAt
+              owner
+              details
+              title
+              company
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        quotes {
+          items {
+            id
+            projectID
+            createdAt
+            updatedAt
+            tasks {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        comments {
+          items {
+            id
+            createdAt
+            projectID
+            content
+            creatorID
+            updatedAt
+            creator {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
       }
     }
   }
@@ -82,34 +183,22 @@ export const updateProject = /* GraphQL */ `
       id
       createdAt
       owner
-      freelancerID
       details
       title
       company
       updatedAt
-      freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
       clients {
         items {
           id
           clientID
           projectID
-          title
           isInitialContact
           createdAt
           updatedAt
           user {
             id
             name
+            title
             company
             email
             phone
@@ -124,14 +213,15 @@ export const updateProject = /* GraphQL */ `
       freelancers {
         items {
           id
+          createdAt
           freelancerID
           projectID
-          title
-          createdAt
+          isInitialContact
           updatedAt
           user {
             id
             name
+            title
             company
             email
             phone
@@ -139,6 +229,27 @@ export const updateProject = /* GraphQL */ `
             role
             createdAt
             updatedAt
+          }
+          project {
+            id
+            createdAt
+            owner
+            details
+            title
+            company
+            updatedAt
+            clients {
+              nextToken
+            }
+            freelancers {
+              nextToken
+            }
+            quotes {
+              nextToken
+            }
+            comments {
+              nextToken
+            }
           }
         }
         nextToken
@@ -174,6 +285,7 @@ export const updateProject = /* GraphQL */ `
           creator {
             id
             name
+            title
             company
             email
             phone
@@ -197,34 +309,22 @@ export const deleteProject = /* GraphQL */ `
       id
       createdAt
       owner
-      freelancerID
       details
       title
       company
       updatedAt
-      freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
       clients {
         items {
           id
           clientID
           projectID
-          title
           isInitialContact
           createdAt
           updatedAt
           user {
             id
             name
+            title
             company
             email
             phone
@@ -239,14 +339,15 @@ export const deleteProject = /* GraphQL */ `
       freelancers {
         items {
           id
+          createdAt
           freelancerID
           projectID
-          title
-          createdAt
+          isInitialContact
           updatedAt
           user {
             id
             name
+            title
             company
             email
             phone
@@ -254,6 +355,27 @@ export const deleteProject = /* GraphQL */ `
             role
             createdAt
             updatedAt
+          }
+          project {
+            id
+            createdAt
+            owner
+            details
+            title
+            company
+            updatedAt
+            clients {
+              nextToken
+            }
+            freelancers {
+              nextToken
+            }
+            quotes {
+              nextToken
+            }
+            comments {
+              nextToken
+            }
           }
         }
         nextToken
@@ -289,6 +411,7 @@ export const deleteProject = /* GraphQL */ `
           creator {
             id
             name
+            title
             company
             email
             phone
@@ -311,6 +434,7 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input, condition: $condition) {
       id
       name
+      title
       company
       email
       phone
@@ -329,6 +453,7 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       id
       name
+      title
       company
       email
       phone
@@ -348,13 +473,13 @@ export const createProjectClient = /* GraphQL */ `
       id
       clientID
       projectID
-      title
       isInitialContact
       createdAt
       updatedAt
       user {
         id
         name
+        title
         company
         email
         phone
@@ -375,13 +500,13 @@ export const updateProjectClient = /* GraphQL */ `
       id
       clientID
       projectID
-      title
       isInitialContact
       createdAt
       updatedAt
       user {
         id
         name
+        title
         company
         email
         phone
@@ -400,14 +525,15 @@ export const createProjectFreelancer = /* GraphQL */ `
   ) {
     createProjectFreelancer(input: $input, condition: $condition) {
       id
+      createdAt
       freelancerID
       projectID
-      title
-      createdAt
+      isInitialContact
       updatedAt
       user {
         id
         name
+        title
         company
         email
         phone
@@ -415,6 +541,105 @@ export const createProjectFreelancer = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      project {
+        id
+        createdAt
+        owner
+        details
+        title
+        company
+        updatedAt
+        clients {
+          items {
+            id
+            clientID
+            projectID
+            isInitialContact
+            createdAt
+            updatedAt
+            user {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        freelancers {
+          items {
+            id
+            createdAt
+            freelancerID
+            projectID
+            isInitialContact
+            updatedAt
+            user {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+            project {
+              id
+              createdAt
+              owner
+              details
+              title
+              company
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        quotes {
+          items {
+            id
+            projectID
+            createdAt
+            updatedAt
+            tasks {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        comments {
+          items {
+            id
+            createdAt
+            projectID
+            content
+            creatorID
+            updatedAt
+            creator {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
       }
     }
   }
@@ -426,14 +651,15 @@ export const updateProjectFreelancer = /* GraphQL */ `
   ) {
     updateProjectFreelancer(input: $input, condition: $condition) {
       id
+      createdAt
       freelancerID
       projectID
-      title
-      createdAt
+      isInitialContact
       updatedAt
       user {
         id
         name
+        title
         company
         email
         phone
@@ -441,6 +667,105 @@ export const updateProjectFreelancer = /* GraphQL */ `
         role
         createdAt
         updatedAt
+      }
+      project {
+        id
+        createdAt
+        owner
+        details
+        title
+        company
+        updatedAt
+        clients {
+          items {
+            id
+            clientID
+            projectID
+            isInitialContact
+            createdAt
+            updatedAt
+            user {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        freelancers {
+          items {
+            id
+            createdAt
+            freelancerID
+            projectID
+            isInitialContact
+            updatedAt
+            user {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+            project {
+              id
+              createdAt
+              owner
+              details
+              title
+              company
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        quotes {
+          items {
+            id
+            projectID
+            createdAt
+            updatedAt
+            tasks {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        comments {
+          items {
+            id
+            createdAt
+            projectID
+            content
+            creatorID
+            updatedAt
+            creator {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
       }
     }
   }
@@ -454,34 +779,22 @@ export const createProject = /* GraphQL */ `
       id
       createdAt
       owner
-      freelancerID
       details
       title
       company
       updatedAt
-      freelancer {
-        id
-        name
-        company
-        email
-        phone
-        signedOutAuthToken
-        role
-        createdAt
-        updatedAt
-      }
       clients {
         items {
           id
           clientID
           projectID
-          title
           isInitialContact
           createdAt
           updatedAt
           user {
             id
             name
+            title
             company
             email
             phone
@@ -496,14 +809,15 @@ export const createProject = /* GraphQL */ `
       freelancers {
         items {
           id
+          createdAt
           freelancerID
           projectID
-          title
-          createdAt
+          isInitialContact
           updatedAt
           user {
             id
             name
+            title
             company
             email
             phone
@@ -511,6 +825,27 @@ export const createProject = /* GraphQL */ `
             role
             createdAt
             updatedAt
+          }
+          project {
+            id
+            createdAt
+            owner
+            details
+            title
+            company
+            updatedAt
+            clients {
+              nextToken
+            }
+            freelancers {
+              nextToken
+            }
+            quotes {
+              nextToken
+            }
+            comments {
+              nextToken
+            }
           }
         }
         nextToken
@@ -546,6 +881,7 @@ export const createProject = /* GraphQL */ `
           creator {
             id
             name
+            title
             company
             email
             phone
@@ -647,6 +983,7 @@ export const createComment = /* GraphQL */ `
       creator {
         id
         name
+        title
         company
         email
         phone
@@ -673,6 +1010,7 @@ export const updateComment = /* GraphQL */ `
       creator {
         id
         name
+        title
         company
         email
         phone
@@ -699,6 +1037,7 @@ export const deleteComment = /* GraphQL */ `
       creator {
         id
         name
+        title
         company
         email
         phone
@@ -762,9 +1101,6 @@ export const createHireMeInfo = /* GraphQL */ `
   ) {
     createHireMeInfo(input: $input, condition: $condition) {
       freelancerID
-      name
-      title
-      email
       buttonText
       blurbText
       aboutText
@@ -783,6 +1119,18 @@ export const createHireMeInfo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      freelancer {
+        id
+        name
+        title
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
       domainSlug {
         slug
         freelancerID
@@ -790,9 +1138,6 @@ export const createHireMeInfo = /* GraphQL */ `
         updatedAt
         hireMeInfo {
           freelancerID
-          name
-          title
-          email
           buttonText
           blurbText
           aboutText
@@ -811,6 +1156,18 @@ export const createHireMeInfo = /* GraphQL */ `
           }
           createdAt
           updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
           domainSlug {
             slug
             freelancerID
@@ -818,9 +1175,6 @@ export const createHireMeInfo = /* GraphQL */ `
             updatedAt
             hireMeInfo {
               freelancerID
-              name
-              title
-              email
               buttonText
               blurbText
               aboutText
@@ -845,9 +1199,6 @@ export const updateHireMeInfo = /* GraphQL */ `
   ) {
     updateHireMeInfo(input: $input, condition: $condition) {
       freelancerID
-      name
-      title
-      email
       buttonText
       blurbText
       aboutText
@@ -866,6 +1217,18 @@ export const updateHireMeInfo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      freelancer {
+        id
+        name
+        title
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
       domainSlug {
         slug
         freelancerID
@@ -873,9 +1236,6 @@ export const updateHireMeInfo = /* GraphQL */ `
         updatedAt
         hireMeInfo {
           freelancerID
-          name
-          title
-          email
           buttonText
           blurbText
           aboutText
@@ -894,6 +1254,18 @@ export const updateHireMeInfo = /* GraphQL */ `
           }
           createdAt
           updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
           domainSlug {
             slug
             freelancerID
@@ -901,9 +1273,6 @@ export const updateHireMeInfo = /* GraphQL */ `
             updatedAt
             hireMeInfo {
               freelancerID
-              name
-              title
-              email
               buttonText
               blurbText
               aboutText
@@ -928,9 +1297,6 @@ export const deleteHireMeInfo = /* GraphQL */ `
   ) {
     deleteHireMeInfo(input: $input, condition: $condition) {
       freelancerID
-      name
-      title
-      email
       buttonText
       blurbText
       aboutText
@@ -949,6 +1315,18 @@ export const deleteHireMeInfo = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      freelancer {
+        id
+        name
+        title
+        company
+        email
+        phone
+        signedOutAuthToken
+        role
+        createdAt
+        updatedAt
+      }
       domainSlug {
         slug
         freelancerID
@@ -956,9 +1334,6 @@ export const deleteHireMeInfo = /* GraphQL */ `
         updatedAt
         hireMeInfo {
           freelancerID
-          name
-          title
-          email
           buttonText
           blurbText
           aboutText
@@ -977,6 +1352,18 @@ export const deleteHireMeInfo = /* GraphQL */ `
           }
           createdAt
           updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            createdAt
+            updatedAt
+          }
           domainSlug {
             slug
             freelancerID
@@ -984,9 +1371,6 @@ export const deleteHireMeInfo = /* GraphQL */ `
             updatedAt
             hireMeInfo {
               freelancerID
-              name
-              title
-              email
               buttonText
               blurbText
               aboutText
@@ -1016,9 +1400,6 @@ export const createDomainSlug = /* GraphQL */ `
       updatedAt
       hireMeInfo {
         freelancerID
-        name
-        title
-        email
         buttonText
         blurbText
         aboutText
@@ -1037,6 +1418,18 @@ export const createDomainSlug = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        freelancer {
+          id
+          name
+          title
+          company
+          email
+          phone
+          signedOutAuthToken
+          role
+          createdAt
+          updatedAt
+        }
         domainSlug {
           slug
           freelancerID
@@ -1044,9 +1437,6 @@ export const createDomainSlug = /* GraphQL */ `
           updatedAt
           hireMeInfo {
             freelancerID
-            name
-            title
-            email
             buttonText
             blurbText
             aboutText
@@ -1065,6 +1455,18 @@ export const createDomainSlug = /* GraphQL */ `
             }
             createdAt
             updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
             domainSlug {
               slug
               freelancerID
@@ -1089,9 +1491,6 @@ export const updateDomainSlug = /* GraphQL */ `
       updatedAt
       hireMeInfo {
         freelancerID
-        name
-        title
-        email
         buttonText
         blurbText
         aboutText
@@ -1110,6 +1509,18 @@ export const updateDomainSlug = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        freelancer {
+          id
+          name
+          title
+          company
+          email
+          phone
+          signedOutAuthToken
+          role
+          createdAt
+          updatedAt
+        }
         domainSlug {
           slug
           freelancerID
@@ -1117,9 +1528,6 @@ export const updateDomainSlug = /* GraphQL */ `
           updatedAt
           hireMeInfo {
             freelancerID
-            name
-            title
-            email
             buttonText
             blurbText
             aboutText
@@ -1138,6 +1546,18 @@ export const updateDomainSlug = /* GraphQL */ `
             }
             createdAt
             updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
             domainSlug {
               slug
               freelancerID
@@ -1162,9 +1582,6 @@ export const deleteDomainSlug = /* GraphQL */ `
       updatedAt
       hireMeInfo {
         freelancerID
-        name
-        title
-        email
         buttonText
         blurbText
         aboutText
@@ -1183,6 +1600,18 @@ export const deleteDomainSlug = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        freelancer {
+          id
+          name
+          title
+          company
+          email
+          phone
+          signedOutAuthToken
+          role
+          createdAt
+          updatedAt
+        }
         domainSlug {
           slug
           freelancerID
@@ -1190,9 +1619,6 @@ export const deleteDomainSlug = /* GraphQL */ `
           updatedAt
           hireMeInfo {
             freelancerID
-            name
-            title
-            email
             buttonText
             blurbText
             aboutText
@@ -1211,6 +1637,18 @@ export const deleteDomainSlug = /* GraphQL */ `
             }
             createdAt
             updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              createdAt
+              updatedAt
+            }
             domainSlug {
               slug
               freelancerID
