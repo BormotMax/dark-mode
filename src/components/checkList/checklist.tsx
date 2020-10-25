@@ -15,18 +15,8 @@ interface CheckListProps {
 }
 
 export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback, editable = true }) => {
-  function handleCheckboxChange() {
-    const inputs: any = document.querySelectorAll<HTMLFormElement>(`.${name}`);
-    const items = [];
-
-    inputs.forEach((input) => {
-      items.push({
-        id: input.value,
-        completed: input.checked,
-      });
-    });
-
-    callback(items);
+  function handleCheckboxChange(e, item) {
+    callback(e.target.checked, item);
   }
 
   return (
@@ -41,7 +31,7 @@ export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback,
               name={name}
               value={item.id}
               defaultChecked={item.completed}
-              onChange={handleCheckboxChange}
+              onChange={(e) => handleCheckboxChange(e, item)}
             />
             <label htmlFor={`${name}:${item.id}`}>
               <div className={styles.checkboxes}>

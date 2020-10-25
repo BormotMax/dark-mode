@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/pro-light-svg-icons';
 import classnames from 'classnames';
@@ -8,8 +8,8 @@ import { CheckList } from '../checkList';
 import styles from './quoteProgress.module.scss';
 import { Quote, Task } from '../../types/custom';
 import { useLogger, useFlash } from '../../hooks';
-import { CreateTaskInput } from '../../API';
-import { createTask } from '../../graphql/mutations';
+import { CreateTaskInput, UpdateTaskInput } from '../../API';
+import { createTask, updateTask } from '../../graphql/mutations';
 import { client } from '../../pages/_app';
 
 function calcPercentDone(tasks: Array<Task>) {
@@ -42,8 +42,26 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
   const [isSaving, setIsSaving] = useState(false);
   const addTaskRef = useRef(null);
 
-  function handleQuoteProgressUpdate(tasksArg: Array<Task>) {
-    setPercentDone(calcPercentDone(tasksArg));
+  useEffect(() => {
+    setPercentDone(calcPercentDone(tasks));
+  }, [tasks]);
+
+  async function handleQuoteProgressUpdate(checked, item) {
+    const updateTaskInput: UpdateTaskInput = {
+      id: item.id,
+      completed: checked,
+    };
+
+    try {
+      await client.mutate({
+        mutation: gql(updateTask),
+        variables: { input: updateTaskInput },
+      });
+    } catch (error) {
+      logger.error('QuoteProgress: error updating Task.', { error, input: updateTaskInput });
+    }
+
+    refetchData();
   }
 
   const addNewTask = async (e) => {
@@ -92,7 +110,7 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
         <form>
           <CheckList
             name={`quote-${i}`}
-            callback={(ts: Array<Task>) => handleQuoteProgressUpdate(ts)}
+            callback={handleQuoteProgressUpdate}
             listItems={tasks
               .filter(Boolean)
               .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
