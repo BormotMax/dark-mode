@@ -2,14 +2,12 @@ import classnames from 'classnames';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faTimes, faUserPlus } from '@fortawesome/pro-light-svg-icons';
-import { faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
+import { faFileInvoiceDollar, faCircle, faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
 import gql from 'graphql-tag';
 import styles from './addQuoteModal.module.scss';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import Unchecked from '../../img/unchecked.svg';
-import Checked from '../../img/checkmark.svg';
 import {
   CommentResourceType,
   CreateCommentInput,
@@ -88,7 +86,9 @@ interface AddQuoteModalContentProps {
 }
 
 const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, projectID, refetchData, selectedQuote, creator, index }) => {
-  const [tasks, setTasks] = useState(selectedQuote?.tasks.items.map((t) => t.text) || []);
+  const [tasks, setTasks] = useState(
+    selectedQuote?.tasks.items.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).map((t) => t.text) || [],
+  );
   const [hours, setHours] = useState(selectedQuote?.billableHours?.toString() || '');
   const [perHour, setPerHour] = useState(selectedQuote?.chargePerHour?.toString() || '');
   const [price, setPrice] = useState(selectedQuote?.totalPrice?.toString() || '');
@@ -284,10 +284,10 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                     />
                     <span className={classnames(modalStyles.checkmarks)}>
                       <span className={classnames(modalStyles.unchecked)}>
-                        <Unchecked />
+                        <FontAwesomeIcon color="#595959" icon={faCircle} />
                       </span>
                       <span className={classnames(modalStyles.checked)}>
-                        <Checked />
+                        <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
                       </span>
                     </span>
                   </>
@@ -310,10 +310,10 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                   />
                   <span className={classnames(modalStyles.checkmarks)}>
                     <span className={classnames(modalStyles.unchecked)}>
-                      <Unchecked />
+                      <FontAwesomeIcon color="#595959" icon={faCircle} />
                     </span>
                     <span className={classnames(modalStyles.checked)}>
-                      <Checked />
+                      <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
                     </span>
                   </span>
                 </>

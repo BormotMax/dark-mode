@@ -159,12 +159,10 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
     }
 
     const freelancerEmailInput = {
-      to: freelancerEmail,
-      name,
-      company,
-      email,
-      phone,
-      details,
+      freelancerEmail,
+      freelancerName,
+      clientName: name,
+      clientEmail: existingClient.email,
       projectUrl: `https://continuum.works/project/${projectID}`,
       type: 'NEW_CLIENT_CONTACT_FREELANCER',
     };
@@ -176,12 +174,10 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
     }
 
     const clientEmailInput = {
-      to: existingClient.email,
-      name,
-      company,
-      email,
-      phone,
-      details: `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`,
+      freelancerEmail,
+      clientEmail: existingClient.email,
+      clientName: name,
+      projectUrl: `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`,
       type: 'NEW_CLIENT_CONTACT_CLIENT',
     };
 

@@ -6,7 +6,7 @@ import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
 import { useLogger } from '../../../hooks';
 import { getQuote } from '../../../graphql/queries';
 import { GetQuoteQuery } from '../../../API';
-import { client } from '../../../pages/_app';
+import { unauthClient as client } from '../../../pages/_app';
 import styles from './quoteForComment.module.scss';
 import { Quote } from '../../../types/custom';
 

@@ -105,8 +105,14 @@
     .checked {
       display: none;
     }
+
     .unchecked {
       display: initial;
+    }
+
+    svg {
+      height: 18px;
+      width: 18px;
     }
 
     input:checked + span {

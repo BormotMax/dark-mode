@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
+import { faCircle, faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
@@ -9,8 +10,6 @@ import { Avatar } from '../avatar/avatar';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal/inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
-import Unchecked from '../../img/unchecked.svg';
-import Checked from '../../img/checkmark.svg';
 import { useLogger, useFlash } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
@@ -283,6 +282,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={!!selectedUser}
             name="email"
             className={classnames('input', { 'is-danger': invalids.email })}
             type="email"
@@ -301,13 +301,13 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           />
           <span className={classnames(modalStyles.checkmarks)}>
             <span className={classnames(modalStyles.unchecked)}>
-              <Unchecked />
+              <FontAwesomeIcon color="#595959" icon={faCircle} />
             </span>
             <span className={classnames(modalStyles.checked)}>
-              <Checked />
+              <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
             </span>
           </span>
-          Client&apos;s Team
+          <div>Client&apos;s Team</div>
         </label>
         {/* <label className={classnames(modalStyles.radio, 'radio')}>
           <input type="radio" name="userType" value={UserRole.FREELANCER} disabled />
@@ -323,7 +323,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
         </label> */}
       </div>
       <div className={modalStyles.save}>
-        <ButtonSmall text="Save" isSaving={isSaving} onClick={handleSubmit} />
+        <ButtonSmall text="Save" isSaving={isSaving} />
       </div>
     </form>
   );

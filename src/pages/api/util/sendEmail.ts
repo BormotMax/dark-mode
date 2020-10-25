@@ -1,27 +1,63 @@
 import sgMail from '@sendgrid/mail';
 
-export const sendEmail = async ({ to, name, company, email, phone, details, type, projectUrl }) => {
+export const sendEmail = async ({ freelancerEmail, freelancerName, clientEmail, clientName, type, projectUrl }) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   let msg;
 
   if (type === 'NEW_CLIENT_CONTACT_FREELANCER') {
     msg = {
-      to,
+      to: freelancerEmail,
       from: { email: 'notifications@continuum.works', name: 'Continuum' },
-      replyTo: email || 'notifications@continuum.works',
-      subject: `New client contact from ${name}`,
-      text: `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nPhone: ${phone}\nDetails: ${details}\nProject Space: ${projectUrl}\n\n`,
-      html: `Name: ${name}<br>Company: ${company}<br>Email: ${email}<br>Phone: ${phone}<br>Details: ${details}<br>Project Space: ${projectUrl}<br><br>`,
+      replyTo: clientEmail || 'notifications@continuum.works',
+      subject: `New client contact from ${clientName}`,
+      text: `Hey ${freelancerName},\n\nYou have a new client conversation from ${clientName}.\n\n${projectUrl}\n\n`,
+      html: `<div style="font-family:Helvetica;font-size:14px;">
+      <div style="text-align:center;">
+        <img
+          style="margin-top:50px;"
+          src="https://continuum-resources.s3.amazonaws.com/emailLogo.png"
+          alt="logo"
+        />
+      </div>
+      <div style="padding-top:30px;">
+        Hey ${freelancerName},
+        <br />
+        <br />
+        You have a new 
+        <a style="text-decoration:underline;" href="${projectUrl}">
+          client conversation from ${clientName}
+        </a>.
+      </div>
+    </div>
+      `,
     };
   } else if (type === 'NEW_CLIENT_CONTACT_CLIENT') {
     msg = {
-      to,
+      to: clientEmail,
       from: { email: 'notifications@continuum.works', name: 'Continuum' },
-      replyTo: 'notifications@continuum.works',
+      replyTo: freelancerEmail || 'notifications@continuum.works',
       subject: 'Your new project space on Continuum.',
-      text: `Hi ${name}\n\nHere's a link to your project space: ${details}\n\n`,
-      html: `Hi ${name},<br><br>Here's a link to your project space: ${details}<br><br>`,
+      text: `Hey ${clientName}\n\nHere's a link to your project space:\n\n${projectUrl}\n\n`,
+      html: `<div style="font-family:Helvetica;font-size:14px;">
+      <div style="text-align:center;">
+        <img
+          style="margin-top:50px;"
+          src="https://continuum-resources.s3.amazonaws.com/emailLogo.png"
+          alt="logo"
+        />
+      </div>
+      <div style="padding-top:30px;">
+        Hey ${clientName},
+        <br />
+        <br />
+        Visit your new 
+        <a style="text-decoration:underline;" href="${projectUrl}">
+          project space on Continuum
+        </a>.
+      </div>
+    </div>
+      `,
     };
   }
 

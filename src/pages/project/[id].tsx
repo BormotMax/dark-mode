@@ -1,7 +1,7 @@
 import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { NotesTab, TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
@@ -15,7 +15,6 @@ import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
 import styles from '../styles/project.module.scss';
-import { TasksAndTimeTab } from '../../components/tabs/tasksAndTimeTab';
 import { Page } from '../../components/nav/nav';
 import { ContactPreview } from '../../components/contactPreview';
 import { AddQuoteModal } from '../../components/addQuoteModal';
@@ -27,10 +26,12 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const { id, token } = router.query;
   const [project, setProject] = useState(null);
   const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
+  const viewer = useRef(null);
   const [loading, setLoading] = useState(true);
   const { setFlash, setDelayedFlash } = useFlash();
   const { logger } = useLogger();
   const currentUserId = currentUser?.attributes?.sub;
+  const newCommentRef = useRef(null);
 
   useEffect(() => {
     setViewerId(token || localStorage.getItem('viewerId'));
@@ -38,6 +39,26 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       localStorage.setItem('viewerId', token as string);
     }
   }, [currentUser]);
+
+  const determineViewer = (p) => {
+    let viewerCandidate;
+    const { clients, freelancers } = p as Project;
+    const viewingClientItem = clients.items.find((c) => viewerId && c.user.signedOutAuthToken === viewerId);
+    const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.user.id === currentUserId);
+
+    if (viewingFreelancerItem?.user) {
+      viewerCandidate = viewingFreelancerItem.user;
+    } else if (viewingClientItem?.user) {
+      if (currentUserId) {
+        logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
+        setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
+        Router.push('/projects');
+      }
+      viewerCandidate = viewingClientItem.user;
+    }
+
+    return viewerCandidate;
+  };
 
   const fetchProject = async () => {
     const getProjectInput = { id };
@@ -48,7 +69,9 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       });
 
       const p: Project = getProjectResult.data?.getProject;
+      const v = determineViewer(p);
       setProject(p);
+      viewer.current = v;
     } catch (error) {
       setFlash("There was an error retrieving this project. We're looking into it.");
       logger.error('Project: error retrieving Project.', { error, input: getProjectInput });
@@ -65,12 +88,16 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         const subscriptionResult = unauthClient.subscribe({ query: gql(onCreateComment) });
         subscriptionResult.subscribe({
           next: (comment) => {
+            const c = comment.data.onCreateComment;
+
             setProject((p) => {
-              if (comment.data.onCreateComment.projectID !== p.id) {
-                return p;
-              }
+              if (c.projectID !== p.id) return p;
               return { ...p, comments: { ...p.comments, items: [...p.comments.items, comment.data.onCreateComment] } };
             });
+
+            if (viewer.current.id === c.creator.id) {
+              newCommentRef?.current?.scrollIntoView();
+            }
           },
         });
       } catch (error) {
@@ -85,21 +112,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { comments: cs, quotes, clients, freelancers } = project as Project;
-  let viewer: User;
-  const viewingClientItem = clients.items.find((c) => viewerId && c.user.signedOutAuthToken === viewerId);
-  const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.user.id === currentUserId);
-
-  if (viewingFreelancerItem?.user) {
-    viewer = viewingFreelancerItem.user;
-  } else if (viewingClientItem?.user) {
-    if (currentUserId) {
-      logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
-      setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
-      Router.push('/projects');
-    }
-    viewer = viewingClientItem.user;
-  }
+  const { comments: cs, quotes, clients } = project as Project;
 
   if (!viewer) {
     logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
@@ -129,11 +142,18 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       page={Page.PROJECT}
     >
       <div className={classnames('columns')}>
-        <div className={classnames('column')}>
+        <div className={classnames('column', styles.commentWrapper)}>
           {comments.filter(Boolean).map((c) => (
-            <CommentWrapper key={c.id} comment={c} viewerId={viewer.id as string} />
+            <CommentWrapper key={c.id} comment={c} viewerId={viewer.current.id as string} />
           ))}
-          <NewComment name={viewer.name} avatarUrl={gravatarUrl(viewer.email)} projectID={id as string} creatorID={viewer.id} />
+          <div ref={newCommentRef}>
+            <NewComment
+              name={viewer.current.name}
+              avatarUrl={gravatarUrl(viewer.current.email)}
+              projectID={id as string}
+              creatorID={viewer.current.id}
+            />
+          </div>
         </div>
         <div className={classnames('column', 'is-narrow', styles.rightColumn)}>
           <div className={classnames(styles.tabGroupWrapper)}>
@@ -151,7 +171,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
                     .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)
                 )}
               </>
-              <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer} />
+              <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer.current} />
             </TabGroup>
           </div>
         </div>
