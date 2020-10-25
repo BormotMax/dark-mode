@@ -178,6 +178,8 @@ export const deleteProjectFreelancer = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -304,6 +306,8 @@ export const updateProject = /* GraphQL */ `
                 projectID
                 content
                 creatorID
+                includedResourceType
+                includedResourceID
                 updatedAt
               }
               nextToken
@@ -343,6 +347,8 @@ export const updateProject = /* GraphQL */ `
           projectID
           content
           creatorID
+          includedResourceType
+          includedResourceID
           updatedAt
           creator {
             id
@@ -468,6 +474,8 @@ export const deleteProject = /* GraphQL */ `
                 projectID
                 content
                 creatorID
+                includedResourceType
+                includedResourceID
                 updatedAt
               }
               nextToken
@@ -507,6 +515,8 @@ export const deleteProject = /* GraphQL */ `
           projectID
           content
           creatorID
+          includedResourceType
+          includedResourceID
           updatedAt
           creator {
             id
@@ -748,6 +758,8 @@ export const createProjectFreelancer = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -898,6 +910,8 @@ export const updateProjectFreelancer = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -1024,6 +1038,8 @@ export const createProject = /* GraphQL */ `
                 projectID
                 content
                 creatorID
+                includedResourceType
+                includedResourceID
                 updatedAt
               }
               nextToken
@@ -1063,6 +1079,8 @@ export const createProject = /* GraphQL */ `
           projectID
           content
           creatorID
+          includedResourceType
+          includedResourceID
           updatedAt
           creator {
             id
@@ -1177,6 +1195,8 @@ export const createComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      includedResourceType
+      includedResourceID
       updatedAt
       creator {
         id
@@ -1204,6 +1224,8 @@ export const updateComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      includedResourceType
+      includedResourceID
       updatedAt
       creator {
         id
@@ -1231,6 +1253,8 @@ export const deleteComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      includedResourceType
+      includedResourceID
       updatedAt
       creator {
         id

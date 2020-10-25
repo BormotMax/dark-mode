@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/pro-regular-svg-icons';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import styles from './comment.module.scss';
 import { Comment as CommentType } from '../../types/custom';
@@ -9,6 +9,8 @@ import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { unauthClient } from '../../pages/_app';
 import { createComment } from '../../graphql/mutations';
 import { useLogger } from '../../hooks';
+import { CommentResourceType } from '../../API';
+import { QuoteForComment } from './quoteForComment';
 
 interface CommentWrapperProps {
   comment: CommentType;
@@ -32,6 +34,15 @@ interface NewCommentProps {
   projectID: string;
   creatorID: string;
 }
+
+const getComponent = (comment: CommentType) => {
+  switch (comment.includedResourceType) {
+    case CommentResourceType.QUOTE:
+      return <QuoteForComment id={comment.includedResourceID} />;
+    default:
+      return null;
+  }
+};
 
 const getRelativeTime = (createdAt: Date) => {
   const now = new Date();
@@ -66,7 +77,10 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarU
     avatarUrl={avatarUrl || gravatarUrl(comment.creator.email)}
     isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}
   >
-    <div>{comment.content}</div>
+    <>
+      <div>{comment.content}</div>
+      {comment.includedResourceID && comment.includedResourceType && <div>{getComponent(comment)}</div>}
+    </>
   </Comment>
 );
 

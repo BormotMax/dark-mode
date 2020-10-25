@@ -10,11 +10,18 @@ import { ButtonSmall } from '../buttons/buttons';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import Unchecked from '../../img/unchecked.svg';
 import Checked from '../../img/checkmark.svg';
-import { CreateQuoteInput, CreateQuoteMutation, CreateTaskInput, QuoteBillingType } from '../../API';
+import {
+  CommentResourceType,
+  CreateCommentInput,
+  CreateQuoteInput,
+  CreateQuoteMutation,
+  CreateTaskInput,
+  QuoteBillingType,
+} from '../../API';
 import { client } from '../../pages/_app';
 import { createComment, createQuote, createTask } from '../../graphql/mutations';
 import { useLogger, useFlash } from '../../hooks';
-import { Quote } from '../../types/custom';
+import { Quote, User } from '../../types/custom';
 
 interface AddQuoteModalProps {
   projectID: string;
@@ -54,11 +61,17 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
                 <div className={classnames(modalStyles.icon)}>
                   <FontAwesomeIcon color="#828282" icon={faFileInvoiceDollar} />
                 </div>
-                <div>Quote #{i + 1}</div>
+                <div>Quote #{(i + 1).toString().padStart(3, '0')}</div>
               </div>
             }
           >
-            <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={selectedQuote} creator={creator} />
+            <AddQuoteModalContent
+              index={i}
+              projectID={projectID}
+              refetchData={refetchData}
+              selectedQuote={selectedQuote}
+              creator={creator}
+            />
           </InPlaceModal>
         ))}
     </>
@@ -71,9 +84,10 @@ interface AddQuoteModalContentProps {
   refetchData: Function;
   selectedQuote: Quote;
   creator: User;
+  index: number;
 }
 
-const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, projectID, refetchData, selectedQuote, creator }) => {
+const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, projectID, refetchData, selectedQuote, creator, index }) => {
   const [tasks, setTasks] = useState(selectedQuote?.tasks.items.map((t) => t.text) || []);
   const [hours, setHours] = useState(selectedQuote?.billableHours?.toString() || '');
   const [perHour, setPerHour] = useState(selectedQuote?.chargePerHour?.toString() || '');
@@ -91,12 +105,10 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
     const chargePerHour = Number.parseInt(perHour, 10);
     const totalPrice = Number.parseInt(price, 10);
 
-    if (billingType === QuoteBillingType.HOURLY && !Number.isNaN(billableHours)) {
+    if (billingType === QuoteBillingType.HOURLY && !Number.isNaN(billableHours) && !Number.isNaN(chargePerHour)) {
       createQuoteInput.billableHours = billableHours;
-    }
-
-    if (billingType === QuoteBillingType.HOURLY && !Number.isNaN(chargePerHour)) {
       createQuoteInput.chargePerHour = chargePerHour;
+      createQuoteInput.totalPrice = billableHours * chargePerHour;
     }
 
     if (billingType === QuoteBillingType.TOTAL && !Number.isNaN(totalPrice)) {
@@ -136,10 +148,17 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
 
     // create a comment with this Quote as an associated resource so it shows up in the feed.
     // eslint-disable-next-line max-len
-    let content =
+    const content =
       'Here is your quote. If you are ready to proceed, please accept and pay; else, let me know when a good time is to connect to discuss.\n\nThank you!';
 
-    const createCommentInput = { projectID, content, creatorID: creator.id };
+    const createCommentInput: CreateCommentInput = {
+      projectID,
+      content,
+      creatorID: creator.id,
+      includedResourceID: quoteID,
+      includedResourceType: CommentResourceType.QUOTE,
+    };
+
     try {
       // Create a comment from the text in the details input. The same text is also stored in project.details
       await client.mutate({
@@ -161,11 +180,11 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
     }
   };
 
-  const deleteTask = (e, index: number) => {
+  const deleteTask = (e, i: number) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
       setTasks((oldTasks) => {
         const newTasks = [...oldTasks];
-        newTasks.splice(index, 1);
+        newTasks.splice(i, 1);
         return newTasks;
       });
     }
@@ -180,13 +199,24 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
   const updateHours = ({ target }) => {
     if (selectedQuote) return;
     const { value } = target;
+
+    if (Number.isInteger(+value) && Number.isInteger(+perHour)) {
+      setPrice((+value * +perHour).toString());
+    }
+
     setHours(value);
   };
 
   const updatePerHour = ({ target }) => {
     if (selectedQuote) return;
     const { value } = target;
+
     const withoutDollarSign = value.includes('$') ? value.split('$')[1] : value;
+
+    if (Number.isInteger(+hours) && Number.isInteger(+withoutDollarSign)) {
+      setPrice((+hours * +withoutDollarSign).toString());
+    }
+
     if (Number.isInteger(+withoutDollarSign)) {
       setPerHour(withoutDollarSign);
     }
@@ -204,7 +234,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
   return (
     <div className={classnames(styles.modalContent)}>
       <div className={classnames(styles.header)}>
-        <div>Generate Quote</div>
+        {selectedQuote ? <div>Quote #{(index + 1).toString().padStart(3, '0')}</div> : <div>Generate Quote</div>}
         <div onClick={closeModal} role="button" onKeyDown={closeModal} tabIndex={0}>
           <FontAwesomeIcon color="#fff" icon={faTimes} />
         </div>
@@ -268,32 +298,30 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                 </div>
               </label>
             )}
-            {(selectedQuote?.billingType === QuoteBillingType.TOTAL || !selectedQuote) && (
-              <label className={classnames(modalStyles.radio, modalStyles.radioStacked, 'radio')}>
-                {!selectedQuote && (
-                  <>
-                    <input
-                      onChange={(e) => setBillingType(QuoteBillingType[e.target.value])}
-                      type="radio"
-                      value={QuoteBillingType.TOTAL}
-                      checked={billingType === QuoteBillingType.TOTAL}
-                      name="billingType"
-                    />
-                    <span className={classnames(modalStyles.checkmarks)}>
-                      <span className={classnames(modalStyles.unchecked)}>
-                        <Unchecked />
-                      </span>
-                      <span className={classnames(modalStyles.checked)}>
-                        <Checked />
-                      </span>
+            <label className={classnames(modalStyles.radio, modalStyles.radioStacked, 'radio')}>
+              {!selectedQuote && (
+                <>
+                  <input
+                    onChange={(e) => setBillingType(QuoteBillingType[e.target.value])}
+                    type="radio"
+                    value={QuoteBillingType.TOTAL}
+                    checked={billingType === QuoteBillingType.TOTAL}
+                    name="billingType"
+                  />
+                  <span className={classnames(modalStyles.checkmarks)}>
+                    <span className={classnames(modalStyles.unchecked)}>
+                      <Unchecked />
                     </span>
-                  </>
-                )}
-                <div className={styles.radioText}>
-                  This is a project price of <input className={styles.inlineInput} value={`$${price}`} onChange={updatePrice} />
-                </div>
-              </label>
-            )}
+                    <span className={classnames(modalStyles.checked)}>
+                      <Checked />
+                    </span>
+                  </span>
+                </>
+              )}
+              <div className={styles.radioText}>
+                This is a project price of <input className={styles.inlineInput} value={`$${price}`} onChange={updatePrice} />
+              </div>
+            </label>
           </div>
           {!selectedQuote && (
             <div className={styles.save}>

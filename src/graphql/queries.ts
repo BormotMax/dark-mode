@@ -223,6 +223,8 @@ export const getProjectFreelancer = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -359,6 +361,8 @@ export const listProjectFreelancers = /* GraphQL */ `
               projectID
               content
               creatorID
+              includedResourceType
+              includedResourceID
               updatedAt
               creator {
                 id
@@ -503,6 +507,8 @@ export const projectsByFreelancer = /* GraphQL */ `
               projectID
               content
               creatorID
+              includedResourceType
+              includedResourceID
               updatedAt
               creator {
                 id
@@ -638,6 +644,8 @@ export const listProjects = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -762,6 +770,8 @@ export const getProject = /* GraphQL */ `
                 projectID
                 content
                 creatorID
+                includedResourceType
+                includedResourceID
                 updatedAt
               }
               nextToken
@@ -801,6 +811,8 @@ export const getProject = /* GraphQL */ `
           projectID
           content
           creatorID
+          includedResourceType
+          includedResourceID
           updatedAt
           creator {
             id
@@ -885,6 +897,8 @@ export const getComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      includedResourceType
+      includedResourceID
       updatedAt
       creator {
         id
@@ -914,6 +928,8 @@ export const listComments = /* GraphQL */ `
         projectID
         content
         creatorID
+        includedResourceType
+        includedResourceID
         updatedAt
         creator {
           id

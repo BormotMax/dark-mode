@@ -249,6 +249,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -396,6 +398,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -543,6 +547,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
             projectID
             content
             creatorID
+            includedResourceType
+            includedResourceID
             updatedAt
             creator {
               id
@@ -666,6 +672,8 @@ export const onCreateProject = /* GraphQL */ `
                 projectID
                 content
                 creatorID
+                includedResourceType
+                includedResourceID
                 updatedAt
               }
               nextToken
@@ -705,6 +713,8 @@ export const onCreateProject = /* GraphQL */ `
           projectID
           content
           creatorID
+          includedResourceType
+          includedResourceID
           updatedAt
           creator {
             id
@@ -827,6 +837,8 @@ export const onUpdateProject = /* GraphQL */ `
                 projectID
                 content
                 creatorID
+                includedResourceType
+                includedResourceID
                 updatedAt
               }
               nextToken
@@ -866,6 +878,8 @@ export const onUpdateProject = /* GraphQL */ `
           projectID
           content
           creatorID
+          includedResourceType
+          includedResourceID
           updatedAt
           creator {
             id
@@ -988,6 +1002,8 @@ export const onDeleteProject = /* GraphQL */ `
                 projectID
                 content
                 creatorID
+                includedResourceType
+                includedResourceID
                 updatedAt
               }
               nextToken
@@ -1027,6 +1043,8 @@ export const onDeleteProject = /* GraphQL */ `
           projectID
           content
           creatorID
+          includedResourceType
+          includedResourceID
           updatedAt
           creator {
             id
@@ -1129,6 +1147,8 @@ export const onCreateComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      includedResourceType
+      includedResourceID
       updatedAt
       creator {
         id
@@ -1153,6 +1173,8 @@ export const onUpdateComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      includedResourceType
+      includedResourceID
       updatedAt
       creator {
         id
@@ -1177,6 +1199,8 @@ export const onDeleteComment = /* GraphQL */ `
       projectID
       content
       creatorID
+      includedResourceType
+      includedResourceID
       updatedAt
       creator {
         id

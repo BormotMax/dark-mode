@@ -107,6 +107,12 @@ type Comment
   content: String!
   creatorID: ID!
   creator: User @connection(fields: ["creatorID"])
+  includedResourceType: CommentResourceType
+  includedResourceID: ID
+}
+
+enum CommentResourceType {
+  QUOTE
 }
 
 type Task

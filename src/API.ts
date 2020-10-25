@@ -126,6 +126,11 @@ export enum QuoteBillingType {
 }
 
 
+export enum CommentResourceType {
+  QUOTE = "QUOTE",
+}
+
+
 export type UpdateProjectInput = {
   id: string,
   createdAt?: string | null,
@@ -266,6 +271,8 @@ export type CreateCommentInput = {
   projectID: string,
   content: string,
   creatorID: string,
+  includedResourceType?: CommentResourceType | null,
+  includedResourceID?: string | null,
 };
 
 export type ModelCommentConditionInput = {
@@ -273,9 +280,16 @@ export type ModelCommentConditionInput = {
   projectID?: ModelIDInput | null,
   content?: ModelStringInput | null,
   creatorID?: ModelIDInput | null,
+  includedResourceType?: ModelCommentResourceTypeInput | null,
+  includedResourceID?: ModelIDInput | null,
   and?: Array< ModelCommentConditionInput | null > | null,
   or?: Array< ModelCommentConditionInput | null > | null,
   not?: ModelCommentConditionInput | null,
+};
+
+export type ModelCommentResourceTypeInput = {
+  eq?: CommentResourceType | null,
+  ne?: CommentResourceType | null,
 };
 
 export type UpdateCommentInput = {
@@ -284,6 +298,8 @@ export type UpdateCommentInput = {
   projectID?: string | null,
   content?: string | null,
   creatorID?: string | null,
+  includedResourceType?: CommentResourceType | null,
+  includedResourceID?: string | null,
 };
 
 export type DeleteCommentInput = {
@@ -470,6 +486,8 @@ export type ModelCommentFilterInput = {
   projectID?: ModelIDInput | null,
   content?: ModelStringInput | null,
   creatorID?: ModelIDInput | null,
+  includedResourceType?: ModelCommentResourceTypeInput | null,
+  includedResourceID?: ModelIDInput | null,
   and?: Array< ModelCommentFilterInput | null > | null,
   or?: Array< ModelCommentFilterInput | null > | null,
   not?: ModelCommentFilterInput | null,
@@ -710,6 +728,8 @@ export type DeleteProjectFreelancerMutation = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -854,6 +874,8 @@ export type UpdateProjectMutation = {
               projectID: string,
               content: string,
               creatorID: string,
+              includedResourceType: CommentResourceType | null,
+              includedResourceID: string | null,
               updatedAt: string,
             } | null > | null,
             nextToken: string | null,
@@ -899,6 +921,8 @@ export type UpdateProjectMutation = {
         projectID: string,
         content: string,
         creatorID: string,
+        includedResourceType: CommentResourceType | null,
+        includedResourceID: string | null,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -1042,6 +1066,8 @@ export type DeleteProjectMutation = {
               projectID: string,
               content: string,
               creatorID: string,
+              includedResourceType: CommentResourceType | null,
+              includedResourceID: string | null,
               updatedAt: string,
             } | null > | null,
             nextToken: string | null,
@@ -1087,6 +1113,8 @@ export type DeleteProjectMutation = {
         projectID: string,
         content: string,
         creatorID: string,
+        includedResourceType: CommentResourceType | null,
+        includedResourceID: string | null,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -1360,6 +1388,8 @@ export type CreateProjectFreelancerMutation = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -1532,6 +1562,8 @@ export type UpdateProjectFreelancerMutation = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -1676,6 +1708,8 @@ export type CreateProjectMutation = {
               projectID: string,
               content: string,
               creatorID: string,
+              includedResourceType: CommentResourceType | null,
+              includedResourceID: string | null,
               updatedAt: string,
             } | null > | null,
             nextToken: string | null,
@@ -1721,6 +1755,8 @@ export type CreateProjectMutation = {
         projectID: string,
         content: string,
         creatorID: string,
+        includedResourceType: CommentResourceType | null,
+        includedResourceID: string | null,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -1850,6 +1886,8 @@ export type CreateCommentMutation = {
     projectID: string,
     content: string,
     creatorID: string,
+    includedResourceType: CommentResourceType | null,
+    includedResourceID: string | null,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -1880,6 +1918,8 @@ export type UpdateCommentMutation = {
     projectID: string,
     content: string,
     creatorID: string,
+    includedResourceType: CommentResourceType | null,
+    includedResourceID: string | null,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -1910,6 +1950,8 @@ export type DeleteCommentMutation = {
     projectID: string,
     content: string,
     creatorID: string,
+    includedResourceType: CommentResourceType | null,
+    includedResourceID: string | null,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -3009,6 +3051,8 @@ export type GetProjectFreelancerQuery = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -3159,6 +3203,8 @@ export type ListProjectFreelancersQuery = {
             projectID: string,
             content: string,
             creatorID: string,
+            includedResourceType: CommentResourceType | null,
+            includedResourceID: string | null,
             updatedAt: string,
             creator:  {
               __typename: "User",
@@ -3314,6 +3360,8 @@ export type ProjectsByFreelancerQuery = {
             projectID: string,
             content: string,
             creatorID: string,
+            includedResourceType: CommentResourceType | null,
+            includedResourceID: string | null,
             updatedAt: string,
             creator:  {
               __typename: "User",
@@ -3470,6 +3518,8 @@ export type ListProjectsQuery = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -3614,6 +3664,8 @@ export type GetProjectQuery = {
               projectID: string,
               content: string,
               creatorID: string,
+              includedResourceType: CommentResourceType | null,
+              includedResourceID: string | null,
               updatedAt: string,
             } | null > | null,
             nextToken: string | null,
@@ -3659,6 +3711,8 @@ export type GetProjectQuery = {
         projectID: string,
         content: string,
         creatorID: string,
+        includedResourceType: CommentResourceType | null,
+        includedResourceID: string | null,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -3759,6 +3813,8 @@ export type GetCommentQuery = {
     projectID: string,
     content: string,
     creatorID: string,
+    includedResourceType: CommentResourceType | null,
+    includedResourceID: string | null,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -3792,6 +3848,8 @@ export type ListCommentsQuery = {
       projectID: string,
       content: string,
       creatorID: string,
+      includedResourceType: CommentResourceType | null,
+      includedResourceID: string | null,
       updatedAt: string,
       creator:  {
         __typename: "User",
@@ -4717,6 +4775,8 @@ export type OnCreateProjectFreelancerSubscription = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -4884,6 +4944,8 @@ export type OnUpdateProjectFreelancerSubscription = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -5051,6 +5113,8 @@ export type OnDeleteProjectFreelancerSubscription = {
           projectID: string,
           content: string,
           creatorID: string,
+          includedResourceType: CommentResourceType | null,
+          includedResourceID: string | null,
           updatedAt: string,
           creator:  {
             __typename: "User",
@@ -5190,6 +5254,8 @@ export type OnCreateProjectSubscription = {
               projectID: string,
               content: string,
               creatorID: string,
+              includedResourceType: CommentResourceType | null,
+              includedResourceID: string | null,
               updatedAt: string,
             } | null > | null,
             nextToken: string | null,
@@ -5235,6 +5301,8 @@ export type OnCreateProjectSubscription = {
         projectID: string,
         content: string,
         creatorID: string,
+        includedResourceType: CommentResourceType | null,
+        includedResourceID: string | null,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -5373,6 +5441,8 @@ export type OnUpdateProjectSubscription = {
               projectID: string,
               content: string,
               creatorID: string,
+              includedResourceType: CommentResourceType | null,
+              includedResourceID: string | null,
               updatedAt: string,
             } | null > | null,
             nextToken: string | null,
@@ -5418,6 +5488,8 @@ export type OnUpdateProjectSubscription = {
         projectID: string,
         content: string,
         creatorID: string,
+        includedResourceType: CommentResourceType | null,
+        includedResourceID: string | null,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -5556,6 +5628,8 @@ export type OnDeleteProjectSubscription = {
               projectID: string,
               content: string,
               creatorID: string,
+              includedResourceType: CommentResourceType | null,
+              includedResourceID: string | null,
               updatedAt: string,
             } | null > | null,
             nextToken: string | null,
@@ -5601,6 +5675,8 @@ export type OnDeleteProjectSubscription = {
         projectID: string,
         content: string,
         creatorID: string,
+        includedResourceType: CommentResourceType | null,
+        includedResourceID: string | null,
         updatedAt: string,
         creator:  {
           __typename: "User",
@@ -5710,6 +5786,8 @@ export type OnCreateCommentSubscription = {
     projectID: string,
     content: string,
     creatorID: string,
+    includedResourceType: CommentResourceType | null,
+    includedResourceID: string | null,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -5735,6 +5813,8 @@ export type OnUpdateCommentSubscription = {
     projectID: string,
     content: string,
     creatorID: string,
+    includedResourceType: CommentResourceType | null,
+    includedResourceID: string | null,
     updatedAt: string,
     creator:  {
       __typename: "User",
@@ -5760,6 +5840,8 @@ export type OnDeleteCommentSubscription = {
     projectID: string,
     content: string,
     creatorID: string,
+    includedResourceType: CommentResourceType | null,
+    includedResourceID: string | null,
     updatedAt: string,
     creator:  {
       __typename: "User",
