@@ -84,7 +84,7 @@ interface AddQuoteModalContentProps {
   refetchData: Function;
   selectedQuote: Quote;
   creator: User;
-  index: number;
+  index?: number;
 }
 
 const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, projectID, refetchData, selectedQuote, creator, index }) => {

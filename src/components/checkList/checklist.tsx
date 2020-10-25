@@ -11,47 +11,39 @@ interface CheckListProps {
   }>;
   name: string;
   callback: Function;
-  editable?: boolean;
 }
 
-export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback, editable = true }) => {
+export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback }) => {
   function handleCheckboxChange(e, item) {
     callback(e.target.checked, item);
   }
 
   return (
     <ul className={styles.ul}>
-      {listItems.map((item) =>
-        editable ? (
-          <li key={item.id} className={styles.listItem}>
-            <input
-              id={`${name}:${item.id}`}
-              type="checkbox"
-              className={`${styles.input} ${name}`}
-              name={name}
-              value={item.id}
-              defaultChecked={item.completed}
-              onChange={(e) => handleCheckboxChange(e, item)}
-            />
-            <label htmlFor={`${name}:${item.id}`}>
-              <div className={styles.checkboxes}>
-                <div className={styles.checked}>
-                  <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
-                </div>
-                <div className={styles.unchecked}>
-                  <FontAwesomeIcon color="#595959" icon={faCircle} />
-                </div>
+      {listItems.map((item) => (
+        <li key={item.id} className={styles.listItem}>
+          <input
+            id={`${name}:${item.id}`}
+            type="checkbox"
+            className={`${styles.input} ${name}`}
+            name={name}
+            value={item.id}
+            defaultChecked={item.completed}
+            onChange={(e) => handleCheckboxChange(e, item)}
+          />
+          <label htmlFor={`${name}:${item.id}`}>
+            <div className={styles.checkboxes}>
+              <div className={styles.checked}>
+                <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
               </div>
-              <span className={styles.text}>{item.listItem}</span>
-            </label>
-          </li>
-        ) : (
-          <li key={item.id}>
-            <span className="li__bullet">{item.completed ? <BlueCheckmark /> : <Unchecked />}</span>
-            <span className={item.completed ? 'strikethrough' : ''}>{item.listItem}</span>
-          </li>
-        ),
-      )}
+              <div className={styles.unchecked}>
+                <FontAwesomeIcon color="#595959" icon={faCircle} />
+              </div>
+            </div>
+            <span className={styles.text}>{item.listItem}</span>
+          </label>
+        </li>
+      ))}
     </ul>
   );
 };
