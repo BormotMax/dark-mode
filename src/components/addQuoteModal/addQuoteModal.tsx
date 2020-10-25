@@ -20,6 +20,8 @@ import { client } from '../../pages/_app';
 import { createComment, createQuote, createTask } from '../../graphql/mutations';
 import { useLogger, useFlash } from '../../hooks';
 import { Quote, User } from '../../types/custom';
+import { Protected } from '../protected/protected';
+import { Role } from '../withAuthentication';
 
 interface AddQuoteModalProps {
   projectID: string;
@@ -34,9 +36,11 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
-        <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#3C78FB" icon={faUserPlus} />}>
-          <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={null} creator={creator} />
-        </InPlaceModal>
+        <Protected roles={[Role.FREELANCER]}>
+          <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#3C78FB" icon={faUserPlus} />}>
+            <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={null} creator={creator} />
+          </InPlaceModal>
+        </Protected>
       </div>
       {quotes
         .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())

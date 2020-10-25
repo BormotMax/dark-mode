@@ -158,7 +158,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <div className={classnames('column', 'is-narrow', styles.rightColumn)}>
           <div className={classnames(styles.tabGroupWrapper)}>
             <TabGroup names={['People', 'Notes']}>
-              <ContactPreview users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+              <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
               <NotesTab />
             </TabGroup>
             <TabGroup names={['Tasks & Time', 'Financial']}>

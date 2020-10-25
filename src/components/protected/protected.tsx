@@ -5,7 +5,7 @@ interface ProtectedProps {
   roles: Role[];
 }
 
-const isAllowed = (user, roles: Role[]) => {
+export const isAllowed = (user, roles: Role[]) => {
   const currentUserRoles = user?.signInUserSession?.accessToken?.payload['cognito:groups'] || [];
   const intersection = currentUserRoles.filter((x) => roles.includes(x));
   const allowed = !(intersection.length === 0 && !currentUserRoles.includes(Role.ADMIN));

@@ -175,6 +175,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
 
     const clientEmailInput = {
       freelancerEmail,
+      freelancerName,
       clientEmail: existingClient.email,
       clientName: name,
       projectUrl: `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`,

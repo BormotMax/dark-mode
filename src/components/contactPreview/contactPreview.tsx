@@ -5,6 +5,7 @@ import { faCircle, faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
+import axios from 'axios';
 import { ProjectClient, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
@@ -20,16 +21,17 @@ interface ContactPreviewProps {
   users: ProjectClient[];
   projectID: string;
   refreshUsers: Function;
+  currentUser: User;
 }
 
-export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID, refreshUsers }) => {
+export const ContactPreview: React.FC<ContactPreviewProps> = ({ currentUser, users, projectID, refreshUsers }) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
         <InPlaceModal variant={InPlaceModalVariants.BLOCK} button={<FontAwesomeIcon color="#3C78FB" icon={faUserPlus} />}>
-          <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} />
+          <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} currentUser={currentUser} />
         </InPlaceModal>
       </div>
       {users
@@ -62,7 +64,13 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
               </div>
             }
           >
-            <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} selectedUser={selectedUser} />
+            <ModalContent
+              projectID={projectID}
+              refreshUsers={refreshUsers}
+              users={users}
+              selectedUser={selectedUser}
+              currentUser={currentUser}
+            />
           </InPlaceModal>
         ))}
     </>
@@ -82,9 +90,10 @@ interface ModalContentProps {
   users: ProjectClient[];
   selectedUser?: ProjectClient;
   close?: Function;
+  currentUser: User;
 }
 
-const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUsers, users, selectedUser }) => {
+const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUsers, users, selectedUser, currentUser }) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
@@ -103,6 +112,8 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   }
 
   const createProjectMember = async () => {
+    if (userType === UserRole.FREELANCER) return; // TODO: handle adding freelancers
+
     // Check if there is an existing user with this email. The primary (id) key's value is the client's email.
     let getUserResponse;
     const getUserInput = { id: email };
@@ -159,20 +170,21 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       } catch (error) {
         logger.error('ContactPreviewModalContent: error creating ProjectClient', { error, input: createProjectClientInput });
       }
-    } else if (userType === UserRole.FREELANCER) {
-      // todo: make sure the freelancer isn't already added to this project
-      // We're not ready for this. Does the freelancer need an existing account?
-      // Create the M:M joining record associating a freelancer with a project
-      // don't save name, that will be from the freelancers user object.
-      // const createProjectFreelancerInput = { freelancerID, projectID };
-      // try {
-      //   await client.mutate({
-      //     mutation: gql(createProjectFreelancer),
-      //     variables: { input: createProjectFreelancerInput },
-      //   });
-      // } catch (error) {
-      //   logger.error('ContactPreviewModalContent: error creating ProjectFreelancer', { error, input: createProjectFreelancerInput });
-      // }
+
+      const newProjectMemberEmailInput = {
+        freelancerEmail: currentUser.email,
+        freelancerName: currentUser.name,
+        clientEmail: email,
+        clientName: name,
+        projectUrl: `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`,
+        type: 'NEW_CLIENT_CONTACT_CLIENT',
+      };
+
+      try {
+        axios.post('/api/sendEmail', newProjectMemberEmailInput);
+      } catch (error) {
+        logger.error('ContactPreview: error sending email to new project member', { error, input: newProjectMemberEmailInput });
+      }
     }
   };
 

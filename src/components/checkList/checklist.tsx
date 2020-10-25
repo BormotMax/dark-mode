@@ -11,9 +11,10 @@ interface CheckListProps {
   }>;
   name: string;
   callback: Function;
+  disabled?: boolean;
 }
 
-export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback }) => {
+export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback, disabled = false }) => {
   function handleCheckboxChange(e, item) {
     callback(e.target.checked, item);
   }
@@ -25,6 +26,7 @@ export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback 
           <input
             id={`${name}:${item.id}`}
             type="checkbox"
+            disabled={disabled}
             className={`${styles.input} ${name}`}
             name={name}
             value={item.id}

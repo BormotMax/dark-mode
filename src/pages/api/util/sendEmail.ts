@@ -11,23 +11,23 @@ export const sendEmail = async ({ freelancerEmail, freelancerName, clientEmail, 
       from: { email: 'notifications@continuum.works', name: 'Continuum' },
       replyTo: clientEmail || 'notifications@continuum.works',
       subject: `New client contact from ${clientName}`,
-      text: `Hey ${freelancerName},\n\nYou have a new client conversation from ${clientName}.\n\n${projectUrl}\n\n`,
+      text: `Hey ${freelancerName.split(' ')[0]},\n\nYou have a new client conversation from ${clientName}.\n\n${projectUrl}\n\n`,
       html: `<div style="font-family:Helvetica;font-size:14px;">
-      <div style="text-align:center;">
+      <div style="text-align:left;">
         <img
           style="margin-top:50px;"
-          src="https://continuum-resources.s3.amazonaws.com/emailLogo.png"
+          src="https://continuum-resources.s3.amazonaws.com/horizontalEmailLogo.png"
           alt="logo"
         />
       </div>
       <div style="padding-top:30px;">
-        Hey ${freelancerName},
+        Hey ${freelancerName.split(' ')[0]},
         <br />
         <br />
         You have a new 
         <a style="text-decoration:underline;" href="${projectUrl}">
-          client conversation from ${clientName}
-        </a>.
+          client conversation from ${clientName}.
+        </a>
       </div>
     </div>
       `,
@@ -38,23 +38,25 @@ export const sendEmail = async ({ freelancerEmail, freelancerName, clientEmail, 
       from: { email: 'notifications@continuum.works', name: 'Continuum' },
       replyTo: freelancerEmail || 'notifications@continuum.works',
       subject: 'Your new project space on Continuum.',
-      text: `Hey ${clientName}\n\nHere's a link to your project space:\n\n${projectUrl}\n\n`,
+      text: `Hey ${clientName.split(' ')[0]}\n\n${
+        freelancerName.split(' ')[0]
+      } has invited you to your new project space on Continuum:\n\n${projectUrl}\n\n`,
       html: `<div style="font-family:Helvetica;font-size:14px;">
-      <div style="text-align:center;">
+      <div style="text-align:left;">
         <img
           style="margin-top:50px;"
-          src="https://continuum-resources.s3.amazonaws.com/emailLogo.png"
+          src="https://continuum-resources.s3.amazonaws.com/horizontalEmailLogo.png"
           alt="logo"
         />
       </div>
       <div style="padding-top:30px;">
-        Hey ${clientName},
+        Hey ${clientName.split(' ')[0]},
         <br />
         <br />
-        Visit your new 
+        ${freelancerName.split(' ')[0]} has invited you to your new  
         <a style="text-decoration:underline;" href="${projectUrl}">
-          project space on Continuum
-        </a>.
+          project space on Continuum.
+        </a>
       </div>
     </div>
       `,

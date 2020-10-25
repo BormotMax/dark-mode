@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/pro-light-svg-icons';
 import classnames from 'classnames';
@@ -6,11 +6,13 @@ import gql from 'graphql-tag';
 import serialize from 'form-serialize';
 import { CheckList } from '../checkList';
 import styles from './quoteProgress.module.scss';
-import { Quote, Task } from '../../types/custom';
-import { useLogger, useFlash } from '../../hooks';
-import { CreateTaskInput, UpdateTaskInput } from '../../API';
+import { Quote, Task, User } from '../../types/custom';
+import { useLogger, useFlash, useCurrentUser } from '../../hooks';
+import { CreateTaskInput, UpdateTaskInput, UserRole } from '../../API';
 import { createTask, updateTask } from '../../graphql/mutations';
 import { client } from '../../pages/_app';
+import { Role } from '../withAuthentication';
+import { isAllowed, Protected } from '../protected/protected';
 
 function calcPercentDone(tasks: Array<Task>) {
   let total = 0;
@@ -41,6 +43,7 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
   const { setFlash } = useFlash();
   const [isSaving, setIsSaving] = useState(false);
   const addTaskRef = useRef(null);
+  const { currentUser } = useCurrentUser();
 
   useEffect(() => {
     setPercentDone(calcPercentDone(tasks));
@@ -110,6 +113,7 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
         <form>
           <CheckList
             name={`quote-${i}`}
+            disabled={!isAllowed(currentUser, [Role.FREELANCER])}
             callback={handleQuoteProgressUpdate}
             listItems={tasks
               .filter(Boolean)
@@ -121,16 +125,18 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
               }))}
           />
         </form>
-        <form onSubmit={addNewTask}>
-          <input
-            ref={addTaskRef}
-            disabled={isSaving}
-            name="text"
-            type="text"
-            className={classnames(styles.addTask)}
-            placeholder="Type a new task and hit Enter"
-          />
-        </form>
+        <Protected roles={[Role.FREELANCER]}>
+          <form onSubmit={addNewTask}>
+            <input
+              ref={addTaskRef}
+              disabled={isSaving}
+              name="text"
+              type="text"
+              className={classnames(styles.addTask)}
+              placeholder="Type a new task and hit Enter"
+            />
+          </form>
+        </Protected>
       </div>
     </div>
   );

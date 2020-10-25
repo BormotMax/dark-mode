@@ -67,7 +67,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
                       {/* todo: click to change title */}
                       <div>{p.title || p.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</div>
                     </div>
-                    <div className={classnames(styles.commentContent)}>{p.details || 'Client contact'}</div>
+                    <div className={classnames(styles.commentContent)}>{p.details || 'New Project'}</div>
                   </div>
                 </a>
               </Link>
