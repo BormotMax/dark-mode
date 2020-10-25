@@ -1,34 +1,60 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import '~bulma/sass/utilities/_all.sass';
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 45px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #595959;
 }
 
 .percent {
-    margin-left: 28px;
-    font-family: Poppins;
-    font-weight: 500;
-    text-align: right;
-    font-size: 32px;
-    align-self: center;
+  margin-left: 28px;
+  font-family: Poppins;
+  font-weight: 500;
+  text-align: right;
+  font-size: 32px;
+  align-self: center;
 }
 
 .quote {
-    margin-bottom: 50px;
+  margin-bottom: 30px;
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #595959;
 }
 
 .progressContainer {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 33px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .hideTasksButton {
-    cursor: pointer;
+  cursor: pointer;
 
-    svg {
-        vertical-align: middle;
-    }
+  svg {
+    vertical-align: middle;
+  }
+}
+
+.addTask {
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #595959;
+  margin-top: 8px;
+  border: none;
+  border-bottom: 1px solid #bdbdbd;
+
+  &:disabled {
+    color: #bdbdbd;
+    background: transparent;
+  }
 }

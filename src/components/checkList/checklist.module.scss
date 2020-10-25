@@ -1,36 +1,42 @@
 .listItem {
+  .text {
+    margin-left: 9px;
+  }
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  input + label {
+    .checked {
+      display: none;
+    }
+  }
+
+  input:checked + label {
     .text {
-        margin-left: 17.5px;
+      text-decoration-line: line-through;
     }
-
-    input[type="checkbox"] {
-        display: none;
+    .checked {
+      display: initial;
     }
-
-    label {
-        cursor: pointer;
-        display: flex;
+    .unchecked {
+      display: none;
     }
-
-    input + label {
-        .checked {
-            display: none;
-        }
-    }
-
-    input:checked + label {
-        .text {
-            text-decoration-line: line-through;
-        }
-        .checked {
-            display: initial;
-        }
-        .unchecked {
-            display: none;
-        }
-    }
+  }
 }
 
 .checkboxes {
-    padding-top: 4px;
+  padding-top: 4px;
+
+  svg {
+    height: 18px;
+    width: 18px !important;
+  }
 }

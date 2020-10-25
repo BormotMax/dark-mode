@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faTimes } from '@fortawesome/pro-light-svg-icons';
-import { faUserPlus, faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
+import { faTimesCircle, faTimes, faUserPlus } from '@fortawesome/pro-light-svg-icons';
+import { faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
 import gql from 'graphql-tag';
 import styles from './addQuoteModal.module.scss';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
@@ -28,7 +28,7 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
-        <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#595959" icon={faUserPlus} />}>
+        <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#3C78FB" icon={faUserPlus} />}>
           <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={null} />
         </InPlaceModal>
       </div>

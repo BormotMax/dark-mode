@@ -6,7 +6,6 @@ import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { ProjectClient, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
-import styles from './contactPreview.module.scss';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal/inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
@@ -30,7 +29,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
-        <InPlaceModal variant={InPlaceModalVariants.BLOCK} button={<FontAwesomeIcon color="#595959" icon={faUserPlus} />}>
+        <InPlaceModal variant={InPlaceModalVariants.BLOCK} button={<FontAwesomeIcon color="#3C78FB" icon={faUserPlus} />}>
           <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} />
         </InPlaceModal>
       </div>
