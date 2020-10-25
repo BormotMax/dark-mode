@@ -81,10 +81,20 @@ type Project
 type Quote
   @model
   @key(name: "byProject", fields: ["projectID"])
-  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: private, operations: [create, read, update, delete] }
+      { allow: public, provider: iam }
+    ]
+  ) {
   id: ID!
   projectID: ID!
   tasks: [Task] @connection(keyName: "byQuote", fields: ["id"])
+  billableHours: Int
+  chargePerHour: Int
+  totalPrice: Int
+  billingType: QuoteBillingType!
 }
 
 type Comment
@@ -102,7 +112,13 @@ type Comment
 type Task
   @model
   @key(name: "byQuote", fields: ["quoteID"])
-  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: private, operations: [create, read, update, delete] }
+      { allow: public, provider: iam }
+    ]
+  ) {
   id: ID!
   quoteID: ID!
   text: String!
@@ -146,4 +162,9 @@ type DomainSlug
 enum UserRole {
   FREELANCER
   CLIENT
+}
+
+enum QuoteBillingType {
+  HOURLY
+  TOTAL
 }

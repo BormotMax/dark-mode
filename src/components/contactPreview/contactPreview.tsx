@@ -29,7 +29,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
 
   return (
     <>
-      <div className={classnames(styles.addPerson)}>
+      <div className={classnames(modalStyles.addNew)}>
         <InPlaceModal variant={InPlaceModalVariants.BLOCK} button={<FontAwesomeIcon color="#595959" icon={faUserPlus} />}>
           <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} />
         </InPlaceModal>
@@ -51,13 +51,15 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ users, projectID
                   setSelectedUser(projectMember);
                 }}
                 key={projectMember.user.id}
-                className={classnames(styles.contactPreview)}
+                className={classnames(modalStyles.modalPill)}
               >
-                <Avatar email={projectMember.user.email} />
+                <div className={classnames(modalStyles.icon)}>
+                  <Avatar email={projectMember.user.email} />
+                </div>
                 <div>
                   {projectMember.user.name}
                   {projectMember.user.title && ', '}
-                  <span className={classnames(styles.title)}>{projectMember.user.title}</span>
+                  <span className={classnames(modalStyles.title)}>{projectMember.user.title}</span>
                 </div>
               </div>
             }
@@ -238,7 +240,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       await createProjectMember();
     }
 
-    refreshUsers();
+    await refreshUsers();
     close();
   }
 

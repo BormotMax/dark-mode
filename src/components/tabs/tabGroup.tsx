@@ -28,8 +28,8 @@ export const TabGroup: React.FC<TabGroupProps> = ({ names, children }) => {
               {/*  bulma needs a here */}
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>
-                <FontAwesomeIcon size="1x" color="#595959" icon={faClipboardUser} />
-                &nbsp;
+                {/* <FontAwesomeIcon size="1x" color="#595959" icon={faClipboardUser} />
+                &nbsp; */}
                 {name}
               </a>
             </li>

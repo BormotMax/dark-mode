@@ -1,25 +1,79 @@
 .addQuoteModal {
   text-align: right;
-  margin: calc(-1.5rem + 8px) 0 8px 0;
+}
+.modalContent {
+  border: 1px solid #3c78fb;
+  border-radius: 4px;
+  margin: -16px;
+  font-family: Poppins;
+  font-weight: normal;
+  .header {
+    font-size: 24px;
+    line-height: 36px;
+    color: #ffffff;
+    background: #3c78fb;
+    border-radius: 4px 4px 0px 0px;
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  span {
-    cursor: pointer;
-    position: relative;
+    svg {
+      cursor: pointer;
+    }
   }
 
-  .addPersonModal {
-    text-align: left;
-    background: white;
-    padding: 16px;
-    box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+  .body {
+    font-weight: 300;
+    padding: 24px;
+    font-size: 16px;
+    line-height: 24px;
 
-    input {
-      width: 100%;
+    .tasks {
+      .task {
+        border-bottom: 1px solid #bdbdbd;
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-weight: 300;
+        color: #000000;
+        align-items: center;
+
+        .deleteTask {
+          cursor: pointer;
+
+          svg {
+            vertical-align: middle;
+          }
+        }
+      }
+
+      .newTaskInput {
+        margin: 16px 0 10px 0;
+      }
+    }
+
+    .radioText {
+      color: #595959;
+      font-family: Poppins;
+      font-size: 16px;
+      line-height: 24px;
     }
 
     .save {
       text-align: right;
     }
   }
+}
+
+.inlineInput {
+  border: none !important;
+  border-bottom: 1px solid #3c78fb !important;
+  width: 60px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  margin: 0 !important;
+  height: 100% !important;
+  color: #3c78fb;
+  font-size: 16px;
 }

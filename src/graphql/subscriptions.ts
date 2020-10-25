@@ -222,6 +222,10 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -365,6 +369,10 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -508,6 +516,10 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -638,6 +650,10 @@ export const onCreateProject = /* GraphQL */ `
               items {
                 id
                 projectID
+                billableHours
+                chargePerHour
+                totalPrice
+                billingType
                 createdAt
                 updatedAt
               }
@@ -662,6 +678,10 @@ export const onCreateProject = /* GraphQL */ `
         items {
           id
           projectID
+          billableHours
+          chargePerHour
+          totalPrice
+          billingType
           createdAt
           updatedAt
           tasks {
@@ -791,6 +811,10 @@ export const onUpdateProject = /* GraphQL */ `
               items {
                 id
                 projectID
+                billableHours
+                chargePerHour
+                totalPrice
+                billingType
                 createdAt
                 updatedAt
               }
@@ -815,6 +839,10 @@ export const onUpdateProject = /* GraphQL */ `
         items {
           id
           projectID
+          billableHours
+          chargePerHour
+          totalPrice
+          billingType
           createdAt
           updatedAt
           tasks {
@@ -944,6 +972,10 @@ export const onDeleteProject = /* GraphQL */ `
               items {
                 id
                 projectID
+                billableHours
+                chargePerHour
+                totalPrice
+                billingType
                 createdAt
                 updatedAt
               }
@@ -968,6 +1000,10 @@ export const onDeleteProject = /* GraphQL */ `
         items {
           id
           projectID
+          billableHours
+          chargePerHour
+          totalPrice
+          billingType
           createdAt
           updatedAt
           tasks {
@@ -1015,6 +1051,10 @@ export const onCreateQuote = /* GraphQL */ `
     onCreateQuote {
       id
       projectID
+      billableHours
+      chargePerHour
+      totalPrice
+      billingType
       createdAt
       updatedAt
       tasks {
@@ -1036,6 +1076,10 @@ export const onUpdateQuote = /* GraphQL */ `
     onUpdateQuote {
       id
       projectID
+      billableHours
+      chargePerHour
+      totalPrice
+      billingType
       createdAt
       updatedAt
       tasks {
@@ -1057,6 +1101,10 @@ export const onDeleteQuote = /* GraphQL */ `
     onDeleteQuote {
       id
       projectID
+      billableHours
+      chargePerHour
+      totalPrice
+      billingType
       createdAt
       updatedAt
       tasks {

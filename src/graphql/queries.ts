@@ -196,6 +196,10 @@ export const getProjectFreelancer = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -336,6 +340,10 @@ export const listProjectFreelancers = /* GraphQL */ `
             items {
               id
               projectID
+              billableHours
+              chargePerHour
+              totalPrice
+              billingType
               createdAt
               updatedAt
               tasks {
@@ -476,6 +484,10 @@ export const projectsByFreelancer = /* GraphQL */ `
             items {
               id
               projectID
+              billableHours
+              chargePerHour
+              totalPrice
+              billingType
               createdAt
               updatedAt
               tasks {
@@ -599,6 +611,10 @@ export const listProjects = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -730,6 +746,10 @@ export const getProject = /* GraphQL */ `
               items {
                 id
                 projectID
+                billableHours
+                chargePerHour
+                totalPrice
+                billingType
                 createdAt
                 updatedAt
               }
@@ -754,6 +774,10 @@ export const getProject = /* GraphQL */ `
         items {
           id
           projectID
+          billableHours
+          chargePerHour
+          totalPrice
+          billingType
           createdAt
           updatedAt
           tasks {
@@ -801,6 +825,10 @@ export const getQuote = /* GraphQL */ `
     getQuote(id: $id) {
       id
       projectID
+      billableHours
+      chargePerHour
+      totalPrice
+      billingType
       createdAt
       updatedAt
       tasks {
@@ -827,6 +855,10 @@ export const listQuotes = /* GraphQL */ `
       items {
         id
         projectID
+        billableHours
+        chargePerHour
+        totalPrice
+        billingType
         createdAt
         updatedAt
         tasks {

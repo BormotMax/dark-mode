@@ -120,6 +120,12 @@ export type ModelProjectFreelancerConditionInput = {
   not?: ModelProjectFreelancerConditionInput | null,
 };
 
+export enum QuoteBillingType {
+  HOURLY = "HOURLY",
+  TOTAL = "TOTAL",
+}
+
+
 export type UpdateProjectInput = {
   id: string,
   createdAt?: string | null,
@@ -207,18 +213,47 @@ export type CreateProjectInput = {
 export type CreateQuoteInput = {
   id?: string | null,
   projectID: string,
+  billableHours?: number | null,
+  chargePerHour?: number | null,
+  totalPrice?: number | null,
+  billingType: QuoteBillingType,
 };
 
 export type ModelQuoteConditionInput = {
   projectID?: ModelIDInput | null,
+  billableHours?: ModelIntInput | null,
+  chargePerHour?: ModelIntInput | null,
+  totalPrice?: ModelIntInput | null,
+  billingType?: ModelQuoteBillingTypeInput | null,
   and?: Array< ModelQuoteConditionInput | null > | null,
   or?: Array< ModelQuoteConditionInput | null > | null,
   not?: ModelQuoteConditionInput | null,
 };
 
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelQuoteBillingTypeInput = {
+  eq?: QuoteBillingType | null,
+  ne?: QuoteBillingType | null,
+};
+
 export type UpdateQuoteInput = {
   id: string,
   projectID?: string | null,
+  billableHours?: number | null,
+  chargePerHour?: number | null,
+  totalPrice?: number | null,
+  billingType?: QuoteBillingType | null,
 };
 
 export type DeleteQuoteInput = {
@@ -420,6 +455,10 @@ export type ModelProjectFilterInput = {
 export type ModelQuoteFilterInput = {
   id?: ModelIDInput | null,
   projectID?: ModelIDInput | null,
+  billableHours?: ModelIntInput | null,
+  chargePerHour?: ModelIntInput | null,
+  totalPrice?: ModelIntInput | null,
+  billingType?: ModelQuoteBillingTypeInput | null,
   and?: Array< ModelQuoteFilterInput | null > | null,
   or?: Array< ModelQuoteFilterInput | null > | null,
   not?: ModelQuoteFilterInput | null,
@@ -640,6 +679,10 @@ export type DeleteProjectFreelancerMutation = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -793,6 +836,10 @@ export type UpdateProjectMutation = {
               __typename: "Quote",
               id: string,
               projectID: string,
+              billableHours: number | null,
+              chargePerHour: number | null,
+              totalPrice: number | null,
+              billingType: QuoteBillingType,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -821,6 +868,10 @@ export type UpdateProjectMutation = {
         __typename: "Quote",
         id: string,
         projectID: string,
+        billableHours: number | null,
+        chargePerHour: number | null,
+        totalPrice: number | null,
+        billingType: QuoteBillingType,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -973,6 +1024,10 @@ export type DeleteProjectMutation = {
               __typename: "Quote",
               id: string,
               projectID: string,
+              billableHours: number | null,
+              chargePerHour: number | null,
+              totalPrice: number | null,
+              billingType: QuoteBillingType,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -1001,6 +1056,10 @@ export type DeleteProjectMutation = {
         __typename: "Quote",
         id: string,
         projectID: string,
+        billableHours: number | null,
+        chargePerHour: number | null,
+        totalPrice: number | null,
+        billingType: QuoteBillingType,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -1270,6 +1329,10 @@ export type CreateProjectFreelancerMutation = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -1438,6 +1501,10 @@ export type UpdateProjectFreelancerMutation = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -1591,6 +1658,10 @@ export type CreateProjectMutation = {
               __typename: "Quote",
               id: string,
               projectID: string,
+              billableHours: number | null,
+              chargePerHour: number | null,
+              totalPrice: number | null,
+              billingType: QuoteBillingType,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -1619,6 +1690,10 @@ export type CreateProjectMutation = {
         __typename: "Quote",
         id: string,
         projectID: string,
+        billableHours: number | null,
+        chargePerHour: number | null,
+        totalPrice: number | null,
+        billingType: QuoteBillingType,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -1676,6 +1751,10 @@ export type CreateQuoteMutation = {
     __typename: "Quote",
     id: string,
     projectID: string,
+    billableHours: number | null,
+    chargePerHour: number | null,
+    totalPrice: number | null,
+    billingType: QuoteBillingType,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -1704,6 +1783,10 @@ export type UpdateQuoteMutation = {
     __typename: "Quote",
     id: string,
     projectID: string,
+    billableHours: number | null,
+    chargePerHour: number | null,
+    totalPrice: number | null,
+    billingType: QuoteBillingType,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -1732,6 +1815,10 @@ export type DeleteQuoteMutation = {
     __typename: "Quote",
     id: string,
     projectID: string,
+    billableHours: number | null,
+    chargePerHour: number | null,
+    totalPrice: number | null,
+    billingType: QuoteBillingType,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -2891,6 +2978,10 @@ export type GetProjectFreelancerQuery = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -3046,6 +3137,10 @@ export type ListProjectFreelancersQuery = {
             __typename: "Quote",
             id: string,
             projectID: string,
+            billableHours: number | null,
+            chargePerHour: number | null,
+            totalPrice: number | null,
+            billingType: QuoteBillingType,
             createdAt: string,
             updatedAt: string,
             tasks:  {
@@ -3197,6 +3292,10 @@ export type ProjectsByFreelancerQuery = {
             __typename: "Quote",
             id: string,
             projectID: string,
+            billableHours: number | null,
+            chargePerHour: number | null,
+            totalPrice: number | null,
+            billingType: QuoteBillingType,
             createdAt: string,
             updatedAt: string,
             tasks:  {
@@ -3340,6 +3439,10 @@ export type ListProjectsQuery = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -3493,6 +3596,10 @@ export type GetProjectQuery = {
               __typename: "Quote",
               id: string,
               projectID: string,
+              billableHours: number | null,
+              chargePerHour: number | null,
+              totalPrice: number | null,
+              billingType: QuoteBillingType,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -3521,6 +3628,10 @@ export type GetProjectQuery = {
         __typename: "Quote",
         id: string,
         projectID: string,
+        billableHours: number | null,
+        chargePerHour: number | null,
+        totalPrice: number | null,
+        billingType: QuoteBillingType,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -3577,6 +3688,10 @@ export type GetQuoteQuery = {
     __typename: "Quote",
     id: string,
     projectID: string,
+    billableHours: number | null,
+    chargePerHour: number | null,
+    totalPrice: number | null,
+    billingType: QuoteBillingType,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -3608,6 +3723,10 @@ export type ListQuotesQuery = {
       __typename: "Quote",
       id: string,
       projectID: string,
+      billableHours: number | null,
+      chargePerHour: number | null,
+      totalPrice: number | null,
+      billingType: QuoteBillingType,
       createdAt: string,
       updatedAt: string,
       tasks:  {
@@ -4567,6 +4686,10 @@ export type OnCreateProjectFreelancerSubscription = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -4730,6 +4853,10 @@ export type OnUpdateProjectFreelancerSubscription = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -4893,6 +5020,10 @@ export type OnDeleteProjectFreelancerSubscription = {
           __typename: "Quote",
           id: string,
           projectID: string,
+          billableHours: number | null,
+          chargePerHour: number | null,
+          totalPrice: number | null,
+          billingType: QuoteBillingType,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -5041,6 +5172,10 @@ export type OnCreateProjectSubscription = {
               __typename: "Quote",
               id: string,
               projectID: string,
+              billableHours: number | null,
+              chargePerHour: number | null,
+              totalPrice: number | null,
+              billingType: QuoteBillingType,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -5069,6 +5204,10 @@ export type OnCreateProjectSubscription = {
         __typename: "Quote",
         id: string,
         projectID: string,
+        billableHours: number | null,
+        chargePerHour: number | null,
+        totalPrice: number | null,
+        billingType: QuoteBillingType,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -5216,6 +5355,10 @@ export type OnUpdateProjectSubscription = {
               __typename: "Quote",
               id: string,
               projectID: string,
+              billableHours: number | null,
+              chargePerHour: number | null,
+              totalPrice: number | null,
+              billingType: QuoteBillingType,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -5244,6 +5387,10 @@ export type OnUpdateProjectSubscription = {
         __typename: "Quote",
         id: string,
         projectID: string,
+        billableHours: number | null,
+        chargePerHour: number | null,
+        totalPrice: number | null,
+        billingType: QuoteBillingType,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -5391,6 +5538,10 @@ export type OnDeleteProjectSubscription = {
               __typename: "Quote",
               id: string,
               projectID: string,
+              billableHours: number | null,
+              chargePerHour: number | null,
+              totalPrice: number | null,
+              billingType: QuoteBillingType,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -5419,6 +5570,10 @@ export type OnDeleteProjectSubscription = {
         __typename: "Quote",
         id: string,
         projectID: string,
+        billableHours: number | null,
+        chargePerHour: number | null,
+        totalPrice: number | null,
+        billingType: QuoteBillingType,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -5471,6 +5626,10 @@ export type OnCreateQuoteSubscription = {
     __typename: "Quote",
     id: string,
     projectID: string,
+    billableHours: number | null,
+    chargePerHour: number | null,
+    totalPrice: number | null,
+    billingType: QuoteBillingType,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -5494,6 +5653,10 @@ export type OnUpdateQuoteSubscription = {
     __typename: "Quote",
     id: string,
     projectID: string,
+    billableHours: number | null,
+    chargePerHour: number | null,
+    totalPrice: number | null,
+    billingType: QuoteBillingType,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -5517,6 +5680,10 @@ export type OnDeleteQuoteSubscription = {
     __typename: "Quote",
     id: string,
     projectID: string,
+    billableHours: number | null,
+    chargePerHour: number | null,
+    totalPrice: number | null,
+    billingType: QuoteBillingType,
     createdAt: string,
     updatedAt: string,
     tasks:  {

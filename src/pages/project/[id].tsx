@@ -2,7 +2,8 @@ import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { TabGroup } from '../../components/tabs';
+import Link from 'next/link';
+import { NotesTab, TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
@@ -18,8 +19,6 @@ import { TasksAndTimeTab } from '../../components/tabs/tasksAndTimeTab';
 import { Page } from '../../components/nav/nav';
 import { ContactPreview } from '../../components/contactPreview';
 import { AddQuoteModal } from '../../components/addQuoteModal';
-import { QuotePreview } from '../../components/quotePreview';
-import Link from 'next/link';
 import { Protected, ProtectedElse } from '../../components/protected/protected';
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
@@ -137,18 +136,14 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         </div>
         <div className={classnames('column', 'is-narrow', styles.rightColumn)}>
           <div className={classnames(styles.tabGroupWrapper)}>
-            <TabGroup names={['People']}>
+            <TabGroup names={['People', 'Notes']}>
               <ContactPreview users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+              <NotesTab />
             </TabGroup>
-            {/* <TabGroup names={['Tasks & Time', 'Financial']}>
+            <TabGroup names={['Tasks & Time', 'Financial']}>
               <TasksAndTimeTab quotes={quotes.items} />
-              <div>
-                <AddQuoteModal projectID={project.id} />
-                {quotes.items.map((q) => (
-                  <QuotePreview key={q.id} quote={q} />
-                ))}
-              </div>
-            </TabGroup> */}
+              <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} />
+            </TabGroup>
           </div>
         </div>
       </div>

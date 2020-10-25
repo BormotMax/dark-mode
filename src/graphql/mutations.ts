@@ -151,6 +151,10 @@ export const deleteProjectFreelancer = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -284,6 +288,10 @@ export const updateProject = /* GraphQL */ `
               items {
                 id
                 projectID
+                billableHours
+                chargePerHour
+                totalPrice
+                billingType
                 createdAt
                 updatedAt
               }
@@ -308,6 +316,10 @@ export const updateProject = /* GraphQL */ `
         items {
           id
           projectID
+          billableHours
+          chargePerHour
+          totalPrice
+          billingType
           createdAt
           updatedAt
           tasks {
@@ -440,6 +452,10 @@ export const deleteProject = /* GraphQL */ `
               items {
                 id
                 projectID
+                billableHours
+                chargePerHour
+                totalPrice
+                billingType
                 createdAt
                 updatedAt
               }
@@ -464,6 +480,10 @@ export const deleteProject = /* GraphQL */ `
         items {
           id
           projectID
+          billableHours
+          chargePerHour
+          totalPrice
+          billingType
           createdAt
           updatedAt
           tasks {
@@ -701,6 +721,10 @@ export const createProjectFreelancer = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -847,6 +871,10 @@ export const updateProjectFreelancer = /* GraphQL */ `
           items {
             id
             projectID
+            billableHours
+            chargePerHour
+            totalPrice
+            billingType
             createdAt
             updatedAt
             tasks {
@@ -980,6 +1008,10 @@ export const createProject = /* GraphQL */ `
               items {
                 id
                 projectID
+                billableHours
+                chargePerHour
+                totalPrice
+                billingType
                 createdAt
                 updatedAt
               }
@@ -1004,6 +1036,10 @@ export const createProject = /* GraphQL */ `
         items {
           id
           projectID
+          billableHours
+          chargePerHour
+          totalPrice
+          billingType
           createdAt
           updatedAt
           tasks {
@@ -1054,6 +1090,10 @@ export const createQuote = /* GraphQL */ `
     createQuote(input: $input, condition: $condition) {
       id
       projectID
+      billableHours
+      chargePerHour
+      totalPrice
+      billingType
       createdAt
       updatedAt
       tasks {
@@ -1078,6 +1118,10 @@ export const updateQuote = /* GraphQL */ `
     updateQuote(input: $input, condition: $condition) {
       id
       projectID
+      billableHours
+      chargePerHour
+      totalPrice
+      billingType
       createdAt
       updatedAt
       tasks {
@@ -1102,6 +1146,10 @@ export const deleteQuote = /* GraphQL */ `
     deleteQuote(input: $input, condition: $condition) {
       id
       projectID
+      billableHours
+      chargePerHour
+      totalPrice
+      billingType
       createdAt
       updatedAt
       tasks {
