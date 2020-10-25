@@ -151,7 +151,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
                     .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)
                 )}
               </>
-              <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} />
+              <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer} />
             </TabGroup>
           </div>
         </div>

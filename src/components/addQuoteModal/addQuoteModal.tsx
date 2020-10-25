@@ -12,7 +12,7 @@ import Unchecked from '../../img/unchecked.svg';
 import Checked from '../../img/checkmark.svg';
 import { CreateQuoteInput, CreateQuoteMutation, CreateTaskInput, QuoteBillingType } from '../../API';
 import { client } from '../../pages/_app';
-import { createQuote, createTask } from '../../graphql/mutations';
+import { createComment, createQuote, createTask } from '../../graphql/mutations';
 import { useLogger, useFlash } from '../../hooks';
 import { Quote } from '../../types/custom';
 
@@ -20,16 +20,17 @@ interface AddQuoteModalProps {
   projectID: string;
   refetchData: Function;
   quotes: Quote[];
+  creator: User;
 }
 
-export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetchData, quotes }) => {
+export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetchData, quotes, creator }) => {
   const [selectedQuote, setSelectedQuote] = useState(null);
 
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
         <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#3C78FB" icon={faUserPlus} />}>
-          <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={null} />
+          <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={null} creator={creator} />
         </InPlaceModal>
       </div>
       {quotes
@@ -57,7 +58,7 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
               </div>
             }
           >
-            <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={selectedQuote} />
+            <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={selectedQuote} creator={creator} />
           </InPlaceModal>
         ))}
     </>
@@ -69,9 +70,10 @@ interface AddQuoteModalContentProps {
   projectID: string;
   refetchData: Function;
   selectedQuote: Quote;
+  creator: User;
 }
 
-const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, projectID, refetchData, selectedQuote }) => {
+const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, projectID, refetchData, selectedQuote, creator }) => {
   const [tasks, setTasks] = useState(selectedQuote?.tasks.items.map((t) => t.text) || []);
   const [hours, setHours] = useState(selectedQuote?.billableHours?.toString() || '');
   const [perHour, setPerHour] = useState(selectedQuote?.chargePerHour?.toString() || '');
@@ -130,6 +132,22 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
         logger.error('AddQuoteModalAddQuoteModalContent: error creating Task', { error, input: createTaskInput });
         setFlash('Error: All tasks may not have been added.');
       }
+    }
+
+    // create a comment with this Quote as an associated resource so it shows up in the feed.
+    // eslint-disable-next-line max-len
+    let content =
+      'Here is your quote. If you are ready to proceed, please accept and pay; else, let me know when a good time is to connect to discuss.\n\nThank you!';
+
+    const createCommentInput = { projectID, content, creatorID: creator.id };
+    try {
+      // Create a comment from the text in the details input. The same text is also stored in project.details
+      await client.mutate({
+        mutation: gql(createComment),
+        variables: { input: createCommentInput },
+      });
+    } catch (error) {
+      logger.error('AddQuoteModal: error creating Comment', { error, input: createCommentInput });
     }
 
     await refetchData();
