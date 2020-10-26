@@ -43,4 +43,13 @@
       height: 20px;
     }
   }
+
+  &.inverted {
+    color: #3c78fb;
+    background: transparent;
+    &:hover {
+      background: #3c78fb;
+      color: #eeeeee;
+    }
+  }
 }

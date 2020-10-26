@@ -137,6 +137,9 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               freelancers {
                 nextToken
               }
+              assets {
+                nextToken
+              }
               quotes {
                 nextToken
               }
@@ -144,6 +147,20 @@ export const deleteProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+          }
+          nextToken
+        }
+        assets {
+          items {
+            id
+            asset {
+              key
+              tag
+            }
+            createdAt
+            projectID
+            fileName
+            updatedAt
           }
           nextToken
         }
@@ -286,6 +303,16 @@ export const updateProject = /* GraphQL */ `
               }
               nextToken
             }
+            assets {
+              items {
+                id
+                createdAt
+                projectID
+                fileName
+                updatedAt
+              }
+              nextToken
+            }
             quotes {
               items {
                 id
@@ -313,6 +340,20 @@ export const updateProject = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      assets {
+        items {
+          id
+          asset {
+            key
+            tag
+          }
+          createdAt
+          projectID
+          fileName
+          updatedAt
         }
         nextToken
       }
@@ -454,6 +495,16 @@ export const deleteProject = /* GraphQL */ `
               }
               nextToken
             }
+            assets {
+              items {
+                id
+                createdAt
+                projectID
+                fileName
+                updatedAt
+              }
+              nextToken
+            }
             quotes {
               items {
                 id
@@ -481,6 +532,20 @@ export const deleteProject = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      assets {
+        items {
+          id
+          asset {
+            key
+            tag
+          }
+          createdAt
+          projectID
+          fileName
+          updatedAt
         }
         nextToken
       }
@@ -533,6 +598,42 @@ export const deleteProject = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const updateProjectAssets = /* GraphQL */ `
+  mutation UpdateProjectAssets(
+    $input: UpdateProjectAssetsInput!
+    $condition: ModelProjectAssetsConditionInput
+  ) {
+    updateProjectAssets(input: $input, condition: $condition) {
+      id
+      asset {
+        key
+        tag
+      }
+      createdAt
+      projectID
+      fileName
+      updatedAt
+    }
+  }
+`;
+export const deleteProjectAssets = /* GraphQL */ `
+  mutation DeleteProjectAssets(
+    $input: DeleteProjectAssetsInput!
+    $condition: ModelProjectAssetsConditionInput
+  ) {
+    deleteProjectAssets(input: $input, condition: $condition) {
+      id
+      asset {
+        key
+        tag
+      }
+      createdAt
+      projectID
+      fileName
+      updatedAt
     }
   }
 `;
@@ -717,6 +818,9 @@ export const createProjectFreelancer = /* GraphQL */ `
               freelancers {
                 nextToken
               }
+              assets {
+                nextToken
+              }
               quotes {
                 nextToken
               }
@@ -724,6 +828,20 @@ export const createProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+          }
+          nextToken
+        }
+        assets {
+          items {
+            id
+            asset {
+              key
+              tag
+            }
+            createdAt
+            projectID
+            fileName
+            updatedAt
           }
           nextToken
         }
@@ -869,6 +987,9 @@ export const updateProjectFreelancer = /* GraphQL */ `
               freelancers {
                 nextToken
               }
+              assets {
+                nextToken
+              }
               quotes {
                 nextToken
               }
@@ -876,6 +997,20 @@ export const updateProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+          }
+          nextToken
+        }
+        assets {
+          items {
+            id
+            asset {
+              key
+              tag
+            }
+            createdAt
+            projectID
+            fileName
+            updatedAt
           }
           nextToken
         }
@@ -1018,6 +1153,16 @@ export const createProject = /* GraphQL */ `
               }
               nextToken
             }
+            assets {
+              items {
+                id
+                createdAt
+                projectID
+                fileName
+                updatedAt
+              }
+              nextToken
+            }
             quotes {
               items {
                 id
@@ -1045,6 +1190,20 @@ export const createProject = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      assets {
+        items {
+          id
+          asset {
+            key
+            tag
+          }
+          createdAt
+          projectID
+          fileName
+          updatedAt
         }
         nextToken
       }
@@ -1097,6 +1256,24 @@ export const createProject = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const createProjectAssets = /* GraphQL */ `
+  mutation CreateProjectAssets(
+    $input: CreateProjectAssetsInput!
+    $condition: ModelProjectAssetsConditionInput
+  ) {
+    createProjectAssets(input: $input, condition: $condition) {
+      id
+      asset {
+        key
+        tag
+      }
+      createdAt
+      projectID
+      fileName
+      updatedAt
     }
   }
 `;

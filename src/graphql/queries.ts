@@ -182,6 +182,9 @@ export const getProjectFreelancer = /* GraphQL */ `
               freelancers {
                 nextToken
               }
+              assets {
+                nextToken
+              }
               quotes {
                 nextToken
               }
@@ -189,6 +192,20 @@ export const getProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+          }
+          nextToken
+        }
+        assets {
+          items {
+            id
+            asset {
+              key
+              tag
+            }
+            createdAt
+            projectID
+            fileName
+            updatedAt
           }
           nextToken
         }
@@ -338,6 +355,20 @@ export const listProjectFreelancers = /* GraphQL */ `
             }
             nextToken
           }
+          assets {
+            items {
+              id
+              asset {
+                key
+                tag
+              }
+              createdAt
+              projectID
+              fileName
+              updatedAt
+            }
+            nextToken
+          }
           quotes {
             items {
               id
@@ -484,6 +515,20 @@ export const projectsByFreelancer = /* GraphQL */ `
             }
             nextToken
           }
+          assets {
+            items {
+              id
+              asset {
+                key
+                tag
+              }
+              createdAt
+              projectID
+              fileName
+              updatedAt
+            }
+            nextToken
+          }
           quotes {
             items {
               id
@@ -603,6 +648,9 @@ export const listProjects = /* GraphQL */ `
               freelancers {
                 nextToken
               }
+              assets {
+                nextToken
+              }
               quotes {
                 nextToken
               }
@@ -610,6 +658,20 @@ export const listProjects = /* GraphQL */ `
                 nextToken
               }
             }
+          }
+          nextToken
+        }
+        assets {
+          items {
+            id
+            asset {
+              key
+              tag
+            }
+            createdAt
+            projectID
+            fileName
+            updatedAt
           }
           nextToken
         }
@@ -750,6 +812,16 @@ export const getProject = /* GraphQL */ `
               }
               nextToken
             }
+            assets {
+              items {
+                id
+                createdAt
+                projectID
+                fileName
+                updatedAt
+              }
+              nextToken
+            }
             quotes {
               items {
                 id
@@ -777,6 +849,20 @@ export const getProject = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      assets {
+        items {
+          id
+          asset {
+            key
+            tag
+          }
+          createdAt
+          projectID
+          fileName
+          updatedAt
         }
         nextToken
       }
@@ -829,6 +915,43 @@ export const getProject = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const getProjectAssets = /* GraphQL */ `
+  query GetProjectAssets($id: ID!) {
+    getProjectAssets(id: $id) {
+      id
+      asset {
+        key
+        tag
+      }
+      createdAt
+      projectID
+      fileName
+      updatedAt
+    }
+  }
+`;
+export const listProjectAssetss = /* GraphQL */ `
+  query ListProjectAssetss(
+    $filter: ModelProjectAssetsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProjectAssetss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        asset {
+          key
+          tag
+        }
+        createdAt
+        projectID
+        fileName
+        updatedAt
+      }
+      nextToken
     }
   }
 `;

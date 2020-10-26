@@ -9,6 +9,7 @@ import {
   GetDomainSlugQuery,
   HireInfoByDomainSlugQuery,
   GetProjectClientQuery,
+  GetProjectAssetsQuery,
 } from '../API';
 
 interface CognitoUserExt extends CognitoUser {
@@ -39,3 +40,4 @@ export type ProjectClient = GetProjectClientQuery['getProjectClient'];
 export type HireMeInfo = GetHireMeInfoQuery['getHireMeInfo'];
 export type HireMeInfoByDomainSlug = HireInfoByDomainSlugQuery['hireInfoByDomainSlug'];
 export type DomainSlug = GetDomainSlugQuery['getDomainSlug'];
+export type ProjectAsset = GetProjectAssetsQuery['getProjectAssets'];

@@ -154,6 +154,32 @@ export type DeleteProjectInput = {
   id?: string | null,
 };
 
+export type UpdateProjectAssetsInput = {
+  id: string,
+  asset?: S3ObjectInput | null,
+  createdAt?: string | null,
+  projectID?: string | null,
+  fileName?: string | null,
+};
+
+export type S3ObjectInput = {
+  key: string,
+  tag?: string | null,
+};
+
+export type ModelProjectAssetsConditionInput = {
+  createdAt?: ModelStringInput | null,
+  projectID?: ModelIDInput | null,
+  fileName?: ModelStringInput | null,
+  and?: Array< ModelProjectAssetsConditionInput | null > | null,
+  or?: Array< ModelProjectAssetsConditionInput | null > | null,
+  not?: ModelProjectAssetsConditionInput | null,
+};
+
+export type DeleteProjectAssetsInput = {
+  id?: string | null,
+};
+
 export type CreateUserInput = {
   id?: string | null,
   name?: string | null,
@@ -213,6 +239,14 @@ export type CreateProjectInput = {
   details?: string | null,
   title?: string | null,
   company?: string | null,
+};
+
+export type CreateProjectAssetsInput = {
+  id?: string | null,
+  asset: S3ObjectInput,
+  createdAt?: string | null,
+  projectID: string,
+  fileName: string,
 };
 
 export type CreateQuoteInput = {
@@ -347,11 +381,6 @@ export type CreateHireMeInfoInput = {
   portfolioImages?: Array< S3ObjectInput | null > | null,
 };
 
-export type S3ObjectInput = {
-  key: string,
-  tag?: string | null,
-};
-
 export type ModelHireMeInfoConditionInput = {
   buttonText?: ModelStringInput | null,
   blurbText?: ModelStringInput | null,
@@ -466,6 +495,16 @@ export type ModelProjectFilterInput = {
   and?: Array< ModelProjectFilterInput | null > | null,
   or?: Array< ModelProjectFilterInput | null > | null,
   not?: ModelProjectFilterInput | null,
+};
+
+export type ModelProjectAssetsFilterInput = {
+  id?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  projectID?: ModelIDInput | null,
+  fileName?: ModelStringInput | null,
+  and?: Array< ModelProjectAssetsFilterInput | null > | null,
+  or?: Array< ModelProjectAssetsFilterInput | null > | null,
+  not?: ModelProjectAssetsFilterInput | null,
 };
 
 export type ModelQuoteFilterInput = {
@@ -679,6 +718,10 @@ export type DeleteProjectFreelancerMutation = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -688,6 +731,23 @@ export type DeleteProjectFreelancerMutation = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -850,6 +910,18 @@ export type UpdateProjectMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          assets:  {
+            __typename: "ModelProjectAssetsConnection",
+            items:  Array< {
+              __typename: "ProjectAssets",
+              id: string,
+              createdAt: string,
+              projectID: string,
+              fileName: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
           quotes:  {
             __typename: "ModelQuoteConnection",
             items:  Array< {
@@ -881,6 +953,23 @@ export type UpdateProjectMutation = {
             nextToken: string | null,
           } | null,
         } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    assets:  {
+      __typename: "ModelProjectAssetsConnection",
+      items:  Array< {
+        __typename: "ProjectAssets",
+        id: string,
+        asset:  {
+          __typename: "S3Object",
+          key: string,
+          tag: string | null,
+        },
+        createdAt: string,
+        projectID: string,
+        fileName: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1042,6 +1131,18 @@ export type DeleteProjectMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          assets:  {
+            __typename: "ModelProjectAssetsConnection",
+            items:  Array< {
+              __typename: "ProjectAssets",
+              id: string,
+              createdAt: string,
+              projectID: string,
+              fileName: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
           quotes:  {
             __typename: "ModelQuoteConnection",
             items:  Array< {
@@ -1073,6 +1174,23 @@ export type DeleteProjectMutation = {
             nextToken: string | null,
           } | null,
         } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    assets:  {
+      __typename: "ModelProjectAssetsConnection",
+      items:  Array< {
+        __typename: "ProjectAssets",
+        id: string,
+        asset:  {
+          __typename: "S3Object",
+          key: string,
+          tag: string | null,
+        },
+        createdAt: string,
+        projectID: string,
+        fileName: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1132,6 +1250,48 @@ export type DeleteProjectMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type UpdateProjectAssetsMutationVariables = {
+  input: UpdateProjectAssetsInput,
+  condition?: ModelProjectAssetsConditionInput | null,
+};
+
+export type UpdateProjectAssetsMutation = {
+  updateProjectAssets:  {
+    __typename: "ProjectAssets",
+    id: string,
+    asset:  {
+      __typename: "S3Object",
+      key: string,
+      tag: string | null,
+    },
+    createdAt: string,
+    projectID: string,
+    fileName: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteProjectAssetsMutationVariables = {
+  input: DeleteProjectAssetsInput,
+  condition?: ModelProjectAssetsConditionInput | null,
+};
+
+export type DeleteProjectAssetsMutation = {
+  deleteProjectAssets:  {
+    __typename: "ProjectAssets",
+    id: string,
+    asset:  {
+      __typename: "S3Object",
+      key: string,
+      tag: string | null,
+    },
+    createdAt: string,
+    projectID: string,
+    fileName: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1339,6 +1499,10 @@ export type CreateProjectFreelancerMutation = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -1348,6 +1512,23 @@ export type CreateProjectFreelancerMutation = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -1513,6 +1694,10 @@ export type UpdateProjectFreelancerMutation = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -1522,6 +1707,23 @@ export type UpdateProjectFreelancerMutation = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -1684,6 +1886,18 @@ export type CreateProjectMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          assets:  {
+            __typename: "ModelProjectAssetsConnection",
+            items:  Array< {
+              __typename: "ProjectAssets",
+              id: string,
+              createdAt: string,
+              projectID: string,
+              fileName: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
           quotes:  {
             __typename: "ModelQuoteConnection",
             items:  Array< {
@@ -1715,6 +1929,23 @@ export type CreateProjectMutation = {
             nextToken: string | null,
           } | null,
         } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    assets:  {
+      __typename: "ModelProjectAssetsConnection",
+      items:  Array< {
+        __typename: "ProjectAssets",
+        id: string,
+        asset:  {
+          __typename: "S3Object",
+          key: string,
+          tag: string | null,
+        },
+        createdAt: string,
+        projectID: string,
+        fileName: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1774,6 +2005,27 @@ export type CreateProjectMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type CreateProjectAssetsMutationVariables = {
+  input: CreateProjectAssetsInput,
+  condition?: ModelProjectAssetsConditionInput | null,
+};
+
+export type CreateProjectAssetsMutation = {
+  createProjectAssets:  {
+    __typename: "ProjectAssets",
+    id: string,
+    asset:  {
+      __typename: "S3Object",
+      key: string,
+      tag: string | null,
+    },
+    createdAt: string,
+    projectID: string,
+    fileName: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -3002,6 +3254,10 @@ export type GetProjectFreelancerQuery = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -3011,6 +3267,23 @@ export type GetProjectFreelancerQuery = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -3175,6 +3448,23 @@ export type ListProjectFreelancersQuery = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+        assets:  {
+          __typename: "ModelProjectAssetsConnection",
+          items:  Array< {
+            __typename: "ProjectAssets",
+            id: string,
+            asset:  {
+              __typename: "S3Object",
+              key: string,
+              tag: string | null,
+            },
+            createdAt: string,
+            projectID: string,
+            fileName: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
         quotes:  {
           __typename: "ModelQuoteConnection",
           items:  Array< {
@@ -3332,6 +3622,23 @@ export type ProjectsByFreelancerQuery = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+        assets:  {
+          __typename: "ModelProjectAssetsConnection",
+          items:  Array< {
+            __typename: "ProjectAssets",
+            id: string,
+            asset:  {
+              __typename: "S3Object",
+              key: string,
+              tag: string | null,
+            },
+            createdAt: string,
+            projectID: string,
+            fileName: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
         quotes:  {
           __typename: "ModelQuoteConnection",
           items:  Array< {
@@ -3469,6 +3776,10 @@ export type ListProjectsQuery = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -3478,6 +3789,23 @@ export type ListProjectsQuery = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -3640,6 +3968,18 @@ export type GetProjectQuery = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          assets:  {
+            __typename: "ModelProjectAssetsConnection",
+            items:  Array< {
+              __typename: "ProjectAssets",
+              id: string,
+              createdAt: string,
+              projectID: string,
+              fileName: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
           quotes:  {
             __typename: "ModelQuoteConnection",
             items:  Array< {
@@ -3671,6 +4011,23 @@ export type GetProjectQuery = {
             nextToken: string | null,
           } | null,
         } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    assets:  {
+      __typename: "ModelProjectAssetsConnection",
+      items:  Array< {
+        __typename: "ProjectAssets",
+        id: string,
+        asset:  {
+          __typename: "S3Object",
+          key: string,
+          tag: string | null,
+        },
+        createdAt: string,
+        projectID: string,
+        fileName: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -3730,6 +4087,52 @@ export type GetProjectQuery = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type GetProjectAssetsQueryVariables = {
+  id: string,
+};
+
+export type GetProjectAssetsQuery = {
+  getProjectAssets:  {
+    __typename: "ProjectAssets",
+    id: string,
+    asset:  {
+      __typename: "S3Object",
+      key: string,
+      tag: string | null,
+    },
+    createdAt: string,
+    projectID: string,
+    fileName: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListProjectAssetssQueryVariables = {
+  filter?: ModelProjectAssetsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListProjectAssetssQuery = {
+  listProjectAssetss:  {
+    __typename: "ModelProjectAssetsConnection",
+    items:  Array< {
+      __typename: "ProjectAssets",
+      id: string,
+      asset:  {
+        __typename: "S3Object",
+        key: string,
+        tag: string | null,
+      },
+      createdAt: string,
+      projectID: string,
+      fileName: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
   } | null,
 };
 
@@ -4726,6 +5129,10 @@ export type OnCreateProjectFreelancerSubscription = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -4735,6 +5142,23 @@ export type OnCreateProjectFreelancerSubscription = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -4895,6 +5319,10 @@ export type OnUpdateProjectFreelancerSubscription = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -4904,6 +5332,23 @@ export type OnUpdateProjectFreelancerSubscription = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -5064,6 +5509,10 @@ export type OnDeleteProjectFreelancerSubscription = {
               __typename: "ModelProjectFreelancerConnection",
               nextToken: string | null,
             } | null,
+            assets:  {
+              __typename: "ModelProjectAssetsConnection",
+              nextToken: string | null,
+            } | null,
             quotes:  {
               __typename: "ModelQuoteConnection",
               nextToken: string | null,
@@ -5073,6 +5522,23 @@ export type OnDeleteProjectFreelancerSubscription = {
               nextToken: string | null,
             } | null,
           } | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      assets:  {
+        __typename: "ModelProjectAssetsConnection",
+        items:  Array< {
+          __typename: "ProjectAssets",
+          id: string,
+          asset:  {
+            __typename: "S3Object",
+            key: string,
+            tag: string | null,
+          },
+          createdAt: string,
+          projectID: string,
+          fileName: string,
+          updatedAt: string,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -5230,6 +5696,18 @@ export type OnCreateProjectSubscription = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          assets:  {
+            __typename: "ModelProjectAssetsConnection",
+            items:  Array< {
+              __typename: "ProjectAssets",
+              id: string,
+              createdAt: string,
+              projectID: string,
+              fileName: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
           quotes:  {
             __typename: "ModelQuoteConnection",
             items:  Array< {
@@ -5261,6 +5739,23 @@ export type OnCreateProjectSubscription = {
             nextToken: string | null,
           } | null,
         } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    assets:  {
+      __typename: "ModelProjectAssetsConnection",
+      items:  Array< {
+        __typename: "ProjectAssets",
+        id: string,
+        asset:  {
+          __typename: "S3Object",
+          key: string,
+          tag: string | null,
+        },
+        createdAt: string,
+        projectID: string,
+        fileName: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -5417,6 +5912,18 @@ export type OnUpdateProjectSubscription = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          assets:  {
+            __typename: "ModelProjectAssetsConnection",
+            items:  Array< {
+              __typename: "ProjectAssets",
+              id: string,
+              createdAt: string,
+              projectID: string,
+              fileName: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
           quotes:  {
             __typename: "ModelQuoteConnection",
             items:  Array< {
@@ -5448,6 +5955,23 @@ export type OnUpdateProjectSubscription = {
             nextToken: string | null,
           } | null,
         } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    assets:  {
+      __typename: "ModelProjectAssetsConnection",
+      items:  Array< {
+        __typename: "ProjectAssets",
+        id: string,
+        asset:  {
+          __typename: "S3Object",
+          key: string,
+          tag: string | null,
+        },
+        createdAt: string,
+        projectID: string,
+        fileName: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -5604,6 +6128,18 @@ export type OnDeleteProjectSubscription = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          assets:  {
+            __typename: "ModelProjectAssetsConnection",
+            items:  Array< {
+              __typename: "ProjectAssets",
+              id: string,
+              createdAt: string,
+              projectID: string,
+              fileName: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
           quotes:  {
             __typename: "ModelQuoteConnection",
             items:  Array< {
@@ -5635,6 +6171,23 @@ export type OnDeleteProjectSubscription = {
             nextToken: string | null,
           } | null,
         } | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    assets:  {
+      __typename: "ModelProjectAssetsConnection",
+      items:  Array< {
+        __typename: "ProjectAssets",
+        id: string,
+        asset:  {
+          __typename: "S3Object",
+          key: string,
+          tag: string | null,
+        },
+        createdAt: string,
+        projectID: string,
+        fileName: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -5694,6 +6247,54 @@ export type OnDeleteProjectSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type OnCreateProjectAssetsSubscription = {
+  onCreateProjectAssets:  {
+    __typename: "ProjectAssets",
+    id: string,
+    asset:  {
+      __typename: "S3Object",
+      key: string,
+      tag: string | null,
+    },
+    createdAt: string,
+    projectID: string,
+    fileName: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateProjectAssetsSubscription = {
+  onUpdateProjectAssets:  {
+    __typename: "ProjectAssets",
+    id: string,
+    asset:  {
+      __typename: "S3Object",
+      key: string,
+      tag: string | null,
+    },
+    createdAt: string,
+    projectID: string,
+    fileName: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteProjectAssetsSubscription = {
+  onDeleteProjectAssets:  {
+    __typename: "ProjectAssets",
+    id: string,
+    asset:  {
+      __typename: "S3Object",
+      key: string,
+      tag: string | null,
+    },
+    createdAt: string,
+    projectID: string,
+    fileName: string,
+    updatedAt: string,
   } | null,
 };
 

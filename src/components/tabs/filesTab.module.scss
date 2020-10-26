@@ -1,68 +1,79 @@
-.filesTab {
-  margin-left: 10px;
+.modalContent {
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #828282;
 
-  li {
+  .centeredLabel {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .uploading {
+    font-family: Poppins;
+    font-size: 14px;
+    line-height: 21px;
+    color: #8093a6;
+  }
+
+  .urlInput {
+    margin-bottom: 28px;
+    font-family: Poppins;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 21px;
+    color: #bdbdbd;
+    padding: 5px;
+  }
+
+  .orBrowse {
+    .or {
+      margin-right: 12px;
+      font-family: Poppins;
+      font-size: 16px;
+      line-height: 24px;
+      color: #8093a6;
+    }
+
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 36px;
+    align-items: center;
+  }
+
+  .actionBar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 45px;
+  }
+
+  .filePillContainer {
+    margin-bottom: 20px;
+  }
+
+  .cancel {
+    border: none;
+    background: transparent;
+    font-family: Roboto;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #828282;
+    cursor: pointer;
+
     &:hover {
-      .icons {
-        visibility: visible;
-      }
+      text-decoration: underline;
     }
   }
-}
 
-.liText {
-  position: relative;
-  top: -5px;
-}
-
-.icons {
-  * {
-    cursor: pointer;
-  }
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-  visibility: hidden;
-}
-
-.upload {
-  display: flex;
-  flex-wrap: wrap;
-
-  justify-content: space-between;
-  margin: 0 -10px;
-
-  label {
-    margin-top: 31px;
-  }
-
-  input {
-    margin-top: 31px;
-    height: fit-content;
-    align-self: center;
+  .fileInput {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
     flex: 1;
-    margin: 31px 10px 0px 10px;
   }
-}
-
-.uploadText {
-  text-align: center;
-  margin: 12px 0 4px 0;
-  color: #8093a6;
-  opacity: 0.5;
-}
-
-.fileInput {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-  flex: 1;
-}
-
-.browseButton {
-  flex: 1;
-  margin: 31px 10px 0px 10px;
 }

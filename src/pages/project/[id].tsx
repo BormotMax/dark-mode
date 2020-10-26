@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import classnames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { NotesTab, TabGroup } from '../../components/tabs';
+import { FilesTab, NotesTab, TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
@@ -112,7 +112,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { comments: cs, quotes, clients } = project as Project;
+  const { comments: cs, quotes, clients, assets } = project as Project;
 
   if (!viewer) {
     logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
@@ -157,9 +157,10 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         </div>
         <div className={classnames('column', 'is-narrow', styles.rightColumn)}>
           <div className={classnames(styles.tabGroupWrapper)}>
-            <TabGroup names={['People', 'Notes']}>
+            <TabGroup names={['People', 'Notes', 'Assets']}>
               <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
               <NotesTab />
+              <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
             </TabGroup>
             <TabGroup names={['Tasks & Time', 'Financial']}>
               <>

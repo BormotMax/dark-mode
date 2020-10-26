@@ -75,7 +75,7 @@ const PrivacyPolicy: React.FC = () => {
                 <li>
                   <p>
                     <strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or
-                    &quot;Our&quot; in this Agreement) refers to Continuum Works Inc., 21 S June Terrace, Lake Forest, IL 60045.
+                    &quot;Our&quot; in this Agreement) refers to Continuum Works Inc.
                   </p>
                   <p>For the purpose of the GDPR, the Company is the Data Controller.</p>
                 </li>

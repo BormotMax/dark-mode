@@ -76,6 +76,24 @@ type Project
   clients: [ProjectClient!]! @connection(keyName: "byProject", fields: ["id"])
   freelancers: [ProjectFreelancer!]! @connection(keyName: "byProject", fields: ["id"])
   company: String
+  assets: [ProjectAssets] @connection(keyName: "byProject", fields: ["id"])
+}
+
+type ProjectAssets
+  @model
+  @key(name: "byProject", fields: ["projectID", "createdAt"])
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: private, operations: [create, read, update, delete] }
+      { allow: public, provider: iam, operations: [create, read] }
+    ]
+  ) {
+  id: ID!
+  asset: S3Object!
+  createdAt: AWSDateTime!
+  projectID: ID!
+  fileName: String!
 }
 
 type Quote
