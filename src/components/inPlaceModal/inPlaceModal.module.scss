@@ -98,7 +98,7 @@
       vertical-align: bottom;
     }
 
-    input[type='radio'] {
+    input[type="radio"] {
       display: none;
     }
 
@@ -132,6 +132,7 @@
   background: #fafafa;
   border-radius: 100px;
   font-family: Poppins;
+  overflow: hidden;
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;

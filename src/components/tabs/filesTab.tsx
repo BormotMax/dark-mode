@@ -190,7 +190,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
         </>
       )} */}
       <div className={classnames(styles.actionBar)}>
-        <button className={classnames(styles.cancel)} type="button">
+        <button onClick={() => close()} className={classnames(styles.cancel)} type="button">
           Cancel
         </button>
         <ButtonSmall text="Save" onClick={uploadFiles} isSaving={isSaving} />
