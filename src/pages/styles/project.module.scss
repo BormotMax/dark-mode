@@ -17,8 +17,13 @@
 }
 
 .rightColumn {
-  max-width: 354px;
-  min-width: 327px;
+  width: 100%;
+
+  @include tablet {
+    width: initial;
+    max-width: 354px;
+    min-width: 327px;
+  }
 }
 
 .commentWrapper {
