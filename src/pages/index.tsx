@@ -164,8 +164,8 @@ const Subscribe = () => (
           <input
             className="formkit-input"
             name="email_address"
-            aria-label="Your email address"
-            placeholder="Your email address"
+            aria-label="Enter your email"
+            placeholder="Enter your email"
             required
             type="email"
             style={{
