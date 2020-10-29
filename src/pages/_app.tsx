@@ -14,6 +14,8 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import awsconfig from '../aws-exports';
 import { UserDataProvider, LoggerProvider, FlashProvider } from '../hooks';
 import { RouteIndicator } from '../components/routeChange';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 
 config.autoAddCss = false;
 

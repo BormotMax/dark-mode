@@ -46,8 +46,10 @@
     "react-dom": "16.13.1",
     "react-images": "^1.1.7",
     "react-loading-skeleton": "^2.1.1",
+    "react-owl-carousel": "^2.3.1",
     "rollbar": "^2.19.3",
     "sass": "^1.26.8",
+    "tiny-slider": "^2.9.3",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
