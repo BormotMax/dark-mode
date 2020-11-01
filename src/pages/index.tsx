@@ -34,13 +34,24 @@ const Home: React.FC = () => {
         <Subscribe />
       </header>
       <div className={styles['first-screen']}>
+        <div id={styles.clouds}>
+          <div className={classnames(styles.cloud, styles.x1)}>
+            <img src="first_screen/cloud-1.svg" alt="cloud" />
+          </div>
+          <div className={classnames(styles.cloud, styles.x2)}>
+            <img src="first_screen/cloud-2.svg" alt="cloud" />
+          </div>
+          <div className={classnames(styles.cloud, styles.x3)}>
+            <img src="first_screen/cloud-3.svg" alt="cloud" />
+          </div>
+        </div>
         <div className={classnames(styles['first-screen-content'], styles.flex, styles['flex-column'], styles['flex-ai-c'])}>
           <div className={styles['persona-image']}>
             <img src="first_screen/person.svg" alt="person" />
           </div>
-          <h1 className={styles['first-screen-title']}>Continuum Works</h1>
+          <h1 className={styles['first-screen-title']}>The Creator OS</h1>
           <div className={styles['first-screen-subtitle']}>
-            The all-in-one platform for solo creatives to run a thriving freelance business from anywhere 🌎
+            Continuum is the all-in-one platform for solo creatives to run a thriving freelance business from anywhere 🌎
           </div>
           <div className={styles['first-screen-screenshots-wrapper']}>
             <div className={styles['first-screen-screenshots']}>
@@ -72,7 +83,7 @@ const Home: React.FC = () => {
         </div>
       </div>
       <footer>
-        <div className={classnames(styles['footer-wrapper'], styles.flex, styles['flex-jc-sb'], styles['flex-ai-c'], styles['p-30'])}>
+        <div className={classnames(styles['footer-wrapper'], styles.flex, styles['flex-jc-sb'], styles['flex-ai-c'])}>
           <div className={styles['footer-links']}>
             <a href="https://www.continuum.works/privacyPolicy">Privacy Policy</a>
             <a href="https://www.continuum.works/termsAndConditions">Terms & Conditions</a>
@@ -111,14 +122,14 @@ const TabItems = () => (
       <img src="second_screen/2.svg" alt="Project Mgmt" />
       <div className={styles['tab-title']}>Project Mgmt</div>
       <div className={styles['tab-text']}>
-        Text-message-style project management with conversations, files, quotes, invoices and payments all in one thread
+        Text-message-style project management with conversations, files, quotes, invoices and payments all in one thread.
       </div>
     </div>
     <div className={styles['tab-item']}>
       <img src="second_screen/3.svg" alt="CRM" />
       <div className={styles['tab-title']}>CRM</div>
       <div className={styles['tab-text']}>
-        Stay on top of sales with our visual CRM to see site visitors, conversations and conversations to quotes, invoices and payments
+        Stay on top of sales with our visual CRM to see site visitors, conversations and conversations to quotes, invoices and payments.
       </div>
     </div>
     <div className={styles['tab-item']}>

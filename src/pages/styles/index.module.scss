@@ -1,28 +1,25 @@
 @font-face {
   font-family: AvenirHeavy;
-  src: url('../../fonts/AvenirLTStd-Heavy.ttf') format('opentype');
+  src: url("../../fonts/AvenirLTStd-Heavy.ttf") format("opentype");
 }
 
 @font-face {
   font-family: AvenirBlack;
-  src: url('../../fonts/AvenirLTStd-Black.otf') format('opentype');
+  src: url("../../fonts/AvenirLTStd-Black.otf") format("opentype");
 }
 
 @font-face {
   font-family: AvenirRoman;
-  src: url('../../fonts/AvenirLTStd-Roman.otf') format('opentype');
+  src: url("../../fonts/AvenirLTStd-Roman.otf") format("opentype");
 }
 
 @font-face {
   font-family: AvenirBook;
-  src: url('../../fonts/AvenirLTStd-Book.otf') format('opentype');
+  src: url("../../fonts/AvenirLTStd-Book.otf") format("opentype");
 }
 
 .home {
-  // margin: 0;
-  // padding: 0;
-  // position: relative;
-  font-family: AvenirHeavy;
+  font-family: AvenirBook;
   overflow-x: hidden;
 
   .flex {
@@ -74,7 +71,7 @@
   }
 
   .page-header .form-wrapper span.image-placeholder.placeholder-mail:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 15px;
     right: 15px;
@@ -101,12 +98,12 @@
     font-size: 16px;
     line-height: 22px;
     letter-spacing: 0.271875px;
-    color: #333;
+    color: #828282;
     outline: none !important;
     box-shadow: none !important;
   }
 
-  .page-header .form-wrapper button[type='submit'] {
+  .page-header .form-wrapper button[type="submit"] {
     background: #3c78fb;
     border-radius: 4px;
     width: 192px;
@@ -125,7 +122,7 @@
   }
 
   .first-screen {
-    background: #fafafa;
+    background: #ffffff;
     padding: 130px 0 0;
     position: relative;
     overflow: hidden;
@@ -150,11 +147,12 @@
   }
 
   .first-screen .first-screen-content .first-screen-title {
+    font-family: AvenirHeavy;
     font-weight: 900;
     font-size: 100px;
     line-height: 75px;
     color: #3c78fb;
-    margin: 30px 0;
+    margin: 24px 0;
   }
 
   .first-screen .first-screen-content .first-screen-subtitle {
@@ -162,17 +160,18 @@
     font-size: 24px;
     line-height: 33px;
     text-align: center;
-    color: #333;
+    color: #828282;
     max-width: 640px;
     margin: 0 0 50px;
   }
 
   .first-screen .first-screen-content .first-screen-screenshots-wrapper {
-    width: 150vw;
+    width: 110vw;
     display: flex;
     justify-content: center;
-    background: #f2f2f2;
+    background: #3c78fb;
     border-radius: 50% 50% 0 0;
+    padding-top: 30px;
   }
 
   .first-screen .first-screen-content .first-screen-screenshots {
@@ -181,22 +180,23 @@
     align-items: flex-start;
     max-height: 305px;
     overflow: hidden;
-    padding: 0 20px;
+    padding: 46px 36px 20px;
   }
 
   .first-screen .first-screen-content .first-screen-screenshots .back-screenshot {
-    margin: 60px -10px 0;
+    margin: 0 15px;
   }
 
   .first-screen .first-screen-content .first-screen-screenshots .front-screenshot {
-    margin: 0 -20px;
+    margin: -45px -20px;
     z-index: 1;
+    box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
   }
 
   .second-screen {
-    background: #3c78fb;
+    background: #0446d5;
     box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
-    padding: 100px 0 0;
+    padding: 74px 0 0;
     position: relative;
   }
 
@@ -206,6 +206,7 @@
   }
 
   .second-screen .second-screen-content .second-screen-title {
+    font-family: AvenirHeavy;
     font-weight: 900;
     font-size: 56px;
     line-height: 120%;
@@ -263,8 +264,13 @@
   }
 
   footer {
-    background: #3c78fb;
+    padding: 48px 30px;
+    background: #0446d5;
     box-shadow: inset 4px 4px 24px rgba(0, 0, 0, 0.1);
+
+    .footer-wrapper {
+      margin-top: 4px;
+    }
   }
 
   footer .footer-social {
@@ -304,16 +310,19 @@
   @media (max-width: 420px) {
     .first-screen .first-screen-content .first-screen-screenshots-wrapper {
       background: #fafafa !important;
+      padding-top: 0;
     }
 
     .first-screen .first-screen-content .first-screen-screenshots {
       padding: 0;
       max-height: 285px;
       position: relative;
+      box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+      border-radius: 20px 20px 0 0;
     }
 
     .first-screen .first-screen-content .first-screen-screenshots:before {
-      content: '';
+      content: "";
       position: absolute;
       width: 100%;
       height: 230px;
@@ -369,7 +378,7 @@
       width: 100%;
     }
 
-    .page-header .form-wrapper button[type='submit'] {
+    .page-header .form-wrapper button[type="submit"] {
       width: 100%;
       margin: 0;
     }
@@ -473,6 +482,10 @@
       }
     }
 
+    footer {
+      padding: 30px;
+    }
+
     footer .footer-wrapper {
       padding: 35px 25px 45px;
       display: flex;
@@ -501,14 +514,172 @@
       width: max-content;
       display: flex;
       justify-content: center;
-      background: #f2f2f2;
+      background: #3c78fb;
       border-radius: 50% 50% 0 0;
     }
   }
 
+  @-webkit-keyframes animateCloud {
+    0% {
+      margin-left: -1000px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-moz-keyframes animateCloud {
+    0% {
+      margin-left: -1000px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @keyframes animateCloud {
+    0% {
+      margin-left: -1000px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  #clouds {
+    padding: 100px 0;
+    position: absolute;
+    top: 0;
+
+    img {
+      max-width: unset;
+    }
+  }
+  /*Time to animate*/
+  .x1 {
+    animation: movecloudsone 30s linear infinite;
+    -webkit-animation: movecloudsone 30s linear infinite;
+    -moz-animation: movecloudsone 30s linear infinite;
+    -o-animation: movecloudsone 30s linear infinite;
+  }
+  /*variable speed, opacity, and position of clouds for realistic effect*/
+  .x2 {
+    margin-top: -100px;
+    margin-left: -150px;
+
+    /*Speed will also be proportional to the size and opacity*/
+    /*More the speed. Less the time in 's' = seconds*/
+    animation: movecloudstwo 50s linear infinite;
+    -webkit-animation: movecloudstwo 50s linear infinite;
+    -moz-animation: movecloudstwo 50s linear infinite;
+    -o-animation: movecloudstwo 50s linear infinite;
+  }
+  .x3 {
+    margin-top: 150px;
+    margin-left: -150px;
+
+    animation: movecloudsthree 40s linear infinite;
+    -webkit-animation: movecloudsthree 40s linear infinite;
+    -moz-animation: movecloudsthree 40s linear infinite;
+    -o-animation: movecloudsthree 40s linear infinite;
+  }
+  @keyframes movecloudsone {
+    0% {
+      margin-left: 350px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-webkit-keyframes movecloudsone {
+    0% {
+      margin-left: 350px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-moz-keyframes movecloudsone {
+    0% {
+      margin-left: 350px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-o-keyframes movecloudsone {
+    0% {
+      margin-left: 350px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @keyframes movecloudstwo {
+    0% {
+      margin-left: 50px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-webkit-keyframes movecloudstwo {
+    0% {
+      margin-left: 50px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-moz-keyframes movecloudstwo {
+    0% {
+      margin-left: 50px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-o-keyframes movecloudstwo {
+    0% {
+      margin-left: 50px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @keyframes movecloudsthree {
+    0% {
+      margin-left: 150px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-webkit-keyframes movecloudsthree {
+    0% {
+      margin-left: 150px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-moz-keyframes movecloudsthree {
+    0% {
+      margin-left: 150px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+  @-o-keyframes movecloudsthree {
+    0% {
+      margin-left: 150px;
+    }
+    100% {
+      margin-left: 100vw;
+    }
+  }
+
   :global {
-    .formkit-form[data-uid='68cf1471b7'][min-width~='700'] [data-style='clean'],
-    .formkit-form[data-uid='68cf1471b7'][min-width~='800'] [data-style='clean'] {
+    .formkit-form[data-uid="68cf1471b7"][min-width~="700"] [data-style="clean"],
+    .formkit-form[data-uid="68cf1471b7"][min-width~="800"] [data-style="clean"] {
       padding: 0 !important;
     }
 
@@ -518,7 +689,6 @@
       width: 100% !important;
     }
     .formkit-form {
-      // height: 100%;
       .formkit-submit {
         font-family: Arial, Arial, Helvetica, sans-serif !important;
       }
