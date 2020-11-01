@@ -27,6 +27,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [project, setProject] = useState(null);
   const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
   const viewer = useRef(null);
+  const projectViewer = useRef(null);
   const [loading, setLoading] = useState(true);
   const { setFlash, setDelayedFlash } = useFlash();
   const { logger } = useLogger();
@@ -47,17 +48,17 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.user.id === currentUserId);
 
     if (viewingFreelancerItem?.user) {
-      viewerCandidate = viewingFreelancerItem.user;
+      viewerCandidate = viewingFreelancerItem;
     } else if (viewingClientItem?.user) {
       if (currentUserId) {
         logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
         setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
         Router.push('/projects');
       }
-      viewerCandidate = viewingClientItem.user;
+      viewerCandidate = viewingClientItem;
     }
 
-    return viewerCandidate;
+    return { user: viewerCandidate.user, projectUser: viewerCandidate };
   };
 
   const fetchProject = async () => {
@@ -69,9 +70,10 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       });
 
       const p: Project = getProjectResult.data?.getProject;
-      const v = determineViewer(p);
+      const { user, projectUser } = determineViewer(p);
       setProject(p);
-      viewer.current = v;
+      viewer.current = user;
+      projectViewer.current = projectUser;
     } catch (error) {
       setFlash("There was an error retrieving this project. We're looking into it.");
       logger.error('Project: error retrieving Project.', { error, input: getProjectInput });
@@ -141,8 +143,8 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       }
       page={Page.PROJECT}
     >
-      <div className={classnames('columns')}>
-        <div className={classnames('column', styles.commentWrapper)}>
+      <div className={classnames('columns', styles.columns)}>
+        <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
           {comments.filter(Boolean).map((c) => (
             <CommentWrapper key={c.id} comment={c} viewerId={viewer.current.id as string} />
           ))}
@@ -155,13 +157,24 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
             />
           </div>
         </div>
-        <div className={classnames('column', 'is-narrow', styles.rightColumn)}>
+        <div className={classnames('column', styles.rightColumn)}>
           <div className={classnames(styles.tabGroupWrapper)}>
-            <TabGroup names={['People', 'Assets']}>
-              <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
-              {/* <NotesTab /> */}
-              <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
-            </TabGroup>
+            <Protected roles={[Role.FREELANCER]}>
+              <TabGroup names={['People', 'Notes', 'Assets']}>
+                <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+                <NotesTab
+                  projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
+                  refetchData={fetchProject}
+                />
+                <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+              </TabGroup>
+            </Protected>
+            <ProtectedElse roles={[Role.FREELANCER]}>
+              <TabGroup names={['People', 'Assets']}>
+                <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+                <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+              </TabGroup>
+            </ProtectedElse>
             <TabGroup names={['Tasks & Time', 'Financial']}>
               <>
                 {quotes.items.length === 0 ? (

@@ -98,7 +98,7 @@
       vertical-align: bottom;
     }
 
-    input[type="radio"] {
+    input[type='radio'] {
       display: none;
     }
 
@@ -169,5 +169,25 @@
   span {
     cursor: pointer;
     position: relative;
+  }
+}
+
+.actionBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel {
+  border: none;
+  background: transparent;
+  font-family: Roboto;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #828282;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 }

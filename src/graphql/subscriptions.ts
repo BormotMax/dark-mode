@@ -218,6 +218,17 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -284,6 +295,17 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
           }
           nextToken
         }
+      }
+      notes {
+        items {
+          id
+          projectFreelancerID
+          title
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -384,6 +406,17 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -450,6 +483,17 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
           }
           nextToken
         }
+      }
+      notes {
+        items {
+          id
+          projectFreelancerID
+          title
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -550,6 +594,17 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -616,6 +671,17 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
           }
           nextToken
         }
+      }
+      notes {
+        items {
+          id
+          projectFreelancerID
+          title
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -739,6 +805,17 @@ export const onCreateProject = /* GraphQL */ `
               }
               nextToken
             }
+          }
+          notes {
+            items {
+              id
+              projectFreelancerID
+              title
+              content
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -929,6 +1006,17 @@ export const onUpdateProject = /* GraphQL */ `
               nextToken
             }
           }
+          notes {
+            items {
+              id
+              projectFreelancerID
+              title
+              content
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         nextToken
       }
@@ -1117,6 +1205,17 @@ export const onDeleteProject = /* GraphQL */ `
               }
               nextToken
             }
+          }
+          notes {
+            items {
+              id
+              projectFreelancerID
+              title
+              content
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -2084,6 +2183,42 @@ export const onDeleteDomainSlug = /* GraphQL */ `
           }
         }
       }
+    }
+  }
+`;
+export const onCreateNote = /* GraphQL */ `
+  subscription OnCreateNote {
+    onCreateNote {
+      id
+      projectFreelancerID
+      title
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateNote = /* GraphQL */ `
+  subscription OnUpdateNote {
+    onUpdateNote {
+      id
+      projectFreelancerID
+      title
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteNote = /* GraphQL */ `
+  subscription OnDeleteNote {
+    onDeleteNote {
+      id
+      projectFreelancerID
+      title
+      content
+      createdAt
+      updatedAt
     }
   }
 `;

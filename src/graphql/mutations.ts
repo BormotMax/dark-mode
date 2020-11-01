@@ -147,6 +147,17 @@ export const deleteProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -213,6 +224,17 @@ export const deleteProjectFreelancer = /* GraphQL */ `
           }
           nextToken
         }
+      }
+      notes {
+        items {
+          id
+          projectFreelancerID
+          title
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -339,6 +361,17 @@ export const updateProject = /* GraphQL */ `
               }
               nextToken
             }
+          }
+          notes {
+            items {
+              id
+              projectFreelancerID
+              title
+              content
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -532,6 +565,17 @@ export const deleteProject = /* GraphQL */ `
               nextToken
             }
           }
+          notes {
+            items {
+              id
+              projectFreelancerID
+              title
+              content
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         nextToken
       }
@@ -633,6 +677,21 @@ export const deleteProjectAssets = /* GraphQL */ `
       createdAt
       projectID
       fileName
+      updatedAt
+    }
+  }
+`;
+export const deleteNote = /* GraphQL */ `
+  mutation DeleteNote(
+    $input: DeleteNoteInput!
+    $condition: ModelNoteConditionInput
+  ) {
+    deleteNote(input: $input, condition: $condition) {
+      id
+      projectFreelancerID
+      title
+      content
+      createdAt
       updatedAt
     }
   }
@@ -828,6 +887,17 @@ export const createProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -894,6 +964,17 @@ export const createProjectFreelancer = /* GraphQL */ `
           }
           nextToken
         }
+      }
+      notes {
+        items {
+          id
+          projectFreelancerID
+          title
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -997,6 +1078,17 @@ export const updateProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -1063,6 +1155,17 @@ export const updateProjectFreelancer = /* GraphQL */ `
           }
           nextToken
         }
+      }
+      notes {
+        items {
+          id
+          projectFreelancerID
+          title
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -1189,6 +1292,17 @@ export const createProject = /* GraphQL */ `
               }
               nextToken
             }
+          }
+          notes {
+            items {
+              id
+              projectFreelancerID
+              title
+              content
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -2174,6 +2288,36 @@ export const deleteDomainSlug = /* GraphQL */ `
           }
         }
       }
+    }
+  }
+`;
+export const createNote = /* GraphQL */ `
+  mutation CreateNote(
+    $input: CreateNoteInput!
+    $condition: ModelNoteConditionInput
+  ) {
+    createNote(input: $input, condition: $condition) {
+      id
+      projectFreelancerID
+      title
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateNote = /* GraphQL */ `
+  mutation UpdateNote(
+    $input: UpdateNoteInput!
+    $condition: ModelNoteConditionInput
+  ) {
+    updateNote(input: $input, condition: $condition) {
+      id
+      projectFreelancerID
+      title
+      content
+      createdAt
+      updatedAt
     }
   }
 `;

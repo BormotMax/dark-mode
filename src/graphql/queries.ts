@@ -192,6 +192,17 @@ export const getProjectFreelancer = /* GraphQL */ `
                 nextToken
               }
             }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -258,6 +269,17 @@ export const getProjectFreelancer = /* GraphQL */ `
           }
           nextToken
         }
+      }
+      notes {
+        items {
+          id
+          projectFreelancerID
+          title
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -352,6 +374,9 @@ export const listProjectFreelancers = /* GraphQL */ `
                 company
                 updatedAt
               }
+              notes {
+                nextToken
+              }
             }
             nextToken
           }
@@ -410,6 +435,17 @@ export const listProjectFreelancers = /* GraphQL */ `
             }
             nextToken
           }
+        }
+        notes {
+          items {
+            id
+            projectFreelancerID
+            title
+            content
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -512,6 +548,9 @@ export const projectsByFreelancer = /* GraphQL */ `
                 company
                 updatedAt
               }
+              notes {
+                nextToken
+              }
             }
             nextToken
           }
@@ -570,6 +609,17 @@ export const projectsByFreelancer = /* GraphQL */ `
             }
             nextToken
           }
+        }
+        notes {
+          items {
+            id
+            projectFreelancerID
+            title
+            content
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -657,6 +707,17 @@ export const listProjects = /* GraphQL */ `
               comments {
                 nextToken
               }
+            }
+            notes {
+              items {
+                id
+                projectFreelancerID
+                title
+                content
+                createdAt
+                updatedAt
+              }
+              nextToken
             }
           }
           nextToken
@@ -848,6 +909,17 @@ export const getProject = /* GraphQL */ `
               }
               nextToken
             }
+          }
+          notes {
+            items {
+              id
+              projectFreelancerID
+              title
+              content
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -1644,6 +1716,37 @@ export const getDomainSlug = /* GraphQL */ `
           }
         }
       }
+    }
+  }
+`;
+export const getNote = /* GraphQL */ `
+  query GetNote($id: ID!) {
+    getNote(id: $id) {
+      id
+      projectFreelancerID
+      title
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listNotes = /* GraphQL */ `
+  query ListNotes(
+    $filter: ModelNoteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        projectFreelancerID
+        title
+        content
+        createdAt
+        updatedAt
+      }
+      nextToken
     }
   }
 `;

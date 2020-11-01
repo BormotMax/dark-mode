@@ -43,7 +43,7 @@ type ProjectFreelancer
   @key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
   @auth(
     rules: [
-      { allow: owner }
+      { allow: owner, operations: [create, read, update, delete] }
       { allow: private, operations: [create, read, update] }
       { allow: public, provider: iam, operations: [create, read, update] }
     ]
@@ -55,6 +55,7 @@ type ProjectFreelancer
   projectID: ID!
   project: Project @connection(fields: ["projectID"])
   isInitialContact: Boolean
+  notes: [Note!]! @connection(keyName: "byProjectFreelancer", fields: ["id"])
 }
 
 type Project
@@ -181,6 +182,22 @@ type DomainSlug
   slug: ID!
   freelancerID: ID!
   hireMeInfo: HireMeInfo @connection(fields: ["freelancerID"])
+}
+
+type Note
+  @model
+  @key(name: "byProjectFreelancer", fields: ["projectFreelancerID"])
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: public, provider: iam, operations: [create, read, update] }
+      { allow: private, operations: [create, read, update, delete] }
+    ]
+  ) {
+  id: ID!
+  projectFreelancerID: ID!
+  title: String!
+  content: String
 }
 
 enum UserRole {

@@ -42,29 +42,8 @@
     align-items: center;
   }
 
-  .actionBar {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 45px;
-  }
-
   .filePillContainer {
-    margin-bottom: 20px;
-  }
-
-  .cancel {
-    border: none;
-    background: transparent;
-    font-family: Roboto;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 16px;
-    color: #828282;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    margin-bottom: 36px;
   }
 
   .fileInput {

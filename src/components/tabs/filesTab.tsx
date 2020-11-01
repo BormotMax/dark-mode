@@ -189,8 +189,8 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
           <div className={classnames(styles.centeredLabel, styles.uploading)}>Uploading &apos;logo.svg&apos;...</div>
         </>
       )} */}
-      <div className={classnames(styles.actionBar)}>
-        <button onClick={() => close()} className={classnames(styles.cancel)} type="button">
+      <div className={classnames(modalStyles.actionBar)}>
+        <button onClick={() => close()} className={classnames(modalStyles.cancel)} type="button">
           Cancel
         </button>
         <ButtonSmall text="Save" onClick={uploadFiles} isSaving={isSaving} />

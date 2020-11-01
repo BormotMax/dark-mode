@@ -180,6 +180,19 @@ export type DeleteProjectAssetsInput = {
   id?: string | null,
 };
 
+export type DeleteNoteInput = {
+  id?: string | null,
+};
+
+export type ModelNoteConditionInput = {
+  projectFreelancerID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  and?: Array< ModelNoteConditionInput | null > | null,
+  or?: Array< ModelNoteConditionInput | null > | null,
+  not?: ModelNoteConditionInput | null,
+};
+
 export type CreateUserInput = {
   id?: string | null,
   name?: string | null,
@@ -434,6 +447,20 @@ export type DeleteDomainSlugInput = {
   slug: string,
 };
 
+export type CreateNoteInput = {
+  id?: string | null,
+  projectFreelancerID: string,
+  title: string,
+  content?: string | null,
+};
+
+export type UpdateNoteInput = {
+  id: string,
+  projectFreelancerID?: string | null,
+  title?: string | null,
+  content?: string | null,
+};
+
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -563,6 +590,16 @@ export type ModelDomainSlugFilterInput = {
   and?: Array< ModelDomainSlugFilterInput | null > | null,
   or?: Array< ModelDomainSlugFilterInput | null > | null,
   not?: ModelDomainSlugFilterInput | null,
+};
+
+export type ModelNoteFilterInput = {
+  id?: ModelIDInput | null,
+  projectFreelancerID?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  and?: Array< ModelNoteFilterInput | null > | null,
+  or?: Array< ModelNoteFilterInput | null > | null,
+  not?: ModelNoteFilterInput | null,
 };
 
 export type DeleteUserMutationVariables = {
@@ -731,6 +768,19 @@ export type DeleteProjectFreelancerMutation = {
               nextToken: string | null,
             } | null,
           } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -807,6 +857,19 @@ export type DeleteProjectFreelancerMutation = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+    } | null,
+    notes:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        projectFreelancerID: string,
+        title: string,
+        content: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -952,6 +1015,19 @@ export type UpdateProjectMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+        } | null,
+        notes:  {
+          __typename: "ModelNoteConnection",
+          items:  Array< {
+            __typename: "Note",
+            id: string,
+            projectFreelancerID: string,
+            title: string,
+            content: string | null,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
         } | null,
       } | null > | null,
       nextToken: string | null,
@@ -1174,6 +1250,19 @@ export type DeleteProjectMutation = {
             nextToken: string | null,
           } | null,
         } | null,
+        notes:  {
+          __typename: "ModelNoteConnection",
+          items:  Array< {
+            __typename: "Note",
+            id: string,
+            projectFreelancerID: string,
+            title: string,
+            content: string | null,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1291,6 +1380,23 @@ export type DeleteProjectAssetsMutation = {
     createdAt: string,
     projectID: string,
     fileName: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteNoteMutationVariables = {
+  input: DeleteNoteInput,
+  condition?: ModelNoteConditionInput | null,
+};
+
+export type DeleteNoteMutation = {
+  deleteNote:  {
+    __typename: "Note",
+    id: string,
+    projectFreelancerID: string,
+    title: string,
+    content: string | null,
+    createdAt: string,
     updatedAt: string,
   } | null,
 };
@@ -1512,6 +1618,19 @@ export type CreateProjectFreelancerMutation = {
               nextToken: string | null,
             } | null,
           } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -1588,6 +1707,19 @@ export type CreateProjectFreelancerMutation = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+    } | null,
+    notes:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        projectFreelancerID: string,
+        title: string,
+        content: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -1707,6 +1839,19 @@ export type UpdateProjectFreelancerMutation = {
               nextToken: string | null,
             } | null,
           } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -1783,6 +1928,19 @@ export type UpdateProjectFreelancerMutation = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+    } | null,
+    notes:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        projectFreelancerID: string,
+        title: string,
+        content: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -1928,6 +2086,19 @@ export type CreateProjectMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+        } | null,
+        notes:  {
+          __typename: "ModelNoteConnection",
+          items:  Array< {
+            __typename: "Note",
+            id: string,
+            projectFreelancerID: string,
+            title: string,
+            content: string | null,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
         } | null,
       } | null > | null,
       nextToken: string | null,
@@ -3043,6 +3214,40 @@ export type DeleteDomainSlugMutation = {
   } | null,
 };
 
+export type CreateNoteMutationVariables = {
+  input: CreateNoteInput,
+  condition?: ModelNoteConditionInput | null,
+};
+
+export type CreateNoteMutation = {
+  createNote:  {
+    __typename: "Note",
+    id: string,
+    projectFreelancerID: string,
+    title: string,
+    content: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateNoteMutationVariables = {
+  input: UpdateNoteInput,
+  condition?: ModelNoteConditionInput | null,
+};
+
+export type UpdateNoteMutation = {
+  updateNote:  {
+    __typename: "Note",
+    id: string,
+    projectFreelancerID: string,
+    title: string,
+    content: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type ListUsersQueryVariables = {
   filter?: ModelUserFilterInput | null,
   limit?: number | null,
@@ -3267,6 +3472,19 @@ export type GetProjectFreelancerQuery = {
               nextToken: string | null,
             } | null,
           } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -3343,6 +3561,19 @@ export type GetProjectFreelancerQuery = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+    } | null,
+    notes:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        projectFreelancerID: string,
+        title: string,
+        content: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -3445,6 +3676,10 @@ export type ListProjectFreelancersQuery = {
               company: string | null,
               updatedAt: string,
             } | null,
+            notes:  {
+              __typename: "ModelNoteConnection",
+              nextToken: string | null,
+            } | null,
           } | null > | null,
           nextToken: string | null,
         } | null,
@@ -3512,6 +3747,19 @@ export type ListProjectFreelancersQuery = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+      } | null,
+      notes:  {
+        __typename: "ModelNoteConnection",
+        items:  Array< {
+          __typename: "Note",
+          id: string,
+          projectFreelancerID: string,
+          title: string,
+          content: string | null,
+          createdAt: string,
+          updatedAt: string,
+        } | null > | null,
+        nextToken: string | null,
       } | null,
     } | null > | null,
     nextToken: string | null,
@@ -3619,6 +3867,10 @@ export type ProjectsByFreelancerQuery = {
               company: string | null,
               updatedAt: string,
             } | null,
+            notes:  {
+              __typename: "ModelNoteConnection",
+              nextToken: string | null,
+            } | null,
           } | null > | null,
           nextToken: string | null,
         } | null,
@@ -3686,6 +3938,19 @@ export type ProjectsByFreelancerQuery = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+      } | null,
+      notes:  {
+        __typename: "ModelNoteConnection",
+        items:  Array< {
+          __typename: "Note",
+          id: string,
+          projectFreelancerID: string,
+          title: string,
+          content: string | null,
+          createdAt: string,
+          updatedAt: string,
+        } | null > | null,
+        nextToken: string | null,
       } | null,
     } | null > | null,
     nextToken: string | null,
@@ -3788,6 +4053,19 @@ export type ListProjectsQuery = {
               __typename: "ModelCommentConnection",
               nextToken: string | null,
             } | null,
+          } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
           } | null,
         } | null > | null,
         nextToken: string | null,
@@ -4010,6 +4288,19 @@ export type GetProjectQuery = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+        } | null,
+        notes:  {
+          __typename: "ModelNoteConnection",
+          items:  Array< {
+            __typename: "Note",
+            id: string,
+            projectFreelancerID: string,
+            title: string,
+            content: string | null,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
         } | null,
       } | null > | null,
       nextToken: string | null,
@@ -4909,6 +5200,44 @@ export type GetDomainSlugQuery = {
   } | null,
 };
 
+export type GetNoteQueryVariables = {
+  id: string,
+};
+
+export type GetNoteQuery = {
+  getNote:  {
+    __typename: "Note",
+    id: string,
+    projectFreelancerID: string,
+    title: string,
+    content: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListNotesQueryVariables = {
+  filter?: ModelNoteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListNotesQuery = {
+  listNotes:  {
+    __typename: "ModelNoteConnection",
+    items:  Array< {
+      __typename: "Note",
+      id: string,
+      projectFreelancerID: string,
+      title: string,
+      content: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
 export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
@@ -5142,6 +5471,19 @@ export type OnCreateProjectFreelancerSubscription = {
               nextToken: string | null,
             } | null,
           } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -5218,6 +5560,19 @@ export type OnCreateProjectFreelancerSubscription = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+    } | null,
+    notes:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        projectFreelancerID: string,
+        title: string,
+        content: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -5332,6 +5687,19 @@ export type OnUpdateProjectFreelancerSubscription = {
               nextToken: string | null,
             } | null,
           } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -5408,6 +5776,19 @@ export type OnUpdateProjectFreelancerSubscription = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+    } | null,
+    notes:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        projectFreelancerID: string,
+        title: string,
+        content: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -5522,6 +5903,19 @@ export type OnDeleteProjectFreelancerSubscription = {
               nextToken: string | null,
             } | null,
           } | null,
+          notes:  {
+            __typename: "ModelNoteConnection",
+            items:  Array< {
+              __typename: "Note",
+              id: string,
+              projectFreelancerID: string,
+              title: string,
+              content: string | null,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -5598,6 +5992,19 @@ export type OnDeleteProjectFreelancerSubscription = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+    } | null,
+    notes:  {
+      __typename: "ModelNoteConnection",
+      items:  Array< {
+        __typename: "Note",
+        id: string,
+        projectFreelancerID: string,
+        title: string,
+        content: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
   } | null,
 };
@@ -5738,6 +6145,19 @@ export type OnCreateProjectSubscription = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+        } | null,
+        notes:  {
+          __typename: "ModelNoteConnection",
+          items:  Array< {
+            __typename: "Note",
+            id: string,
+            projectFreelancerID: string,
+            title: string,
+            content: string | null,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
         } | null,
       } | null > | null,
       nextToken: string | null,
@@ -5955,6 +6375,19 @@ export type OnUpdateProjectSubscription = {
             nextToken: string | null,
           } | null,
         } | null,
+        notes:  {
+          __typename: "ModelNoteConnection",
+          items:  Array< {
+            __typename: "Note",
+            id: string,
+            projectFreelancerID: string,
+            title: string,
+            content: string | null,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -6170,6 +6603,19 @@ export type OnDeleteProjectSubscription = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+        } | null,
+        notes:  {
+          __typename: "ModelNoteConnection",
+          items:  Array< {
+            __typename: "Note",
+            id: string,
+            projectFreelancerID: string,
+            title: string,
+            content: string | null,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
         } | null,
       } | null > | null,
       nextToken: string | null,
@@ -7234,5 +7680,41 @@ export type OnDeleteDomainSlugSubscription = {
         } | null,
       } | null,
     } | null,
+  } | null,
+};
+
+export type OnCreateNoteSubscription = {
+  onCreateNote:  {
+    __typename: "Note",
+    id: string,
+    projectFreelancerID: string,
+    title: string,
+    content: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateNoteSubscription = {
+  onUpdateNote:  {
+    __typename: "Note",
+    id: string,
+    projectFreelancerID: string,
+    title: string,
+    content: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteNoteSubscription = {
+  onDeleteNote:  {
+    __typename: "Note",
+    id: string,
+    projectFreelancerID: string,
+    title: string,
+    content: string | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
