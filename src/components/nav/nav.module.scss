@@ -1,6 +1,7 @@
 @import '~bulma/sass/utilities/_all.sass';
 
-.sideNav {
+.nav {
+  min-height: calc(100vh - 24px);
   background: #333333;
   color: #bdbdbd;
 
@@ -30,34 +31,8 @@
       background: #464646;
     }
   }
-}
 
-.mobileNav {
-  color: #595959;
-  a {
-    color: #595959;
-
-    svg {
-      color: #595959;
-    }
-  }
-
-  li:hover {
-    background: #c4bfa4;
-  }
-
-  .current {
-    background: #c4bfa4;
-  }
-}
-
-.nav {
   font-weight: normal;
-
-  @include tablet {
-    width: 250px;
-    min-height: 100vh;
-  }
 
   .toolbar {
     display: flex;
@@ -72,4 +47,12 @@
     border-radius: 50%;
     border: 2px solid #eeeeee;
   }
+
+  .closeNav {
+    cursor: pointer;
+  }
+}
+
+.desktopNav {
+  width: 250px;
 }

@@ -17,10 +17,6 @@
   margin-bottom: 300px;
 }
 
-.columns {
-  flex-wrap: wrap;
-}
-
 .leftColumn {
   @include tablet {
     min-width: 500px;

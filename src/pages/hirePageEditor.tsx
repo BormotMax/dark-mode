@@ -299,187 +299,184 @@ const HirePageEditor = ({ currentUser }) => {
 
   return (
     <PageLayoutOne page={Page.HIRE_EDITOR} headerText="Hire Page Editor">
-      <div className={styles.hirePageEditor}>
-        <div className="container is-desktop">
-          <main className={styles.main}>
-            <form onSubmit={(e) => handleSubmit(e)}>
-              <div className={classnames('text-1', 'columns')}>
-                <div className="column">
-                  <div className="field">
-                    <label className="label">Name</label>
-                    <div className="control">
-                      <input name="name" className="input" type="text" maxLength={48} size={35} defaultValue={user?.name} />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">Title</label>
-                    <div className="control">
-                      <input name="title" className="input" type="text" maxLength={32} size={35} defaultValue={user?.title} />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">Button Text</label>
-                    <div className="control">
-                      <input
-                        name="buttonText"
-                        className="input"
-                        type="text"
-                        maxLength={24}
-                        defaultValue={hireInfo?.buttonText}
-                        placeholder="Start a Conversation"
-                      />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">Blurb</label>
-                    <div className="control">
-                      <textarea name="blurbText" maxLength={255} rows={3} className="textarea" defaultValue={hireInfo?.blurbText} />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">About</label>
-                    <div className="control">
-                      <textarea name="aboutText" maxLength={1000} rows={7} className="textarea" defaultValue={hireInfo?.aboutText} />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">Twitter URL</label>
-                    <div className="control">
-                      <input
-                        name="twitterUrl"
-                        className="input"
-                        type="url"
-                        pattern="https?://.+"
-                        maxLength={75}
-                        size={35}
-                        defaultValue={hireInfo?.twitterUrl}
-                        placeholder="https://twitter.com/"
-                      />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">Dribbble URL</label>
-                    <div className="control">
-                      <input
-                        name="dribbbleUrl"
-                        className="input"
-                        type="url"
-                        pattern="https?://.+"
-                        maxLength={75}
-                        size={35}
-                        defaultValue={hireInfo?.dribbbleUrl}
-                        placeholder="https://dribbble.com/"
-                      />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">Instagram URL</label>
-                    <div className="control">
-                      <input
-                        name="instagramUrl"
-                        className="input"
-                        type="url"
-                        pattern="https?://.+"
-                        maxLength={75}
-                        size={35}
-                        defaultValue={hireInfo?.instagramUrl}
-                        placeholder="https://www.instagram.com/"
-                      />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">LinkedIn URL</label>
-                    <div className="control">
-                      <input
-                        name="linkedInUrl"
-                        className="input"
-                        type="url"
-                        pattern="https?://.+"
-                        maxLength={75}
-                        size={35}
-                        defaultValue={hireInfo?.linkedInUrl}
-                        placeholder="https://www.linkedin.com/in/"
-                      />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="label">Built-in Domain e.g. continuum.works/hire/xyz</label>
-                    <div className="control">
-                      <input
-                        name="domainSlugID"
-                        className={classnames('input', { 'is-danger': invalids.domainSlugID })}
-                        type="text"
-                        pattern="^continuum.works/hire/[A-Za-z0-9]+"
-                        maxLength={50}
-                        size={35}
-                        defaultValue={`continuum.works/hire/${hireInfo?.domainSlug?.slug || ''}`}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="column">
-                  <div className="flex">
-                    <FileUpload
-                      name="banner"
-                      helpText="Banner Image (1100px x 640px)"
-                      image={bannerImage}
-                      onChange={(file) => handleFileInputChange(file, 'banner')}
-                      aspect="wide"
-                    />
-                  </div>
-                  <div className={styles.portfolioContainer}>
-                    <FileUpload
-                      name="portfolio-1"
-                      helpText="Slide 1 (1000px square)"
-                      image={portfolioImages['portfolio-1']}
-                      onChange={(file) => handleFileInputChange(file, 'portfolio-1')}
-                    />
-                    <FileUpload
-                      name="portfolio-2"
-                      helpText="Slide 2 (1000px square)"
-                      image={portfolioImages['portfolio-2']}
-                      onChange={(file) => handleFileInputChange(file, 'portfolio-2')}
-                    />
-
-                    <FileUpload
-                      name="portfolio-3"
-                      helpText="Slide 3 (1000px square)"
-                      image={portfolioImages['portfolio-3']}
-                      onChange={(file) => handleFileInputChange(file, 'portfolio-3')}
-                    />
-                    <FileUpload
-                      name="portfolio-4"
-                      helpText="Slide 4 (1000px square)"
-                      image={portfolioImages['portfolio-4']}
-                      onChange={(file) => handleFileInputChange(file, 'portfolio-4')}
-                    />
-
-                    <FileUpload
-                      name="portfolio-5"
-                      helpText="Slide 5 (1000px square)"
-                      image={portfolioImages['portfolio-5']}
-                      onChange={(file) => handleFileInputChange(file, 'portfolio-5')}
-                    />
-                    <FileUpload
-                      name="portfolio-6"
-                      helpText="Slide 6 (1000px square)"
-                      image={portfolioImages['portfolio-6']}
-                      onChange={(file) => handleFileInputChange(file, 'portfolio-6')}
-                    />
-                  </div>
+      <div className={classnames(styles.hirePageEditor, 'column')}>
+        <div className={classnames('text-1', 'columns')}>
+          <div className="column">
+            <form id="hirePageForm" onSubmit={(e) => handleSubmit(e)}>
+              <div className="field">
+                <label className="label">Name</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input name="name" className="input" type="text" maxLength={48} size={35} defaultValue={user?.name} />
                 </div>
               </div>
-              <div className={styles.save}>
-                <button
-                  disabled={saving}
-                  type="submit"
-                  className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': saving })}
-                >
-                  SAVE
-                </button>
+              <div className="field">
+                <label className="label">Title</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input name="title" className="input" type="text" maxLength={32} size={35} defaultValue={user?.title} />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Button Text</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input
+                    name="buttonText"
+                    className="input"
+                    type="text"
+                    maxLength={24}
+                    defaultValue={hireInfo?.buttonText}
+                    placeholder="Start a Conversation"
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Blurb</label>
+                <div className="control">
+                  <textarea name="blurbText" maxLength={255} rows={3} className="textarea" defaultValue={hireInfo?.blurbText} />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">About</label>
+                <div className="control">
+                  <textarea name="aboutText" maxLength={1000} rows={7} className="textarea" defaultValue={hireInfo?.aboutText} />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Twitter URL</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input
+                    name="twitterUrl"
+                    className="input"
+                    type="url"
+                    pattern="https?://.+"
+                    maxLength={75}
+                    size={35}
+                    defaultValue={hireInfo?.twitterUrl}
+                    placeholder="https://twitter.com/"
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Dribbble URL</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input
+                    name="dribbbleUrl"
+                    className="input"
+                    type="url"
+                    pattern="https?://.+"
+                    maxLength={75}
+                    size={35}
+                    defaultValue={hireInfo?.dribbbleUrl}
+                    placeholder="https://dribbble.com/"
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Instagram URL</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input
+                    name="instagramUrl"
+                    className="input"
+                    type="url"
+                    pattern="https?://.+"
+                    maxLength={75}
+                    size={35}
+                    defaultValue={hireInfo?.instagramUrl}
+                    placeholder="https://www.instagram.com/"
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">LinkedIn URL</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input
+                    name="linkedInUrl"
+                    className="input"
+                    type="url"
+                    pattern="https?://.+"
+                    maxLength={75}
+                    size={35}
+                    defaultValue={hireInfo?.linkedInUrl}
+                    placeholder="https://www.linkedin.com/in/"
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Built-in Domain e.g. continuum.works/hire/xyz</label>
+                <div className={classnames(styles.halfWidthControl, 'control')}>
+                  <input
+                    name="domainSlugID"
+                    className={classnames('input', { 'is-danger': invalids.domainSlugID })}
+                    type="text"
+                    pattern="^continuum.works/hire/[A-Za-z0-9]+"
+                    maxLength={50}
+                    size={35}
+                    defaultValue={`continuum.works/hire/${hireInfo?.domainSlug?.slug || ''}`}
+                  />
+                </div>
               </div>
             </form>
-          </main>
+          </div>
+          <div className="column">
+            <div className="flex">
+              <FileUpload
+                name="banner"
+                helpText="Banner Image (1100px x 640px)"
+                image={bannerImage}
+                onChange={(file) => handleFileInputChange(file, 'banner')}
+                aspect="wide"
+              />
+            </div>
+            <div className={styles.portfolioContainer}>
+              <FileUpload
+                name="portfolio-1"
+                helpText="Slide 1 (1000px square)"
+                image={portfolioImages['portfolio-1']}
+                onChange={(file) => handleFileInputChange(file, 'portfolio-1')}
+              />
+              <FileUpload
+                name="portfolio-2"
+                helpText="Slide 2 (1000px square)"
+                image={portfolioImages['portfolio-2']}
+                onChange={(file) => handleFileInputChange(file, 'portfolio-2')}
+              />
+
+              <FileUpload
+                name="portfolio-3"
+                helpText="Slide 3 (1000px square)"
+                image={portfolioImages['portfolio-3']}
+                onChange={(file) => handleFileInputChange(file, 'portfolio-3')}
+              />
+              <FileUpload
+                name="portfolio-4"
+                helpText="Slide 4 (1000px square)"
+                image={portfolioImages['portfolio-4']}
+                onChange={(file) => handleFileInputChange(file, 'portfolio-4')}
+              />
+
+              <FileUpload
+                name="portfolio-5"
+                helpText="Slide 5 (1000px square)"
+                image={portfolioImages['portfolio-5']}
+                onChange={(file) => handleFileInputChange(file, 'portfolio-5')}
+              />
+              <FileUpload
+                name="portfolio-6"
+                helpText="Slide 6 (1000px square)"
+                image={portfolioImages['portfolio-6']}
+                onChange={(file) => handleFileInputChange(file, 'portfolio-6')}
+              />
+            </div>
+          </div>
+        </div>
+        <div className={styles.save}>
+          <button
+            form="hirePageForm"
+            disabled={saving}
+            type="submit"
+            className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': saving })}
+          >
+            SAVE
+          </button>
         </div>
       </div>
     </PageLayoutOne>

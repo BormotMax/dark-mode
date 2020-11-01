@@ -130,66 +130,56 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   // /* todo: click to change title */
   return (
     <PageLayoutOne
-      headerText={
-        <>
-          <Protected roles={[Role.FREELANCER]}>
-            <Link href="/projects">
-              <a href="/projects">Projects</a>
-            </Link>
-          </Protected>
-          <ProtectedElse roles={[Role.FREELANCER]}>Projects</ProtectedElse>
-          &nbsp;&gt;&nbsp;{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}
-        </>
-      }
+      headerText={<>{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>}
       page={Page.PROJECT}
     >
-      <div className={classnames('columns', styles.columns)}>
-        <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
-          {comments.filter(Boolean).map((c) => (
-            <CommentWrapper key={c.id} comment={c} viewerId={viewer.current.id as string} />
-          ))}
-          <div ref={newCommentRef}>
-            <NewComment
-              name={viewer.current.name}
-              avatarUrl={gravatarUrl(viewer.current.email)}
-              projectID={id as string}
-              creatorID={viewer.current.id}
-            />
-          </div>
-        </div>
-        <div className={classnames('column', styles.rightColumn)}>
-          <div className={classnames(styles.tabGroupWrapper)}>
-            <Protected roles={[Role.FREELANCER]}>
-              <TabGroup names={['People', 'Notes', 'Assets']}>
-                <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
-                <NotesTab
-                  projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
-                  refetchData={fetchProject}
-                />
-                <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
-              </TabGroup>
-            </Protected>
-            <ProtectedElse roles={[Role.FREELANCER]}>
-              <TabGroup names={['People', 'Assets']}>
-                <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
-                <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
-              </TabGroup>
-            </ProtectedElse>
-            <TabGroup names={['Tasks & Time', 'Financial']}>
-              <>
-                {quotes.items.length === 0 ? (
-                  <div>There are no quotes, yet.</div>
-                ) : (
-                  quotes.items
-                    .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-                    .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)
-                )}
-              </>
-              <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer.current} />
-            </TabGroup>
-          </div>
+      {/* <div className={classnames('columns', styles.columns)}> */}
+      <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
+        {comments.filter(Boolean).map((c) => (
+          <CommentWrapper key={c.id} comment={c} viewerId={viewer.current.id as string} />
+        ))}
+        <div ref={newCommentRef}>
+          <NewComment
+            name={viewer.current.name}
+            avatarUrl={gravatarUrl(viewer.current.email)}
+            projectID={id as string}
+            creatorID={viewer.current.id}
+          />
         </div>
       </div>
+      <div className={classnames('column', styles.rightColumn)}>
+        <div className={classnames(styles.tabGroupWrapper)}>
+          <Protected roles={[Role.FREELANCER]}>
+            <TabGroup names={['People', 'Notes', 'Assets']}>
+              <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+              <NotesTab
+                projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
+                refetchData={fetchProject}
+              />
+              <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+            </TabGroup>
+          </Protected>
+          <ProtectedElse roles={[Role.FREELANCER]}>
+            <TabGroup names={['People', 'Assets']}>
+              <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+              <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+            </TabGroup>
+          </ProtectedElse>
+          <TabGroup names={['Tasks & Time', 'Financial']}>
+            <>
+              {quotes.items.length === 0 ? (
+                <div>There are no quotes, yet.</div>
+              ) : (
+                quotes.items
+                  .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+                  .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)
+              )}
+            </>
+            <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer.current} />
+          </TabGroup>
+        </div>
+      </div>
+      {/* </div> */}
     </PageLayoutOne>
   );
 };

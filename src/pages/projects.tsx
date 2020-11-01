@@ -47,7 +47,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   return (
     <PageLayoutOne
       page={Page.PROJECTS}
-      headerText="Projects > All Projects"
+      headerText="All Projects"
       headerButton={
         <InPlaceModal button={<ButtonSmall text="New Project" />}>
           <CreateProjectModal refetchData={getProjects} />

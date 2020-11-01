@@ -5,22 +5,20 @@ import UploadImage from '../../img/upload.svg';
 import { FileInput } from '../fileInput';
 
 interface FileUploadProps {
-  helpText: string
-  name: string
-  image: string
-  onChange: Function
-  aspect?: string
+  helpText: string;
+  name: string;
+  image: string;
+  onChange: Function;
+  aspect?: string;
 }
 
 enum UploadState {
   BEGIN,
   LOADING,
-  DONE
+  DONE,
 }
 
-export const FileUpload:React.FC<FileUploadProps> = ({
-  helpText, name, image, onChange, aspect = 'square',
-}) => {
+export const FileUpload: React.FC<FileUploadProps> = ({ helpText, name, image, onChange, aspect = 'square' }) => {
   const [fileSrc, setFileSrc] = useState('');
   const [isDragOver, setDragOver] = useState(false);
   const [uploadState, setUploadState] = useState(UploadState.BEGIN);
@@ -76,16 +74,17 @@ export const FileUpload:React.FC<FileUploadProps> = ({
         onDrop={handleFileDrop}
         onDragEnter={() => setDragOver(true)}
         onDragLeave={() => setDragOver(false)}
-        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-        className={classnames(styles.dropArea, styles[`dropArea--${aspect}`],
-          {
-            [styles.loading]: uploadState === UploadState.LOADING,
-            [styles.dragOver]: isDragOver,
-            [styles.done]: uploadState === UploadState.DONE,
-          })}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragOver(true);
+        }}
+        className={classnames(styles.dropArea, styles[`dropArea--${aspect}`], {
+          [styles.loading]: uploadState === UploadState.LOADING,
+          [styles.dragOver]: isDragOver,
+          [styles.done]: uploadState === UploadState.DONE,
+        })}
       >
-
-        {fileSrc && <img src={fileSrc} alt="hirepageimage" data-cy={`img-${name}`} /> }
+        {fileSrc && <img src={fileSrc} alt="hirepageimage" data-cy={`img-${name}`} />}
         {!fileSrc && <UploadImage />}
       </div>
       <div className={styles.beneathDropArea}>

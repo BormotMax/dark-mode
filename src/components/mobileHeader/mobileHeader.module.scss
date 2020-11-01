@@ -1,0 +1,30 @@
+.mobileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 16px;
+  background: #ffffff;
+  box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #595959;
+  margin: -12px -12px 0;
+
+  .button {
+    border-radius: 50%;
+    background: #eeeeee;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}

@@ -1,20 +1,24 @@
 @import '~bulma/sass/utilities/_all.sass';
 
 .hirePageEditor {
-  .main {
-    textarea {
-      color: #8093a6;
+  padding: 0;
+  @include tablet {
+    .halfWidthControl {
+      width: 80%;
     }
+  }
+  textarea {
+    color: #8093a6;
+  }
 
-    .save {
-      margin: 65px 0 193px 0;
-      text-align: center;
-    }
+  .save {
+    margin: 65px 0 193px 0;
+    text-align: center;
+  }
 
-    .portfolioContainer {
-      display: grid;
-      grid-gap: 10px;
-      grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
-    }
+  .portfolioContainer {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
   }
 }
