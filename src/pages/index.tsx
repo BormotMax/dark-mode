@@ -114,22 +114,21 @@ const TabItems = () => (
       <img src="second_screen/1.svg" alt="Conversations" />
       <div className={styles['tab-title']}>Conversations</div>
       <div className={styles['tab-text']}>
-        Engage quickly and meaningfully with people interested in your work. Paste our conversation widget code in your site or use your
-        Hire Page.
+        Engage quickly and meaningfully with people interested in your work. Add to your site or use your Hire Page.
       </div>
     </div>
     <div className={styles['tab-item']}>
       <img src="second_screen/2.svg" alt="Project Mgmt" />
       <div className={styles['tab-title']}>Project Mgmt</div>
       <div className={styles['tab-text']}>
-        Text-message-style project management with conversations, files, quotes, invoices and payments all in one thread.
+        Text-message-style project management with conversations, files, quotes, time tracking, invoices and payments.
       </div>
     </div>
     <div className={styles['tab-item']}>
       <img src="second_screen/3.svg" alt="CRM" />
       <div className={styles['tab-title']}>CRM</div>
       <div className={styles['tab-text']}>
-        Stay on top of sales with our visual CRM to see site visitors, conversations and conversations to quotes, invoices and payments.
+        Track sales with our visual CRM to see site visitors, conversations and conversions to quotes, invoices and payments.
       </div>
     </div>
     <div className={styles['tab-item']}>
@@ -143,7 +142,7 @@ const TabItems = () => (
       <img src="second_screen/5.svg" alt="Invoices & Payments" />
       <div className={styles['tab-title']}>Invoices & Payments</div>
       <div className={styles['tab-text']}>
-        Create tasks and track time to generate invoices and receive payments in the Continuum project space.
+        Invoice clients for your work. Receive and share payments with your collaborators directly within the platform.
       </div>
     </div>
     <div className={styles['tab-item']}>
