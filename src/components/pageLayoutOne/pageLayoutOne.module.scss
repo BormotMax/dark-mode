@@ -31,56 +31,7 @@
   flex-wrap: wrap;
 }
 
-.nav {
-  min-height: 100vh;
-  background: #eeeeee;
-  color: #bdbdbd;
-  border-right: 1px solid #e0e0e0;
-
-  a {
-    color: #bdbdbd;
-  }
-
-  ul {
-    li {
-      border-radius: 100px;
-      &:hover {
-        background: #464646;
-      }
-    }
-
-    a {
-      color: #bdbdbd;
-      padding: 6px 10px;
-      width: 100%;
-    }
-
-    .current {
-      background: #464646;
-    }
-  }
-
-  font-weight: normal;
-
-  .toolbar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 39px;
-    align-items: center;
-  }
-
-  .avatar {
-    height: 48px;
-    width: 48px;
-    border-radius: 50%;
-    border: 2px solid #eeeeee;
-  }
-
-  .closeNav {
-    cursor: pointer;
-  }
-}
-
 .desktopNav {
   width: 250px;
+  border-right: 1px solid #e0e0e0;
 }
