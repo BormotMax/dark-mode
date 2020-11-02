@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import Link from 'next/link';
 import styles from './projectHeader.module.scss';
-import Logo from '../../img/logo2.svg';
+import Logo from '../../img/logo4.svg';
 
 export const ProjectHeader: React.FC = () => {
   return (
@@ -11,7 +11,6 @@ export const ProjectHeader: React.FC = () => {
           <Logo />
         </a>
       </Link>
-      Continuum
     </header>
   );
 };

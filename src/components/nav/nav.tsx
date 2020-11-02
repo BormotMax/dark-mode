@@ -44,14 +44,14 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           onKeyDown={handleOnClick}
           tabIndex={0}
         >
-          <FontAwesomeIcon size="1x" icon={faTimes} />
+          <FontAwesomeIcon size="1x" icon={faTimes} color="#828282" />
         </div>
       </div>
       <ul className={classnames(styles.navList)}>
         <li className={classnames({ [styles.current]: page === Page.PROJECTS })}>
           <Link href="/projects">
             <a href="/projects">
-              <FontAwesomeIcon size="1x" icon={faRocket} />
+              <FontAwesomeIcon color="#000000" size="1x" icon={faRocket} />
               &nbsp;&nbsp;Projects
             </a>
           </Link>
@@ -59,7 +59,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
         <li className={classnames({ [styles.current]: page === Page.HIRE_EDITOR })}>
           <Link href="/hirePageEditor">
             <a href="/hirePageEditor">
-              <FontAwesomeIcon size="1x" icon={faPersonSign} />
+              <FontAwesomeIcon color="#000000" size="1x" icon={faPersonSign} />
               &nbsp;&nbsp;Hire Page
             </a>
           </Link>
@@ -67,7 +67,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
         <li>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a role="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
-            <FontAwesomeIcon size="1x" icon={faSignOut} />
+            <FontAwesomeIcon color="#000000" size="1x" icon={faSignOut} />
             &nbsp;&nbsp;Logout
           </a>
         </li>

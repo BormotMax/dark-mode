@@ -100,8 +100,11 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
       fetch(fileUrl)
         .then((res) => res.blob())
         .then((blob) => {
-          const file = new File([blob], 'downloaded_image', { type: blob.type });
+          const file = new File([blob], `downloaded_${blob.type.split('/')[0]}.${blob.type.split('/')[1]}`, { type: blob.type });
           setFiles((oldFiles) => [...oldFiles, file]);
+        })
+        .catch(() => {
+          setFlash("We can't download that file for you, sorry.");
         });
       setFileUrl('');
     }

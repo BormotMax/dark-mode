@@ -1,34 +1,31 @@
 @import '~bulma/sass/utilities/_all.sass';
 
 .nav {
+  padding: 2px;
   min-height: calc(100vh - 24px);
-  background: #333333;
-  color: #bdbdbd;
+  background: #eeeeee;
+  color: #000000;
 
   a {
-    color: #bdbdbd;
+    color: #000000;
   }
 
   ul {
     li {
       border-radius: 100px;
       &:hover {
-        background: #464646;
+        background: #ffffff;
       }
     }
 
     a {
-      color: #bdbdbd;
+      color: #000000;
       padding: 6px 10px;
       width: 100%;
-
-      svg {
-        color: #828282;
-      }
     }
 
     .current {
-      background: #464646;
+      background: #ffffff;
     }
   }
 

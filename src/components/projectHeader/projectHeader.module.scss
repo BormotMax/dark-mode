@@ -2,7 +2,6 @@
 
 .header {
   display: flex;
-  align-items: center;
   justify-content: center;
 
   @include tablet {
@@ -10,9 +9,6 @@
   }
 
   svg {
-    margin-right: 16px;
-    height: 48px;
-    width: 48px;
     vertical-align: bottom;
   }
 

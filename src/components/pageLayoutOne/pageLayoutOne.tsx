@@ -1,12 +1,12 @@
 import classnames from 'classnames';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import styles from './pageLayoutOne.module.scss';
 import { Role } from '../withAuthentication';
 import { Protected, ProtectedElse } from '../protected/protected';
 import { Header } from '../header';
 import { Nav, Page } from '../nav/nav';
 import { MobileHeader } from '../mobileHeader';
-import Link from 'next/link';
 
 interface PageLayoutOneProps {
   headerText?: string | JSX.Element;
@@ -89,7 +89,7 @@ const MobileLayout = ({ content, headerText, page, headerButton }) => {
 };
 
 const DesktopLayout = ({ content, headerText, page, headerButton }) => (
-  <div className="columns is-hidden-mobile">
+  <div className={classnames('columns', 'is-hidden-mobile', styles.navColumn)}>
     <Protected roles={[Role.FREELANCER]}>
       <div className={classnames('column', 'is-narrow', styles.nav, styles.desktopNav, 'is-hidden-mobile')}>
         <Nav page={page} />

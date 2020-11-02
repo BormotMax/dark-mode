@@ -296,7 +296,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                     </span>
                   </>
                 )}
-                <div className={styles.radioText}>
+                <div className={classnames(styles.radioText, styles.radioTextWrap)}>
                   This work will take <input className={styles.inlineInput} value={hours} onChange={updateHours} /> billable hours at{' '}
                   <input className={styles.inlineInput} value={`$${perHour}`} onChange={updatePerHour} /> per hour.
                 </div>

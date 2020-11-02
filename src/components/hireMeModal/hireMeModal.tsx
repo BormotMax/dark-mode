@@ -199,7 +199,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
       <Comment isMine={false} name={freelancerName} avatarUrl={avatarUrl} backgroundColor="#ffffff" commentColor="#F5F8FF">
         <div>{commentContent}</div>
       </Comment>
-      <Comment backgroundColor="#ffffff" commentColor="#FAF8F7">
+      <Comment backgroundColor="#ffffff" commentColor="#FAF8F7" noAvatar>
         <form onSubmit={(e) => handleSubmit(e)}>
           <div>
             <div className="field is-horizontal">
@@ -258,7 +258,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
             </div>
           </div>
           <div className={styles.reply}>
-            <ButtonSmall text="Reply" isSaving={isSaving} onClick={handleSubmit} />
+            <ButtonSmall text="Start a Conversation" isSaving={isSaving} onClick={handleSubmit} />
           </div>
         </form>
       </Comment>

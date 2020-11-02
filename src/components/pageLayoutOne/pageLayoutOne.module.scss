@@ -10,6 +10,10 @@
   font-size: 16px;
   line-height: 24px;
 
+  .navColumn {
+    margin-bottom: 0;
+  }
+
   .pageContent {
     @include tablet {
       padding-left: 20px;
@@ -29,8 +33,9 @@
 
 .nav {
   min-height: 100vh;
-  background: #333333;
+  background: #eeeeee;
   color: #bdbdbd;
+  border-right: 1px solid #e0e0e0;
 
   a {
     color: #bdbdbd;
@@ -48,10 +53,6 @@
       color: #bdbdbd;
       padding: 6px 10px;
       width: 100%;
-
-      svg {
-        color: #828282;
-      }
     }
 
     .current {
