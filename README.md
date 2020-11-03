@@ -17,4 +17,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Deploy
 
-- Push to master branch, next.js app will deploy to [Vercel](https://nextjs.org/docs/deployment)
+- Merge to master branch, next.js app will deploy to [Vercel](https://nextjs.org/docs/deployment)
