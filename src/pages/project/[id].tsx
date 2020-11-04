@@ -1,8 +1,9 @@
+import React, { useEffect, useRef, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
 import { faBackpack, faClipboardUser, faFileAlt, faSackDollar, faStopwatch } from '@fortawesome/pro-light-svg-icons';
+
 import { FilesTab, NotesTab, TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
@@ -11,7 +12,6 @@ import { unauthClient } from '../_app';
 import { GetProjectQuery } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { onCreateComment } from '../../graphql/subscriptions';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
 import styles from '../styles/project.module.scss';
@@ -140,7 +140,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <div ref={newCommentRef}>
           <NewComment
             name={viewer.current.name}
-            avatarUrl={gravatarUrl(viewer.current.email)}
+            email={viewer.current.email}
             projectID={id as string}
             creatorID={viewer.current.id}
           />

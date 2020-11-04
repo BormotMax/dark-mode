@@ -1,10 +1,13 @@
+import React from "react";
 import classnames from 'classnames';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPersonSign, faRocket, faSignOut, faTimes } from '@fortawesome/pro-light-svg-icons';
-import Link from 'next/link';
-import styles from './nav.module.scss';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
+
 import { useCurrentUser } from '../../hooks';
+import { Avatar } from '../avatar/avatar';
+
+import styles from './nav.module.scss';
 
 export enum Page {
   PROJECT,
@@ -21,6 +24,7 @@ interface NavProps {
 export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
   const { currentUser, signOut } = useCurrentUser();
   const email = currentUser?.attributes?.email;
+  const name = currentUser?.attributes?.name;
 
   const handleLogout = (e: any) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
@@ -33,10 +37,11 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
       goToNextPanel();
     }
   };
+
   return (
     <div className={classnames(styles.nav)}>
       <div className={classnames(styles.toolbar)}>
-        <img alt="avatar" className={styles.avatar} src={gravatarUrl(email)} />
+        <Avatar email={email} name={name} width={48} height={48} />
         <div
           role="button"
           className={classnames('is-hidden-tablet', styles.closeNav)}

@@ -1,27 +1,28 @@
+import React, { useState } from 'react';
 import classnames from 'classnames';
+import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/pro-regular-svg-icons';
-import React, { useState } from 'react';
-import gql from 'graphql-tag';
-import styles from './comment.module.scss';
-import { Comment as CommentType } from '../../types/custom';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { unauthClient } from '../../pages/_app';
+
+import { Avatar } from '../avatar/avatar';
 import { createComment } from '../../graphql/mutations';
-import { useLogger } from '../../hooks';
+import { Comment as CommentType } from '../../types/custom';
 import { CommentResourceType } from '../../API';
+import { unauthClient } from '../../pages/_app';
+import { useLogger } from '../../hooks';
 import { QuoteForComment } from './quoteForComment';
+
+import styles from './comment.module.scss';
 
 interface CommentWrapperProps {
   comment: CommentType;
-  avatarUrl?: string;
   viewerId?: string;
 }
 
 interface CommentProps {
   name?: string;
   createdAt?: string;
-  avatarUrl?: string;
+  email?: string;
   isMine?: boolean;
   backgroundColor?: string;
   commentColor?: string;
@@ -30,7 +31,7 @@ interface CommentProps {
 
 interface NewCommentProps {
   name?: string;
-  avatarUrl?: string;
+  email?: string;
   projectID: string;
   creatorID: string;
 }
@@ -70,11 +71,11 @@ const getRelativeTime = (createdAt: Date) => {
   return createdAt.toLocaleDateString();
 };
 
-export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarUrl, viewerId }) => (
+export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId }) => (
   <Comment
-    name={comment.creator.name || comment.creator.email}
+    name={comment.creator.name}
     createdAt={comment.createdAt}
-    avatarUrl={avatarUrl || gravatarUrl(comment.creator.email)}
+    email={comment.creator.email}
     isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}
   >
     <>
@@ -88,7 +89,7 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, avatarU
 export const Comment: React.FC<CommentProps> = ({
   name,
   createdAt,
-  avatarUrl,
+  email,
   children,
   isMine = true,
   backgroundColor = '#eeeeee',
@@ -107,13 +108,13 @@ export const Comment: React.FC<CommentProps> = ({
       {createdAt && <div className="text-2 text-small text-gray">{getRelativeTime(new Date(createdAt))}</div>}
     </div>
     {!noAvatar && (
-      <img alt="avatar" className={styles.avatar} style={{ borderColor: backgroundColor }} src={avatarUrl || '/blankAvatar.jpg'} />
+      <Avatar className={styles.avatar} style={{ borderColor: backgroundColor }} email={email} name={name} />
     )}
     <div className={classnames(styles.commentContent)}>{children}</div>
   </div>
 );
 
-export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, projectID, creatorID }) => {
+export const NewComment: React.FC<NewCommentProps> = ({ name, email, projectID, creatorID }) => {
   const [content, setContent] = useState('');
   const [saving, setSaving] = useState(false);
   const { logger } = useLogger();
@@ -155,8 +156,9 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, avatarUrl, project
       handleCreateComment(e);
     }
   };
+
   return (
-    <Comment name={name} avatarUrl={avatarUrl} isMine>
+    <Comment name={name} email={email} isMine>
       <textarea
         onChange={handleChange}
         onKeyPress={handleEnter}

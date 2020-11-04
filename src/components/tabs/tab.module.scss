@@ -2,6 +2,29 @@
   &:not(:last-child) {
     margin-bottom: 32px;
   }
+
+  .tabList {
+    border-bottom-width: 0;
+
+    .isActiveTab {
+      a {
+        border-bottom-width: 6px;
+      }
+    }
+
+    .tab {
+      a {
+        margin-bottom: 0;
+        border-bottom-width: 1px;
+      }
+
+      &:hover {
+        svg {
+          color: #000000;
+        }
+      }
+    }
+  }
 }
 
 .genericTab {
@@ -9,10 +32,4 @@
   font-size: 18px;
   font-family: Roboto, sans-serif;
   color: #1d3557;
-}
-
-.tab:hover {
-  svg {
-    color: #000000;
-  }
 }

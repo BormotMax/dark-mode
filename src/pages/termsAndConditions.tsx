@@ -61,7 +61,7 @@ const TermsAndConditions: React.FC = () => {
             <li>
               <p>
                 <strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot;
-                in this Agreement) refers to Continuum Works Inc., 21 S June Ter, Lake Forest, IL 60045.
+                in this Agreement) refers to Continuum Works Inc.
               </p>
             </li>
             <li>

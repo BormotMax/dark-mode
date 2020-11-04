@@ -110,7 +110,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
             value={details}
             onChange={(e) => setDetails(e.target.value)}
             name="details"
-            className={classnames('input', { 'is-danger': invalids.details }, 'textarea')}
+            className={classnames('textarea', { 'is-danger': invalids.details })}
           />
         </div>
       </div>

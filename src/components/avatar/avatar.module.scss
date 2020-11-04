@@ -1,5 +1,11 @@
 .avatar {
-  height: 72px;
   border-radius: 50%;
   align-self: center;
+}
+
+.avatarPlaceholder {
+  background: #3c78fb;
+  border-color: #eeeeee;
+  color: white;
+  text-align: center;
 }

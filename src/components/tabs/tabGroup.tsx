@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import styles from './tab.module.scss';
 
 interface TabGroupProps {
@@ -19,13 +20,16 @@ export const TabGroup: React.FC<TabGroupProps> = ({ tabInfos, children }) => {
   return (
     <div className={styles.tabGroup}>
       <div className="tabs is-fullwidth">
-        <ul>
+        <ul className={styles.tabList}>
           {tabInfos.map((info, i) => (
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
             <li
               onKeyDown={() => setActiveTabIndex(i)}
               key={info.header}
-              className={classnames({ 'is-active': i === activeTabIndex }, styles.tab)}
+              className={classnames(
+                { 'is-active': i === activeTabIndex },
+                i === activeTabIndex ? styles.isActiveTab : styles.tab,
+              )}
               onClick={() => setActiveTabIndex(i)}
             >
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

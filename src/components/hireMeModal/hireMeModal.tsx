@@ -1,27 +1,35 @@
+import React, { useState } from 'react';
 import classnames from 'classnames';
-import { useState } from 'react';
 import axios from 'axios';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
-import styles from './hireMeModal.module.scss';
+
 import { Comment } from '../comment';
 import { ButtonSmall } from '../buttons/buttons';
 import { UserRole, GetUserQuery, CreateUserMutation } from '../../API';
-import { createUser, createProject, createComment, createProjectClient, createProjectFreelancer } from '../../graphql/mutations';
+import {
+  createUser,
+  createProject,
+  createComment,
+  createProjectClient,
+  createProjectFreelancer,
+} from '../../graphql/mutations';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
 import { useCurrentUser, useLogger, useFlash } from '../../hooks';
 
-const commentContent = 'Thank you for your interest in the work I do. Please tell me a bit more about yourself and your project. Thanks!';
+import styles from './hireMeModal.module.scss';
+
+const commentContent = 'Thank you for your interest in the work I do. '
+    + 'Please tell me a bit more about yourself and your project. Thanks!';
 
 interface HireMeModalProps {
   freelancerName: string;
   freelancerEmail: string;
   freelancerID: string;
-  avatarUrl?: string;
   handleClose: Function;
 }
 
@@ -33,7 +41,13 @@ interface ValidationProps {
   details?: string;
 }
 
-export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freelancerName, freelancerID, avatarUrl }) => {
+export const HireMeModal: React.FC<HireMeModalProps> = (
+  {
+    freelancerEmail,
+    freelancerName,
+    freelancerID,
+  },
+) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const router = useRouter();
@@ -196,7 +210,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({ freelancerEmail, freel
     <div className={styles.hireMeModal}>
       <img src="/wave.png" alt="hello" />
       <h1 className="h1 vat">Hello There!</h1>
-      <Comment isMine={false} name={freelancerName} avatarUrl={avatarUrl} backgroundColor="#ffffff" commentColor="#F5F8FF">
+      <Comment isMine={false} name={freelancerName} email={freelancerEmail} backgroundColor="#ffffff" commentColor="#F5F8FF">
         <div>{commentContent}</div>
       </Comment>
       <Comment backgroundColor="#ffffff" commentColor="#FAF8F7" noAvatar>

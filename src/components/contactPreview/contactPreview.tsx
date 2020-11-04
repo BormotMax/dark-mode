@@ -1,21 +1,23 @@
+import React, { useState } from 'react';
 import classnames from 'classnames';
+import gql from 'graphql-tag';
+import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
 import { faCircle, faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
-import { useState } from 'react';
-import gql from 'graphql-tag';
-import { v4 as uuid } from 'uuid';
 import axios from 'axios';
+
 import { ProjectClient, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
-import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal/inPlaceModal';
+import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import { useLogger, useFlash } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { GetUserQuery, UserRole, CreateUserMutation } from '../../API';
 import { createUser, createProjectClient, updateUser, updateProjectClient } from '../../graphql/mutations';
+
+import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 
 interface ContactPreviewProps {
   users: ProjectClient[];
@@ -54,7 +56,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({ currentUser, use
                 className={classnames(modalStyles.modalPill)}
               >
                 <div className={classnames(modalStyles.icon)}>
-                  <Avatar email={projectMember.user.email} />
+                  <Avatar width={32} height={32} email={projectMember.user.email} name={projectMember.user.name} />
                 </div>
                 <div>
                   {projectMember.user.name}

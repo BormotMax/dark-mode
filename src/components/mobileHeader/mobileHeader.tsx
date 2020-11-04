@@ -1,9 +1,15 @@
+import React from 'react';
 import { faBars, faEllipsisV, faTimes } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
-import React from 'react';
-import { ViewingState } from '../pageLayoutOne';
+
 import styles from './mobileHeader.module.scss';
+
+export enum ViewingState {
+  FIRST_CHILD,
+  SECOND_CHILD,
+  NAV,
+}
 
 interface MobileHeaderProps {
   currentViewingState: ViewingState;
@@ -12,7 +18,12 @@ interface MobileHeaderProps {
   hasSecondChild: boolean;
 }
 
-export const MobileHeader: React.FC<MobileHeaderProps> = ({ currentViewingState, headerText, changePanel, hasSecondChild }) => {
+export const MobileHeader: React.FC<MobileHeaderProps> = ({
+  currentViewingState,
+  headerText,
+  changePanel,
+  hasSecondChild,
+}) => {
   const handleSwitchToNav = (e: any) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
       changePanel(ViewingState.NAV);

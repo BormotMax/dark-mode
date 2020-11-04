@@ -1,24 +1,25 @@
-import gql from 'graphql-tag';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import gql from 'graphql-tag';
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
-import { useState, useEffect, useRef } from 'react';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Carousel, { Modal as ImageModal, ModalGateway } from 'react-images';
-import Link from 'next/link';
-import styles from '../styles/hire.module.scss';
+
+import { HireInfoByDomainSlugQuery } from '../../API';
+import { hireInfoByDomainSlug } from '../../graphql/queries';
+import { HireMeModal } from '../../components/hireMeModal';
+import { Modal } from '../../components/modal';
+import { useCurrentUser, useFlash, useLogger } from '../../hooks';
+import { unauthClient as client } from '../_app';
 import LinkedInLogo from '../../img/linkedIn.svg';
 import InstagramLogo from '../../img/instagram.svg';
 import Dribbble from '../../img/dribbble.svg';
 import Sprocket from '../../img/sprocket.svg';
 import Twitter from '../../img/twitter.svg';
-import { HireInfoByDomainSlugQuery } from '../../API';
-import { hireInfoByDomainSlug } from '../../graphql/queries';
-import { HireMeModal } from '../../components/hireMeModal';
-import { Modal } from '../../components/modal';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
-import { useCurrentUser, useFlash, useLogger } from '../../hooks';
-import { unauthClient as client } from '../_app';
+
+import styles from '../styles/hire.module.scss';
 
 enum Tab {
   PORTFOLIO,
@@ -115,7 +116,6 @@ const Hire: React.FC = () => {
           handleClose={() => setModalOpen(false)}
           freelancerName={hireInfo.freelancer.name}
           freelancerID={hireInfo.freelancerID}
-          avatarUrl={gravatarUrl(hireInfo.freelancer.email)}
         />
       </Modal>
       <ModalGateway>
@@ -129,8 +129,8 @@ const Hire: React.FC = () => {
         <div className={classnames(styles.upper)}>
           <div className={styles.bannerImage__mobile}>
             {!hireInfo.bannerImage && null}
-            {hireInfo.bannerImage &&
-              (!bannerImage ? (
+            {hireInfo.bannerImage
+              && (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
                 <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
@@ -152,8 +152,8 @@ const Hire: React.FC = () => {
           </div>
           <div className={styles.bannerImage__desktop}>
             {!hireInfo.bannerImage && null}
-            {hireInfo.bannerImage &&
-              (!bannerImage ? (
+            {hireInfo.bannerImage
+              && (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
                 <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
