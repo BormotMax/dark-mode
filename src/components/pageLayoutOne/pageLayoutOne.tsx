@@ -61,7 +61,7 @@ const MobileLayout = ({ content, headerText, page, headerButton }) => {
             <Nav page={page} goToNextPanel={() => setViewingState(ViewingState.FIRST_CHILD)} />
           </div>
         )}
-        <div className={classnames('column', { [styles.hidden]: viewingState === ViewingState.NAV })}>
+        <div className={classnames('column', 'test', styles.noPadding, { [styles.hidden]: viewingState === ViewingState.NAV })}>
           {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
           <div className={classnames('container', 'is-desktop', styles.pageContent)}>
             <MobileHeader

@@ -1,5 +1,5 @@
 @use "src/mixins";
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .projectProgressHeader {
   @include mixins.header-1-sm;
@@ -24,9 +24,8 @@
 }
 
 .rightColumn {
-  min-width: 303px;
-  @include desktop {
-    max-width: 354px;
+  @include tablet {
+    max-width: 378px;
   }
 }
 

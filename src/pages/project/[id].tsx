@@ -2,11 +2,11 @@ import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import { faBackpack, faClipboardUser, faFileAlt, faSackDollar, faStopwatch } from '@fortawesome/pro-light-svg-icons';
 import { FilesTab, NotesTab, TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
-import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
+import { Project, Comment as CommentType, AuthProps } from '../../types/custom';
 import { unauthClient } from '../_app';
 import { GetProjectQuery } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
@@ -133,7 +133,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       headerText={<>{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>}
       page={Page.PROJECT}
     >
-      {/* <div className={classnames('columns', styles.columns)}> */}
       <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
         {comments.filter(Boolean).map((c) => (
           <CommentWrapper key={c.id} comment={c} viewerId={viewer.current.id as string} />
@@ -150,7 +149,13 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       <div className={classnames('column', styles.rightColumn)}>
         <div className={classnames(styles.tabGroupWrapper)}>
           <Protected roles={[Role.FREELANCER]}>
-            <TabGroup names={['People', 'Notes', 'Assets']}>
+            <TabGroup
+              tabInfos={[
+                { icon: faClipboardUser, header: 'People' },
+                { icon: faFileAlt, header: 'Notes' },
+                { icon: faBackpack, header: 'Assets' },
+              ]}
+            >
               <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
               <NotesTab
                 projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
@@ -160,12 +165,22 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
             </TabGroup>
           </Protected>
           <ProtectedElse roles={[Role.FREELANCER]}>
-            <TabGroup names={['People', 'Assets']}>
+            <TabGroup
+              tabInfos={[
+                { icon: faClipboardUser, header: 'People' },
+                { icon: faBackpack, header: 'Assets' },
+              ]}
+            >
               <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
               <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
             </TabGroup>
           </ProtectedElse>
-          <TabGroup names={['Tasks & Time', 'Financial']}>
+          <TabGroup
+            tabInfos={[
+              { icon: faStopwatch, header: 'Tasks & Time' },
+              { icon: faSackDollar, header: 'Financial' },
+            ]}
+          >
             <>
               {quotes.items.length === 0 ? (
                 <div>There are no quotes, yet.</div>
@@ -179,7 +194,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
           </TabGroup>
         </div>
       </div>
-      {/* </div> */}
     </PageLayoutOne>
   );
 };

@@ -1,5 +1,5 @@
 @use "src/mixins";
-@import '~bulma/sass/utilities/_all.sass';
+@import "~bulma/sass/utilities/_all.sass";
 
 .page {
   background: #eeeeee;
@@ -34,4 +34,8 @@
 .desktopNav {
   width: 250px;
   border-right: 1px solid #e0e0e0;
+}
+
+.noPadding {
+  padding: 0;
 }
