@@ -18,3 +18,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Deploy
 
 - Merge to master branch, next.js app will deploy to [Vercel](https://nextjs.org/docs/deployment)
+- Or manually using `vercel --prod --scope continuum`.
