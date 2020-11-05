@@ -376,10 +376,21 @@ header {
   .formkit-submit {
     margin-bottom: 0 !important;
   }
+
+  @media (max-width: 768px) {
+    .formkit-field,
+    .formkit-submit {
+      margin-bottom: 8px !important;
+    }
+  }
 }
 
 .fixed-page-header {
   background-color: white;
   box-shadow: 0 0 1.8rem rgba(0,0,0,.15);
   padding: 20px 30px !important;
+
+  @media (max-width: 768px) {
+    padding: 38px 20px 15px !important;
+  }
 }
