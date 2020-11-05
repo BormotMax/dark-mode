@@ -1,21 +1,25 @@
-/* eslint-disable react/no-danger */
-/* eslint-disable react/no-unescaped-entities */
-import '../styles.scss';
-import '../bulma.scss';
+import React, { useEffect } from 'react';
 import Amplify from 'aws-amplify';
 import { Auth } from '@aws-amplify/auth';
 import { AppProps } from 'next/app';
-import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import { ApolloProvider } from 'react-apollo';
 import { Rehydrated } from 'aws-appsync-react';
 import Head from 'next/head';
+import { hotjar } from 'react-hotjar';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
+
 import awsconfig from '../aws-exports';
 import { UserDataProvider, LoggerProvider, FlashProvider } from '../hooks';
 import { RouteIndicator } from '../components/routeChange';
+
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
+import '../styles.scss';
+import '../bulma.scss';
+
+const SITE_ID = 2062027;
 
 config.autoAddCss = false;
 
@@ -72,24 +76,29 @@ export const unauthClient = new AWSAppSyncClient(
   },
 );
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
-  <LoggerProvider>
-    <Head>
-      <title>Continuum</title>
-      <link rel="icon" href="/favicon.ico" />
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174215284-1" />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+  useEffect(() => {
+    hotjar.initialize(SITE_ID, 6);
+  }, []);
+
+  return (
+    <LoggerProvider>
+      <Head>
+        <title>Continuum</title>
+        <link rel="icon" href="/favicon.ico" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174215284-1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'UA-174215284-1');`,
-        }}
-      />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `!function(f,b,e,v,n,t,s)
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
@@ -99,25 +108,26 @@ s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
  fbq('init', '1243963695957181');
 fbq('track', 'PageView');`,
-        }}
-      />
+          }}
+        />
 
-      <noscript>
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <img height="1" width="1" src="https://www.facebook.com/tr?id=1243963695957181&ev=PageView&noscript=1" />
-      </noscript>
-    </Head>
-    <RouteIndicator />
-    <FlashProvider>
-      <UserDataProvider>
-        <ApolloProvider client={client}>
-          <Rehydrated>
-            <Component {...pageProps} />
-          </Rehydrated>
-        </ApolloProvider>
-      </UserDataProvider>
-    </FlashProvider>
-  </LoggerProvider>
-);
+        <noscript>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <img height="1" width="1" src="https://www.facebook.com/tr?id=1243963695957181&ev=PageView&noscript=1" />
+        </noscript>
+      </Head>
+      <RouteIndicator />
+      <FlashProvider>
+        <UserDataProvider>
+          <ApolloProvider client={client}>
+            <Rehydrated>
+              <Component {...pageProps} />
+            </Rehydrated>
+          </ApolloProvider>
+        </UserDataProvider>
+      </FlashProvider>
+    </LoggerProvider>
+  );
+};
 
 export default MyApp;

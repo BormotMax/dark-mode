@@ -45,6 +45,7 @@
     "react": "16.13.1",
     "react-apollo": "2.5.8",
     "react-dom": "16.13.1",
+    "react-hotjar": "^2.2.1",
     "react-images": "^1.1.7",
     "react-loading-skeleton": "^2.1.1",
     "react-owl-carousel": "^2.3.1",
