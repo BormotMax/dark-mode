@@ -26,10 +26,37 @@ const Home: React.FC = () => {
     }
   }, [confirmed]);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+  /**
+   * Handle scroll event
+   * @return {*}
+   */
+  const handleScroll = (): void => {
+    setIsScrolled(window.scrollY > 50);
+  };
+
+  /**
+   * EventListener for Scroll
+   */
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+
   const OwlCarousel = dynamic(import('react-owl-carousel'));
   return (
     <div className={styles.home}>
-      <header className={classnames(styles['page-header'], styles.flex, styles['flex-jc-sb'], styles['p-30'])}>
+      <header className={classnames(
+        { 'fixed-page-header': isScrolled },
+        styles['page-header'],
+        styles.flex,
+        styles['flex-jc-sb'],
+        styles['p-30'],
+      )}
+      >
         <img src="Logo.svg" alt="logo" />
         <Subscribe />
       </header>

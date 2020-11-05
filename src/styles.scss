@@ -370,3 +370,16 @@ li {
 .hidden {
   display: none;
 }
+
+header {
+  .formkit-field,
+  .formkit-submit {
+    margin-bottom: 0 !important;
+  }
+}
+
+.fixed-page-header {
+  background-color: white;
+  box-shadow: 0 0 1.8rem rgba(0,0,0,.15);
+  padding: 20px 30px !important;
+}
