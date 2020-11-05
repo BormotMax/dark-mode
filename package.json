@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./ --fix",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "deploy": "amplify env checkout master && vercel --prod --scope continuum"
   },
   "dependencies": {
     "@aws-amplify/analytics": "^3.2.5",
