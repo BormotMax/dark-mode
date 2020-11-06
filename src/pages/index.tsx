@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
 import classnames from 'classnames';
 
 import styles from './styles/index.module.scss';
@@ -51,16 +50,6 @@ const Home: React.FC = () => {
   const OwlCarousel = dynamic(import('react-owl-carousel'));
   return (
     <div className={styles.home}>
-      <Head>
-        <title>Continuum - The Freelancer Operating System</title>
-        <meta property="og:title" content="Continuum - The Freelancer Operating System" key="title" />
-        <meta
-          name="description"
-          content="The all-in-one platform for solo creatives to run a thriving freelance business from anywhere.
-              Conversations, invoices, payments, crm and project management, all in one place."
-          key="description"
-        />
-      </Head>
       <header className={classnames(
         { 'fixed-page-header': isScrolled },
         styles['page-header'],
