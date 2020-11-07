@@ -22,7 +22,7 @@ describe('signing in', () => {
 
       cy.get('form').contains('Sign In').should('be.disabled').and('have.class', 'is-loading');
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/hirePageEditor`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/hire-page-editor`);
     });
 
     it('works by hitting enter in password field', () => {
@@ -32,7 +32,7 @@ describe('signing in', () => {
 
       cy.get('input[placeholder="Password"]').type('password{enter}');
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/hirePageEditor`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/hire-page-editor`);
     });
 
     it('works by hitting enter in email field', () => {
@@ -42,7 +42,7 @@ describe('signing in', () => {
 
       cy.get('input[placeholder="Email"]').type('matthew.watts.mw@gmail.com{enter}');
 
-      cy.url().should('equal', `${Cypress.config().baseUrl}/hirePageEditor`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/hire-page-editor`);
     });
   });
 
@@ -75,14 +75,14 @@ describe('signing in', () => {
   context('navigation', () => {
     it('navigates to forgot password page', () => {
       cy.visit('/signIn');
-      cy.get('a[href="/forgotPassword"]').click();
-      cy.url().should('equal', `${Cypress.config().baseUrl}/forgotPassword`);
+      cy.get('a[href="/forgot-password"]').click();
+      cy.url().should('equal', `${Cypress.config().baseUrl}/forgot-password`);
     });
 
-    it('navigates to sign in page', () => {
+    it('navigates to sign up page', () => {
       cy.visit('/signIn');
       cy.contains('Sign Up').click();
-      cy.url().should('equal', `${Cypress.config().baseUrl}/signUp`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/sign-up`);
     });
   });
 });

@@ -26,12 +26,12 @@ describe('routing authorization', () => {
         .then(() => cy.exec(addUserToGroup('FREELANCER')));
     });
 
-    context('/hirePageEditor', () => {
+    context('/hire-page-editor', () => {
       it('allows FREELANCER role', () => {
         cy.exec(addUserToGroup('FREELANCER'))
           .then(() => Auth.signIn('matthew.watts.mw@gmail.com', 'password'))
           .then(() => {
-            cy.visit('/hirePageEditor');
+            cy.visit('/hire-page-editor');
             cy.contains('Hire Page Editor');
           });
       });
@@ -40,7 +40,7 @@ describe('routing authorization', () => {
         cy.exec(addUserToGroup('ADMIN'))
           .then(() => Auth.signIn('matthew.watts.mw@gmail.com', 'password'))
           .then(() => {
-            cy.visit('/hirePageEditor');
+            cy.visit('/hire-page-editor');
             cy.contains('Hire Page Editor');
           });
       });
@@ -49,7 +49,7 @@ describe('routing authorization', () => {
 
   context('signedOut', () => {
     it('should show signIn page', () => {
-      cy.visit('/hirePageEditor');
+      cy.visit('/hire-page-editor');
       cy.url().should('equal', `${Cypress.config().baseUrl}/signIn`);
     });
   });

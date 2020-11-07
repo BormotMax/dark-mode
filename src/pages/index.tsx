@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
 
+import Link from 'next/link';
 import styles from './styles/index.module.scss';
 import { useFlash } from '../hooks';
 
@@ -50,13 +51,14 @@ const Home: React.FC = () => {
   const OwlCarousel = dynamic(import('react-owl-carousel'));
   return (
     <div className={styles.home}>
-      <header className={classnames(
-        { 'fixed-page-header': isScrolled },
-        styles['page-header'],
-        styles.flex,
-        styles['flex-jc-sb'],
-        styles['p-30'],
-      )}
+      <header
+        className={classnames(
+          { 'fixed-page-header': isScrolled },
+          styles['page-header'],
+          styles.flex,
+          styles['flex-jc-sb'],
+          styles['p-30'],
+        )}
       >
         <img src="Logo.svg" alt="logo" />
         <Subscribe />
@@ -113,8 +115,12 @@ const Home: React.FC = () => {
       <footer>
         <div className={classnames(styles['footer-wrapper'], styles.flex, styles['flex-jc-sb'], styles['flex-ai-c'])}>
           <div className={styles['footer-links']}>
-            <a href="https://www.continuum.works/privacyPolicy">Privacy Policy</a>
-            <a href="https://www.continuum.works/termsAndConditions">Terms & Conditions</a>
+            <Link href="/privacy-policy">
+              <a href="/privacy-policy">Privacy Policy</a>
+            </Link>
+            <Link href="/terms-and-conditions">
+              <a href="/terms-and-conditions">Terms of Service</a>
+            </Link>
             <span>Copyright © 2020 Continuum Works</span>
           </div>
           <div className={classnames(styles['footer-social'], styles.flex, styles['flex-ai-c'])}>

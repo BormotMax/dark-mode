@@ -90,7 +90,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         setFlash('');
         setConfirming(true);
       } else if (error.code === 'PasswordResetRequiredException') {
-        Router.push('/forgotPassword');
+        Router.push('/forgot-password');
       }
     }
   }
@@ -128,8 +128,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
           </div>
         </div>
         <div className={styles.forgotPassword}>
-          <Link href="/forgotPassword">
-            <a href="/forgotPassword">
+          <Link href="/forgot-password">
+            <a href="/forgot-password">
               <ForgotPassword />
             </a>
           </Link>
@@ -145,8 +145,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton>
         <div>
           No account?{' '}
-          <Link href="/signUp">
-            <a href="/signUp">Sign Up</a>
+          <Link href="/sign-up">
+            <a href="/sign-up">Sign Up</a>
           </Link>
         </div>
       </form>

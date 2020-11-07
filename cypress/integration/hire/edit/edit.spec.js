@@ -36,7 +36,7 @@ describe('hire page editor', () => {
   });
 
   it('saves form information and images', () => {
-    cy.visit('/hirePageEditor');
+    cy.visit('/hire-page-editor');
     cy.contains('Hire Page Editor');
 
     // Fill everything out
@@ -102,7 +102,7 @@ describe('hire page editor', () => {
     cy.contains('Your changes have been saved');
 
     // Reload the page and see that the data was persisted and populated in the form
-    cy.visit('/hirePageEditor');
+    cy.visit('/hire-page-editor');
 
     cy.get('input[name="name"]').should('have.value', 'Matt Watts');
 
@@ -121,12 +121,12 @@ describe('hire page editor', () => {
     cy.url().should('equal', `${Cypress.config().baseUrl}/hire/testslug`);
     cy.contains('Your changes have been saved');
 
-    cy.visit('/hirePageEditor');
+    cy.visit('/hire-page-editor');
     checkImagesAreDisplayed();
   });
 
   it('works when using drag and drop', () => {
-    cy.visit('/hirePageEditor');
+    cy.visit('/hire-page-editor');
 
     cy.get('input[name="domainSlugID"]').type('testslug').should('have.value', 'continuum.works/hire/testslug');
 
@@ -143,7 +143,7 @@ describe('hire page editor', () => {
     cy.url().should('equal', `${Cypress.config().baseUrl}/hire/testslug`);
     cy.contains('Your changes have been saved');
 
-    cy.visit('/hirePageEditor');
+    cy.visit('/hire-page-editor');
     checkImagesAreDisplayed();
   });
 });

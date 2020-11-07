@@ -129,8 +129,8 @@ const Hire: React.FC = () => {
         <div className={classnames(styles.upper)}>
           <div className={styles.bannerImage__mobile}>
             {!hireInfo.bannerImage && null}
-            {hireInfo.bannerImage
-              && (!bannerImage ? (
+            {hireInfo.bannerImage &&
+              (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
                 <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
@@ -152,8 +152,8 @@ const Hire: React.FC = () => {
           </div>
           <div className={styles.bannerImage__desktop}>
             {!hireInfo.bannerImage && null}
-            {hireInfo.bannerImage
-              && (!bannerImage ? (
+            {hireInfo.bannerImage &&
+              (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
                 <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
@@ -318,8 +318,8 @@ const Hire: React.FC = () => {
           </div>
           <div className="tar mrl">
             {currentUser?.attributes?.sub === hireInfo.freelancerID && (
-              <Link href="/hirePageEditor">
-                <a href="/hirePageEditor">
+              <Link href="/hire-page-editor">
+                <a href="/hire-page-editor">
                   <Sprocket />
                 </a>
               </Link>

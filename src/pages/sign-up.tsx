@@ -133,8 +133,8 @@ const SignUp: React.FC = () => {
         </div>
         <div className="text-1 mbm">
           By signing up I agree to the{' '}
-          <Link href="/termsAndConditions">
-            <a href="/termsAndConditions">Terms of Service</a>
+          <Link href="/terms-and-conditions">
+            <a href="/terms-and-conditions">Terms of Service</a>
           </Link>
         </div>
         <button

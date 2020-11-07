@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -62,8 +62,8 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           </Link>
         </li>
         <li className={classnames({ [styles.current]: page === Page.HIRE_EDITOR })}>
-          <Link href="/hirePageEditor">
-            <a href="/hirePageEditor">
+          <Link href="/hire-page-editor">
+            <a href="/hire-page-editor">
               <FontAwesomeIcon color="#000000" size="1x" icon={faPersonSign} />
               &nbsp;&nbsp;Hire Page
             </a>
