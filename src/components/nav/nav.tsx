@@ -14,6 +14,7 @@ export enum Page {
   PROJECTS,
   HIRE,
   HIRE_EDITOR,
+  ALL_USERS,
 }
 
 interface NavProps {

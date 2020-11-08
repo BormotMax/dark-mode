@@ -1,0 +1,27 @@
+.allUsers {
+  .section {
+    margin-bottom: 30px;
+  }
+
+  button {
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    margin: 15px 0;
+    font-size: 24px;
+  }
+
+  .card {
+    margin-bottom: 10px;
+  }
+
+  .cardContent {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      margin-right: 35px;
+    }
+  }
+}
