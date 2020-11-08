@@ -1,0 +1,33 @@
+.settings {
+  .header {
+    background: #eeeeee;
+    color: #595959;
+  }
+
+  .body {
+    .left {
+      svg {
+        margin-right: 10px;
+      }
+
+      button {
+        background: #fafafa;
+        border-radius: 100px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        color: #828282;
+        padding: 5px 16px;
+        font-weight: normal;
+      }
+    }
+    .right {
+      color: #000000;
+      font-weight: 300;
+
+      button {
+        margin-top: 22px;
+      }
+    }
+  }
+}

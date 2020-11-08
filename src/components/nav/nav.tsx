@@ -1,13 +1,17 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPersonSign, faRocket, faSignOut, faTimes } from '@fortawesome/pro-light-svg-icons';
+import { faLayerGroup, faPersonSign, faPlusCircle, faRocket, faSignOut, faTimes } from '@fortawesome/pro-light-svg-icons';
 
 import { useCurrentUser } from '../../hooks';
 import { Avatar } from '../avatar/avatar';
 
 import styles from './nav.module.scss';
+import { isClickOrEnter } from '../../helpers/util';
+import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
+import { Settings } from '../settings';
 
 export enum Page {
   PROJECT,
@@ -28,13 +32,13 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
   const name = currentUser?.attributes?.name;
 
   const handleLogout = (e: any) => {
-    if (e.keyCode === undefined || e.keyCode === 13) {
+    if (isClickOrEnter(e)) {
       signOut();
     }
   };
 
   const handleOnClick = (e: any) => {
-    if (e.keyCode === undefined || e.keyCode === 13) {
+    if (isClickOrEnter(e)) {
       goToNextPanel();
     }
   };
@@ -70,8 +74,20 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
             </a>
           </Link>
         </li>
+        <InPlaceModal
+          variant={InPlaceModalVariants.FIXED}
+          button={
+            <li>
+              <a role="button">
+                <FontAwesomeIcon color="#000000" size="1x" icon={faLayerGroup} />
+                &nbsp;&nbsp;Settings
+              </a>
+            </li>
+          }
+        >
+          <Settings />
+        </InPlaceModal>
         <li>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a role="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
             <FontAwesomeIcon color="#000000" size="1x" icon={faSignOut} />
             &nbsp;&nbsp;Logout

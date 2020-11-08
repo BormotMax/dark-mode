@@ -7,6 +7,7 @@ import styles from './inPlaceModal.module.scss';
 export enum InPlaceModalVariants {
   WIDE,
   BLOCK,
+  FIXED
 }
 
 interface InPlaceModalProps {
@@ -19,8 +20,7 @@ export const InPlaceModal: React.FC<InPlaceModalProps> = ({ children, button, va
 
   const openModal = (e) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
-      e.stopPropagation();
-      setIsModalOpen(true);
+      e.stopPropagation(); setIsModalOpen(true);
     }
   };
 
@@ -42,6 +42,7 @@ export const InPlaceModal: React.FC<InPlaceModalProps> = ({ children, button, va
               className={classnames(styles.modalContentInner, {
                 [styles['modalContentInner--wide']]: variant === InPlaceModalVariants.WIDE,
                 [styles['modalContentInner--block']]: variant === InPlaceModalVariants.BLOCK,
+                [styles['modalContentInner--fixed']]: variant === InPlaceModalVariants.FIXED,
               })}
             >
               {/* @ts-ignore */}
