@@ -16,6 +16,7 @@ export const deleteUser = /* GraphQL */ `
       phone
       signedOutAuthToken
       role
+      stripeAccountID
       createdAt
       updatedAt
     }
@@ -42,6 +43,7 @@ export const deleteProjectClient = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -69,6 +71,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -97,6 +100,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -120,6 +124,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -218,6 +223,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -269,6 +275,7 @@ export const updateProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -292,6 +299,7 @@ export const updateProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -433,6 +441,7 @@ export const updateProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -472,6 +481,7 @@ export const deleteProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -495,6 +505,7 @@ export const deleteProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -636,6 +647,7 @@ export const deleteProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -710,6 +722,7 @@ export const createUser = /* GraphQL */ `
       phone
       signedOutAuthToken
       role
+      stripeAccountID
       createdAt
       updatedAt
     }
@@ -729,6 +742,7 @@ export const updateUser = /* GraphQL */ `
       phone
       signedOutAuthToken
       role
+      stripeAccountID
       createdAt
       updatedAt
     }
@@ -755,6 +769,7 @@ export const createProjectClient = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -782,6 +797,7 @@ export const updateProjectClient = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -809,6 +825,7 @@ export const createProjectFreelancer = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -837,6 +854,7 @@ export const createProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -860,6 +878,7 @@ export const createProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -958,6 +977,7 @@ export const createProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -1000,6 +1020,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -1028,6 +1049,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -1051,6 +1073,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -1149,6 +1172,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -1200,6 +1224,7 @@ export const createProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -1223,6 +1248,7 @@ export const createProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -1364,6 +1390,7 @@ export const createProject = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -1498,6 +1525,7 @@ export const createComment = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -1527,6 +1555,7 @@ export const updateComment = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -1556,6 +1585,7 @@ export const deleteComment = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -1641,6 +1671,7 @@ export const createHireMeInfo = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -1678,6 +1709,7 @@ export const createHireMeInfo = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -1715,6 +1747,7 @@ export const createHireMeInfo = /* GraphQL */ `
                 phone
                 signedOutAuthToken
                 role
+                stripeAccountID
                 createdAt
                 updatedAt
               }
@@ -1765,6 +1798,7 @@ export const updateHireMeInfo = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -1802,6 +1836,7 @@ export const updateHireMeInfo = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -1839,6 +1874,7 @@ export const updateHireMeInfo = /* GraphQL */ `
                 phone
                 signedOutAuthToken
                 role
+                stripeAccountID
                 createdAt
                 updatedAt
               }
@@ -1889,6 +1925,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
         phone
         signedOutAuthToken
         role
+        stripeAccountID
         createdAt
         updatedAt
       }
@@ -1926,6 +1963,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
             phone
             signedOutAuthToken
             role
+            stripeAccountID
             createdAt
             updatedAt
           }
@@ -1963,6 +2001,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
                 phone
                 signedOutAuthToken
                 role
+                stripeAccountID
                 createdAt
                 updatedAt
               }
@@ -2018,6 +2057,7 @@ export const createDomainSlug = /* GraphQL */ `
           phone
           signedOutAuthToken
           role
+          stripeAccountID
           createdAt
           updatedAt
         }
@@ -2055,6 +2095,7 @@ export const createDomainSlug = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -2122,6 +2163,7 @@ export const updateDomainSlug = /* GraphQL */ `
           phone
           signedOutAuthToken
           role
+          stripeAccountID
           createdAt
           updatedAt
         }
@@ -2159,6 +2201,7 @@ export const updateDomainSlug = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }
@@ -2226,6 +2269,7 @@ export const deleteDomainSlug = /* GraphQL */ `
           phone
           signedOutAuthToken
           role
+          stripeAccountID
           createdAt
           updatedAt
         }
@@ -2263,6 +2307,7 @@ export const deleteDomainSlug = /* GraphQL */ `
               phone
               signedOutAuthToken
               role
+              stripeAccountID
               createdAt
               updatedAt
             }

@@ -1,1 +1,1 @@
-export const isClickOrEnter = (e: KeyboardEvent): boolean => e.keyCode === undefined || e.keyCode === 13;
+export const isClickOrEnter = (e): boolean => e.keyCode === undefined || e.keyCode === 13;

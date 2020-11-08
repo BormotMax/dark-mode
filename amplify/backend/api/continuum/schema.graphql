@@ -18,6 +18,7 @@ type User
   phone: String
   signedOutAuthToken: String
   role: UserRole!
+  stripeAccountID: String
 }
 
 type ProjectClient
