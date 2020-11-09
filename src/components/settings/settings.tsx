@@ -37,7 +37,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     let stripeAccountID: string;
     let stripeOnboardingUrl: string;
     try {
-      const { data } = await axios.post('http://ec2-3-86-189-230.compute-1.amazonaws.com:3001/onboard-user', {}, { withCredentials: true });
+      const { data } = await axios.post('https://enigmatic-sierra-62634.herokuapp.com/onboard-user', {}, { withCredentials: true });
       const { url, accountID } = data;
       stripeAccountID = accountID;
       stripeOnboardingUrl = url;
