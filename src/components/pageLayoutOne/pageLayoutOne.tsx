@@ -36,9 +36,9 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerTe
         ) : (
           <span>{PageInfo[page].breadcrumb}</span>
         )}
+        &nbsp;&gt;&nbsp;<span>{headerText}</span>
       </Protected>
       <ProtectedElse roles={[Role.FREELANCER]}>{headerText}</ProtectedElse>
-      &nbsp;&gt;&nbsp;<span>{headerText}</span>
     </>
   ) : (
     <span>{headerText}</span>

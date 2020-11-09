@@ -48,7 +48,7 @@ export const avatarPlaceholderName = (name: string): string => {
     return 'UN';
   }
 
-  const splitArr = name.split(' ');
+  const splitArr = name.split(' ').filter(Boolean);
   let shortName = '';
   splitArr.forEach((w) => {
     shortName += w[0].toUpperCase();
