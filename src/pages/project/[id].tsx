@@ -58,7 +58,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       viewerCandidate = viewingClientItem;
     }
 
-    return { user: viewerCandidate.user, projectUser: viewerCandidate };
+    return { user: viewerCandidate?.user, projectUser: viewerCandidate };
   };
 
   const fetchProject = async () => {
@@ -116,7 +116,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   const { comments: cs, quotes, clients, assets } = project as Project;
 
-  if (!viewer) {
+  if (!viewer.current) {
     logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
     Router.push('/signIn');
     return null;
