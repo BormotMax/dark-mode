@@ -59,7 +59,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
           <div>You don&apos;t have any projects yet.</div>
         ) : (
           <>
-            {projects.map((p: Project) => (
+            {projects.filter(Boolean).map((p: Project) => (
               <Link key={p.id} href="/project/[id]" as={`/project/${p.id}`}>
                 <a href={`/project/${p.id}`}>
                   <div className={classnames(styles.comment)}>

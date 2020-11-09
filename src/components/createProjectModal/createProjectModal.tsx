@@ -68,7 +68,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
 
     // Create the M:M joining record associating a freelancer with a project
     const projectID = createProjectResponse.data.createProject.id;
-    const createProjectFreelancerInput = { freelancerID, projectID };
+    const createProjectFreelancerInput = { freelancerID, projectID, isInitialContact: true };
     try {
       await client.mutate({
         mutation: gql(createProjectFreelancer),
