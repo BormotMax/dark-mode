@@ -35,4 +35,17 @@
     display: flex;
     align-items: center;
   }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+  }
+
+  .declineStyles {
+    margin: 15px 0;
+    text-transform: capitalize;
+  }
 }
