@@ -30,7 +30,7 @@ export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback,
             className={`${styles.input} ${name}`}
             name={name}
             value={item.id}
-            defaultChecked={item.completed}
+            checked={item.completed}
             onChange={(e) => handleCheckboxChange(e, item)}
           />
           <label htmlFor={`${name}:${item.id}`}>

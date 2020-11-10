@@ -11,12 +11,12 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ headerText, page, children }) => (
-  <>
+  <div className={classnames(styles.headerWrapper)}>
     <div className={classnames(styles.header)}>
       <div className={classnames(styles.headerText)}>{headerText}</div>
       <div className={classnames(styles.right)}>
         <Protected roles={[Role.FREELANCER]}>{children && children}</Protected>
       </div>
     </div>
-  </>
+  </div>
 );

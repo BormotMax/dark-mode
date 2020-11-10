@@ -3,13 +3,12 @@ import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
 import { faBackpack, faClipboardUser, faFileAlt, faSackDollar, faStopwatch } from '@fortawesome/pro-light-svg-icons';
-
 import { FilesTab, NotesTab, TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps } from '../../types/custom';
 import { unauthClient } from '../_app';
-import { GetProjectQuery } from '../../API';
+import { GetProjectQuery, CommentResourceType } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { onCreateComment } from '../../graphql/subscriptions';
@@ -20,11 +19,21 @@ import { ContactPreview } from '../../components/contactPreview';
 import { AddQuoteModal } from '../../components/addQuoteModal';
 import { Protected, ProtectedElse } from '../../components/protected/protected';
 import { QuoteProgress } from '../../components/quote';
+import { isClickOrEnter } from '../../helpers/util';
+
+enum ProjectTabsEnum {
+  Recent = 'Recent',
+  All = 'All',
+  Quotes = 'Quotes',
+  Invoices = 'Invoices',
+  Bookmarks = 'Bookmarks',
+}
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id, token } = router.query;
   const [project, setProject] = useState(null);
+  const [projectTab, setProjectTab] = useState(ProjectTabsEnum.All);
   const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
   const viewer = useRef(null);
   const projectViewer = useRef(null);
@@ -110,6 +119,12 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     execute();
   }, []);
 
+  const handleFilterChange = (e, filterOption) => {
+    if (isClickOrEnter(e)) {
+      setProjectTab(filterOption);
+    }
+  };
+
   if (!viewerId && !currentUserId) Router.push('/signIn');
   if (loading) return null;
   if (!project) return <div>Not found</div>;
@@ -127,75 +142,157 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     return new Date(e1.createdAt).getTime() - new Date(e2.createdAt).getTime();
   }) as Array<CommentType>;
 
-  // /* todo: click to change title */
+  const projectTabOptions = {
+    [ProjectTabsEnum.Recent]: {
+      header: 'Recent',
+      filterFxn: (_item, idx: number) => idx < 20,
+    },
+    [ProjectTabsEnum.All]: {
+      header: `All - ${comments.length}`,
+      filterFxn: (item) => item,
+    },
+    [ProjectTabsEnum.Quotes]: {
+      header: `Quotes - ${comments.filter(({ includedResourceType }) => includedResourceType === CommentResourceType.QUOTE).length}`,
+      filterFxn: ({ includedResourceType }) => includedResourceType === CommentResourceType.QUOTE,
+    },
+  };
+
   return (
     <PageLayoutOne
       headerText={<>{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>}
       page={Page.PROJECT}
     >
-      <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
-        {comments.filter(Boolean).map((c) => (
-          <CommentWrapper key={c.id} comment={c} viewerId={viewer.current.id as string} />
-        ))}
-        <div ref={newCommentRef}>
-          <NewComment
-            name={viewer.current.name}
-            email={viewer.current.email}
-            projectID={id as string}
-            creatorID={viewer.current.id}
-          />
-        </div>
+      <div className={classnames('column', styles.hideTablet, styles.leftColumn, styles.commentWrapper)}>
+        <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
+        <Feed
+          comments={comments}
+          projectTabOptions={projectTabOptions}
+          projectTab={projectTab}
+          viewer={viewer}
+          newCommentRef={newCommentRef}
+          id={id}
+        />
       </div>
-      <div className={classnames('column', styles.rightColumn)}>
-        <div className={classnames(styles.tabGroupWrapper)}>
-          <Protected roles={[Role.FREELANCER]}>
-            <TabGroup
-              tabInfos={[
-                { icon: faClipboardUser, header: 'People' },
-                { icon: faFileAlt, header: 'Notes' },
-                { icon: faBackpack, header: 'Assets' },
-              ]}
-            >
-              <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
-              <NotesTab
-                projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
-                refetchData={fetchProject}
-              />
-              <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
-            </TabGroup>
-          </Protected>
-          <ProtectedElse roles={[Role.FREELANCER]}>
-            <TabGroup
-              tabInfos={[
-                { icon: faClipboardUser, header: 'People' },
-                { icon: faBackpack, header: 'Assets' },
-              ]}
-            >
-              <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
-              <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
-            </TabGroup>
-          </ProtectedElse>
-          <TabGroup
-            tabInfos={[
-              { icon: faStopwatch, header: 'Tasks & Time' },
-              { icon: faSackDollar, header: 'Financial' },
-            ]}
-          >
-            <>
-              {quotes.items.length === 0 ? (
-                <div>There are no quotes, yet.</div>
-              ) : (
-                quotes.items
-                  .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-                  .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)
-              )}
-            </>
-            <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer.current} />
-          </TabGroup>
+      <div className={classnames('column', styles.hideTablet, styles.rightColumn)}>
+        <RightColumn
+          viewer={viewer}
+          clients={clients}
+          project={project}
+          fetchProject={fetchProject}
+          currentUserId={currentUserId}
+          assets={assets}
+          quotes={quotes}
+        />
+      </div>
+      <div className={classnames(styles.desktopColumnOuter, 'column', styles.hideMobile)}>
+        <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
+        <div className={classnames('columns', styles.desktopColumns)}>
+          <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
+            <Feed
+              comments={comments}
+              projectTabOptions={projectTabOptions}
+              projectTab={projectTab}
+              viewer={viewer}
+              newCommentRef={newCommentRef}
+              id={id}
+            />
+          </div>
+          <div className={classnames('column', styles.rightColumn)}>
+            <RightColumn
+              viewer={viewer}
+              clients={clients}
+              project={project}
+              fetchProject={fetchProject}
+              currentUserId={currentUserId}
+              assets={assets}
+              quotes={quotes}
+            />
+          </div>
         </div>
       </div>
     </PageLayoutOne>
   );
 };
+
+const Filters = ({ projectTabOptions, projectTab, handleFilterChange }) => (
+  <div className={classnames(styles.filters)}>
+    {Object.entries(projectTabOptions).map(([k, v]) => (
+      <div
+        role="button"
+        tabIndex={0}
+        className={classnames(styles.filter, { [styles.activeFilter]: projectTab === k })}
+        onClick={(e) => handleFilterChange(e, k)}
+        onKeyDown={(e) => handleFilterChange(e, k)}
+        key={(v as any).header}
+      >{(v as any).header}
+      </div>
+    ))}
+  </div>
+);
+
+const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, id }) => (
+  <>
+    {comments.filter(projectTabOptions[projectTab].filterFxn).map((comment) => (
+      <CommentWrapper key={comment.id} comment={comment} viewerId={viewer.current.id as string} />
+    ))}
+    <div ref={newCommentRef}>
+      <NewComment
+        name={viewer.current.name}
+        email={viewer.current.email}
+        projectID={id as string}
+        creatorID={viewer.current.id}
+      />
+    </div>
+  </>
+);
+
+const RightColumn = ({ viewer, clients, project, fetchProject, currentUserId, assets, quotes }) => (
+  <div className={classnames(styles.tabGroupWrapper)}>
+    <Protected roles={[Role.FREELANCER]}>
+      <TabGroup
+        tabInfos={[
+          { icon: faClipboardUser, header: 'People' },
+          { icon: faFileAlt, header: 'Notes' },
+          { icon: faBackpack, header: 'Assets' },
+        ]}
+      >
+        <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+        <NotesTab
+          projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
+          refetchData={fetchProject}
+        />
+        <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+      </TabGroup>
+    </Protected>
+    <ProtectedElse roles={[Role.FREELANCER]}>
+      <TabGroup
+        tabInfos={[
+          { icon: faClipboardUser, header: 'People' },
+          { icon: faBackpack, header: 'Assets' },
+        ]}
+      >
+        <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+        <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+      </TabGroup>
+    </ProtectedElse>
+    <TabGroup
+      tabInfos={[
+        { icon: faStopwatch, header: 'Tasks & Time' },
+        { icon: faSackDollar, header: 'Financial' },
+      ]}
+    >
+      <>
+        {quotes.items.length === 0 ? (
+          <div>There are no quotes, yet.</div>
+        ) : (
+          quotes.items
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+            .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)
+        )}
+      </>
+      <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer.current} />
+    </TabGroup>
+  </div>
+);
 
 export default WithAuthentication(ProjectPage, { routeType: RouteType.NO_REDIRECT });

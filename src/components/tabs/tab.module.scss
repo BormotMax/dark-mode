@@ -4,18 +4,21 @@
   }
 
   .tabList {
-    border-bottom-width: 0;
+    border-bottom-width: 1px;
 
     .isActiveTab {
       a {
-        border-bottom-width: 6px;
+        border-bottom-width: 3px;
+        margin-bottom: -1px;
       }
     }
 
     .tab {
+
       a {
-        margin-bottom: 0;
-        border-bottom-width: 1px;
+
+        margin-bottom: 2px;
+        border-bottom: none;
       }
 
       &:hover {

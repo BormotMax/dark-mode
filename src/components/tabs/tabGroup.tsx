@@ -19,7 +19,7 @@ export const TabGroup: React.FC<TabGroupProps> = ({ tabInfos, children }) => {
 
   return (
     <div className={styles.tabGroup}>
-      <div className="tabs is-fullwidth">
+      <div className="tabs">
         <ul className={styles.tabList}>
           {tabInfos.map((info, i) => (
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions

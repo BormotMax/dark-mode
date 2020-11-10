@@ -1,6 +1,18 @@
 @use "src/mixins";
 @import "~bulma/sass/utilities/_all.sass";
 
+.hideMobile {
+  @include mobile {
+    display: none;
+  }
+}
+
+.hideTablet {
+  @include tablet {
+    display: none;
+  }
+}
+
 .projectProgressHeader {
   @include mixins.header-1-sm;
   text-align: center;
@@ -31,4 +43,44 @@
 
 .commentWrapper {
   margin-bottom: 60px;
+}
+
+.filters {
+  display: flex;
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #828282;
+  border-bottom: 1px solid #E0E0E0;
+  padding: 11px 0 0 40px;
+  margin: 0 -100% 0 -40px;
+
+
+
+  .filter {
+    padding-bottom: 11px;
+    border-bottom: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 25px;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+  .activeFilter {
+    border-bottom: 3px solid black;
+    padding-bottom: 8px;
+    color: black;
+  }
+}
+
+.desktopColumns {
+  flex-wrap: wrap;
+}
+
+.desktopColumnOuter {
+  padding-top: 0;
 }
