@@ -33,7 +33,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id, token } = router.query;
   const [project, setProject] = useState(null);
-  const [projectTab, setProjectTab] = useState(ProjectTabsEnum.All);
+  const [projectTab, setProjectTab] = useState(ProjectTabsEnum.Recent);
   const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
   const viewer = useRef(null);
   const projectViewer = useRef(null);

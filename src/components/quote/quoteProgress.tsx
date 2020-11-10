@@ -13,6 +13,7 @@ import { createTask, updateTask } from '../../graphql/mutations';
 import { client } from '../../pages/_app';
 import { Role } from '../withAuthentication';
 import { isAllowed, Protected } from '../protected/protected';
+import { isClickOrEnter } from '../../helpers/util';
 
 function calcPercentDone(tasks: Array<Task>) {
   let total = 0;
@@ -92,15 +93,21 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
     addTaskRef.current.focus();
   };
 
+  const handleToggle = (e) => {
+    if (isClickOrEnter(e)) {
+      setShowing(!isShowing);
+    }
+  };
+
   return (
     <div className={styles.quote}>
       <div className={styles.header}>
         <div>Tasks for Quote {i}</div>
         <div
-          onClick={() => setShowing(!isShowing)}
+          onClick={handleToggle}
           role="button"
           tabIndex={0}
-          onKeyDown={() => setShowing(!isShowing)}
+          onKeyDown={handleToggle}
           className={`${styles.hideTasksButton} text-small-caps text-blue`}
         >
           {isShowing ? <FontAwesomeIcon color="#595959" icon={faChevronDown} /> : <FontAwesomeIcon color="#595959" icon={faChevronUp} />}

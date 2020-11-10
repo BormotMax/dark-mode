@@ -3,7 +3,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLayerGroup, faPersonSign, faPlusCircle, faRocket, faSignOut, faTimes } from '@fortawesome/pro-light-svg-icons';
+import { faCog, faComments, faGlobeAmericas, faLayerGroup, faPersonSign, faRocket, faSackDollar, faSign, faSignOut, faStopwatch, faTimes, faUserAstronaut } from '@fortawesome/pro-light-svg-icons';
 
 import { useCurrentUser } from '../../hooks';
 import { Avatar } from '../avatar/avatar';
@@ -56,23 +56,51 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           onKeyDown={handleOnClick}
           tabIndex={0}
         >
-          <FontAwesomeIcon size="1x" icon={faTimes} color="#828282" />
+          <FontAwesomeIcon size="1x" icon={faTimes} color="#ffffff" />
         </div>
       </div>
       <ul className={classnames(styles.navList)}>
+        <li className={classnames(styles.disabled)}>
+          <div className={classnames(styles.disabledInner)}>
+            <FontAwesomeIcon color="#ffffff" size="1x" icon={faUserAstronaut} />
+            Dashboard
+          </div>
+          <div className={classnames(styles.soon)}>Soon</div>
+        </li>
+        <li className={classnames(styles.disabled)}>
+          <div className={classnames(styles.disabledInner, styles.longText)}>
+            <FontAwesomeIcon color="#ffffff" size="1x" icon={faComments} />
+            Conversations
+          </div>
+          <div className={classnames(styles.soon)}>Soon</div>
+        </li>
         <li className={classnames({ [styles.current]: page === Page.PROJECTS })}>
           <Link href="/projects">
             <a href="/projects">
-              <FontAwesomeIcon color="#000000" size="1x" icon={faRocket} />
-              &nbsp;&nbsp;Projects
+              <FontAwesomeIcon color="#ffffff" size="1x" icon={faRocket} />
+              Projects
             </a>
           </Link>
+        </li>
+        <li className={classnames(styles.disabled)}>
+          <div className={classnames(styles.disabledInner)}>
+            <FontAwesomeIcon color="#ffffff" size="1x" icon={faSackDollar} />
+            Financial
+          </div>
+          <div className={classnames(styles.soon)}>Soon</div>
+        </li>
+        <li className={classnames(styles.disabled)}>
+          <div className={classnames(styles.disabledInner)}>
+            <FontAwesomeIcon color="#ffffff" size="1x" icon={faStopwatch} />
+            Tasks & Time
+          </div>
+          <div className={classnames(styles.soon)}>Soon</div>
         </li>
         <li className={classnames({ [styles.current]: page === Page.HIRE_EDITOR })}>
           <Link href="/hire-page-editor">
             <a href="/hire-page-editor">
-              <FontAwesomeIcon color="#000000" size="1x" icon={faPersonSign} />
-              &nbsp;&nbsp;Hire Page
+              <FontAwesomeIcon color="#ffffff" size="1x" icon={faSign} />
+              Hire Page
             </a>
           </Link>
         </li>
@@ -82,19 +110,26 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
             button={
               <li>
                 <a role="button">
-                  <FontAwesomeIcon color="#000000" size="1x" icon={faLayerGroup} />
-                  &nbsp;&nbsp;Settings
+                  <FontAwesomeIcon color="#ffffff" size="1x" icon={faCog} />
+                  Settings
                 </a>
               </li>
-          }
+            }
           >
             <Settings />
           </InPlaceModal>
         </Protected>
+        <li className={classnames(styles.disabled)}>
+          <div className={classnames(styles.disabledInner)}>
+            <FontAwesomeIcon color="#ffffff" size="1x" icon={faGlobeAmericas} />
+            Community
+          </div>
+          <div className={classnames(styles.soon)}>Soon</div>
+        </li>
         <li>
           <a role="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
-            <FontAwesomeIcon color="#000000" size="1x" icon={faSignOut} />
-            &nbsp;&nbsp;Logout
+            <FontAwesomeIcon color="#ffffff" size="1x" icon={faSignOut} />
+            Logout
           </a>
         </li>
       </ul>

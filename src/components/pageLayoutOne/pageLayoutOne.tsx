@@ -94,24 +94,15 @@ const DesktopLayout = ({ content, headerText, page, headerButton }) => (
       <div className={classnames('column', 'is-narrow', styles.nav, styles.desktopNav, 'is-hidden-mobile')}>
         <Nav page={page} />
       </div>
-      <div className="column">
-        <Header headerText={headerText} page={page}>
-          {headerButton}
-        </Header>
-        {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
-        <div className={classnames(styles.pageContent)}>
-
-          <div className={classnames('columns', 'container', 'is-desktop', styles.columnWrap)}>{content}</div>
-        </div>
-      </div>
     </Protected>
-    <ProtectedElse roles={[Role.FREELANCER]}>
-      <div className="column">
-        <div>
-          <Header headerText={headerText} page={page} />
-          <div className={classnames('columns', 'container', 'is-desktop', styles.columnWrap)}>{content}</div>
-        </div>
+    <div className="column">
+      <Header headerText={headerText} page={page}>
+        {headerButton}
+      </Header>
+      {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
+      <div className={classnames(styles.pageContent)}>
+        <div className={classnames('columns', 'container', 'is-desktop', styles.columnWrap)}>{content}</div>
       </div>
-    </ProtectedElse>
+    </div>
   </div>
 );
