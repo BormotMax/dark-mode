@@ -298,7 +298,20 @@ const HirePageEditor = ({ currentUser }) => {
   if (loading) return null;
 
   return (
-    <PageLayoutOne page={Page.HIRE_EDITOR} headerText="Hire Page Editor">
+    <PageLayoutOne
+      page={Page.HIRE_EDITOR}
+      headerText="Hire Page Editor"
+      headerButton={
+        <button
+          form="hirePageForm"
+          disabled={saving}
+          type="submit"
+          className={classnames('btn-small', { 'is-loading': saving })}
+        >
+          Save
+        </button>
+      }
+    >
       <div className={classnames(styles.hirePageEditor, 'column')}>
         <div className={classnames('text-1', 'columns')}>
           <div className="column">
@@ -467,16 +480,6 @@ const HirePageEditor = ({ currentUser }) => {
               />
             </div>
           </div>
-        </div>
-        <div className={styles.save}>
-          <button
-            form="hirePageForm"
-            disabled={saving}
-            type="submit"
-            className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': saving })}
-          >
-            SAVE
-          </button>
         </div>
       </div>
     </PageLayoutOne>
