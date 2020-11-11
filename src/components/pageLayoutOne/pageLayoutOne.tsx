@@ -117,9 +117,8 @@ const DesktopLayout = ({ content, headerText, page, headerButton, headerContaine
       <Header headerText={headerText} page={page} headerContainer={headerContainer}>
         {headerButton}
       </Header>
-      {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
       <div className={classnames(styles.pageContent)}>
-        <div className={classnames('columns', 'container', 'is-desktop', styles.columnWrap)}>{content}</div>
+        {content}
       </div>
     </div>
   </div>

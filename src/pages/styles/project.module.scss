@@ -57,13 +57,22 @@
   line-height: 24px;
   color: #828282;
   border-bottom: 1px solid #E0E0E0;
-  padding: 11px 0 0 40px;
-  margin: -13px -100% 0 -40px;
+  padding: 11px 0 0 0px;
   background-color: #eeeeee;
   position: -webkit-sticky;
   position: sticky;
-  top: 73px;
+  top: 72px;
   z-index: 1;
+
+  @include mobile {
+    padding-left: 12px;
+    margin: -12px -12px 0;
+  }
+
+  @include tablet {
+    padding-left: 40px;
+    margin: -1px -12px 0 -40px;
+  }
 
   .filter {
     padding-bottom: 11px;

@@ -306,7 +306,7 @@ const HirePageEditor = ({ currentUser }) => {
         <ButtonSmall form="hirePageForm" text="Save" isSaving={saving} />
       }
     >
-      <div className={classnames(styles.hirePageEditor, 'column')}>
+      <div className={classnames(styles.hirePageEditor, 'column', 'container')}>
         <div className={classnames('text-1', 'columns')}>
           <div className="column">
             <form id="hirePageForm" onSubmit={(e) => handleSubmit(e)}>
