@@ -50,6 +50,7 @@ export const getProjectClient = /* GraphQL */ `
       clientID
       projectID
       isInitialContact
+      deposit
       createdAt
       updatedAt
       user {
@@ -80,6 +81,7 @@ export const listProjectClients = /* GraphQL */ `
         clientID
         projectID
         isInitialContact
+        deposit
         createdAt
         updatedAt
         user {
@@ -136,6 +138,7 @@ export const getProjectFreelancer = /* GraphQL */ `
             clientID
             projectID
             isInitialContact
+            deposit
             createdAt
             updatedAt
             user {
@@ -235,6 +238,7 @@ export const getProjectFreelancer = /* GraphQL */ `
             chargePerHour
             totalPrice
             billingType
+            status
             createdAt
             updatedAt
             tasks {
@@ -337,6 +341,7 @@ export const listProjectFreelancers = /* GraphQL */ `
               clientID
               projectID
               isInitialContact
+              deposit
               createdAt
               updatedAt
               user {
@@ -413,6 +418,7 @@ export const listProjectFreelancers = /* GraphQL */ `
               chargePerHour
               totalPrice
               billingType
+              status
               createdAt
               updatedAt
               tasks {
@@ -515,6 +521,7 @@ export const projectsByFreelancer = /* GraphQL */ `
               clientID
               projectID
               isInitialContact
+              deposit
               createdAt
               updatedAt
               user {
@@ -591,6 +598,7 @@ export const projectsByFreelancer = /* GraphQL */ `
               chargePerHour
               totalPrice
               billingType
+              status
               createdAt
               updatedAt
               tasks {
@@ -663,6 +671,7 @@ export const listProjects = /* GraphQL */ `
             clientID
             projectID
             isInitialContact
+            deposit
             createdAt
             updatedAt
             user {
@@ -762,6 +771,7 @@ export const listProjects = /* GraphQL */ `
             chargePerHour
             totalPrice
             billingType
+            status
             createdAt
             updatedAt
             tasks {
@@ -825,6 +835,7 @@ export const getProject = /* GraphQL */ `
           clientID
           projectID
           isInitialContact
+          deposit
           createdAt
           updatedAt
           user {
@@ -878,6 +889,7 @@ export const getProject = /* GraphQL */ `
                 clientID
                 projectID
                 isInitialContact
+                deposit
                 createdAt
                 updatedAt
               }
@@ -912,6 +924,7 @@ export const getProject = /* GraphQL */ `
                 chargePerHour
                 totalPrice
                 billingType
+                status
                 createdAt
                 updatedAt
               }
@@ -967,6 +980,7 @@ export const getProject = /* GraphQL */ `
           chargePerHour
           totalPrice
           billingType
+          status
           createdAt
           updatedAt
           tasks {
@@ -1058,6 +1072,7 @@ export const getQuote = /* GraphQL */ `
       chargePerHour
       totalPrice
       billingType
+      status
       createdAt
       updatedAt
       tasks {
@@ -1088,6 +1103,7 @@ export const listQuotes = /* GraphQL */ `
         chargePerHour
         totalPrice
         billingType
+        status
         createdAt
         updatedAt
         tasks {

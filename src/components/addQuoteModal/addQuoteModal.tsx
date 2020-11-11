@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faTimes, faPlusCircle } from '@fortawesome/pro-light-svg-icons';
-import { faFileInvoiceDollar, faCircle, faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
+import { faPlusCircle, faTimes, faTimesCircle } from '@fortawesome/pro-light-svg-icons';
+import { faCheckCircle, faCircle, faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
 import gql from 'graphql-tag';
 import styles from './addQuoteModal.module.scss';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
@@ -15,10 +15,11 @@ import {
   CreateQuoteMutation,
   CreateTaskInput,
   QuoteBillingType,
+  QuoteStatus,
 } from '../../API';
 import { client } from '../../pages/_app';
 import { createComment, createQuote, createTask } from '../../graphql/mutations';
-import { useLogger, useFlash } from '../../hooks';
+import { useFlash, useLogger } from '../../hooks';
 import { Quote, User } from '../../types/custom';
 import { Protected } from '../protected/protected';
 import { Role } from '../withAuthentication';
@@ -104,7 +105,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
 
   const handleSubmit = async () => {
     setIsSaving(true);
-    const createQuoteInput: CreateQuoteInput = { projectID, billingType };
+    const createQuoteInput: CreateQuoteInput = { projectID, billingType, status: QuoteStatus.IDLE };
     const billableHours = Number.parseInt(hours, 10);
     const chargePerHour = Number.parseInt(perHour, 10);
     const totalPrice = Number.parseInt(price, 10);

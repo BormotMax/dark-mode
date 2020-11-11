@@ -4,20 +4,24 @@ import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
 import { Protected } from '../../protected/protected';
-import { useLogger } from '../../../hooks';
+import { useFlash, useLogger } from '../../../hooks';
 import { getQuote } from '../../../graphql/queries';
-import { GetQuoteQuery } from '../../../API';
-import { unauthClient as client } from '../../../pages/_app';
+import { updateQuote } from '../../../graphql/mutations';
+import { GetQuoteQuery, QuoteStatus, UpdateQuoteInput, UpdateQuoteMutation } from '../../../API';
+import { unauthClient, client } from '../../../pages/_app';
 import styles from './quoteForComment.module.scss';
 import { Quote } from '../../../types/custom';
 import { Role } from '../../withAuthentication';
 
 interface QuoteForCommentProps {
   id: string;
+  deposit: number;
 }
 
-export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
+export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id, deposit }) => {
   const [quote, setQuote] = useState<Quote>(null);
+  const { setFlash } = useFlash();
+  const [isUpdating, setIsUpdating] = useState(false);
   const { logger } = useLogger();
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
       const getQuoteInput = { id };
 
       try {
-        const res: { data: GetQuoteQuery } = await client.query({
+        const res: { data: GetQuoteQuery } = await unauthClient.query({
           query: gql(getQuote),
           variables: getQuoteInput,
         });
@@ -39,7 +43,42 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     executeGetQuote();
   }, []);
 
-  console.log('quote -->', quote);
+  const updateQuery = async (status: QuoteStatus) => {
+    // TODO according to design, we need to validate and recalculate client's deposit amount
+    const updateQuoteInput: UpdateQuoteInput = {
+      id: quote.id,
+      projectID: quote.projectID,
+      billableHours: quote.billableHours,
+      billingType: quote.billingType,
+      chargePerHour: quote.chargePerHour,
+      totalPrice: quote.totalPrice,
+      status,
+    };
+
+    try {
+      setIsUpdating(true);
+      const response: { data: UpdateQuoteMutation } = await client.mutate({
+        mutation: gql(updateQuote),
+        variables: { input: updateQuoteInput },
+      });
+
+      setQuote(response.data.updateQuote);
+    } catch (error) {
+      logger.error('UpdateQuoteContent: error updating quote status', { error, input: updateQuoteInput });
+      setFlash('Error: failed to update accept / decline quote');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const onAcceptClick = () => {
+    updateQuery(QuoteStatus.ACCEPTED);
+  };
+
+  const onDeclineClick = () => {
+    updateQuery(QuoteStatus.DECLINE);
+  };
+
   return !quote ? null : (
     <div className={classnames(styles.quoteForComment)}>
       <div className={classnames(styles.header)}>
@@ -57,28 +96,28 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
           ))}
       </div>
 
-      <div className={styles.buttonContainer}>
-        <Protected roles={[Role.CLIENT]}>
+      {quote.status === QuoteStatus.IDLE && (
+        <div className={styles.buttonContainer}>
+          <Protected roles={[Role.CLIENT]}>
+            <button
+              disabled={isUpdating}
+              type="submit"
+              onClick={onAcceptClick}
+              className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': isUpdating })}
+            >
+              Accept & Pay {Number.isFinite(deposit) ? `\\$${deposit}` : ''} Deposit
+            </button>
+          </Protected>
           <button
-            form="hirePageForm"
-            disabled={false}
-            type="submit"
-            className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': false })}
+            type="button"
+            onClick={onDeclineClick}
+            disabled={isUpdating}
+            className={classnames(styles.declineStyles, { 'is-loading': isUpdating })}
           >
-            Accept & Pay $6000 Deposit
+            Decline
           </button>
-        </Protected>
-        <a href="#" className={styles.declineStyles}>
-          Decline
-        </a>
-        {/* <button */}
-        {/*  form="hirePageForm" */}
-        {/*  disabled={false} */}
-        {/*  className={classnames('btn-small', 'btn-invert')} */}
-        {/* > */}
-        {/*  Decline */}
-        {/* </button */}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

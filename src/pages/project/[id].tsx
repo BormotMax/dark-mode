@@ -231,7 +231,12 @@ const Filters = ({ projectTabOptions, projectTab, handleFilterChange }) => (
 const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, id }) => (
   <>
     {comments.filter(projectTabOptions[projectTab].filterFxn).map((comment) => (
-      <CommentWrapper key={comment.id} comment={comment} viewerId={viewer.current.id as string} />
+      <CommentWrapper
+        key={comment.id}
+        comment={comment}
+        viewerId={viewer.current.id as string}
+        deposit={viewer.current?.deposit}
+      />
     ))}
     <div ref={newCommentRef}>
       <NewComment

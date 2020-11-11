@@ -32,6 +32,7 @@ export const deleteProjectClient = /* GraphQL */ `
       clientID
       projectID
       isInitialContact
+      deposit
       createdAt
       updatedAt
       user {
@@ -89,6 +90,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
             clientID
             projectID
             isInitialContact
+            deposit
             createdAt
             updatedAt
             user {
@@ -188,6 +190,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
             chargePerHour
             totalPrice
             billingType
+            status
             createdAt
             updatedAt
             tasks {
@@ -264,6 +267,7 @@ export const updateProject = /* GraphQL */ `
           clientID
           projectID
           isInitialContact
+          deposit
           createdAt
           updatedAt
           user {
@@ -317,6 +321,7 @@ export const updateProject = /* GraphQL */ `
                 clientID
                 projectID
                 isInitialContact
+                deposit
                 createdAt
                 updatedAt
               }
@@ -351,6 +356,7 @@ export const updateProject = /* GraphQL */ `
                 chargePerHour
                 totalPrice
                 billingType
+                status
                 createdAt
                 updatedAt
               }
@@ -406,6 +412,7 @@ export const updateProject = /* GraphQL */ `
           chargePerHour
           totalPrice
           billingType
+          status
           createdAt
           updatedAt
           tasks {
@@ -470,6 +477,7 @@ export const deleteProject = /* GraphQL */ `
           clientID
           projectID
           isInitialContact
+          deposit
           createdAt
           updatedAt
           user {
@@ -523,6 +531,7 @@ export const deleteProject = /* GraphQL */ `
                 clientID
                 projectID
                 isInitialContact
+                deposit
                 createdAt
                 updatedAt
               }
@@ -557,6 +566,7 @@ export const deleteProject = /* GraphQL */ `
                 chargePerHour
                 totalPrice
                 billingType
+                status
                 createdAt
                 updatedAt
               }
@@ -612,6 +622,7 @@ export const deleteProject = /* GraphQL */ `
           chargePerHour
           totalPrice
           billingType
+          status
           createdAt
           updatedAt
           tasks {
@@ -758,6 +769,7 @@ export const createProjectClient = /* GraphQL */ `
       clientID
       projectID
       isInitialContact
+      deposit
       createdAt
       updatedAt
       user {
@@ -786,6 +798,7 @@ export const updateProjectClient = /* GraphQL */ `
       clientID
       projectID
       isInitialContact
+      deposit
       createdAt
       updatedAt
       user {
@@ -843,6 +856,7 @@ export const createProjectFreelancer = /* GraphQL */ `
             clientID
             projectID
             isInitialContact
+            deposit
             createdAt
             updatedAt
             user {
@@ -942,6 +956,7 @@ export const createProjectFreelancer = /* GraphQL */ `
             chargePerHour
             totalPrice
             billingType
+            status
             createdAt
             updatedAt
             tasks {
@@ -1038,6 +1053,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
             clientID
             projectID
             isInitialContact
+            deposit
             createdAt
             updatedAt
             user {
@@ -1137,6 +1153,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
             chargePerHour
             totalPrice
             billingType
+            status
             createdAt
             updatedAt
             tasks {
@@ -1213,6 +1230,7 @@ export const createProject = /* GraphQL */ `
           clientID
           projectID
           isInitialContact
+          deposit
           createdAt
           updatedAt
           user {
@@ -1266,6 +1284,7 @@ export const createProject = /* GraphQL */ `
                 clientID
                 projectID
                 isInitialContact
+                deposit
                 createdAt
                 updatedAt
               }
@@ -1300,6 +1319,7 @@ export const createProject = /* GraphQL */ `
                 chargePerHour
                 totalPrice
                 billingType
+                status
                 createdAt
                 updatedAt
               }
@@ -1355,6 +1375,7 @@ export const createProject = /* GraphQL */ `
           chargePerHour
           totalPrice
           billingType
+          status
           createdAt
           updatedAt
           tasks {
@@ -1430,6 +1451,7 @@ export const createQuote = /* GraphQL */ `
       chargePerHour
       totalPrice
       billingType
+      status
       createdAt
       updatedAt
       tasks {
@@ -1458,6 +1480,7 @@ export const updateQuote = /* GraphQL */ `
       chargePerHour
       totalPrice
       billingType
+      status
       createdAt
       updatedAt
       tasks {
@@ -1486,6 +1509,7 @@ export const deleteQuote = /* GraphQL */ `
       chargePerHour
       totalPrice
       billingType
+      status
       createdAt
       updatedAt
       tasks {

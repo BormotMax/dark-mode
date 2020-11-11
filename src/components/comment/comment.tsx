@@ -17,6 +17,7 @@ import styles from './comment.module.scss';
 interface CommentWrapperProps {
   comment: CommentType;
   viewerId?: string;
+  deposit?: number;
 }
 
 interface CommentProps {
@@ -36,10 +37,10 @@ interface NewCommentProps {
   creatorID: string;
 }
 
-const getComponent = (comment: CommentType) => {
+const getComponent = (comment: CommentType, deposit?: number) => {
   switch (comment.includedResourceType) {
     case CommentResourceType.QUOTE:
-      return <QuoteForComment id={comment.includedResourceID} />;
+      return <QuoteForComment id={comment.includedResourceID} deposit={deposit} />;
     default:
       return null;
   }
@@ -71,7 +72,7 @@ const getRelativeTime = (createdAt: Date) => {
   return createdAt.toLocaleDateString();
 };
 
-export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId }) => (
+export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId, deposit }) => (
   <Comment
     name={comment.creator.name}
     createdAt={comment.createdAt}
@@ -80,7 +81,7 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerI
   >
     <>
       <div>{comment.content}</div>
-      {comment.includedResourceID && comment.includedResourceType && <div>{getComponent(comment)}</div>}
+      {comment.includedResourceID && comment.includedResourceType && <div>{getComponent(comment, deposit)}</div>}
     </>
   </Comment>
 );
