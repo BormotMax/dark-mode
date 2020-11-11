@@ -1,5 +1,11 @@
+@import "~bulma/sass/utilities/_all.sass";
+
 .projects {
   max-width: 792px;
+
+  @include tablet {
+    padding-left: 0;
+  }
 
   a {
     color: inherit;
@@ -44,4 +50,8 @@
       color: #1d3557;
     }
   }
+}
+
+.headerWidth {
+  max-width: 832px;
 }

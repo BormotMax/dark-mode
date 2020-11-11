@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
@@ -20,6 +20,9 @@ import Sprocket from '../../img/sprocket.svg';
 import Twitter from '../../img/twitter.svg';
 
 import styles from '../styles/hire.module.scss';
+import { Header } from '../../components/header';
+import { Page } from '../../components/nav/nav';
+import { ButtonSmall } from '../../components/buttons/buttons';
 
 enum Tab {
   PORTFOLIO,
@@ -39,6 +42,7 @@ const Hire: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCarouselOpen, setCarouselOpen] = useState(false);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(-1);
+  const [isSaving, setIsSaving] = useState(false);
   const blurbTextElement = useRef(null);
   const { logger } = useLogger();
 
@@ -98,6 +102,11 @@ const Hire: React.FC = () => {
     execute();
   }, [id]);
 
+  const goToEditHirePage = () => {
+    setIsSaving(true);
+    router.push('/hire-page-editor');
+  };
+
   const carouselImages = Object.values(portfolioImages || {}).map((image) => ({ source: image as string }));
 
   const toggleCarousel = (url: string) => {
@@ -126,11 +135,15 @@ const Hire: React.FC = () => {
         )}
       </ModalGateway>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
+        {currentUser?.attributes?.sub === hireInfo.freelancerID && (
+        <Header headerText="Hire Page preview" page={Page.HIRE}>
+          <ButtonSmall inverted onClick={goToEditHirePage} text="Exit" isSaving={isSaving} />
+        </Header>)}
         <div className={classnames(styles.upper)}>
           <div className={styles.bannerImage__mobile}>
             {!hireInfo.bannerImage && null}
-            {hireInfo.bannerImage &&
-              (!bannerImage ? (
+            {hireInfo.bannerImage
+              && (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
                 <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
@@ -152,8 +165,8 @@ const Hire: React.FC = () => {
           </div>
           <div className={styles.bannerImage__desktop}>
             {!hireInfo.bannerImage && null}
-            {hireInfo.bannerImage &&
-              (!bannerImage ? (
+            {hireInfo.bannerImage
+              && (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
               ) : (
                 <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />

@@ -2,7 +2,7 @@
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
 import { v4 as uuid } from 'uuid';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
@@ -17,6 +17,7 @@ import { DomainSlug } from '../types/custom';
 import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Page } from '../components/nav/nav';
+import { ButtonSmall } from '../components/buttons/buttons';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 
@@ -298,8 +299,14 @@ const HirePageEditor = ({ currentUser }) => {
   if (loading) return null;
 
   return (
-    <PageLayoutOne page={Page.HIRE_EDITOR} headerText="Hire Page Editor">
-      <div className={classnames(styles.hirePageEditor, 'column')}>
+    <PageLayoutOne
+      page={Page.HIRE_EDITOR}
+      headerText="Hire Page Editor"
+      headerButton={
+        <ButtonSmall form="hirePageForm" text="Save" isSaving={saving} />
+      }
+    >
+      <div className={classnames(styles.hirePageEditor, 'column', 'container')}>
         <div className={classnames('text-1', 'columns')}>
           <div className="column">
             <form id="hirePageForm" onSubmit={(e) => handleSubmit(e)}>
@@ -468,7 +475,7 @@ const HirePageEditor = ({ currentUser }) => {
             </div>
           </div>
         </div>
-        <div className={styles.save}>
+        <div className={classnames(styles.save, 'is-hidden-tablet')}>
           <button
             form="hirePageForm"
             disabled={saving}

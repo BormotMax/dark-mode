@@ -184,30 +184,28 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
           quotes={quotes}
         />
       </div>
-      <div className={classnames(styles.desktopColumnOuter, 'column', styles.hideMobile)}>
-        <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
-        <div className={classnames('columns', styles.desktopColumns)}>
-          <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
-            <Feed
-              comments={comments}
-              projectTabOptions={projectTabOptions}
-              projectTab={projectTab}
-              viewer={viewer}
-              newCommentRef={newCommentRef}
-              id={id}
-            />
-          </div>
-          <div className={classnames('column', styles.rightColumn)}>
-            <RightColumn
-              viewer={viewer}
-              clients={clients}
-              project={project}
-              fetchProject={fetchProject}
-              currentUserId={currentUserId}
-              assets={assets}
-              quotes={quotes}
-            />
-          </div>
+      <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
+      <div className={classnames('container', 'columns', styles.hideMobile, styles.desktopColumns)}>
+        <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
+          <Feed
+            comments={comments}
+            projectTabOptions={projectTabOptions}
+            projectTab={projectTab}
+            viewer={viewer}
+            newCommentRef={newCommentRef}
+            id={id}
+          />
+        </div>
+        <div className={classnames('column', styles.rightColumn)}>
+          <RightColumn
+            viewer={viewer}
+            clients={clients}
+            project={project}
+            fetchProject={fetchProject}
+            currentUserId={currentUserId}
+            assets={assets}
+            quotes={quotes}
+          />
         </div>
       </div>
     </PageLayoutOne>

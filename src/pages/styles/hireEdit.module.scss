@@ -1,6 +1,7 @@
 @import '~bulma/sass/utilities/_all.sass';
 
 .hirePageEditor {
+  margin-left: 0;
   padding: 0;
   @include tablet {
     .halfWidthControl {

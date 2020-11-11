@@ -10,6 +10,7 @@ import { MobileHeader } from '../mobileHeader';
 
 interface PageLayoutOneProps {
   headerText?: string | JSX.Element;
+  headerContainer?: string | Record<string, string>;
   headerButton?: JSX.Element;
   page?: Page;
 }
@@ -25,7 +26,13 @@ export const PageInfo = {
   [Page.PROJECTS]: { breadcrumb: 'Projects' },
 };
 
-export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerText, page, headerButton }) => {
+export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
+  children,
+  headerText,
+  page,
+  headerButton,
+  headerContainer,
+}) => {
   const header = PageInfo[page] ? (
     <>
       <Protected roles={[Role.FREELANCER]}>
@@ -45,8 +52,19 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({ children, headerTe
   );
   return (
     <div className={styles.page}>
-      <DesktopLayout content={children} headerText={header} page={page} headerButton={headerButton} />
-      <MobileLayout content={children} headerText={headerText} page={page} headerButton={headerButton} />
+      <DesktopLayout
+        content={children}
+        headerText={header}
+        page={page}
+        headerButton={headerButton}
+        headerContainer={headerContainer}
+      />
+      <MobileLayout
+        content={children}
+        headerText={headerText}
+        page={page}
+        headerButton={headerButton}
+      />
     </div>
   );
 };
@@ -88,7 +106,7 @@ const MobileLayout = ({ content, headerText, page, headerButton }) => {
   );
 };
 
-const DesktopLayout = ({ content, headerText, page, headerButton }) => (
+const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer }) => (
   <div className={classnames('columns', 'is-hidden-mobile', styles.navColumn)}>
     <Protected roles={[Role.FREELANCER]}>
       <div className={classnames('column', 'is-narrow', styles.nav, styles.desktopNav, 'is-hidden-mobile')}>
@@ -96,12 +114,11 @@ const DesktopLayout = ({ content, headerText, page, headerButton }) => (
       </div>
     </Protected>
     <div className="column">
-      <Header headerText={headerText} page={page}>
+      <Header headerText={headerText} page={page} headerContainer={headerContainer}>
         {headerButton}
       </Header>
-      {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
       <div className={classnames(styles.pageContent)}>
-        <div className={classnames('columns', 'container', 'is-desktop', styles.columnWrap)}>{content}</div>
+        {content}
       </div>
     </div>
   </div>
