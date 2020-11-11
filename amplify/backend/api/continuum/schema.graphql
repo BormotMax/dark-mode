@@ -36,6 +36,7 @@ type ProjectClient
   user: User @connection(fields: ["clientID"])
   projectID: ID!
   isInitialContact: Boolean
+  deposit: Int
 }
 
 type ProjectFreelancer
@@ -115,6 +116,7 @@ type Quote
   chargePerHour: Int
   totalPrice: Int
   billingType: QuoteBillingType!
+  status: QuoteStatus
 }
 
 type Comment
@@ -199,6 +201,12 @@ type Note
   projectFreelancerID: ID!
   title: String!
   content: String
+}
+
+enum QuoteStatus {
+  IDLE
+  ACCEPTED
+  DECLINE
 }
 
 enum UserRole {
