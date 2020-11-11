@@ -47,7 +47,7 @@ export const RouteIndicator = () => {
             left: 0;
             top: 0;
             right: 100%;
-            z-index: 2;
+            z-index: 101;
             height: 2px;
             background-color: hsla(207, 98%, 40%, 0.95);
             box-shadow: 0 1px 8px hsla(0, 0%, 0%, 0.1);

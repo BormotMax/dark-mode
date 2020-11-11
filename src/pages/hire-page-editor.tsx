@@ -2,7 +2,7 @@
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
 import { v4 as uuid } from 'uuid';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
@@ -17,6 +17,7 @@ import { DomainSlug } from '../types/custom';
 import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Page } from '../components/nav/nav';
+import { ButtonSmall } from '../components/buttons/buttons';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 
@@ -302,14 +303,7 @@ const HirePageEditor = ({ currentUser }) => {
       page={Page.HIRE_EDITOR}
       headerText="Hire Page Editor"
       headerButton={
-        <button
-          form="hirePageForm"
-          disabled={saving}
-          type="submit"
-          className={classnames('btn-small', { 'is-loading': saving })}
-        >
-          Save
-        </button>
+        <ButtonSmall form="hirePageForm" text="Save" isSaving={saving} />
       }
     >
       <div className={classnames(styles.hirePageEditor, 'column')}>
@@ -480,6 +474,16 @@ const HirePageEditor = ({ currentUser }) => {
               />
             </div>
           </div>
+        </div>
+        <div className={classnames(styles.save, 'is-hidden-tablet')}>
+          <button
+            form="hirePageForm"
+            disabled={saving}
+            type="submit"
+            className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': saving })}
+          >
+            SAVE
+          </button>
         </div>
       </div>
     </PageLayoutOne>

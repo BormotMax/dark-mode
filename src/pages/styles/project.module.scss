@@ -30,7 +30,7 @@
   position: -webkit-sticky;
   position: sticky;
   top: 132px;
-  z-index: 1;
+  z-index: 0;
 }
 
 .leftColumn {
@@ -58,7 +58,7 @@
   color: #828282;
   border-bottom: 1px solid #E0E0E0;
   padding: 11px 0 0 40px;
-  margin: 0 -100% 0 -40px;
+  margin: -13px -100% 0 -40px;
   background-color: #eeeeee;
   position: -webkit-sticky;
   position: sticky;
@@ -86,8 +86,4 @@
 
 .desktopColumns {
   flex-wrap: wrap;
-}
-
-.desktopColumnOuter {
-  padding-top: 0;
 }

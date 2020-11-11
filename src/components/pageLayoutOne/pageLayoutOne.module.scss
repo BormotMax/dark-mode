@@ -15,6 +15,10 @@
   }
 
   .pageContent {
+    @include mobile {
+      overflow-x: hidden;
+    }
+
     @include tablet {
       padding-left: 16px;
     }
