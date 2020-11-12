@@ -5,17 +5,32 @@ interface ButtonProps {
   text: string;
   isSaving?: boolean;
   onClick?: Function;
+  disabled?: boolean;
   inverted?: boolean;
   form?: string;
 }
 
-export const ButtonSmall: React.FC<ButtonProps> = ({ text, isSaving, onClick, inverted = false, form }) => (
+export const ButtonSmall: React.FC<ButtonProps> = ({
+  text,
+  isSaving,
+  onClick,
+  inverted = false,
+  form,
+  disabled,
+}) => (
   <button
     onClick={(e) => (onClick ? onClick(e) : () => {})}
     form={form}
-    disabled={isSaving}
+    disabled={isSaving || disabled}
     type="submit"
-    className={classnames(styles.button, styles.buttonSmall, { [styles.loading]: isSaving, [styles.inverted]: inverted })}
+    className={classnames(
+      styles.button,
+      styles.buttonSmall,
+      {
+        [styles.loading]: isSaving && !disabled,
+        [styles.disabled]: disabled && !isSaving,
+        [styles.inverted]: inverted,
+      })}
   >
     {text}
   </button>

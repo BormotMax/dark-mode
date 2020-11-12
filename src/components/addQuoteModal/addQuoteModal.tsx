@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faTimes, faTimesCircle } from '@fortawesome/pro-light-svg-icons';
 import { faCheckCircle, faCircle, faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
@@ -153,8 +153,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
 
     // create a comment with this Quote as an associated resource so it shows up in the feed.
     // eslint-disable-next-line max-len
-    const content =
-      'Here is your quote. If you are ready to proceed, please accept and pay; else, let me know when a good time is to connect to discuss.\n\nThank you!';
+    const content = 'Here is your quote. If you are ready to proceed, please accept and pay; else, let me know when a good time is to connect to discuss.\n\nThank you!';
 
     const createCommentInput: CreateCommentInput = {
       projectID,
@@ -235,6 +234,12 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
       setPrice(withoutDollarSign);
     }
   };
+
+  const isFormValid = useMemo(() => (
+    newTask.trim().length > 0 && ((
+      billingType === QuoteBillingType.HOURLY && (hours.trim().length > 0 && perHour.trim().length > 0
+      )) || (billingType === QuoteBillingType.TOTAL && price.trim().replace('$0', '').length > 0))
+  ), [newTask, hours, perHour, price, billingType]);
 
   return (
     <div className={classnames(styles.modalContent)}>
@@ -330,7 +335,12 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
           </div>
           {!selectedQuote && (
             <div className={styles.save}>
-              <ButtonSmall text="Send to Client" isSaving={isSaving} onClick={handleSubmit} />
+              <ButtonSmall
+                text="Send to Client"
+                isSaving={isSaving}
+                onClick={handleSubmit}
+                disabled={!isFormValid}
+              />
             </div>
           )}
         </div>

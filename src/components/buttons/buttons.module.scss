@@ -3,6 +3,15 @@
 .button {
   cursor: pointer;
 
+  &.disabled {
+    background-color: #BDBDBD !important;
+    border-color: #BDBDBD !important;
+    cursor: not-allowed;
+
+    &:hover {
+      color: #EEEEEE;
+    }
+  }
   &.loading {
     position: relative;
     pointer-events: none;
