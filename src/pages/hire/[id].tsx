@@ -186,7 +186,7 @@ const Hire: React.FC = () => {
               ))}
           </div>
         </div>
-        <div className="container is-fullhd">
+        <div className={classnames(styles.lower, 'container', 'is-fullhd')}>
           <div className={classnames('text-small-caps', styles.optionsBar)}>
             <div
               tabIndex={0}
