@@ -55,6 +55,7 @@
   line-height: 24px;
   color: #828282;
   border-bottom: 1px solid #E0E0E0;
+  border-top: 1px solid #E0E0E0;
   padding: 11px 0 0 0px;
   background-color: #eeeeee;
   position: -webkit-sticky;
@@ -93,4 +94,8 @@
 
 .desktopColumns {
   flex-wrap: wrap;
+}
+
+.center {
+  margin: auto;
 }

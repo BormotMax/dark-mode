@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
+import Link from 'next/link';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { client } from './_app';
 import { ListUsersQuery } from '../API';
@@ -87,30 +88,43 @@ const AllUsersPage: React.FC = () => {
   );
 };
 
-const Card = ({ user }) => (
-  <div className={classnames('card', styles.card)}>
-    <div className={classnames(styles.cardContent, 'card-content')}>
-      <div>
-        <p>
-          <b>Name:</b> {user.name}
-        </p>
-        <p>
-          <b>Title:</b> {user.title}
-        </p>
-        <p>
-          <b>Email:</b> {user.email}
-        </p>
-      </div>
-      <div>
-        <p>
-          <b>Phone:</b> {user.phone}
-        </p>
-        <p>
-          <b>Role:</b> {user.role}
-        </p>
+const Card = ({ user }) => {
+  const slug = user?.hireMeInfo?.domainSlug?.slug;
+
+  return (
+    <div className={classnames('card', styles.card)}>
+      <div className={classnames(styles.cardContent, 'card-content')}>
+        <div>
+          <p>
+            <b>Name:</b> {user.name}
+          </p>
+          <p>
+            <b>Title:</b> {user.title}
+          </p>
+          <p>
+            <b>Email:</b> {user.email}
+          </p>
+        </div>
+        <div>
+          <p>
+            <b>Phone:</b> {user.phone}
+          </p>
+          <p>
+            <b>Role:</b> {user.role}
+          </p>
+          <p>
+            <b>Hire&nbsp;Page:</b>&nbsp;{slug && (
+            <Link href="/hire/[id]" as={`/hire/${slug}`}>
+              <a href={`/hire/${slug}`}>
+                continuum.works/{slug}
+              </a>
+            </Link>
+            )}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default WithAuthentication(AllUsersPage, { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.ADMIN] });

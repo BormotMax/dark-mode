@@ -19,6 +19,7 @@ type User
   signedOutAuthToken: String
   role: UserRole!
   stripeAccountID: String
+  hireMeInfo: HireMeInfo @connection(fields: ["id"])
 }
 
 type ProjectClient

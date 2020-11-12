@@ -185,7 +185,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         />
       </div>
       <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
-      <div className={classnames('container', 'columns', styles.hideMobile, styles.desktopColumns)}>
+      <div className={classnames('container', 'columns', styles.hideMobile, styles.desktopColumns, { [styles.center]: !currentUser?.attributes?.sub } )}>
         <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
           <Feed
             comments={comments}

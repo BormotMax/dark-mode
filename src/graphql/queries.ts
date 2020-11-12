@@ -21,6 +21,126 @@ export const listUsers = /* GraphQL */ `
         stripeAccountID
         createdAt
         updatedAt
+        hireMeInfo {
+          freelancerID
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          dribbbleUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            stripeAccountID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
       }
       nextToken
     }
@@ -40,6 +160,178 @@ export const getUser = /* GraphQL */ `
       stripeAccountID
       createdAt
       updatedAt
+      hireMeInfo {
+        freelancerID
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        dribbbleUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        freelancer {
+          id
+          name
+          title
+          company
+          email
+          phone
+          signedOutAuthToken
+          role
+          stripeAccountID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
+        domainSlug {
+          slug
+          freelancerID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -64,6 +356,126 @@ export const getProjectClient = /* GraphQL */ `
         stripeAccountID
         createdAt
         updatedAt
+        hireMeInfo {
+          freelancerID
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          dribbbleUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            stripeAccountID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -94,6 +506,72 @@ export const listProjectClients = /* GraphQL */ `
           stripeAccountID
           createdAt
           updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
         }
       }
       nextToken
@@ -121,6 +599,126 @@ export const getProjectFreelancer = /* GraphQL */ `
         stripeAccountID
         createdAt
         updatedAt
+        hireMeInfo {
+          freelancerID
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          dribbbleUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            stripeAccountID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
       }
       project {
         id
@@ -150,6 +748,19 @@ export const getProjectFreelancer = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
           }
           nextToken
@@ -174,6 +785,19 @@ export const getProjectFreelancer = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
             project {
               id
@@ -276,6 +900,19 @@ export const getProjectFreelancer = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
           }
           nextToken
@@ -325,6 +962,72 @@ export const listProjectFreelancers = /* GraphQL */ `
           stripeAccountID
           createdAt
           updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
         }
         project {
           id
@@ -506,6 +1209,72 @@ export const projectsByFreelancer = /* GraphQL */ `
           stripeAccountID
           createdAt
           updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
         }
         project {
           id
@@ -686,6 +1455,19 @@ export const listProjects = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
           }
           nextToken
@@ -710,6 +1492,19 @@ export const listProjects = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
             project {
               id
@@ -812,6 +1607,19 @@ export const listProjects = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
           }
           nextToken
@@ -851,6 +1659,46 @@ export const getProject = /* GraphQL */ `
             stripeAccountID
             createdAt
             updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
           }
         }
         nextToken
@@ -875,6 +1723,46 @@ export const getProject = /* GraphQL */ `
             stripeAccountID
             createdAt
             updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
           }
           project {
             id
@@ -1023,6 +1911,46 @@ export const getProject = /* GraphQL */ `
             stripeAccountID
             createdAt
             updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
           }
         }
         nextToken
@@ -1153,6 +2081,126 @@ export const getComment = /* GraphQL */ `
         stripeAccountID
         createdAt
         updatedAt
+        hireMeInfo {
+          freelancerID
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          dribbbleUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            stripeAccountID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -1185,6 +2233,72 @@ export const listComments = /* GraphQL */ `
           stripeAccountID
           createdAt
           updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
         }
       }
       nextToken
@@ -1269,6 +2383,72 @@ export const listHireMeInfos = /* GraphQL */ `
           stripeAccountID
           createdAt
           updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
         }
         domainSlug {
           slug
@@ -1307,6 +2487,19 @@ export const listHireMeInfos = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
             domainSlug {
               slug
@@ -1368,6 +2561,126 @@ export const getHireMeInfo = /* GraphQL */ `
         stripeAccountID
         createdAt
         updatedAt
+        hireMeInfo {
+          freelancerID
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          dribbbleUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            phone
+            signedOutAuthToken
+            role
+            stripeAccountID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
       }
       domainSlug {
         slug
@@ -1406,6 +2719,46 @@ export const getHireMeInfo = /* GraphQL */ `
             stripeAccountID
             createdAt
             updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
           }
           domainSlug {
             slug
@@ -1505,6 +2858,72 @@ export const hireInfoByDomainSlug = /* GraphQL */ `
           stripeAccountID
           createdAt
           updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
         }
         domainSlug {
           slug
@@ -1543,6 +2962,19 @@ export const hireInfoByDomainSlug = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
             domainSlug {
               slug
@@ -1622,6 +3054,46 @@ export const listDomainSlugs = /* GraphQL */ `
             stripeAccountID
             createdAt
             updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
           }
           domainSlug {
             slug
@@ -1714,6 +3186,72 @@ export const getDomainSlug = /* GraphQL */ `
           stripeAccountID
           createdAt
           updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              phone
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
         }
         domainSlug {
           slug
@@ -1752,6 +3290,19 @@ export const getDomainSlug = /* GraphQL */ `
               stripeAccountID
               createdAt
               updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
             }
             domainSlug {
               slug
