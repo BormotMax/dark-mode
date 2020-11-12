@@ -49,6 +49,11 @@ const AllUsersPage: React.FC = () => {
     document.body.removeChild(tempInput);
   };
 
+  const freelancers = users
+    .filter(Boolean)
+    .filter((user) => user.role === Role.FREELANCER)
+    .sort((b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+
   return (
     <PageLayoutOne
       headerText={
@@ -62,11 +67,9 @@ const AllUsersPage: React.FC = () => {
         <button type="button" onClick={copyEmails} className="button">
           Copy freelancer emails to clipboard
         </button>
-        <h2>Freelancer Accounts</h2>
+        <h2>Freelancer Accounts ({freelancers.length})</h2>
         <div className={classnames(styles.section)}>
-          {users
-            .filter(Boolean)
-            .filter((user) => user.role === Role.FREELANCER)
+          {freelancers
             .map((user) => (
               <Card key={user.id} user={user} />
             ))}
@@ -75,6 +78,7 @@ const AllUsersPage: React.FC = () => {
         {users
           .filter(Boolean)
           .filter((user) => user.role !== Role.FREELANCER)
+          .sort((b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
           .map((user) => (
             <Card key={user.id} user={user} />
           ))}
@@ -103,9 +107,6 @@ const Card = ({ user }) => (
         </p>
         <p>
           <b>Role:</b> {user.role}
-        </p>
-        <p>
-          <b>Created At:</b> {new Date(user.createdAt).toLocaleString()}
         </p>
       </div>
     </div>

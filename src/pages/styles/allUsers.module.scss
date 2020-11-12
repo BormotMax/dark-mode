@@ -14,11 +14,13 @@
 
   .card {
     margin-bottom: 10px;
+    max-width: 800px;
   }
 
   .cardContent {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     div {
       margin-right: 35px;
