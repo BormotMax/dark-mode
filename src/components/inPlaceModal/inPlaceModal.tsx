@@ -29,6 +29,12 @@ export const InPlaceModal: React.FC<InPlaceModalProps> = ({ children, button, va
     setIsModalOpen(false);
   };
 
+  // if (isModalOpen) {
+  //   document.querySelector('html').classList.add('is-clipped');
+  // } else {
+  //   document.querySelector('html').classList.remove('is-clipped');
+  // }
+
   return (
     <>
       <span role="button" tabIndex={0} onKeyDown={openModal} onClick={openModal}>
