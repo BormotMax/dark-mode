@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import React, { useState, KeyboardEvent } from 'react';
-import { faPlusCircle, faFileAlt } from '@fortawesome/pro-light-svg-icons';
+import { faPlusCircle, faFileAlt, faLink } from '@fortawesome/pro-light-svg-icons';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { v4 as uuid } from 'uuid';
@@ -31,12 +31,6 @@ const applicationToIcon: any = {
   dropbox: <DropboxIcon />,
 };
 
-interface File {
-  id: number;
-  application: string;
-  title: string;
-}
-
 interface FilesTabProps {
   files: ProjectAsset[];
   projectID: string;
@@ -56,12 +50,20 @@ export const FilesTab: React.FC<FilesTabProps> = ({ files, projectID, refetchDat
   const { logger } = useLogger();
 
   const downloadFile = async (e, file) => {
-    try {
-      const asset = await Storage.get(file.asset.key);
-      downloadURI(asset, file.fileName);
-    } catch (error) {
-      setFlash("Something went wrong. We're looking into it");
-      logger.error('FilesTab: error fetching image from S3', { error, input: JSON.stringify(file) });
+    let { url } = file;
+    if (url) {
+      if (!url.match(/^https?:\/\//i)) {
+        url = `http://${url}`;
+      }
+      window.open(url, '_blank');
+    } else {
+      try {
+        const asset = await Storage.get(file.asset.key);
+        downloadURI(asset, file.fileName);
+      } catch (error) {
+        setFlash("Something went wrong. We're looking into it");
+        logger.error('FilesTab: error fetching image from S3', { error, input: JSON.stringify(file) });
+      }
     }
   };
 
@@ -98,15 +100,16 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
 
   function handleAddFile(e: KeyboardEvent) {
     if (e.keyCode === 13 && fileUrl) {
-      fetch(fileUrl)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const file = new File([blob], `downloaded_${blob.type.split('/')[0]}.${blob.type.split('/')[1]}`, { type: blob.type });
-          setFiles((oldFiles) => [...oldFiles, file]);
-        })
-        .catch(() => {
-          setFlash("We can't download that file for you, sorry.");
-        });
+      setFiles((oldFiles) => [...oldFiles, { url: fileUrl }]);
+      // fetch(fileUrl)
+      //   .then((res) => res.blob())
+      //   .then((blob) => {
+      //     const file = new File([blob], `downloaded_${blob.type.split('/')[0]}.${blob.type.split('/')[1]}`, { type: blob.type });
+      //     setFiles((oldFiles) => [...oldFiles, file]);
+      //   })
+      //   .catch(() => {
+      //     setFlash("We can't download that file for you, sorry.");
+      //   });
       setFileUrl('');
     }
   }
@@ -123,22 +126,29 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
   const uploadFiles = async () => {
     setIsSaving(true);
     const uploadPromises = [];
+    let createProjectAssetsInput: CreateProjectAssetsInput;
 
     for (const file of files) {
-      const s3Key = `${uuid()}-${file.name}`;
-      const createProjectAssetsInput: CreateProjectAssetsInput = {
-        projectID,
-        asset: { key: s3Key },
-        fileName: file.name,
-      };
+      if (file.url) {
+        createProjectAssetsInput = {
+          projectID,
+          url: file.url,
+        };
+      } else {
+        const s3Key = `${uuid()}-${file.name}`;
+
+        createProjectAssetsInput = {
+          projectID,
+          asset: { key: s3Key },
+          fileName: file.name,
+        };
+
+        uploadPromises.push(
+          Storage.put(s3Key, file, { contentDisposition: `attachment;filename=${file.name}` }),
+        );
+      }
 
       try {
-        uploadPromises.push(
-          Storage.put(s3Key, file, {
-            contentDisposition: `attachment;filename=${file.name}`,
-          }),
-        );
-
         await client.mutate({
           mutation: gql(createProjectAssets),
           variables: { input: createProjectAssetsInput },
@@ -215,7 +225,7 @@ const FilePill: React.FC<FilePillProps> = ({ file, onClick }) => {
     }
   };
 
-  const text = truncate((file.fileName || file.name), 30);
+  const text = truncate((file.fileName || file.name || file.url), 30);
 
   return (
     <div
@@ -226,7 +236,9 @@ const FilePill: React.FC<FilePillProps> = ({ file, onClick }) => {
       className={classnames(modalStyles.modalPill)}
     >
       <div className={classnames(modalStyles.icon)}>
-        <FontAwesomeIcon color="#828282" icon={faFileAlt} />
+        {file.url
+          ? <FontAwesomeIcon color="#828282" icon={faLink} />
+          : <FontAwesomeIcon color="#828282" icon={faFileAlt} />}
       </div>
       <div>{text}</div>
     </div>

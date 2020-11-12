@@ -2,6 +2,11 @@ export const isClickOrEnter = (e): boolean => e.keyCode === undefined || e.keyCo
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const truncate = (str, length = 100, ending = '...') => {
+  if (!str) {
+    // eslint-disable-next-line no-param-reassign
+    str = '';
+  }
+
   if (str.length > length) {
     return str.substring(0, length - ending.length) + ending;
   }

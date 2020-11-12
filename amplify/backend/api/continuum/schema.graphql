@@ -92,10 +92,11 @@ type ProjectAssets
     ]
   ) {
   id: ID!
-  asset: S3Object!
+  asset: S3Object
+  url: String
   createdAt: AWSDateTime!
   projectID: ID!
-  fileName: String!
+  fileName: String
 }
 
 type Quote

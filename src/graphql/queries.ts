@@ -220,6 +220,7 @@ export const getProjectFreelancer = /* GraphQL */ `
               key
               tag
             }
+            url
             createdAt
             projectID
             fileName
@@ -400,6 +401,7 @@ export const listProjectFreelancers = /* GraphQL */ `
                 key
                 tag
               }
+              url
               createdAt
               projectID
               fileName
@@ -580,6 +582,7 @@ export const projectsByFreelancer = /* GraphQL */ `
                 key
                 tag
               }
+              url
               createdAt
               projectID
               fileName
@@ -753,6 +756,7 @@ export const listProjects = /* GraphQL */ `
               key
               tag
             }
+            url
             createdAt
             projectID
             fileName
@@ -905,6 +909,7 @@ export const getProject = /* GraphQL */ `
             assets {
               items {
                 id
+                url
                 createdAt
                 projectID
                 fileName
@@ -962,6 +967,7 @@ export const getProject = /* GraphQL */ `
             key
             tag
           }
+          url
           createdAt
           projectID
           fileName
@@ -1032,6 +1038,7 @@ export const getProjectAssets = /* GraphQL */ `
         key
         tag
       }
+      url
       createdAt
       projectID
       fileName
@@ -1052,6 +1059,7 @@ export const listProjectAssetss = /* GraphQL */ `
           key
           tag
         }
+        url
         createdAt
         projectID
         fileName

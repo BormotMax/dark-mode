@@ -173,6 +173,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               key
               tag
             }
+            url
             createdAt
             projectID
             fileName
@@ -338,6 +339,7 @@ export const updateProject = /* GraphQL */ `
             assets {
               items {
                 id
+                url
                 createdAt
                 projectID
                 fileName
@@ -395,6 +397,7 @@ export const updateProject = /* GraphQL */ `
             key
             tag
           }
+          url
           createdAt
           projectID
           fileName
@@ -548,6 +551,7 @@ export const deleteProject = /* GraphQL */ `
             assets {
               items {
                 id
+                url
                 createdAt
                 projectID
                 fileName
@@ -605,6 +609,7 @@ export const deleteProject = /* GraphQL */ `
             key
             tag
           }
+          url
           createdAt
           projectID
           fileName
@@ -678,6 +683,7 @@ export const updateProjectAssets = /* GraphQL */ `
         key
         tag
       }
+      url
       createdAt
       projectID
       fileName
@@ -696,6 +702,7 @@ export const deleteProjectAssets = /* GraphQL */ `
         key
         tag
       }
+      url
       createdAt
       projectID
       fileName
@@ -937,6 +944,7 @@ export const createProjectFreelancer = /* GraphQL */ `
               key
               tag
             }
+            url
             createdAt
             projectID
             fileName
@@ -1134,6 +1142,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
               key
               tag
             }
+            url
             createdAt
             projectID
             fileName
@@ -1299,6 +1308,7 @@ export const createProject = /* GraphQL */ `
             assets {
               items {
                 id
+                url
                 createdAt
                 projectID
                 fileName
@@ -1356,6 +1366,7 @@ export const createProject = /* GraphQL */ `
             key
             tag
           }
+          url
           createdAt
           projectID
           fileName
@@ -1429,6 +1440,7 @@ export const createProjectAssets = /* GraphQL */ `
         key
         tag
       }
+      url
       createdAt
       projectID
       fileName
