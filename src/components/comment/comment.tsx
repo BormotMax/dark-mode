@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/pro-regular-svg-icons';
+import Linkify from 'react-linkify';
 import { Avatar } from '../avatar/avatar';
 import { createComment } from '../../graphql/mutations';
 import { Comment as CommentType } from '../../types/custom';
@@ -70,7 +71,7 @@ const getRelativeTime = (createdAt: Date) => {
   return createdAt.toLocaleDateString();
 };
 
-export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId}) => (
+export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId }) => (
   <Comment
     name={comment.creator.name}
     createdAt={comment.createdAt}
@@ -78,7 +79,9 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerI
     isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}
   >
     <>
-      <div>{comment.content}</div>
+      <Linkify>
+        <div>{comment.content}</div>
+      </Linkify>
       {comment.includedResourceID && comment.includedResourceType && <div>{getComponent(comment)}</div>}
     </>
   </Comment>

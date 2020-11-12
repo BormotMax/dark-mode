@@ -42,7 +42,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
     getProjects();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return null;
 
   return (
     <PageLayoutOne

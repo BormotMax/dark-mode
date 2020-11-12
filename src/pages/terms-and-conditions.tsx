@@ -25,7 +25,7 @@ const TermsAndConditions: React.FC = () => {
       <div className={classnames('container', 'text-2')}>
         <div className={styles.inner}>
           <h1 className="header-2-lg">Terms and Conditions</h1>
-          <p>Last updated: June 26, 2020</p>
+          <p>Last updated: Nov 2, 2020</p>
           <p>Please read these terms and conditions carefully before using Our Service.</p>
           <h1 className="header-2-lg">Interpretation and Definitions</h1>
           <h2 className="header-2-md">Interpretation</h2>
