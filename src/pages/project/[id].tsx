@@ -161,7 +161,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     <PageLayoutOne
       headerText={<>{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>}
       headerContainer={styles.headerContainer}
-      layoutContainer={styles.layoutContainer}
       page={Page.PROJECT}
     >
       <div className={classnames('column', styles.hideTablet, styles.leftColumn, styles.commentWrapper)}>

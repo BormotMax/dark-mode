@@ -11,7 +11,6 @@ import { MobileHeader } from '../mobileHeader';
 interface PageLayoutOneProps {
   headerText?: string | JSX.Element;
   headerContainer?: string | Record<string, string>;
-  layoutContainer?: string | Record<string, string>;
   headerButton?: JSX.Element;
   page?: Page;
 }
@@ -33,7 +32,6 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
   page,
   headerButton,
   headerContainer = '',
-  layoutContainer = '',
 }) => {
   const header = PageInfo[page] ? (
     <>
@@ -60,7 +58,6 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
         page={page}
         headerButton={headerButton}
         headerContainer={headerContainer}
-        layoutContainer={layoutContainer}
       />
       <MobileLayout
         content={children}
@@ -109,7 +106,7 @@ const MobileLayout = ({ content, headerText, page, headerButton }) => {
   );
 };
 
-const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer, layoutContainer }) => (
+const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer }) => (
   <div className={classnames('columns', 'is-hidden-mobile', styles.navColumn)}>
     <Protected roles={[Role.FREELANCER]}>
       <div className={classnames('column', 'is-narrow', styles.nav, styles.desktopNav, 'is-hidden-mobile')}>
@@ -120,7 +117,7 @@ const DesktopLayout = ({ content, headerText, page, headerButton, headerContaine
       <Header headerText={headerText} page={page} headerContainer={headerContainer}>
         {headerButton}
       </Header>
-      <div className={classnames(styles.pageContent, layoutContainer)}>
+      <div className={classnames(styles.pageContent)}>
         {content}
       </div>
     </div>
