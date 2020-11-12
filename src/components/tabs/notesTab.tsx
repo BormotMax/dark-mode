@@ -14,25 +14,27 @@ import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import styles from './notesTab.module.scss';
 import { Protected } from '../protected/protected';
 import { ButtonSmall } from '../buttons/buttons';
+import { truncate } from '../../helpers/util';
 
 interface NotesTabProps {
   refetchData: Function;
   projectUser: ProjectFreelancer;
 }
 
-export const NotesTab: React.FC<NotesTabProps> = ({ refetchData, projectUser }) => {
-  return (
-    <>
-      <div className={classnames(modalStyles.addNew)}>
-        <Protected roles={[Role.FREELANCER]}>
-          <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
-            <ModalContent refetchData={refetchData} selectedNote={null} projectUser={projectUser} />
-          </InPlaceModal>
-        </Protected>
-      </div>
-      {projectUser.notes.items
-        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-        .map((note) => (
+export const NotesTab: React.FC<NotesTabProps> = ({ refetchData, projectUser }) => (
+  <>
+    <div className={classnames(modalStyles.addNew)}>
+      <Protected roles={[Role.FREELANCER]}>
+        <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
+          <ModalContent refetchData={refetchData} selectedNote={null} projectUser={projectUser} />
+        </InPlaceModal>
+      </Protected>
+    </div>
+    {projectUser.notes.items
+      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      .map((note) => {
+        const text = truncate((note.title || note.content.split('\n')[0] || 'Untitled note'), 35);
+        return (
           <InPlaceModal
             key={note.id}
             button={
@@ -40,16 +42,16 @@ export const NotesTab: React.FC<NotesTabProps> = ({ refetchData, projectUser }) 
                 <div className={classnames(modalStyles.icon)}>
                   <FontAwesomeIcon color="#828282" icon={faClipboard} />
                 </div>
-                <div>{note.title || note.content.split('\n')[0] || 'Untitled note'}</div>
+                <div>{text}</div>
               </div>
-            }
+          }
           >
             <ModalContent refetchData={refetchData} projectUser={projectUser} selectedNote={note} />
           </InPlaceModal>
-        ))}
-    </>
-  );
-};
+        );
+      })}
+  </>
+);
 
 interface ModalContentProps {
   close?: Function;

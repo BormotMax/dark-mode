@@ -20,6 +20,7 @@ import { createProjectAssets } from '../../graphql/mutations';
 import { ProjectAsset } from '../../types/custom';
 import { Protected } from '../protected/protected';
 import { Role } from '../withAuthentication';
+import { truncate } from '../../helpers/util';
 
 const applicationToIcon: any = {
   figma: <FigmaIcon />,
@@ -214,6 +215,8 @@ const FilePill: React.FC<FilePillProps> = ({ file, onClick }) => {
     }
   };
 
+  const text = truncate((file.fileName || file.name), 30);
+
   return (
     <div
       role="button"
@@ -225,7 +228,7 @@ const FilePill: React.FC<FilePillProps> = ({ file, onClick }) => {
       <div className={classnames(modalStyles.icon)}>
         <FontAwesomeIcon color="#828282" icon={faFileAlt} />
       </div>
-      <div>{file.fileName || file.name}</div>
+      <div>{text}</div>
     </div>
   );
 };
