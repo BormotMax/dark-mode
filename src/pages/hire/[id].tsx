@@ -193,7 +193,7 @@ const Hire: React.FC = () => {
               role="button"
               onKeyDown={(e) => handleSetSelectedTab(e, Tab.PORTFOLIO)}
               onClick={(e) => handleSetSelectedTab(e, Tab.PORTFOLIO)}
-              className={classnames({ [styles.selected]: selectedTab === Tab.PORTFOLIO })}
+              className={classnames(styles.reset, { [styles.selected]: selectedTab === Tab.PORTFOLIO })}
             >
               Portfolio
             </div>
@@ -202,7 +202,7 @@ const Hire: React.FC = () => {
               role="button"
               onKeyDown={(e) => handleSetSelectedTab(e, Tab.ABOUT)}
               onClick={(e) => handleSetSelectedTab(e, Tab.ABOUT)}
-              className={classnames({ [styles.selected]: selectedTab === Tab.ABOUT }, 'mlxl')}
+              className={classnames(styles.reset, { [styles.selected]: selectedTab === Tab.ABOUT }, 'mlxl')}
             >
               About
             </div>

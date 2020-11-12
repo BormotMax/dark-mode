@@ -7,6 +7,15 @@
   line-height: 42px;
   color: #8093a6;
 
+  .reset {
+    &:focus {
+      outline: none !important;
+      box-shadow: none;
+    }
+  }
+
+
+
   :global {
     .input {
       width: 100%;
