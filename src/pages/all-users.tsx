@@ -9,7 +9,6 @@ import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Page } from '../components/nav/nav';
 import { listUsers } from '../graphql/queries';
-import { User } from '../types/custom';
 import styles from './styles/allUsers.module.scss';
 
 const AllUsersPage: React.FC = () => {
@@ -21,7 +20,7 @@ const AllUsersPage: React.FC = () => {
     try {
       const listUsersResult: { data: ListUsersQuery } = await client.query({ query: gql(listUsers) });
 
-      const p: User[] = listUsersResult.data?.listUsers?.items || [];
+      const p = listUsersResult.data?.listUsers?.items || [];
       setUsers(p);
     } catch (error) {
       setFlash("There was an error retrieving the users. We're looking into it.");
