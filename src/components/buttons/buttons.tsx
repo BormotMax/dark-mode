@@ -30,7 +30,8 @@ export const ButtonSmall: React.FC<ButtonProps> = ({
         [styles.loading]: isSaving && !disabled,
         [styles.disabled]: disabled && !isSaving,
         [styles.inverted]: inverted,
-      })}
+      },
+    )}
   >
     {text}
   </button>

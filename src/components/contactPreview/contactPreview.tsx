@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
@@ -104,6 +104,10 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   const [title, setTitle] = useState(selectedUser?.user.title || '');
   const [email, setEmail] = useState(selectedUser?.user?.email || '');
   const [userType, setUserType] = useState(selectedUser?.user.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
+
+  const isFormValid = useMemo(() => (
+    name.trim().length > 0 && title.trim().length > 0 && email.trim().length > 0
+  ), [name, title, email]);
 
   function validate() {
     const temp: ValidationProps = {};
@@ -323,21 +327,27 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           </span>
           <div>Client&apos;s Team</div>
         </label>
-        {/* <label className={classnames(modalStyles.radio, 'radio')}>
-          <input type="radio" name="userType" value={UserRole.FREELANCER} disabled />
+        <label className={classnames(modalStyles.radio, 'radio')}>
+          <input
+            onChange={(e) => setUserType(UserRole[e.target.value])}
+            type="radio"
+            value={UserRole.FREELANCER}
+            checked={userType === UserRole.FREELANCER}
+            name="userType"
+          />
           <span className={classnames(modalStyles.checkmarks)}>
             <span className={classnames(modalStyles.unchecked)}>
-              <Unchecked />
+              <FontAwesomeIcon color="#595959" icon={faCircle} />
             </span>
             <span className={classnames(modalStyles.checked)}>
-              <Checked />
+              <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
             </span>
           </span>
           My Team
-        </label> */}
+        </label>
       </div>
       <div className={modalStyles.save}>
-        <ButtonSmall text="Save" isSaving={isSaving} />
+        <ButtonSmall text="Save" isSaving={isSaving} disabled={!isFormValid} />
       </div>
     </form>
   );
