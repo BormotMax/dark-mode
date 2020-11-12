@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/pro-regular-svg-icons';
-
 import { Avatar } from '../avatar/avatar';
 import { createComment } from '../../graphql/mutations';
 import { Comment as CommentType } from '../../types/custom';
@@ -17,7 +16,6 @@ import styles from './comment.module.scss';
 interface CommentWrapperProps {
   comment: CommentType;
   viewerId?: string;
-  deposit?: number;
 }
 
 interface CommentProps {
@@ -37,10 +35,10 @@ interface NewCommentProps {
   creatorID: string;
 }
 
-const getComponent = (comment: CommentType, deposit?: number) => {
+const getComponent = (comment: CommentType) => {
   switch (comment.includedResourceType) {
     case CommentResourceType.QUOTE:
-      return <QuoteForComment id={comment.includedResourceID} deposit={deposit} />;
+      return <QuoteForComment id={comment.includedResourceID} />;
     default:
       return null;
   }
@@ -72,7 +70,7 @@ const getRelativeTime = (createdAt: Date) => {
   return createdAt.toLocaleDateString();
 };
 
-export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId, deposit }) => (
+export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId}) => (
   <Comment
     name={comment.creator.name}
     createdAt={comment.createdAt}
@@ -81,7 +79,7 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerI
   >
     <>
       <div>{comment.content}</div>
-      {comment.includedResourceID && comment.includedResourceType && <div>{getComponent(comment, deposit)}</div>}
+      {comment.includedResourceID && comment.includedResourceType && <div>{getComponent(comment)}</div>}
     </>
   </Comment>
 );

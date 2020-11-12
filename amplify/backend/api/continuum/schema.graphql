@@ -36,7 +36,6 @@ type ProjectClient
   user: User @connection(fields: ["clientID"])
   projectID: ID!
   isInitialContact: Boolean
-  deposit: Int
 }
 
 type ProjectFreelancer
@@ -117,6 +116,7 @@ type Quote
   totalPrice: Int
   billingType: QuoteBillingType!
   status: QuoteStatus
+  statusLastChangedAt: AWSDateTime
 }
 
 type Comment

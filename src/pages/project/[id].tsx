@@ -235,7 +235,6 @@ const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, 
         key={comment.id}
         comment={comment}
         viewerId={viewer.current.id as string}
-        deposit={viewer.current?.deposit}
       />
     ))}
     <div ref={newCommentRef}>

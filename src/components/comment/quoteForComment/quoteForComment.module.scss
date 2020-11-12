@@ -19,7 +19,7 @@
   }
 
   .body {
-    padding: 32px 24px;
+    padding: 32px 32px 43px;
   }
 
   .task {
@@ -41,7 +41,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    text-transform: uppercase;
+    margin-bottom: 15px;
   }
 
   .declineStyles {
@@ -52,7 +52,21 @@
     padding: 0;
     line-height: 24px;
     color: #3273dc;
-    margin: 15px 0;
-    text-transform: capitalize;
+    margin-top: 15px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .green {
+    background: #6FCF97 !important;
+    cursor: initial;
+  }
+
+  .red {
+    background: rgba(230, 57, 70, 0.8) !important;
+    cursor: initial;
   }
 }

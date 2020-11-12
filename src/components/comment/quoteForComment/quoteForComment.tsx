@@ -3,7 +3,9 @@ import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
-import { Protected } from '../../protected/protected';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import { ProtectedElse } from '../../protected/protected';
 import { useFlash, useLogger } from '../../../hooks';
 import { getQuote } from '../../../graphql/queries';
 import { updateQuote } from '../../../graphql/mutations';
@@ -13,12 +15,13 @@ import styles from './quoteForComment.module.scss';
 import { Quote } from '../../../types/custom';
 import { Role } from '../../withAuthentication';
 
+dayjs.extend(localizedFormat);
+
 interface QuoteForCommentProps {
   id: string;
-  deposit: number;
 }
 
-export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id, deposit }) => {
+export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
   const [quote, setQuote] = useState<Quote>(null);
   const { setFlash } = useFlash();
   const [isUpdating, setIsUpdating] = useState(false);
@@ -44,7 +47,6 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id, deposit })
   }, []);
 
   const updateQuery = async (status: QuoteStatus) => {
-    // TODO according to design, we need to validate and recalculate client's deposit amount
     const updateQuoteInput: UpdateQuoteInput = {
       id: quote.id,
       projectID: quote.projectID,
@@ -53,11 +55,12 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id, deposit })
       chargePerHour: quote.chargePerHour,
       totalPrice: quote.totalPrice,
       status,
+      statusLastChangedAt: new Date().toISOString(),
     };
 
     try {
       setIsUpdating(true);
-      const response: { data: UpdateQuoteMutation } = await client.mutate({
+      const response: { data: UpdateQuoteMutation } = await unauthClient.mutate({
         mutation: gql(updateQuote),
         variables: { input: updateQuoteInput },
       });
@@ -96,28 +99,40 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id, deposit })
           ))}
       </div>
 
-      {quote.status === QuoteStatus.IDLE && (
-        <div className={styles.buttonContainer}>
-          <Protected roles={[Role.CLIENT]}>
+      <div className={styles.buttonContainer}>
+        {(quote.status === QuoteStatus.IDLE || !quote.status) && (
+          <>
+            <ProtectedElse roles={[Role.FREELANCER]}>
+              <button
+                disabled={isUpdating}
+                type="button"
+                onClick={onAcceptClick}
+                className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': isUpdating })}
+              >
+                ACCEPT QUOTE
+              </button>
+            </ProtectedElse>
             <button
+              type="button"
+              onClick={onDeclineClick}
               disabled={isUpdating}
-              type="submit"
-              onClick={onAcceptClick}
-              className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': isUpdating })}
+              className={classnames(styles.declineStyles, { 'is-loading': isUpdating })}
             >
-              Accept & Pay {Number.isFinite(deposit) ? `\\$${deposit}` : ''} Deposit
+              Decline
             </button>
-          </Protected>
-          <button
-            type="button"
-            onClick={onDeclineClick}
-            disabled={isUpdating}
-            className={classnames(styles.declineStyles, { 'is-loading': isUpdating })}
-          >
-            Decline
-          </button>
-        </div>
-      )}
+          </>
+        )}
+        {quote.status === QuoteStatus.ACCEPTED && (
+          <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.green)}>
+            ACCEPTED{quote.statusLastChangedAt && <span className="is-hidden-mobile">&nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}</span>}
+          </div>
+        )}
+        {quote.status === QuoteStatus.DECLINE && (
+          <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.red)}>
+            DECLINED{quote.statusLastChangedAt && <span className="is-hidden-mobile">&nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}</span>}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

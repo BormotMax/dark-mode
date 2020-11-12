@@ -79,7 +79,6 @@ export type ModelProjectClientConditionInput = {
   clientID?: ModelIDInput | null,
   projectID?: ModelIDInput | null,
   isInitialContact?: ModelBooleanInput | null,
-  deposit?: ModelIntInput | null,
   and?: Array< ModelProjectClientConditionInput | null > | null,
   or?: Array< ModelProjectClientConditionInput | null > | null,
   not?: ModelProjectClientConditionInput | null,
@@ -104,18 +103,6 @@ export type ModelIDInput = {
 export type ModelBooleanInput = {
   ne?: boolean | null,
   eq?: boolean | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
 };
@@ -243,7 +230,6 @@ export type CreateProjectClientInput = {
   clientID: string,
   projectID: string,
   isInitialContact?: boolean | null,
-  deposit?: number | null,
 };
 
 export type UpdateProjectClientInput = {
@@ -251,7 +237,6 @@ export type UpdateProjectClientInput = {
   clientID?: string | null,
   projectID?: string | null,
   isInitialContact?: boolean | null,
-  deposit?: number | null,
 };
 
 export type CreateProjectFreelancerInput = {
@@ -294,7 +279,8 @@ export type CreateQuoteInput = {
   chargePerHour?: number | null,
   totalPrice?: number | null,
   billingType: QuoteBillingType,
-  status: QuoteStatus,
+  status?: QuoteStatus | null,
+  statusLastChangedAt?: string | null,
 };
 
 export type ModelQuoteConditionInput = {
@@ -304,9 +290,22 @@ export type ModelQuoteConditionInput = {
   totalPrice?: ModelIntInput | null,
   billingType?: ModelQuoteBillingTypeInput | null,
   status?: ModelQuoteStatusInput | null,
+  statusLastChangedAt?: ModelStringInput | null,
   and?: Array< ModelQuoteConditionInput | null > | null,
   or?: Array< ModelQuoteConditionInput | null > | null,
   not?: ModelQuoteConditionInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type ModelQuoteBillingTypeInput = {
@@ -327,6 +326,7 @@ export type UpdateQuoteInput = {
   totalPrice?: number | null,
   billingType?: QuoteBillingType | null,
   status?: QuoteStatus | null,
+  statusLastChangedAt?: string | null,
 };
 
 export type DeleteQuoteInput = {
@@ -502,7 +502,6 @@ export type ModelProjectClientFilterInput = {
   clientID?: ModelIDInput | null,
   projectID?: ModelIDInput | null,
   isInitialContact?: ModelBooleanInput | null,
-  deposit?: ModelIntInput | null,
   and?: Array< ModelProjectClientFilterInput | null > | null,
   or?: Array< ModelProjectClientFilterInput | null > | null,
   not?: ModelProjectClientFilterInput | null,
@@ -565,6 +564,7 @@ export type ModelQuoteFilterInput = {
   totalPrice?: ModelIntInput | null,
   billingType?: ModelQuoteBillingTypeInput | null,
   status?: ModelQuoteStatusInput | null,
+  statusLastChangedAt?: ModelStringInput | null,
   and?: Array< ModelQuoteFilterInput | null > | null,
   or?: Array< ModelQuoteFilterInput | null > | null,
   not?: ModelQuoteFilterInput | null,
@@ -660,7 +660,6 @@ export type DeleteProjectClientMutation = {
     clientID: string,
     projectID: string,
     isInitialContact: boolean | null,
-    deposit: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -725,7 +724,6 @@ export type DeleteProjectFreelancerMutation = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -842,7 +840,8 @@ export type DeleteProjectFreelancerMutation = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -930,7 +929,6 @@ export type UpdateProjectMutation = {
         clientID: string,
         projectID: string,
         isInitialContact: boolean | null,
-        deposit: number | null,
         createdAt: string,
         updatedAt: string,
         user:  {
@@ -991,7 +989,6 @@ export type UpdateProjectMutation = {
               clientID: string,
               projectID: string,
               isInitialContact: boolean | null,
-              deposit: number | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -1032,7 +1029,8 @@ export type UpdateProjectMutation = {
               chargePerHour: number | null,
               totalPrice: number | null,
               billingType: QuoteBillingType,
-              status: QuoteStatus,
+              status: QuoteStatus | null,
+              statusLastChangedAt: string | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -1097,7 +1095,8 @@ export type UpdateProjectMutation = {
         chargePerHour: number | null,
         totalPrice: number | null,
         billingType: QuoteBillingType,
-        status: QuoteStatus,
+        status: QuoteStatus | null,
+        statusLastChangedAt: string | null,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -1171,7 +1170,6 @@ export type DeleteProjectMutation = {
         clientID: string,
         projectID: string,
         isInitialContact: boolean | null,
-        deposit: number | null,
         createdAt: string,
         updatedAt: string,
         user:  {
@@ -1232,7 +1230,6 @@ export type DeleteProjectMutation = {
               clientID: string,
               projectID: string,
               isInitialContact: boolean | null,
-              deposit: number | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -1273,7 +1270,8 @@ export type DeleteProjectMutation = {
               chargePerHour: number | null,
               totalPrice: number | null,
               billingType: QuoteBillingType,
-              status: QuoteStatus,
+              status: QuoteStatus | null,
+              statusLastChangedAt: string | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -1338,7 +1336,8 @@ export type DeleteProjectMutation = {
         chargePerHour: number | null,
         totalPrice: number | null,
         billingType: QuoteBillingType,
-        status: QuoteStatus,
+        status: QuoteStatus | null,
+        statusLastChangedAt: string | null,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -1504,7 +1503,6 @@ export type CreateProjectClientMutation = {
     clientID: string,
     projectID: string,
     isInitialContact: boolean | null,
-    deposit: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -1536,7 +1534,6 @@ export type UpdateProjectClientMutation = {
     clientID: string,
     projectID: string,
     isInitialContact: boolean | null,
-    deposit: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -1601,7 +1598,6 @@ export type CreateProjectFreelancerMutation = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -1718,7 +1714,8 @@ export type CreateProjectFreelancerMutation = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -1828,7 +1825,6 @@ export type UpdateProjectFreelancerMutation = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -1945,7 +1941,8 @@ export type UpdateProjectFreelancerMutation = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -2033,7 +2030,6 @@ export type CreateProjectMutation = {
         clientID: string,
         projectID: string,
         isInitialContact: boolean | null,
-        deposit: number | null,
         createdAt: string,
         updatedAt: string,
         user:  {
@@ -2094,7 +2090,6 @@ export type CreateProjectMutation = {
               clientID: string,
               projectID: string,
               isInitialContact: boolean | null,
-              deposit: number | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -2135,7 +2130,8 @@ export type CreateProjectMutation = {
               chargePerHour: number | null,
               totalPrice: number | null,
               billingType: QuoteBillingType,
-              status: QuoteStatus,
+              status: QuoteStatus | null,
+              statusLastChangedAt: string | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -2200,7 +2196,8 @@ export type CreateProjectMutation = {
         chargePerHour: number | null,
         totalPrice: number | null,
         billingType: QuoteBillingType,
-        status: QuoteStatus,
+        status: QuoteStatus | null,
+        statusLastChangedAt: string | null,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -2286,7 +2283,8 @@ export type CreateQuoteMutation = {
     chargePerHour: number | null,
     totalPrice: number | null,
     billingType: QuoteBillingType,
-    status: QuoteStatus,
+    status: QuoteStatus | null,
+    statusLastChangedAt: string | null,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -2319,7 +2317,8 @@ export type UpdateQuoteMutation = {
     chargePerHour: number | null,
     totalPrice: number | null,
     billingType: QuoteBillingType,
-    status: QuoteStatus,
+    status: QuoteStatus | null,
+    statusLastChangedAt: string | null,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -2352,7 +2351,8 @@ export type DeleteQuoteMutation = {
     chargePerHour: number | null,
     totalPrice: number | null,
     billingType: QuoteBillingType,
-    status: QuoteStatus,
+    status: QuoteStatus | null,
+    statusLastChangedAt: string | null,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -3400,7 +3400,6 @@ export type GetProjectClientQuery = {
     clientID: string,
     projectID: string,
     isInitialContact: boolean | null,
-    deposit: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -3435,7 +3434,6 @@ export type ListProjectClientsQuery = {
       clientID: string,
       projectID: string,
       isInitialContact: boolean | null,
-      deposit: number | null,
       createdAt: string,
       updatedAt: string,
       user:  {
@@ -3501,7 +3499,6 @@ export type GetProjectFreelancerQuery = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -3618,7 +3615,8 @@ export type GetProjectFreelancerQuery = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -3731,7 +3729,6 @@ export type ListProjectFreelancersQuery = {
             clientID: string,
             projectID: string,
             isInitialContact: boolean | null,
-            deposit: number | null,
             createdAt: string,
             updatedAt: string,
             user:  {
@@ -3819,7 +3816,8 @@ export type ListProjectFreelancersQuery = {
             chargePerHour: number | null,
             totalPrice: number | null,
             billingType: QuoteBillingType,
-            status: QuoteStatus,
+            status: QuoteStatus | null,
+            statusLastChangedAt: string | null,
             createdAt: string,
             updatedAt: string,
             tasks:  {
@@ -3928,7 +3926,6 @@ export type ProjectsByFreelancerQuery = {
             clientID: string,
             projectID: string,
             isInitialContact: boolean | null,
-            deposit: number | null,
             createdAt: string,
             updatedAt: string,
             user:  {
@@ -4016,7 +4013,8 @@ export type ProjectsByFreelancerQuery = {
             chargePerHour: number | null,
             totalPrice: number | null,
             billingType: QuoteBillingType,
-            status: QuoteStatus,
+            status: QuoteStatus | null,
+            statusLastChangedAt: string | null,
             createdAt: string,
             updatedAt: string,
             tasks:  {
@@ -4100,7 +4098,6 @@ export type ListProjectsQuery = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -4217,7 +4214,8 @@ export type ListProjectsQuery = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -4292,7 +4290,6 @@ export type GetProjectQuery = {
         clientID: string,
         projectID: string,
         isInitialContact: boolean | null,
-        deposit: number | null,
         createdAt: string,
         updatedAt: string,
         user:  {
@@ -4353,7 +4350,6 @@ export type GetProjectQuery = {
               clientID: string,
               projectID: string,
               isInitialContact: boolean | null,
-              deposit: number | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -4394,7 +4390,8 @@ export type GetProjectQuery = {
               chargePerHour: number | null,
               totalPrice: number | null,
               billingType: QuoteBillingType,
-              status: QuoteStatus,
+              status: QuoteStatus | null,
+              statusLastChangedAt: string | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -4459,7 +4456,8 @@ export type GetProjectQuery = {
         chargePerHour: number | null,
         totalPrice: number | null,
         billingType: QuoteBillingType,
-        status: QuoteStatus,
+        status: QuoteStatus | null,
+        statusLastChangedAt: string | null,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -4569,7 +4567,8 @@ export type GetQuoteQuery = {
     chargePerHour: number | null,
     totalPrice: number | null,
     billingType: QuoteBillingType,
-    status: QuoteStatus,
+    status: QuoteStatus | null,
+    statusLastChangedAt: string | null,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -4605,7 +4604,8 @@ export type ListQuotesQuery = {
       chargePerHour: number | null,
       totalPrice: number | null,
       billingType: QuoteBillingType,
-      status: QuoteStatus,
+      status: QuoteStatus | null,
+      statusLastChangedAt: string | null,
       createdAt: string,
       updatedAt: string,
       tasks:  {
@@ -5440,7 +5440,6 @@ export type OnCreateProjectClientSubscription = {
     clientID: string,
     projectID: string,
     isInitialContact: boolean | null,
-    deposit: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -5467,7 +5466,6 @@ export type OnUpdateProjectClientSubscription = {
     clientID: string,
     projectID: string,
     isInitialContact: boolean | null,
-    deposit: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -5494,7 +5492,6 @@ export type OnDeleteProjectClientSubscription = {
     clientID: string,
     projectID: string,
     isInitialContact: boolean | null,
-    deposit: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -5554,7 +5551,6 @@ export type OnCreateProjectFreelancerSubscription = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -5671,7 +5667,8 @@ export type OnCreateProjectFreelancerSubscription = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -5776,7 +5773,6 @@ export type OnUpdateProjectFreelancerSubscription = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -5893,7 +5889,8 @@ export type OnUpdateProjectFreelancerSubscription = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -5998,7 +5995,6 @@ export type OnDeleteProjectFreelancerSubscription = {
           clientID: string,
           projectID: string,
           isInitialContact: boolean | null,
-          deposit: number | null,
           createdAt: string,
           updatedAt: string,
           user:  {
@@ -6115,7 +6111,8 @@ export type OnDeleteProjectFreelancerSubscription = {
           chargePerHour: number | null,
           totalPrice: number | null,
           billingType: QuoteBillingType,
-          status: QuoteStatus,
+          status: QuoteStatus | null,
+          statusLastChangedAt: string | null,
           createdAt: string,
           updatedAt: string,
           tasks:  {
@@ -6198,7 +6195,6 @@ export type OnCreateProjectSubscription = {
         clientID: string,
         projectID: string,
         isInitialContact: boolean | null,
-        deposit: number | null,
         createdAt: string,
         updatedAt: string,
         user:  {
@@ -6259,7 +6255,6 @@ export type OnCreateProjectSubscription = {
               clientID: string,
               projectID: string,
               isInitialContact: boolean | null,
-              deposit: number | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -6300,7 +6295,8 @@ export type OnCreateProjectSubscription = {
               chargePerHour: number | null,
               totalPrice: number | null,
               billingType: QuoteBillingType,
-              status: QuoteStatus,
+              status: QuoteStatus | null,
+              statusLastChangedAt: string | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -6365,7 +6361,8 @@ export type OnCreateProjectSubscription = {
         chargePerHour: number | null,
         totalPrice: number | null,
         billingType: QuoteBillingType,
-        status: QuoteStatus,
+        status: QuoteStatus | null,
+        statusLastChangedAt: string | null,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -6434,7 +6431,6 @@ export type OnUpdateProjectSubscription = {
         clientID: string,
         projectID: string,
         isInitialContact: boolean | null,
-        deposit: number | null,
         createdAt: string,
         updatedAt: string,
         user:  {
@@ -6495,7 +6491,6 @@ export type OnUpdateProjectSubscription = {
               clientID: string,
               projectID: string,
               isInitialContact: boolean | null,
-              deposit: number | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -6536,7 +6531,8 @@ export type OnUpdateProjectSubscription = {
               chargePerHour: number | null,
               totalPrice: number | null,
               billingType: QuoteBillingType,
-              status: QuoteStatus,
+              status: QuoteStatus | null,
+              statusLastChangedAt: string | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -6601,7 +6597,8 @@ export type OnUpdateProjectSubscription = {
         chargePerHour: number | null,
         totalPrice: number | null,
         billingType: QuoteBillingType,
-        status: QuoteStatus,
+        status: QuoteStatus | null,
+        statusLastChangedAt: string | null,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -6670,7 +6667,6 @@ export type OnDeleteProjectSubscription = {
         clientID: string,
         projectID: string,
         isInitialContact: boolean | null,
-        deposit: number | null,
         createdAt: string,
         updatedAt: string,
         user:  {
@@ -6731,7 +6727,6 @@ export type OnDeleteProjectSubscription = {
               clientID: string,
               projectID: string,
               isInitialContact: boolean | null,
-              deposit: number | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -6772,7 +6767,8 @@ export type OnDeleteProjectSubscription = {
               chargePerHour: number | null,
               totalPrice: number | null,
               billingType: QuoteBillingType,
-              status: QuoteStatus,
+              status: QuoteStatus | null,
+              statusLastChangedAt: string | null,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -6837,7 +6833,8 @@ export type OnDeleteProjectSubscription = {
         chargePerHour: number | null,
         totalPrice: number | null,
         billingType: QuoteBillingType,
-        status: QuoteStatus,
+        status: QuoteStatus | null,
+        statusLastChangedAt: string | null,
         createdAt: string,
         updatedAt: string,
         tasks:  {
@@ -6945,7 +6942,8 @@ export type OnCreateQuoteSubscription = {
     chargePerHour: number | null,
     totalPrice: number | null,
     billingType: QuoteBillingType,
-    status: QuoteStatus,
+    status: QuoteStatus | null,
+    statusLastChangedAt: string | null,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -6973,7 +6971,8 @@ export type OnUpdateQuoteSubscription = {
     chargePerHour: number | null,
     totalPrice: number | null,
     billingType: QuoteBillingType,
-    status: QuoteStatus,
+    status: QuoteStatus | null,
+    statusLastChangedAt: string | null,
     createdAt: string,
     updatedAt: string,
     tasks:  {
@@ -7001,7 +7000,8 @@ export type OnDeleteQuoteSubscription = {
     chargePerHour: number | null,
     totalPrice: number | null,
     billingType: QuoteBillingType,
-    status: QuoteStatus,
+    status: QuoteStatus | null,
+    statusLastChangedAt: string | null,
     createdAt: string,
     updatedAt: string,
     tasks:  {
