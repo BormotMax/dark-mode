@@ -21,6 +21,7 @@ interface CommentWrapperProps {
 
 interface CommentProps {
   name?: string;
+  title?: string;
   createdAt?: string;
   email?: string;
   isMine?: boolean;
@@ -31,6 +32,7 @@ interface CommentProps {
 
 interface NewCommentProps {
   name?: string;
+  title?: string;
   email?: string;
   projectID: string;
   creatorID: string;
@@ -74,6 +76,7 @@ const getRelativeTime = (createdAt: Date) => {
 export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerId }) => (
   <Comment
     name={comment.creator.name}
+    title={comment.creator?.title}
     createdAt={comment.createdAt}
     email={comment.creator.email}
     isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}
@@ -90,6 +93,7 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerI
 // eslint-disable-next-line object-curly-newline
 export const Comment: React.FC<CommentProps> = ({
   name,
+  title,
   createdAt,
   email,
   children,
@@ -106,17 +110,27 @@ export const Comment: React.FC<CommentProps> = ({
     style={commentColor ? { background: commentColor } : {}}
   >
     <div className={styles.header}>
-      <div>{name}</div>
-      {createdAt && <div className="text-2 text-small text-gray">{getRelativeTime(new Date(createdAt))}</div>}
+      <div className={styles.name}>
+        {name}
+        {title && <span className={styles.title}>, {title}</span>}
+      </div>
+      {createdAt && <div className={styles.createdTime}>{getRelativeTime(new Date(createdAt))}</div>}
     </div>
     {!noAvatar && (
-      <Avatar className={styles.avatar} style={{ borderColor: backgroundColor }} email={email} name={name} />
+      <Avatar
+        className={styles.avatar}
+        style={{ borderColor: backgroundColor }}
+        email={email}
+        name={name}
+        width={48}
+        height={48}
+      />
     )}
     <div className={classnames(styles.commentContent)}>{children}</div>
   </div>
 );
 
-export const NewComment: React.FC<NewCommentProps> = ({ name, email, projectID, creatorID }) => {
+export const NewComment: React.FC<NewCommentProps> = ({ name, email, title, projectID, creatorID }) => {
   const [content, setContent] = useState('');
   const [saving, setSaving] = useState(false);
   const { logger } = useLogger();
@@ -160,7 +174,7 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, email, projectID, 
   };
 
   return (
-    <Comment name={name} email={email} isMine>
+    <Comment name={name} email={email} title={title} isMine>
       <textarea
         onChange={handleChange}
         onKeyPress={handleEnter}

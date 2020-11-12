@@ -160,6 +160,8 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   return (
     <PageLayoutOne
       headerText={<>{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>}
+      headerContainer={styles.headerContainer}
+      layoutContainer={styles.layoutContainer}
       page={Page.PROJECT}
     >
       <div className={classnames('column', styles.hideTablet, styles.leftColumn, styles.commentWrapper)}>
@@ -241,6 +243,7 @@ const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, 
       <NewComment
         name={viewer.current.name}
         email={viewer.current.email}
+        title={viewer.current.title}
         projectID={id as string}
         creatorID={viewer.current.id}
       />

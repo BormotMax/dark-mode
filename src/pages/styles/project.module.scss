@@ -43,7 +43,16 @@
   }
 }
 
+.headerContainer {
+  padding: 24px;
+}
+
+.layoutContainer {
+  padding-left: 12px !important;
+}
+
 .commentWrapper {
+  padding-top: 16px;
   margin-bottom: 60px;
 }
 
@@ -69,8 +78,8 @@
   }
 
   @include tablet {
-    padding-left: 40px;
-    margin: -1px -12px 0 -40px;
+    padding-left: 24px;
+    margin: -1px -12px 0 -24px;
   }
 
   .filter {

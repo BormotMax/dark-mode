@@ -10,7 +10,7 @@ import { useFlash, useLogger } from '../../../hooks';
 import { getQuote } from '../../../graphql/queries';
 import { updateQuote } from '../../../graphql/mutations';
 import { GetQuoteQuery, QuoteStatus, UpdateQuoteInput, UpdateQuoteMutation } from '../../../API';
-import { unauthClient, client } from '../../../pages/_app';
+import { unauthClient } from '../../../pages/_app';
 import styles from './quoteForComment.module.scss';
 import { Quote } from '../../../types/custom';
 import { Role } from '../../withAuthentication';
@@ -107,7 +107,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
                 disabled={isUpdating}
                 type="button"
                 onClick={onAcceptClick}
-                className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': isUpdating })}
+                className={classnames('btn-large', 'btn-large--inline', 'button', styles.buttonStyles, { 'is-loading': isUpdating })}
               >
                 ACCEPT QUOTE
               </button>
@@ -123,13 +123,21 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
           </>
         )}
         {quote.status === QuoteStatus.ACCEPTED && (
-          <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.green)}>
-            ACCEPTED{quote.statusLastChangedAt && <span className="is-hidden-mobile">&nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}</span>}
+          <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.green, styles.buttonStyles)}>
+            ACCEPTED{quote.statusLastChangedAt && (
+              <span className="is-hidden-mobile">
+                &nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}
+              </span>
+          )}
           </div>
         )}
         {quote.status === QuoteStatus.DECLINE && (
-          <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.red)}>
-            DECLINED{quote.statusLastChangedAt && <span className="is-hidden-mobile">&nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}</span>}
+          <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.red, styles.buttonStyles)}>
+            DECLINED{quote.statusLastChangedAt && (
+              <span className="is-hidden-mobile">
+                &nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}
+              </span>
+          )}
           </div>
         )}
       </div>

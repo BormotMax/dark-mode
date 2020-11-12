@@ -1,17 +1,17 @@
 @import '~bulma/sass/utilities/_all.sass';
 
 .comment {
-  &:first-child {
-    margin-top: 0;
+  &:last-child {
+    margin-bottom: 0;
   }
 
   @include tablet {
-    margin: 8px 0 8px 48px;
+    margin: 0 0 8px 48px;
   }
 
   margin: 8px 0;
   min-height: 128px;
-  padding: 16px 34px 20px 38px;
+  padding: 16px;
   position: relative;
   border-radius: 8px;
 
@@ -26,15 +26,42 @@
   .header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 7px;
+    margin-bottom: 16px;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 16px;
     flex-wrap: wrap;
+    color: #595959;
+  }
+
+  .name {
+    font-weight: 500;
+  }
+
+  .title {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .createdTime {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    color: #BDBDBD;
   }
 
   .commentContent {
     white-space: pre-wrap;
     word-break: break-word;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 21px;
   }
 
   .avatar {
@@ -46,11 +73,11 @@
     display: none;
     height: 72px;
     border-radius: 50%;
-    border-width: 4px;
+    border-width: 8px;
     border-style: solid;
     position: absolute;
-    left: -65px;
-    top: 21px;
+    left: -56px;
+    top: -8px;
   }
 
   .commentText {
