@@ -90,6 +90,14 @@
   text-align: right;
 }
 
+.disabledCheckmarks {
+  cursor: not-allowed;
+
+  &:hover {
+    color: unset;
+  }
+}
+
 .radioGroup {
   &.radioGroupStacked {
     flex-direction: column;

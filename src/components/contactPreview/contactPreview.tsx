@@ -212,29 +212,29 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       }
     }
 
-    if (selectedUser.user.role === UserRole.CLIENT) {
-      const updateProjectClientInput = { id: selectedUser.id };
-      try {
-        await client.mutate({
-          mutation: gql(updateProjectClient),
-          variables: { input: updateProjectClientInput },
-        });
-      } catch (error) {
-        logger.error('ContactPreviewModalContent: error updating ProjectClient', { error, input: updateProjectClientInput });
-        setFlash("Something went wrong. We're looking into it");
-      }
-    } else if (selectedUser.user.role === UserRole.FREELANCER) {
-      // todo: change this to update association. can only update title
-      // const createProjectFreelancerInput = { freelancerID, projectID };
-      // try {
-      //   await client.mutate({
-      //     mutation: gql(createProjectFreelancer),
-      //     variables: { input: createProjectFreelancerInput },
-      //   });
-      // } catch (error) {
-      //   logger.error('HireMeModal: error updating ProjectFreelancer', { error, input: createProjectFreelancerInput });
-      // }
-    }
+    // if (selectedUser.user.role === UserRole.CLIENT) {
+    //   const updateProjectClientInput = { id: selectedUser.id };
+    //   try {
+    //     await client.mutate({
+    //       mutation: gql(updateProjectClient),
+    //       variables: { input: updateProjectClientInput },
+    //     });
+    //   } catch (error) {
+    //     logger.error('ContactPreviewModalContent: error updating ProjectClient', { error, input: updateProjectClientInput });
+    //     setFlash("Something went wrong. We're looking into it");
+    //   }
+    // } else if (selectedUser.user.role === UserRole.FREELANCER) {
+    // todo: change this to update association. can only update title
+    // const createProjectFreelancerInput = { freelancerID, projectID };
+    // try {
+    //   await client.mutate({
+    //     mutation: gql(createProjectFreelancer),
+    //     variables: { input: createProjectFreelancerInput },
+    //   });
+    // } catch (error) {
+    //   logger.error('HireMeModal: error updating ProjectFreelancer', { error, input: createProjectFreelancerInput });
+    // }
+    // }
   };
 
   async function handleSubmit(e) {
@@ -309,8 +309,9 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
         </div>
       </div>
       <div className={classnames(modalStyles.radioGroup, 'control')}>
-        <label className={classnames(modalStyles.radio, 'radio')}>
+        <label className={classnames(modalStyles.radio, 'radio', { [modalStyles.disabledCheckmarks]: !!selectedUser })}>
           <input
+            disabled={!!selectedUser}
             onChange={(e) => setUserType(UserRole[e.target.value])}
             type="radio"
             value={UserRole.CLIENT}
@@ -327,8 +328,9 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           </span>
           <div>Client&apos;s Team</div>
         </label>
-        <label className={classnames(modalStyles.radio, 'radio')}>
+        <label className={classnames(modalStyles.radio, 'radio', modalStyles.disabledCheckmarks)}>
           <input
+            disabled
             onChange={(e) => setUserType(UserRole[e.target.value])}
             type="radio"
             value={UserRole.FREELANCER}

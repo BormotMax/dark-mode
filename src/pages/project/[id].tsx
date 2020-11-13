@@ -129,7 +129,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!project) return <div>Not found</div>;
 
-  const { comments: cs, quotes, clients, assets } = project as Project;
+  const { comments: cs, quotes, clients, freelancers, assets } = project as Project;
 
   if (!viewer.current) {
     logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
@@ -178,6 +178,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         <RightColumn
           viewer={viewer}
           clients={clients}
+          freelancers={freelancers}
           project={project}
           fetchProject={fetchProject}
           currentUserId={currentUserId}
@@ -186,7 +187,10 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         />
       </div>
       <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
-      <div className={classnames('container', 'columns', styles.hideMobile, styles.desktopColumns, { [styles.center]: !currentUser?.attributes?.sub } )}>
+      <div className={
+          classnames('container', 'columns', styles.hideMobile, styles.desktopColumns, { [styles.center]: !currentUser?.attributes?.sub })
+        }
+      >
         <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
           <Feed
             comments={comments}
@@ -201,6 +205,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
           <RightColumn
             viewer={viewer}
             clients={clients}
+            freelancers={freelancers}
             project={project}
             fetchProject={fetchProject}
             currentUserId={currentUserId}
@@ -250,7 +255,7 @@ const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, 
   </>
 );
 
-const RightColumn = ({ viewer, clients, project, fetchProject, currentUserId, assets, quotes }) => (
+const RightColumn = ({ viewer, clients, freelancers, project, fetchProject, currentUserId, assets, quotes }) => (
   <div className={classnames(styles.tabGroupWrapper)}>
     <Protected roles={[Role.FREELANCER]}>
       <TabGroup
@@ -260,7 +265,12 @@ const RightColumn = ({ viewer, clients, project, fetchProject, currentUserId, as
           { icon: faBackpack, header: 'Assets' },
         ]}
       >
-        <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+        <ContactPreview
+          currentUser={viewer.current}
+          users={[...clients.items, ...freelancers.items]}
+          projectID={project.id}
+          refreshUsers={fetchProject}
+        />
         <NotesTab
           projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
           refetchData={fetchProject}
@@ -275,7 +285,12 @@ const RightColumn = ({ viewer, clients, project, fetchProject, currentUserId, as
           { icon: faBackpack, header: 'Assets' },
         ]}
       >
-        <ContactPreview currentUser={viewer.current} users={clients.items} projectID={project.id} refreshUsers={fetchProject} />
+        <ContactPreview
+          currentUser={viewer.current}
+          users={[...clients.items, ...freelancers.items]}
+          projectID={project.id}
+          refreshUsers={fetchProject}
+        />
         <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
       </TabGroup>
     </ProtectedElse>
