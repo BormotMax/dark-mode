@@ -30,4 +30,41 @@
       }
     }
   }
+
+  .stripeStatus {
+    border-radius: 4px;
+    letter-spacing: 0.271875px;
+    text-align: center;
+    padding: 2px 10px;
+    display: inline-block;
+    font-family: Poppins;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 22px;
+
+    &.white {
+      color: #828282;
+      border: 2px solid #828282;
+      background: #ffffff;
+    }
+
+    &.green {
+      color: #eeeeee;
+      border: 2px solid #6fcf97;
+      background: #6fcf97;
+    }
+
+    &.red {
+      color: #eeeeee;
+      border: 2px solid rgba(230, 57, 70, 0.8);
+      background: rgba(230, 57, 70, 0.8);
+    }
+
+    &.yellow {
+      color: #828282;
+      border: 2px solid #FDFECA;
+      background: #FDFECA;
+    }
+  }
 }

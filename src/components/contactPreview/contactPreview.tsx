@@ -15,7 +15,7 @@ import { useLogger, useFlash } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { GetUserQuery, UserRole, CreateUserMutation } from '../../API';
-import { createUser, createProjectClient, updateUser, updateProjectClient } from '../../graphql/mutations';
+import { createUser, createProjectClient, updateUser } from '../../graphql/mutations';
 
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 
