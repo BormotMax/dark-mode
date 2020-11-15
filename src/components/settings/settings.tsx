@@ -108,6 +108,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     let stripeAccountID: string;
     let stripeOnboardingUrl: string;
 
+    console.log(isRefresh)
     const onboardUrl = isRefresh ? `${STRIPE_API_URL}/onboard-user/refresh` : `${STRIPE_API_URL}/onboard-user`;
     const body = isRefresh ? { accountID: existingAccountID } : {};
 
@@ -151,7 +152,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
       case StripeStatus.NOT_STARTED:
         return <ButtonSmall
           text="Connect with Stripe"
-          onClick={connectToStripe}
+          onClick={() => connectToStripe(false)}
           isSaving={isSaving}
         />;
       case StripeStatus.INCOMPLETE:
