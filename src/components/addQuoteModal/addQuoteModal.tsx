@@ -236,9 +236,9 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
   };
 
   const isFormValid = useMemo(() => (
-    newTask.trim().length > 0 && ((
+    (
       billingType === QuoteBillingType.HOURLY && (hours.trim().length > 0 && perHour.trim().length > 0
-      )) || (billingType === QuoteBillingType.TOTAL && price.trim().replace('$0', '').length > 0))
+      )) || (billingType === QuoteBillingType.TOTAL && price.trim().replace('$0', '').length > 0)
   ), [newTask, hours, perHour, price, billingType]);
 
   return (
