@@ -108,7 +108,6 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     let stripeAccountID: string;
     let stripeOnboardingUrl: string;
 
-    console.log(isRefresh)
     const onboardUrl = isRefresh ? `${STRIPE_API_URL}/onboard-user/refresh` : `${STRIPE_API_URL}/onboard-user`;
     const body = isRefresh ? { accountID: existingAccountID } : {};
 

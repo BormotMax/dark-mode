@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/pro-light-svg-icons';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
-import serialize from 'form-serialize';
 import { CheckList } from '../checkList';
 import styles from './quoteProgress.module.scss';
-import { Quote, Task, User } from '../../types/custom';
+import { Quote, Task } from '../../types/custom';
 import { useLogger, useFlash, useCurrentUser } from '../../hooks';
-import { CreateTaskInput, UpdateTaskInput, UserRole } from '../../API';
+import { CreateTaskInput, UpdateTaskInput } from '../../API';
 import { createTask, updateTask } from '../../graphql/mutations';
 import { client } from '../../pages/_app';
 import { Role } from '../withAuthentication';
@@ -33,12 +32,13 @@ function calcPercentDone(tasks: Array<Task>) {
 interface QuoteProps {
   quote: Quote;
   i: number;
-  refetchData?: Function;
+  refetchData?: () => void;
 }
 
-export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) => {
+export const QuoteProgress: React.FC<QuoteProps> = memo(({ quote, i, refetchData }) => {
   const tasks = (quote.tasks?.items || []) as Array<Task>;
   const [isShowing, setShowing] = useState(true);
+  const [taskName, setTaskName] = useState('');
   const [percentDone, setPercentDone] = useState(calcPercentDone(tasks));
   const { logger } = useLogger();
   const { setFlash } = useFlash();
@@ -49,6 +49,15 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
   useEffect(() => {
     setPercentDone(calcPercentDone(tasks));
   }, [tasks]);
+
+  const sortedTask = useMemo(() => tasks
+    .filter(Boolean)
+    .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+    .map((t) => ({
+      id: t.id,
+      completed: t.completed,
+      listItem: t.text,
+    })), [tasks]);
 
   async function handleQuoteProgressUpdate(checked, item) {
     const updateTaskInput: UpdateTaskInput = {
@@ -68,14 +77,25 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
     refetchData();
   }
 
-  const addNewTask = async (e) => {
+  const onTaskNameChange = (event) => {
+    setTaskName(event?.target?.value ?? '');
+  };
+
+  const onTaskNameBlur = () => {
+    setTaskName(taskName.trim());
+  };
+
+  const onSubmit = async (e) => {
+    if (e.keyCode !== 13) return;
     e.preventDefault();
     e.persist();
-    setIsSaving(true);
-    const { text } = serialize(e.target, { hash: true });
-    if (!text || text === '') return;
 
-    const createTaskInput: CreateTaskInput = { quoteID: quote.id, text, completed: false };
+    if (!taskName.trim() || taskName.trim() === '') return;
+
+    setIsSaving(true);
+
+    const createTaskInput: CreateTaskInput = { quoteID: quote.id, text: taskName.trim(), completed: false };
+
     try {
       // eslint-disable-next-line no-await-in-loop
       await client.mutate({
@@ -85,11 +105,12 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
     } catch (error) {
       logger.error('QuoteProgress: error creating Task', { error, input: createTaskInput });
       setFlash("Something went wrong. We're looking into it");
+    } finally {
+      setIsSaving(false);
     }
 
     await refetchData();
-    e.target.reset();
-    setIsSaving(false);
+    setTaskName('');
     addTaskRef.current.focus();
   };
 
@@ -122,29 +143,26 @@ export const QuoteProgress: React.FC<QuoteProps> = ({ quote, i, refetchData }) =
             name={`quote-${i}`}
             disabled={!isAllowed(currentUser, [Role.FREELANCER])}
             callback={handleQuoteProgressUpdate}
-            listItems={tasks
-              .filter(Boolean)
-              .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-              .map((t) => ({
-                id: t.id,
-                completed: t.completed,
-                listItem: t.text,
-              }))}
+            listItems={sortedTask}
           />
         </form>
         <Protected roles={[Role.FREELANCER]}>
-          <form onSubmit={addNewTask}>
-            <input
-              ref={addTaskRef}
-              disabled={isSaving}
-              name="text"
-              type="text"
-              className={classnames(styles.addTask)}
-              placeholder="Type a new task and hit Enter"
-            />
-          </form>
+          <input
+            ref={addTaskRef}
+            disabled={isSaving}
+            value={taskName}
+            onChange={onTaskNameChange}
+            onBlur={onTaskNameBlur}
+            onKeyDown={onSubmit}
+            name="text"
+            type="text"
+            className={classnames(styles.addTask)}
+            placeholder="Type a new task and hit Enter"
+          />
         </Protected>
       </div>
     </div>
   );
-};
+});
+
+QuoteProgress.displayName = 'QuoteProgress';

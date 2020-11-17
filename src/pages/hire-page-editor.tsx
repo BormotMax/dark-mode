@@ -2,7 +2,7 @@
 import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
 import { v4 as uuid } from 'uuid';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
@@ -20,6 +20,7 @@ import { Page } from '../components/nav/nav';
 import { ButtonSmall } from '../components/buttons/buttons';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
+const SLUG_PREFIX = 'continuum.works/hire/';
 
 interface ValidationProps {
   domainSlugID?: string;
@@ -28,21 +29,59 @@ interface ValidationProps {
 const HirePageEditor = ({ currentUser }) => {
   const router = useRouter();
   const { setFlash, setDelayedFlash } = useFlash();
-  const [hireInfo, setHireInfo] = useState(null);
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [hireInfo, setHireInfo] = useState(null);
   const [saving, setSaving] = useState(false);
   const [portfolioImages, setPortfolioImages] = useState({});
   const [bannerImage, setBannerImage] = useState(null);
   const [fileInputValues, setFileInputValues] = useState({});
   const { logger } = useLogger();
   const [invalids, setInvalids] = useState<ValidationProps>({});
+
+  const [valuesFields, setValuesFields] = useState<Record<string, any>>({
+    aboutText: '',
+    blurbText: '',
+    buttonText: '',
+    domainSlugID: '',
+    existingDomainSlug: '',
+    dribbbleUrl: '',
+    instagramUrl: '',
+    linkedInUrl: '',
+    twitterUrl: '',
+    name: '',
+    title: '',
+  });
   const { sub: freelancerID } = currentUser.attributes;
+
+  const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const { target: { name, value } = {} } = event;
+    if (name === 'domainSlugID') {
+      setValuesFields((prevState) => ({
+        ...prevState,
+        [name]: `${SLUG_PREFIX}${value.substr(SLUG_PREFIX.length)}`,
+      }));
+      return;
+    }
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }, [setValuesFields]);
+
+  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+  }, [setValuesFields]);
 
   useEffect(() => {
     const execute = async () => {
       const getUserInput = { id: freelancerID };
 
+      let inputsData = {};
       // getUser
       try {
         const res: { data: GetUserQuery } = await client.query({
@@ -50,7 +89,16 @@ const HirePageEditor = ({ currentUser }) => {
           variables: getUserInput,
         });
 
-        setUser(res.data.getUser);
+        inputsData = {
+          name: res?.data?.getUser?.name ?? '',
+          title: res?.data?.getUser?.title ?? '',
+        };
+
+        // setValuesFields((prevState) => ({
+        //   ...prevState,
+        //   name: res?.data?.getUser?.name ?? '',
+        //   title: res?.data?.getUser?.title ?? '',
+        // }));
       } catch (error) {
         setFlash("There was an error retreiving your user info. We're looking into it.");
         logger.error('HirePageEditor: error retrieving User info', { error, input: getUserInput });
@@ -65,6 +113,7 @@ const HirePageEditor = ({ currentUser }) => {
         });
 
         const info = res.data.getHireMeInfo;
+        setIsUpdating(Boolean(info));
 
         if (info) {
           info.portfolioImages?.forEach(({ key, tag }) => {
@@ -85,6 +134,19 @@ const HirePageEditor = ({ currentUser }) => {
           }
         }
 
+        setValuesFields((prevState) => ({
+          ...prevState,
+          ...inputsData,
+          aboutText: info?.aboutText,
+          blurbText: info?.blurbText,
+          buttonText: info?.buttonText,
+          domainSlugID: info?.domainSlugID.includes(SLUG_PREFIX) ? info?.domainSlugID : `${SLUG_PREFIX}${info?.domainSlugID}`,
+          existingDomainSlug: info?.domainSlug?.slug,
+          dribbbleUrl: info?.dribbbleUrl,
+          instagramUrl: info?.instagramUrl,
+          linkedInUrl: info?.linkedInUrl,
+          twitterUrl: info?.twitterUrl,
+        }));
         setHireInfo(info);
       } catch (error) {
         setFlash("There was an error retreiving your Hire Page info. We're looking into it.");
@@ -103,7 +165,24 @@ const HirePageEditor = ({ currentUser }) => {
   }
 
   const handleFileInputChange = (file, inputName) => {
-    setFileInputValues({ ...fileInputValues, [inputName]: file });
+    setFileInputValues((prevState) => ({ ...prevState, [inputName]: file }));
+  };
+
+  const updateUserRequest = async () => {
+    const updateUserInput = {
+      id: freelancerID,
+      name: valuesFields.name.trim(),
+      title: valuesFields.title.trim(),
+    };
+
+    try {
+      await client.mutate({
+        mutation: gql(updateUser),
+        variables: { input: updateUserInput },
+      });
+    } catch (error) {
+      logger.error('HirePageEditor: error updating User.', { error, input: updateUserInput });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -120,23 +199,10 @@ const HirePageEditor = ({ currentUser }) => {
       return;
     }
 
-    const updateUserInput = {
-      id: freelancerID,
-      name,
-      title,
-    };
+    updateUserRequest();
 
-    try {
-      await client.mutate({
-        mutation: gql(updateUser),
-        variables: { input: updateUserInput },
-      });
-    } catch (error) {
-      logger.error('HirePageEditor: error updating User.', { error, input: updateUserInput });
-    }
-
-    const domainSlugID = formValues.domainSlugID.split('continuum.works/hire/', 2)[1];
-    formValues.domainSlugID = domainSlugID;
+    const domainSlugID = valuesFields.domainSlugID.split('continuum.works/hire/', 2)[1];
+    valuesFields.domainSlugID = domainSlugID;
     let domainSlugExists = false;
     let domainSlugIsMine = false;
 
@@ -256,9 +322,12 @@ const HirePageEditor = ({ currentUser }) => {
 
     (formValues as CreateHireMeInfoInput).portfolioImages = portfolioImageS3Objects;
 
+    const { name: removedName, title: removedTitle, existingDomainSlug: removedSlug, ...restFormValues } = valuesFields;
     const mutateHireMeInfoInput = {
       freelancerID,
       ...formValues,
+      ...restFormValues,
+      domainSlugID,
     };
 
     try {
@@ -270,6 +339,18 @@ const HirePageEditor = ({ currentUser }) => {
       const info = hireInfo ? mutationResult?.data?.updateHireMeInfo : mutationResult?.data?.createHireMeInfo;
 
       setHireInfo(info);
+      setValuesFields((prevState) => ({
+        ...prevState,
+        aboutText: info?.aboutText,
+        blurbText: info?.blurbText,
+        buttonText: info?.buttonText,
+        domainSlugID: info?.domainSlugID.includes(SLUG_PREFIX) ? info?.domainSlugID : `${SLUG_PREFIX}${info?.domainSlugID}`,
+        existingDomainSlug: info?.domainSlug?.slug,
+        dribbbleUrl: info?.dribbbleUrl,
+        instagramUrl: info?.instagramUrl,
+        linkedInUrl: info?.linkedInUrl,
+        twitterUrl: info?.twitterUrl,
+      }));
       setFileInputValues({});
 
       Promise.all(uploadPromises)
@@ -313,13 +394,31 @@ const HirePageEditor = ({ currentUser }) => {
               <div className="field">
                 <label className="label">Name</label>
                 <div className={classnames(styles.halfWidthControl, 'control')}>
-                  <input name="name" className="input" type="text" maxLength={48} size={35} defaultValue={user?.name} />
+                  <input
+                    name="name"
+                    value={valuesFields.name}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
+                    className="input"
+                    type="text"
+                    maxLength={48}
+                    size={35}
+                  />
                 </div>
               </div>
               <div className="field">
                 <label className="label">Title</label>
                 <div className={classnames(styles.halfWidthControl, 'control')}>
-                  <input name="title" className="input" type="text" maxLength={32} size={35} defaultValue={user?.title} />
+                  <input
+                    name="title"
+                    value={valuesFields.title}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
+                    className="input"
+                    type="text"
+                    maxLength={32}
+                    size={35}
+                  />
                 </div>
               </div>
               <div className="field">
@@ -327,10 +426,12 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="buttonText"
+                    value={valuesFields.buttonText}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
                     className="input"
                     type="text"
                     maxLength={24}
-                    defaultValue={hireInfo?.buttonText}
                     placeholder="Start a Conversation"
                   />
                 </div>
@@ -338,13 +439,29 @@ const HirePageEditor = ({ currentUser }) => {
               <div className="field">
                 <label className="label">Blurb</label>
                 <div className="control">
-                  <textarea name="blurbText" maxLength={255} rows={3} className="textarea" defaultValue={hireInfo?.blurbText} />
+                  <textarea
+                    name="blurbText"
+                    value={valuesFields.blurbText}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
+                    maxLength={255}
+                    rows={3}
+                    className="textarea"
+                  />
                 </div>
               </div>
               <div className="field">
                 <label className="label">About</label>
                 <div className="control">
-                  <textarea name="aboutText" maxLength={1000} rows={7} className="textarea" defaultValue={hireInfo?.aboutText} />
+                  <textarea
+                    name="aboutText"
+                    value={valuesFields.aboutText}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
+                    maxLength={1000}
+                    rows={7}
+                    className="textarea"
+                  />
                 </div>
               </div>
               <div className="field">
@@ -352,12 +469,14 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="twitterUrl"
+                    value={valuesFields.twitterUrl}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
                     maxLength={75}
                     size={35}
-                    defaultValue={hireInfo?.twitterUrl}
                     placeholder="https://twitter.com/"
                   />
                 </div>
@@ -367,12 +486,14 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="dribbbleUrl"
+                    value={valuesFields.dribbbleUrl}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
                     maxLength={75}
                     size={35}
-                    defaultValue={hireInfo?.dribbbleUrl}
                     placeholder="https://dribbble.com/"
                   />
                 </div>
@@ -382,12 +503,14 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="instagramUrl"
+                    value={valuesFields.instagramUrl}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
                     maxLength={75}
                     size={35}
-                    defaultValue={hireInfo?.instagramUrl}
                     placeholder="https://www.instagram.com/"
                   />
                 </div>
@@ -397,12 +520,14 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="linkedInUrl"
+                    value={valuesFields.linkedInUrl}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
                     maxLength={75}
                     size={35}
-                    defaultValue={hireInfo?.linkedInUrl}
                     placeholder="https://www.linkedin.com/in/"
                   />
                 </div>
@@ -412,12 +537,13 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="domainSlugID"
+                    value={valuesFields.domainSlugID}
+                    onChange={onChangeInput}
+                    onBlur={onBlurInput}
                     className={classnames('input', { 'is-danger': invalids.domainSlugID })}
                     type="text"
-                    pattern="^continuum.works/hire/[A-Za-z0-9]+"
                     maxLength={50}
                     size={35}
-                    defaultValue={`continuum.works/hire/${hireInfo?.domainSlug?.slug || ''}`}
                   />
                 </div>
               </div>
@@ -479,6 +605,7 @@ const HirePageEditor = ({ currentUser }) => {
           <button
             form="hirePageForm"
             disabled={saving}
+            onClick={() => null}
             type="submit"
             className={classnames('btn-large', 'btn-large--inline', 'button', { 'is-loading': saving })}
           >

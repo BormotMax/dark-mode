@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import classnames from 'classnames';
 import axios from 'axios';
 import serialize from 'form-serialize';
@@ -30,7 +30,7 @@ interface HireMeModalProps {
   freelancerName: string;
   freelancerEmail: string;
   freelancerID: string;
-  handleClose: Function;
+  handleClose: () => void;
 }
 
 interface ValidationProps {
@@ -41,33 +41,56 @@ interface ValidationProps {
   details?: string;
 }
 
-export const HireMeModal: React.FC<HireMeModalProps> = (
-  {
-    freelancerEmail,
-    freelancerName,
-    freelancerID,
-  },
-) => {
+const initialInputsState = {
+  name: '',
+  company: '',
+  email: '',
+  phone: '',
+  details: '',
+};
+
+export const HireMeModal: React.FC<HireMeModalProps> = ({
+  freelancerEmail,
+  freelancerName,
+  freelancerID,
+}) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const router = useRouter();
   const { currentUser } = useCurrentUser();
+  const [valuesFields, setValuesFields] = useState<Record<string, string>>(initialInputsState);
   const { logger } = useLogger();
   const { setFlash, setDelayedFlash } = useFlash();
+
+  const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }, [setValuesFields]);
+
+  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+  }, [setValuesFields]);
 
   function validate({ name, email, phone, details }: ValidationProps) {
     const temp: ValidationProps = {};
 
-    if (!name) temp.name = 'error';
-    if (!email) temp.email = 'error';
-    if (!phone) temp.phone = 'error';
-    if (!details) temp.details = 'error';
+    if (!name.trim()) temp.name = 'error';
+    if (!email.trim()) temp.email = 'error';
+    if (!phone.trim()) temp.phone = 'error';
+    if (!details.trim()) temp.details = 'error';
 
     return temp;
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
+    // e.preventDefault();
     setInvalids({});
 
     if (currentUser?.attributes?.sub) {
@@ -76,10 +99,10 @@ export const HireMeModal: React.FC<HireMeModalProps> = (
     }
 
     setSaving(true);
-    const { form } = e.target;
-    const formData = serialize(form as HTMLFormElement, { hash: true });
-    const { name, company, email, phone, details } = formData;
-    const validation = validate(formData);
+    // const { form } = e.target;
+    // const formData = serialize(form as HTMLFormElement, { hash: true });
+    const { name, company, email, phone, details } = valuesFields;
+    const validation = validate(valuesFields);
 
     if (Object.keys(validation).length) {
       setInvalids(validation);
@@ -223,7 +246,15 @@ export const HireMeModal: React.FC<HireMeModalProps> = (
                     Name
                   </label>
                   <div className="control">
-                    <input name="name" className={classnames('input', { 'is-danger': invalids.name })} type="text" maxLength={48} />
+                    <input
+                      name="name"
+                      type="text"
+                      value={valuesFields.name}
+                      onChange={onChangeInput}
+                      onBlur={onBlurInput}
+                      maxLength={48}
+                      className={classnames('input', { 'is-danger': invalids.name })}
+                    />
                   </div>
                 </div>
                 <div className="field">
@@ -231,7 +262,15 @@ export const HireMeModal: React.FC<HireMeModalProps> = (
                     Company
                   </label>
                   <div className="control">
-                    <input name="company" className={classnames('input', { 'is-danger': invalids.company })} type="text" maxLength={48} />
+                    <input
+                      name="company"
+                      value={valuesFields.company}
+                      onChange={onChangeInput}
+                      onBlur={onBlurInput}
+                      type="text"
+                      maxLength={48}
+                      className={classnames('input', { 'is-danger': invalids.company })}
+                    />
                   </div>
                 </div>
               </div>
@@ -246,9 +285,12 @@ export const HireMeModal: React.FC<HireMeModalProps> = (
                     <input
                       required
                       name="email"
-                      className={classnames('input', { 'is-danger': invalids.email })}
+                      value={valuesFields.email}
+                      onChange={onChangeInput}
+                      onBlur={onBlurInput}
                       type="email"
                       maxLength={48}
+                      className={classnames('input', { 'is-danger': invalids.email })}
                     />
                   </div>
                 </div>
@@ -257,7 +299,14 @@ export const HireMeModal: React.FC<HireMeModalProps> = (
                     Phone #
                   </label>
                   <div className="control">
-                    <input name="phone" className={classnames('input', { 'is-danger': invalids.phone })} type="tel" />
+                    <input
+                      name="phone"
+                      value={valuesFields.phone}
+                      onChange={onChangeInput}
+                      onBlur={onBlurInput}
+                      className={classnames('input', { 'is-danger': invalids.phone })}
+                      type="tel"
+                    />
                   </div>
                 </div>
               </div>
@@ -267,7 +316,15 @@ export const HireMeModal: React.FC<HireMeModalProps> = (
                 Project Details
               </label>
               <div className="control">
-                <textarea name="details" maxLength={800} rows={6} className={classnames('textarea', { 'is-danger': invalids.details })} />
+                <textarea
+                  name="details"
+                  value={valuesFields.details}
+                  onChange={onChangeInput}
+                  onBlur={onBlurInput}
+                  maxLength={800}
+                  rows={6}
+                  className={classnames('textarea', { 'is-danger': invalids.details })}
+                />
               </div>
             </div>
           </div>

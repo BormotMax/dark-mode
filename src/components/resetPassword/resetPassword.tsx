@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
@@ -21,9 +21,12 @@ interface ValidationProps {
   password?: string;
 }
 
-export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
+const SIGN_IN = '/signIn';
+
+export const ResetPassword: React.FC<ResetPasswordProps> = ({ email: emailProp }) => {
   const [isRequestPending, setRequestPending] = useState(false);
   const [isPasswordShowing, setPasswordShowing] = useState(false);
+  const [valuesFields, setValuesFields] = useState<Record<string, string>>({ email: emailProp ?? '', code: '', password: '' });
   const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
@@ -36,16 +39,29 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
     return temp;
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }, [setValuesFields]);
 
+  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+  }, [setValuesFields]);
+
+  async function handleSubmit() {
     setRequestPending(true);
     setFlash('');
     setInvalids({});
 
-    const formData = serialize(e.target, { hash: true });
-    const { code, password } = formData;
-    const validation = validate(formData);
+    const { code, password, email } = valuesFields;
+    const validation = validate(valuesFields);
 
     if (Object.keys(validation).length) {
       setRequestPending(false);
@@ -55,7 +71,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
 
     try {
       await Auth.forgotPasswordSubmit(email, code, password);
-      Router.push('/signIn');
+      Router.push(SIGN_IN);
     } catch (error) {
       logger.error('ResetPassword: error in Auth.forgotPasswordSubmit', { error, input: { email, code } });
       setFlash(error.message);
@@ -77,7 +93,9 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
         <div className={styles.inputWrapper}>
           <input
             readOnly
-            value={email}
+            value={valuesFields.email}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
             name="email"
             className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
             type="email"
@@ -85,11 +103,22 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
           />
           <EmailIcon />
         </div>
-        <input name="code" className={`${invalids.code ? styles[invalids.code] : ''} input-1`} type="text" placeholder="Code" />
+        <input
+          name="code"
+          value={valuesFields.code}
+          onChange={onChangeInput}
+          onBlur={onBlurInput}
+          className={`${invalids.code ? styles[invalids.code] : ''} input-1`}
+          type="text"
+          placeholder="Code"
+        />
 
         <div className={styles.inputWrapper}>
           <input
             name="password"
+            value={valuesFields.password}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
             className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="New Password"
@@ -106,13 +135,14 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ email }) => {
         <button
           disabled={isRequestPending}
           type="submit"
+          onClick={handleSubmit}
           className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Reset Password
         </button>
         <div>
-          <Link href="/signIn">
-            <a href="/signIn">Back to Sign In</a>
+          <Link href={SIGN_IN}>
+            <a href={SIGN_IN}>Back to Sign In</a>
           </Link>
         </div>
       </form>

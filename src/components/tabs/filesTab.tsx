@@ -34,7 +34,7 @@ const applicationToIcon: any = {
 interface FilesTabProps {
   files: ProjectAsset[];
   projectID: string;
-  refetchData: Function;
+  refetchData: () => void;
 }
 
 function downloadURI(uri, name) {
@@ -86,9 +86,9 @@ export const FilesTab: React.FC<FilesTabProps> = ({ files, projectID, refetchDat
 };
 
 interface ModalContentProps {
-  close?: Function;
+  close?: () => void;
   projectID: string;
-  refetchData: Function;
+  refetchData: () => void;
 }
 
 const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchData }) => {
@@ -181,6 +181,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
         autoComplete="off"
         onKeyDown={handleAddFile}
         onChange={({ target }) => setFileUrl(target.value)}
+        onBlur={({ target }) => setFileUrl(target.value.trim())}
         value={fileUrl}
         name="fileUrl"
       />
@@ -215,7 +216,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
 
 interface FilePillProps {
   file: ProjectAsset | any;
-  onClick?: Function;
+  onClick?: (event: React.KeyboardEvent<HTMLDivElement>, file) => void;
 }
 
 const FilePill: React.FC<FilePillProps> = ({ file, onClick }) => {

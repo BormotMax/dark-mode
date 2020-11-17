@@ -14,6 +14,8 @@ interface ValidationProps {
   email?: string;
 }
 
+const SIGN_IN_PATH = '/signIn';
+
 const ForgotPassword: React.FC = () => {
   const [emailInState, setEmailInState] = useState('');
   const [isConfirming, setConfirming] = useState(false);
@@ -24,7 +26,7 @@ const ForgotPassword: React.FC = () => {
 
   function validate({ email }: ValidationProps) {
     const temp: ValidationProps = {};
-    if (!email) temp.email = 'error';
+    if (!email.trim()) temp.email = 'error';
     return temp;
   }
 
@@ -35,7 +37,7 @@ const ForgotPassword: React.FC = () => {
     setInvalids({});
 
     const formData = serialize(e.target as HTMLFormElement, { hash: true });
-    const { email } = formData;
+    const email = formData?.email?.trim() ?? '';
     const validation = validate(formData as { email: string });
 
     if (Object.keys(validation).length) {
@@ -47,13 +49,13 @@ const ForgotPassword: React.FC = () => {
     setEmailInState(email);
 
     try {
-      await Auth.forgotPassword(formData.email);
+      await Auth.forgotPassword(email);
       setFlash('');
       setRequestPending(false);
       setConfirming(true);
     } catch (error) {
       setFlash(error.message);
-      logger.error('ForgotPassword: error in Auth.forgotPassword', { error, input: formData.email });
+      logger.error('ForgotPassword: error in Auth.forgotPassword', { error, input: email });
       setRequestPending(false);
     }
   }
@@ -66,7 +68,12 @@ const ForgotPassword: React.FC = () => {
       <form onSubmit={handleSendCodeClick} className={styles.body}>
         <div className={classnames(styles.header)}>Reset your password</div>
         <div className={styles.inputWrapper}>
-          <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
+          />
           <EmailIcon />
         </div>
         <button
@@ -77,8 +84,8 @@ const ForgotPassword: React.FC = () => {
           Send Code
         </button>
         <div>
-          <Link href="/signIn">
-            <a href="/signIn">Back to Sign In</a>
+          <Link href={SIGN_IN_PATH}>
+            <a href={SIGN_IN_PATH}>Back to Sign In</a>
           </Link>
         </div>
       </form>

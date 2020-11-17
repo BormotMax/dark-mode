@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { ButtonSmall } from '../buttons/buttons';
@@ -8,8 +8,8 @@ import { useCurrentUser, useLogger, useFlash } from '../../hooks';
 import { createProject, createProjectFreelancer } from '../../graphql/mutations';
 
 interface CreateProjectModalProps {
-  close?: Function;
-  refetchData: Function;
+  close?: () => void;
+  refetchData: () => void;
 }
 
 interface ValidationProps {
@@ -18,7 +18,7 @@ interface ValidationProps {
   company?: string;
 }
 
-export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, refetchData }) => {
+export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ close, refetchData }) => {
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [company, setCompany] = useState('');
@@ -31,8 +31,8 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
   function validate() {
     const temp: ValidationProps = {};
 
-    if (!title) temp.title = 'error';
-    if (!details) temp.details = 'error';
+    if (!title.trim()) temp.title = 'error';
+    if (!details.trim()) temp.details = 'error';
 
     return temp;
   }
@@ -53,7 +53,13 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
     // Create a project
     let createProjectResponse;
     const freelancerID = currentUser.attributes.sub;
-    const createProjectInput = { company, owner: freelancerID, title, details };
+    const createProjectInput = {
+      company: company.trim(),
+      owner: freelancerID,
+      title: title.trim(),
+      details: details.trim(),
+    };
+
     try {
       createProjectResponse = await client.mutate({
         mutation: gql(createProject),
@@ -94,7 +100,8 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            name="name"
+            onBlur={() => setTitle(title.trim())}
+            name="title"
             className={classnames('input', { 'is-danger': invalids.title })}
             type="text"
           />
@@ -109,6 +116,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
             rows={4}
             value={details}
             onChange={(e) => setDetails(e.target.value)}
+            onBlur={() => setDetails(details.trim())}
             name="details"
             className={classnames('textarea', { 'is-danger': invalids.details })}
           />
@@ -122,6 +130,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
           <input
             value={company}
             onChange={(e) => setCompany(e.target.value)}
+            onBlur={() => setCompany(company.trim())}
             required
             name="company"
             className={classnames('input', { 'is-danger': invalids.company })}
@@ -135,4 +144,6 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ close, r
       </div>
     </form>
   );
-};
+});
+
+CreateProjectModal.displayName = 'CreateProjectModal';

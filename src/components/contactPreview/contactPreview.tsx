@@ -22,7 +22,7 @@ import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 interface ContactPreviewProps {
   users: ProjectClient[];
   projectID: string;
-  refreshUsers: Function;
+  refreshUsers: () => void;
   currentUser: User;
 }
 
@@ -88,10 +88,10 @@ interface ValidationProps {
 
 interface ModalContentProps {
   projectID: string;
-  refreshUsers: Function;
+  refreshUsers: () => void;
   users: ProjectClient[];
   selectedUser?: ProjectClient;
-  close?: Function;
+  close?: () => void;
   currentUser: User;
 }
 
@@ -271,6 +271,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onBlur={(e) => setName(e.target.value.trim())}
             name="name"
             className={classnames('input', { 'is-danger': invalids.name })}
             type="text"
@@ -285,6 +286,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            onBlur={(e) => setTitle(e.target.value.trim())}
             name="title"
             className={classnames('input', { 'is-danger': invalids.title })}
             type="text"
@@ -299,6 +301,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onBlur={(e) => setEmail(e.target.value.trim())}
             required
             disabled={!!selectedUser}
             name="email"

@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import React, {useState, FormEvent, useCallback} from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import serialize from 'form-serialize';
@@ -22,14 +22,36 @@ interface ValidationProps {
   password?: string;
 }
 
+const SIGN_UP = '/sign-up';
+const FORGOT_PASSWORD = '/forgot-password';
+
 const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   const [emailInState, setEmailInState] = useState('');
   const [isPasswordShowing, setPasswordShowing] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
+  const [valuesFields, setValuesFields] = useState<Record<string, string>>({ email: '', password: '' });
   const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
+
+  const onChangeInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const { target: { name, value } = {} } = event;
+      setValuesFields((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }, [setValuesFields],
+  );
+
+  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+  }, [setValuesFields]);
 
   function validate({ email, password }: ValidationProps) {
     const temp: ValidationProps = {};
@@ -54,15 +76,13 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     }
   }
 
-  async function handleSignInClick(e: FormEvent) {
-    e.preventDefault();
+  async function handleSignInClick() {
     setRequestPending(true);
     setFlash('');
     setInvalids({});
 
-    const formData = serialize(e.target, { hash: true });
-    const { email, password } = formData;
-    const validation = validate(formData);
+    const { email, password } = valuesFields;
+    const validation = validate(valuesFields);
 
     if (Object.keys(validation).length) {
       setRequestPending(false);
@@ -106,18 +126,29 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   ) : (
     <div className={pageStyles.authPage}>
       <ProjectHeader />
-      <form onSubmit={handleSignInClick} className={pageStyles.body}>
+      <div className={pageStyles.body}>
         <div className={classnames(pageStyles.header)}>Sign In to Continuum</div>
         <div className={pageStyles.inputWrapper}>
-          <input name="email" className={`${invalids.email ? pageStyles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
+          <input
+            name="email"
+            value={valuesFields.email}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
+            type="email"
+            placeholder="Email"
+            className={`${invalids.email ? pageStyles[invalids.email] : ''} input-1`}
+          />
           <EmailIcon />
         </div>
         <div className={pageStyles.inputWrapper}>
           <input
             name="password"
-            className={`${invalids.password ? pageStyles[invalids.password] : ''} input-1`}
+            value={valuesFields.password}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
+            className={`${invalids.password ? pageStyles[invalids.password] : ''} input-1`}
           />
           <div tabIndex={0} role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
             {isPasswordShowing ? (
@@ -128,8 +159,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
           </div>
         </div>
         <div className={styles.forgotPassword}>
-          <Link href="/forgot-password">
-            <a href="/forgot-password">
+          <Link href={FORGOT_PASSWORD}>
+            <a href={FORGOT_PASSWORD}>
               <ForgotPassword />
             </a>
           </Link>
@@ -137,6 +168,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         <button
           disabled={isRequestPending}
           type="submit"
+          onClick={handleSignInClick}
           className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Sign In
@@ -145,11 +177,11 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton>
         <div>
           No account?{' '}
-          <Link href="/sign-up">
-            <a href="/sign-up">Sign Up</a>
+          <Link href={SIGN_UP}>
+            <a href={SIGN_UP}>Sign Up</a>
           </Link>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

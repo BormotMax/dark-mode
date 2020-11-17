@@ -1,7 +1,6 @@
-import { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, memo, useCallback } from 'react';
 import { Auth } from '@aws-amplify/auth';
 import Router from 'next/router';
-import serialize from 'form-serialize';
 import classnames from 'classnames';
 import styles from '../../pages/styles/authPage.module.scss';
 import s from './confirmSignUp.module.scss';
@@ -11,7 +10,7 @@ import { useLogger, useFlash } from '../../hooks';
 interface ConfirmSignUpProps {
   email: string;
   parentPage: string;
-  setConfirming: Function;
+  setConfirming: (value: boolean) => void;
 }
 
 interface ValidationProps {
@@ -19,11 +18,28 @@ interface ValidationProps {
   email?: string;
 }
 
-export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage, setConfirming }) => {
-  const [isRequestPending, setRequestPending] = useState(false);
+export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = memo(({ email: emailProp, parentPage, setConfirming }) => {
+  const [isRequestPending, setRequestPending] = useState<boolean>(false);
+  const [valuesFields, setValuesFields] = useState<Record<string, string>>({ email: emailProp, code: '' });
   const { setFlash } = useFlash();
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
+
+  const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }, [setValuesFields]);
+
+  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+  }, [setValuesFields]);
 
   function validate({ code }: ValidationProps, exclude: Array<string> = []) {
     const temp: ValidationProps = {};
@@ -32,15 +48,13 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
     return temp;
   }
 
-  async function handleConfirmClick(e: FormEvent) {
-    e.preventDefault();
+  async function handleConfirmClick() {
     setRequestPending(true);
     setFlash('');
     setInvalids({});
 
-    const formData = serialize(e.target, { hash: true });
-    const { code } = formData;
-    const validation = validate(formData);
+    const { email, code } = valuesFields;
+    const validation = validate(valuesFields);
 
     if (Object.keys(validation).length) {
       setRequestPending(false);
@@ -64,8 +78,8 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
       setFlash('');
       setInvalids({});
 
-      const formData = serialize((e.target as HTMLFormElement).parentElement, { hash: true });
-      const validation = validate(formData, ['code']);
+      const { email } = valuesFields;
+      const validation = validate(valuesFields, ['email']);
 
       if (Object.keys(validation).length) {
         setRequestPending(false);
@@ -85,19 +99,32 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
     }
   }
 
+  const setConfirmingFalse = () => {
+    setConfirming(false);
+  };
+
   return (
     <div className={styles.authPage}>
       <ProjectHeader />
-      <form onSubmit={handleConfirmClick} className={styles.body}>
+      <div className={styles.body}>
         <div className={classnames(styles.header)}>Confirm Sign Up</div>
         <input
           readOnly
-          value={email}
+          value={valuesFields.email}
+          onChange={onChangeInput}
+          onBlur={onBlurInput}
           name="email"
           className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
           placeholder="Email"
         />
-        <input name="code" className={`${invalids.code ? styles[invalids.code] : ''} input-1`} placeholder="Enter your code" />
+        <input
+          name="code"
+          value={valuesFields.code}
+          onChange={onChangeInput}
+          onBlur={onBlurInput}
+          placeholder="Enter your code"
+          className={`${invalids.code ? styles[invalids.code] : ''} input-1`}
+        />
         <div
           onKeyDown={handleResendCode}
           onClick={handleResendCode}
@@ -110,17 +137,25 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = ({ email, parentPage,
         <button
           disabled={isRequestPending}
           type="submit"
+          onClick={handleConfirmClick}
           className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Confirm
         </button>
         <div>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a role="link" tabIndex={0} onKeyDown={() => setConfirming(false)} onClick={() => setConfirming(false)}>
+          <a
+            role="link"
+            tabIndex={0}
+            onKeyDown={setConfirmingFalse}
+            onClick={setConfirmingFalse}
+          >
             Back to {parentPage === 'signIn' ? 'Sign In' : 'Sign Up'}
           </a>
         </div>
-      </form>
+      </div>
     </div>
   );
-};
+});
+
+ConfirmSignUp.displayName = 'ConfirmSignUp';

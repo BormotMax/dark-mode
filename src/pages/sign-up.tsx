@@ -1,7 +1,6 @@
-import { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useCallback, memo } from 'react';
 import Link from 'next/link';
 import { Auth } from '@aws-amplify/auth';
-import serialize from 'form-serialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
@@ -20,12 +19,16 @@ interface ValidationProps {
   password?: string;
 }
 
-const SignUp: React.FC = () => {
+const TERMS_CONDITIONS = '/terms-and-conditions';
+const SIGN_IN = '/signIn';
+
+const SignUp: React.FC = memo(() => {
   const [emailInState, setEmailInState] = useState('');
   const [isPasswordShowing, setPasswordShowing] = useState(false);
-  const [isConfirming, setConfirming] = useState(false);
+  const [isConfirming, setConfirming] = useState<boolean>(false);
   const [isRequestPending, setRequestPending] = useState(false);
   const { setFlash } = useFlash();
+  const [valuesFields, setValuesFields] = useState<Record<string, string>>({ name: '', email: '', password: '' });
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
 
@@ -37,15 +40,31 @@ const SignUp: React.FC = () => {
     return temp;
   }
 
-  async function handleCreateAccountClick(e: FormEvent) {
-    e.preventDefault();
+  const onChangeInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const { target: { name, value } = {} } = event;
+      setValuesFields((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }, [setValuesFields],
+  );
+
+  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setValuesFields((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+  }, [setValuesFields]);
+
+  async function handleCreateAccountClick() {
     setRequestPending(true);
     setFlash('');
     setInvalids({});
 
-    const formData = serialize(e.target, { hash: true });
-    const { email, password, name } = formData;
-    const validation = validate(formData);
+    const { email, password, name } = valuesFields;
+    const validation = validate(valuesFields);
 
     if (Object.keys(validation).length) {
       setRequestPending(false);
@@ -103,27 +122,51 @@ const SignUp: React.FC = () => {
   ) : (
     <div className={styles.authPage}>
       <ProjectHeader />
-      <form onSubmit={handleCreateAccountClick} className={styles.body}>
+      <div className={styles.body}>
         <div className={classnames(styles.header)}>Sign up for Continuum</div>
         <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>Sign Up with Google</GoogleAuthButton>
         <div className="text-1 text-drkgray mbm">Or, sign up with Email</div>
         <div className={styles.inputWrapper}>
-          <input name="name" className={`${invalids.name ? styles[invalids.name] : ''} input-1`} type="text" placeholder="Full Name" />
+          <input
+            name="name"
+            value={valuesFields.name}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
+            type="text"
+            placeholder="Full Name"
+            className={`${invalids.name ? styles[invalids.name] : ''} input-1`}
+          />
           <NameIcon />
         </div>
         <div className={styles.inputWrapper}>
-          <input name="email" className={`${invalids.email ? styles[invalids.email] : ''} input-1`} type="email" placeholder="Email" />
+          <input
+            name="email"
+            value={valuesFields.email}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
+            type="email"
+            placeholder="Email"
+            className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
+          />
           <EmailIcon />
         </div>
         <div className={styles.inputWrapper}>
           <input
             name="password"
-            className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
+            value={valuesFields.password}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
+            className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
           />
-          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
-          <div role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
+          <div
+            role="button"
+            tabIndex={0}
+            className={styles.eyeIconWrapper}
+            onKeyDown={handleEyeballClick}
+            onClick={handleEyeballClick}
+          >
             {isPasswordShowing ? (
               <FontAwesomeIcon color="#BDBDBD" tabIndex={0} icon={faEyeSlash} size="1x" />
             ) : (
@@ -133,26 +176,29 @@ const SignUp: React.FC = () => {
         </div>
         <div className="text-1 mbm">
           By signing up I agree to the{' '}
-          <Link href="/terms-and-conditions">
-            <a href="/terms-and-conditions">Terms of Service</a>
+          <Link href={TERMS_CONDITIONS}>
+            <a href={TERMS_CONDITIONS}>Terms of Service</a>
           </Link>
         </div>
         <button
           disabled={isRequestPending}
           type="submit"
+          onClick={handleCreateAccountClick}
           className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
         >
           Create a Free Account
         </button>
         <div>
-          <Link href="/signIn">
-            <a href="/signIn">Sign In</a>
+          <Link href={SIGN_IN}>
+            <a href={SIGN_IN}>Sign In</a>
           </Link>{' '}
           with existing account
         </div>
-      </form>
+      </div>
     </div>
   );
-};
+});
+
+SignUp.displayName = 'SignUp';
 
 export default WithAuthentication(SignUp, { routeType: RouteType.SIGNED_OUT });
