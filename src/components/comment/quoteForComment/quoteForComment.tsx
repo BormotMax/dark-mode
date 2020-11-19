@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
+import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { ProtectedElse } from '../../protected/protected';
@@ -93,7 +93,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
           .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
           .map((task) => (
             <div key={task.id} className={classnames(styles.task)}>
-              <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
+              <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
               <div>{task.text}</div>
             </div>
           ))}
@@ -125,18 +125,18 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
         {quote.status === QuoteStatus.ACCEPTED && (
           <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.green, styles.buttonStyles)}>
             ACCEPTED{quote.statusLastChangedAt && (
-              <span className="is-hidden-mobile">
-                &nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}
-              </span>
+            <span className="is-hidden-mobile">
+              &nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}
+            </span>
           )}
           </div>
         )}
         {quote.status === QuoteStatus.DECLINE && (
           <div className={classnames('btn-large', 'btn-large--inline', 'button', styles.red, styles.buttonStyles)}>
             DECLINED{quote.statusLastChangedAt && (
-              <span className="is-hidden-mobile">
-                &nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}
-              </span>
+            <span className="is-hidden-mobile">
+              &nbsp;{dayjs(quote.statusLastChangedAt).format('lll')}
+            </span>
           )}
           </div>
         )}

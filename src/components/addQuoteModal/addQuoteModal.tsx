@@ -2,7 +2,8 @@ import classnames from 'classnames';
 import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faTimes, faTimesCircle } from '@fortawesome/pro-light-svg-icons';
-import { faCheckCircle, faCircle, faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
+import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
 import gql from 'graphql-tag';
 import styles from './addQuoteModal.module.scss';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
@@ -294,10 +295,10 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                     />
                     <span className={classnames(modalStyles.checkmarks)}>
                       <span className={classnames(modalStyles.unchecked)}>
-                        <FontAwesomeIcon color="#595959" icon={faCircle} />
+                        <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
                       </span>
                       <span className={classnames(modalStyles.checked)}>
-                        <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
+                        <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
                       </span>
                     </span>
                   </>
@@ -320,10 +321,10 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                   />
                   <span className={classnames(modalStyles.checkmarks)}>
                     <span className={classnames(modalStyles.unchecked)}>
-                      <FontAwesomeIcon color="#595959" icon={faCircle} />
+                      <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
                     </span>
                     <span className={classnames(modalStyles.checked)}>
-                      <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
+                      <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
                     </span>
                   </span>
                 </>

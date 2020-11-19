@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
-import { faCircle, faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
+import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
 
 import { ProjectClient, User } from '../../types/custom';
@@ -323,10 +323,10 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           />
           <span className={classnames(modalStyles.checkmarks)}>
             <span className={classnames(modalStyles.unchecked)}>
-              <FontAwesomeIcon color="#595959" icon={faCircle} />
+              <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
             </span>
             <span className={classnames(modalStyles.checked)}>
-              <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
+              <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
             </span>
           </span>
           <div>Client&apos;s Team</div>
@@ -342,10 +342,10 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           />
           <span className={classnames(modalStyles.checkmarks)}>
             <span className={classnames(modalStyles.unchecked)}>
-              <FontAwesomeIcon color="#595959" icon={faCircle} />
+              <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
             </span>
             <span className={classnames(modalStyles.checked)}>
-              <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
+              <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
             </span>
           </span>
           My Team

@@ -1,4 +1,4 @@
-import { faCircle, faCheckCircle } from '@fortawesome/pro-regular-svg-icons';
+import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import styles from './checklist.module.scss';
@@ -36,10 +36,10 @@ export const CheckList: React.FC<CheckListProps> = ({ listItems, name, callback,
           <label htmlFor={`${name}:${item.id}`}>
             <div className={styles.checkboxes}>
               <div className={styles.checked}>
-                <FontAwesomeIcon color="#595959" icon={faCheckCircle} />
+                <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
               </div>
               <div className={styles.unchecked}>
-                <FontAwesomeIcon color="#595959" icon={faCircle} />
+                <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
               </div>
             </div>
             <span className={styles.text}>{item.listItem}</span>
