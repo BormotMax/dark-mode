@@ -13,4 +13,5 @@ module.exports = {
     // Important: return the modified config
     return config;
   },
+  trailingSpace: true,
 };
