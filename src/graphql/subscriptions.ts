@@ -1301,6 +1301,18 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               }
               nextToken
             }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -1650,6 +1662,18 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
                 quoteID
                 text
                 completed
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
                 createdAt
                 updatedAt
               }
@@ -2009,6 +2033,18 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               }
               nextToken
             }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -2318,6 +2354,18 @@ export const onCreateProject = /* GraphQL */ `
               quoteID
               text
               completed
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          payments {
+            items {
+              id
+              fromUserID
+              toUserID
+              quoteID
+              amount
               createdAt
               updatedAt
             }
@@ -2652,6 +2700,18 @@ export const onUpdateProject = /* GraphQL */ `
             }
             nextToken
           }
+          payments {
+            items {
+              id
+              fromUserID
+              toUserID
+              quoteID
+              amount
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         nextToken
       }
@@ -2981,6 +3041,18 @@ export const onDeleteProject = /* GraphQL */ `
             }
             nextToken
           }
+          payments {
+            items {
+              id
+              fromUserID
+              toUserID
+              quoteID
+              amount
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         nextToken
       }
@@ -3125,6 +3197,18 @@ export const onCreateQuote = /* GraphQL */ `
         }
         nextToken
       }
+      payments {
+        items {
+          id
+          fromUserID
+          toUserID
+          quoteID
+          amount
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -3152,6 +3236,18 @@ export const onUpdateQuote = /* GraphQL */ `
         }
         nextToken
       }
+      payments {
+        items {
+          id
+          fromUserID
+          toUserID
+          quoteID
+          amount
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -3174,6 +3270,18 @@ export const onDeleteQuote = /* GraphQL */ `
           quoteID
           text
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      payments {
+        items {
+          id
+          fromUserID
+          toUserID
+          quoteID
+          amount
           createdAt
           updatedAt
         }
@@ -5088,6 +5196,45 @@ export const onDeleteNote = /* GraphQL */ `
       projectFreelancerID
       title
       content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateQuotePayment = /* GraphQL */ `
+  subscription OnCreateQuotePayment {
+    onCreateQuotePayment {
+      id
+      fromUserID
+      toUserID
+      quoteID
+      amount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateQuotePayment = /* GraphQL */ `
+  subscription OnUpdateQuotePayment {
+    onUpdateQuotePayment {
+      id
+      fromUserID
+      toUserID
+      quoteID
+      amount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteQuotePayment = /* GraphQL */ `
+  subscription OnDeleteQuotePayment {
+    onDeleteQuotePayment {
+      id
+      fromUserID
+      toUserID
+      quoteID
+      amount
       createdAt
       updatedAt
     }

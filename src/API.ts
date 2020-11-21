@@ -203,6 +203,39 @@ export type ModelNoteConditionInput = {
   not?: ModelNoteConditionInput | null,
 };
 
+export type UpdateQuotePaymentInput = {
+  fromUserID?: string | null,
+  toUserID?: string | null,
+  quoteID?: string | null,
+  amount?: number | null,
+};
+
+export type ModelQuotePaymentConditionInput = {
+  fromUserID?: ModelIDInput | null,
+  toUserID?: ModelIDInput | null,
+  quoteID?: ModelIDInput | null,
+  amount?: ModelIntInput | null,
+  and?: Array< ModelQuotePaymentConditionInput | null > | null,
+  or?: Array< ModelQuotePaymentConditionInput | null > | null,
+  not?: ModelQuotePaymentConditionInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type DeleteQuotePaymentInput = {
+  id?: string | null,
+};
+
 export type CreateUserInput = {
   id?: string | null,
   name?: string | null,
@@ -297,18 +330,6 @@ export type ModelQuoteConditionInput = {
   and?: Array< ModelQuoteConditionInput | null > | null,
   or?: Array< ModelQuoteConditionInput | null > | null,
   not?: ModelQuoteConditionInput | null,
-};
-
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
 };
 
 export type ModelQuoteBillingTypeInput = {
@@ -485,6 +506,14 @@ export type UpdateNoteInput = {
   content?: string | null,
 };
 
+export type CreateQuotePaymentInput = {
+  id?: string | null,
+  fromUserID: string,
+  toUserID: string,
+  quoteID: string,
+  amount: number,
+};
+
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -628,6 +657,16 @@ export type ModelNoteFilterInput = {
   and?: Array< ModelNoteFilterInput | null > | null,
   or?: Array< ModelNoteFilterInput | null > | null,
   not?: ModelNoteFilterInput | null,
+};
+
+export type ModelQuotePaymentFilterInput = {
+  fromUserID?: ModelIDInput | null,
+  toUserID?: ModelIDInput | null,
+  quoteID?: ModelIDInput | null,
+  amount?: ModelIntInput | null,
+  and?: Array< ModelQuotePaymentFilterInput | null > | null,
+  or?: Array< ModelQuotePaymentFilterInput | null > | null,
+  not?: ModelQuotePaymentFilterInput | null,
 };
 
 export type DeleteUserMutationVariables = {
@@ -1351,6 +1390,20 @@ export type DeleteProjectFreelancerMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -1707,6 +1760,20 @@ export type UpdateProjectMutation = {
             quoteID: string,
             text: string,
             completed: boolean,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
+        payments:  {
+          __typename: "ModelQuotePaymentConnection",
+          items:  Array< {
+            __typename: "QuotePayment",
+            id: string,
+            fromUserID: string,
+            toUserID: string,
+            quoteID: string,
+            amount: number,
             createdAt: string,
             updatedAt: string,
           } | null > | null,
@@ -2090,6 +2157,20 @@ export type DeleteProjectMutation = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+        payments:  {
+          __typename: "ModelQuotePaymentConnection",
+          items:  Array< {
+            __typename: "QuotePayment",
+            id: string,
+            fromUserID: string,
+            toUserID: string,
+            quoteID: string,
+            amount: number,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -2226,6 +2307,42 @@ export type DeleteNoteMutation = {
     projectFreelancerID: string,
     title: string,
     content: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateQuotePaymentMutationVariables = {
+  input: UpdateQuotePaymentInput,
+  condition?: ModelQuotePaymentConditionInput | null,
+};
+
+export type UpdateQuotePaymentMutation = {
+  updateQuotePayment:  {
+    __typename: "QuotePayment",
+    id: string,
+    fromUserID: string,
+    toUserID: string,
+    quoteID: string,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteQuotePaymentMutationVariables = {
+  input: DeleteQuotePaymentInput,
+  condition?: ModelQuotePaymentConditionInput | null,
+};
+
+export type DeleteQuotePaymentMutation = {
+  deleteQuotePayment:  {
+    __typename: "QuotePayment",
+    id: string,
+    fromUserID: string,
+    toUserID: string,
+    quoteID: string,
+    amount: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3331,6 +3448,20 @@ export type CreateProjectFreelancerMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -3736,6 +3867,20 @@ export type UpdateProjectFreelancerMutation = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -4097,6 +4242,20 @@ export type CreateProjectMutation = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+        payments:  {
+          __typename: "ModelQuotePaymentConnection",
+          items:  Array< {
+            __typename: "QuotePayment",
+            id: string,
+            fromUserID: string,
+            toUserID: string,
+            quoteID: string,
+            amount: number,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -4230,6 +4389,20 @@ export type CreateQuoteMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    payments:  {
+      __typename: "ModelQuotePaymentConnection",
+      items:  Array< {
+        __typename: "QuotePayment",
+        id: string,
+        fromUserID: string,
+        toUserID: string,
+        quoteID: string,
+        amount: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
@@ -4264,6 +4437,20 @@ export type UpdateQuoteMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    payments:  {
+      __typename: "ModelQuotePaymentConnection",
+      items:  Array< {
+        __typename: "QuotePayment",
+        id: string,
+        fromUserID: string,
+        toUserID: string,
+        quoteID: string,
+        amount: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
@@ -4293,6 +4480,20 @@ export type DeleteQuoteMutation = {
         quoteID: string,
         text: string,
         completed: boolean,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    payments:  {
+      __typename: "ModelQuotePaymentConnection",
+      items:  Array< {
+        __typename: "QuotePayment",
+        id: string,
+        fromUserID: string,
+        toUserID: string,
+        quoteID: string,
+        amount: number,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -6477,6 +6678,24 @@ export type UpdateNoteMutation = {
   } | null,
 };
 
+export type CreateQuotePaymentMutationVariables = {
+  input: CreateQuotePaymentInput,
+  condition?: ModelQuotePaymentConditionInput | null,
+};
+
+export type CreateQuotePaymentMutation = {
+  createQuotePayment:  {
+    __typename: "QuotePayment",
+    id: string,
+    fromUserID: string,
+    toUserID: string,
+    quoteID: string,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type ListUsersQueryVariables = {
   filter?: ModelUserFilterInput | null,
   limit?: number | null,
@@ -7466,6 +7685,20 @@ export type GetProjectFreelancerQuery = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -7746,6 +7979,10 @@ export type ListProjectFreelancersQuery = {
               __typename: "ModelTaskConnection",
               nextToken: string | null,
             } | null,
+            payments:  {
+              __typename: "ModelQuotePaymentConnection",
+              nextToken: string | null,
+            } | null,
           } | null > | null,
           nextToken: string | null,
         } | null,
@@ -8017,6 +8254,10 @@ export type ProjectsByFreelancerQuery = {
               __typename: "ModelTaskConnection",
               nextToken: string | null,
             } | null,
+            payments:  {
+              __typename: "ModelQuotePaymentConnection",
+              nextToken: string | null,
+            } | null,
           } | null > | null,
           nextToken: string | null,
         } | null,
@@ -8251,6 +8492,20 @@ export type ListProjectsQuery = {
               quoteID: string,
               text: string,
               completed: boolean,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -8604,6 +8859,20 @@ export type GetProjectQuery = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+        payments:  {
+          __typename: "ModelQuotePaymentConnection",
+          items:  Array< {
+            __typename: "QuotePayment",
+            id: string,
+            fromUserID: string,
+            toUserID: string,
+            quoteID: string,
+            amount: number,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -8762,6 +9031,20 @@ export type GetQuoteQuery = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    payments:  {
+      __typename: "ModelQuotePaymentConnection",
+      items:  Array< {
+        __typename: "QuotePayment",
+        id: string,
+        fromUserID: string,
+        toUserID: string,
+        quoteID: string,
+        amount: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
@@ -8794,6 +9077,20 @@ export type ListQuotesQuery = {
           quoteID: string,
           text: string,
           completed: boolean,
+          createdAt: string,
+          updatedAt: string,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
+      payments:  {
+        __typename: "ModelQuotePaymentConnection",
+        items:  Array< {
+          __typename: "QuotePayment",
+          id: string,
+          fromUserID: string,
+          toUserID: string,
+          quoteID: string,
+          amount: number,
           createdAt: string,
           updatedAt: string,
         } | null > | null,
@@ -10254,6 +10551,46 @@ export type ListNotesQuery = {
   } | null,
 };
 
+export type GetQuotePaymentQueryVariables = {
+  id: string,
+};
+
+export type GetQuotePaymentQuery = {
+  getQuotePayment:  {
+    __typename: "QuotePayment",
+    id: string,
+    fromUserID: string,
+    toUserID: string,
+    quoteID: string,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListQuotePaymentsQueryVariables = {
+  filter?: ModelQuotePaymentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListQuotePaymentsQuery = {
+  listQuotePayments:  {
+    __typename: "ModelQuotePaymentConnection",
+    items:  Array< {
+      __typename: "QuotePayment",
+      id: string,
+      fromUserID: string,
+      toUserID: string,
+      quoteID: string,
+      amount: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
 export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
@@ -11698,6 +12035,20 @@ export type OnCreateProjectFreelancerSubscription = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -12093,6 +12444,20 @@ export type OnUpdateProjectFreelancerSubscription = {
               quoteID: string,
               text: string,
               completed: boolean,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
               createdAt: string,
               updatedAt: string,
             } | null > | null,
@@ -12498,6 +12863,20 @@ export type OnDeleteProjectFreelancerSubscription = {
             } | null > | null,
             nextToken: string | null,
           } | null,
+          payments:  {
+            __typename: "ModelQuotePaymentConnection",
+            items:  Array< {
+              __typename: "QuotePayment",
+              id: string,
+              fromUserID: string,
+              toUserID: string,
+              quoteID: string,
+              amount: number,
+              createdAt: string,
+              updatedAt: string,
+            } | null > | null,
+            nextToken: string | null,
+          } | null,
         } | null > | null,
         nextToken: string | null,
       } | null,
@@ -12849,6 +13228,20 @@ export type OnCreateProjectSubscription = {
             quoteID: string,
             text: string,
             completed: boolean,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
+        payments:  {
+          __typename: "ModelQuotePaymentConnection",
+          items:  Array< {
+            __typename: "QuotePayment",
+            id: string,
+            fromUserID: string,
+            toUserID: string,
+            quoteID: string,
+            amount: number,
             createdAt: string,
             updatedAt: string,
           } | null > | null,
@@ -13227,6 +13620,20 @@ export type OnUpdateProjectSubscription = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+        payments:  {
+          __typename: "ModelQuotePaymentConnection",
+          items:  Array< {
+            __typename: "QuotePayment",
+            id: string,
+            fromUserID: string,
+            toUserID: string,
+            quoteID: string,
+            amount: number,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -13600,6 +14007,20 @@ export type OnDeleteProjectSubscription = {
           } | null > | null,
           nextToken: string | null,
         } | null,
+        payments:  {
+          __typename: "ModelQuotePaymentConnection",
+          items:  Array< {
+            __typename: "QuotePayment",
+            id: string,
+            fromUserID: string,
+            toUserID: string,
+            quoteID: string,
+            amount: number,
+            createdAt: string,
+            updatedAt: string,
+          } | null > | null,
+          nextToken: string | null,
+        } | null,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -13757,6 +14178,20 @@ export type OnCreateQuoteSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    payments:  {
+      __typename: "ModelQuotePaymentConnection",
+      items:  Array< {
+        __typename: "QuotePayment",
+        id: string,
+        fromUserID: string,
+        toUserID: string,
+        quoteID: string,
+        amount: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
@@ -13786,6 +14221,20 @@ export type OnUpdateQuoteSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    payments:  {
+      __typename: "ModelQuotePaymentConnection",
+      items:  Array< {
+        __typename: "QuotePayment",
+        id: string,
+        fromUserID: string,
+        toUserID: string,
+        quoteID: string,
+        amount: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
@@ -13810,6 +14259,20 @@ export type OnDeleteQuoteSubscription = {
         quoteID: string,
         text: string,
         completed: boolean,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    payments:  {
+      __typename: "ModelQuotePaymentConnection",
+      items:  Array< {
+        __typename: "QuotePayment",
+        id: string,
+        fromUserID: string,
+        toUserID: string,
+        quoteID: string,
+        amount: number,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -15931,6 +16394,45 @@ export type OnDeleteNoteSubscription = {
     projectFreelancerID: string,
     title: string,
     content: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateQuotePaymentSubscription = {
+  onCreateQuotePayment:  {
+    __typename: "QuotePayment",
+    id: string,
+    fromUserID: string,
+    toUserID: string,
+    quoteID: string,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateQuotePaymentSubscription = {
+  onUpdateQuotePayment:  {
+    __typename: "QuotePayment",
+    id: string,
+    fromUserID: string,
+    toUserID: string,
+    quoteID: string,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteQuotePaymentSubscription = {
+  onDeleteQuotePayment:  {
+    __typename: "QuotePayment",
+    id: string,
+    fromUserID: string,
+    toUserID: string,
+    quoteID: string,
+    amount: number,
     createdAt: string,
     updatedAt: string,
   } | null,

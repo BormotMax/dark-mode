@@ -642,6 +642,18 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               }
               nextToken
             }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -954,6 +966,18 @@ export const updateProject = /* GraphQL */ `
               quoteID
               text
               completed
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          payments {
+            items {
+              id
+              fromUserID
+              toUserID
+              quoteID
+              amount
               createdAt
               updatedAt
             }
@@ -1291,6 +1315,18 @@ export const deleteProject = /* GraphQL */ `
             }
             nextToken
           }
+          payments {
+            items {
+              id
+              fromUserID
+              toUserID
+              quoteID
+              amount
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         nextToken
       }
@@ -1411,6 +1447,38 @@ export const deleteNote = /* GraphQL */ `
       projectFreelancerID
       title
       content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateQuotePayment = /* GraphQL */ `
+  mutation UpdateQuotePayment(
+    $input: UpdateQuotePaymentInput!
+    $condition: ModelQuotePaymentConditionInput
+  ) {
+    updateQuotePayment(input: $input, condition: $condition) {
+      id
+      fromUserID
+      toUserID
+      quoteID
+      amount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteQuotePayment = /* GraphQL */ `
+  mutation DeleteQuotePayment(
+    $input: DeleteQuotePaymentInput!
+    $condition: ModelQuotePaymentConditionInput
+  ) {
+    deleteQuotePayment(input: $input, condition: $condition) {
+      id
+      fromUserID
+      toUserID
+      quoteID
+      amount
       createdAt
       updatedAt
     }
@@ -2396,6 +2464,18 @@ export const createProjectFreelancer = /* GraphQL */ `
               }
               nextToken
             }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -2753,6 +2833,18 @@ export const updateProjectFreelancer = /* GraphQL */ `
               }
               nextToken
             }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -3070,6 +3162,18 @@ export const createProject = /* GraphQL */ `
             }
             nextToken
           }
+          payments {
+            items {
+              id
+              fromUserID
+              toUserID
+              quoteID
+              amount
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         nextToken
       }
@@ -3188,6 +3292,18 @@ export const createQuote = /* GraphQL */ `
         }
         nextToken
       }
+      payments {
+        items {
+          id
+          fromUserID
+          toUserID
+          quoteID
+          amount
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -3218,6 +3334,18 @@ export const updateQuote = /* GraphQL */ `
         }
         nextToken
       }
+      payments {
+        items {
+          id
+          fromUserID
+          toUserID
+          quoteID
+          amount
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -3243,6 +3371,18 @@ export const deleteQuote = /* GraphQL */ `
           quoteID
           text
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      payments {
+        items {
+          id
+          fromUserID
+          toUserID
+          quoteID
+          amount
           createdAt
           updatedAt
         }
@@ -5187,6 +5327,22 @@ export const updateNote = /* GraphQL */ `
       projectFreelancerID
       title
       content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createQuotePayment = /* GraphQL */ `
+  mutation CreateQuotePayment(
+    $input: CreateQuotePaymentInput!
+    $condition: ModelQuotePaymentConditionInput
+  ) {
+    createQuotePayment(input: $input, condition: $condition) {
+      id
+      fromUserID
+      toUserID
+      quoteID
+      amount
       createdAt
       updatedAt
     }

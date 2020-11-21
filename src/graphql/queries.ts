@@ -875,6 +875,18 @@ export const getProjectFreelancer = /* GraphQL */ `
               }
               nextToken
             }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
           }
           nextToken
         }
@@ -1127,6 +1139,9 @@ export const listProjectFreelancers = /* GraphQL */ `
               tasks {
                 nextToken
               }
+              payments {
+                nextToken
+              }
             }
             nextToken
           }
@@ -1374,6 +1389,9 @@ export const projectsByFreelancer = /* GraphQL */ `
               tasks {
                 nextToken
               }
+              payments {
+                nextToken
+              }
             }
             nextToken
           }
@@ -1577,6 +1595,18 @@ export const listProjects = /* GraphQL */ `
                 quoteID
                 text
                 completed
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            payments {
+              items {
+                id
+                fromUserID
+                toUserID
+                quoteID
+                amount
                 createdAt
                 updatedAt
               }
@@ -1886,6 +1916,18 @@ export const getProject = /* GraphQL */ `
             }
             nextToken
           }
+          payments {
+            items {
+              id
+              fromUserID
+              toUserID
+              quoteID
+              amount
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         nextToken
       }
@@ -2021,6 +2063,18 @@ export const getQuote = /* GraphQL */ `
         }
         nextToken
       }
+      payments {
+        items {
+          id
+          fromUserID
+          toUserID
+          quoteID
+          amount
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -2048,6 +2102,18 @@ export const listQuotes = /* GraphQL */ `
             quoteID
             text
             completed
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        payments {
+          items {
+            id
+            fromUserID
+            toUserID
+            quoteID
+            amount
             createdAt
             updatedAt
           }
@@ -3353,6 +3419,39 @@ export const listNotes = /* GraphQL */ `
         projectFreelancerID
         title
         content
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getQuotePayment = /* GraphQL */ `
+  query GetQuotePayment($id: ID!) {
+    getQuotePayment(id: $id) {
+      id
+      fromUserID
+      toUserID
+      quoteID
+      amount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listQuotePayments = /* GraphQL */ `
+  query ListQuotePayments(
+    $filter: ModelQuotePaymentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listQuotePayments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        fromUserID
+        toUserID
+        quoteID
+        amount
         createdAt
         updatedAt
       }

@@ -115,10 +115,11 @@ type Quote
   tasks: [Task] @connection(keyName: "byQuote", fields: ["id"])
   billableHours: Int
   chargePerHour: Int
-  totalPrice: Int
+  totalPrice: Int # usd cents
   billingType: QuoteBillingType!
   status: QuoteStatus
   statusLastChangedAt: AWSDateTime
+  payments: [QuotePayment] @connection(keyName: "byQuote", fields: ["id"])
 }
 
 type Comment
@@ -203,6 +204,22 @@ type Note
   projectFreelancerID: ID!
   title: String!
   content: String
+}
+
+type QuotePayment
+  @model
+  @key(name: "byQuote", fields: ["quoteID"])
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read] }
+      { allow: public, provider: iam, operations: [create, read] }
+      { allow: private, operations: [create, read] }
+    ]
+  ) {
+  fromUserID: ID!
+  toUserID: ID!
+  quoteID: ID!
+  amount: Int!
 }
 
 enum QuoteStatus {
