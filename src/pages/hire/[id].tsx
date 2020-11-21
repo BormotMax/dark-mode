@@ -150,7 +150,7 @@ const Hire: React.FC = () => {
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         {currentUser?.attributes?.sub === hireInfo.freelancerID && (
         <Header headerText="Hire Page preview" page={Page.HIRE}>
-          <ButtonSmall inverted onClick={goToEditHirePage} text="Exit" isSaving={isSaving} />
+          <ButtonSmall inverted onClick={goToEditHirePage} text="Edit" isSaving={isSaving} />
         </Header>)}
         <div className={classnames(styles.upper)}>
           <div className={styles.bannerImage__mobile}>

@@ -30,7 +30,6 @@ const HirePageEditor = ({ currentUser }) => {
   const router = useRouter();
   const { setFlash, setDelayedFlash } = useFlash();
   const [loading, setLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
   const [hireInfo, setHireInfo] = useState(null);
   const [saving, setSaving] = useState(false);
   const [portfolioImages, setPortfolioImages] = useState({});
@@ -44,7 +43,6 @@ const HirePageEditor = ({ currentUser }) => {
     blurbText: '',
     buttonText: '',
     domainSlugID: '',
-    existingDomainSlug: '',
     dribbbleUrl: '',
     instagramUrl: '',
     linkedInUrl: '',
@@ -59,21 +57,13 @@ const HirePageEditor = ({ currentUser }) => {
     if (name === 'domainSlugID') {
       setValuesFields((prevState) => ({
         ...prevState,
-        [name]: `${SLUG_PREFIX}${value.substr(SLUG_PREFIX.length)}`,
+        [name]: `${value.substr(SLUG_PREFIX.length)}`,
       }));
       return;
     }
     setValuesFields((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  }, [setValuesFields]);
-
-  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    const { target: { name, value } = {} } = event;
-    setValuesFields((prevState) => ({
-      ...prevState,
-      [name]: value.trim(),
     }));
   }, [setValuesFields]);
 
@@ -93,12 +83,6 @@ const HirePageEditor = ({ currentUser }) => {
           name: res?.data?.getUser?.name ?? '',
           title: res?.data?.getUser?.title ?? '',
         };
-
-        // setValuesFields((prevState) => ({
-        //   ...prevState,
-        //   name: res?.data?.getUser?.name ?? '',
-        //   title: res?.data?.getUser?.title ?? '',
-        // }));
       } catch (error) {
         setFlash("There was an error retreiving your user info. We're looking into it.");
         logger.error('HirePageEditor: error retrieving User info', { error, input: getUserInput });
@@ -113,7 +97,6 @@ const HirePageEditor = ({ currentUser }) => {
         });
 
         const info = res.data.getHireMeInfo;
-        setIsUpdating(Boolean(info));
 
         if (info) {
           info.portfolioImages?.forEach(({ key, tag }) => {
@@ -137,15 +120,14 @@ const HirePageEditor = ({ currentUser }) => {
         setValuesFields((prevState) => ({
           ...prevState,
           ...inputsData,
-          aboutText: info?.aboutText,
-          blurbText: info?.blurbText,
-          buttonText: info?.buttonText,
-          domainSlugID: info?.domainSlugID.includes(SLUG_PREFIX) ? info?.domainSlugID : `${SLUG_PREFIX}${info?.domainSlugID}`,
-          existingDomainSlug: info?.domainSlug?.slug,
-          dribbbleUrl: info?.dribbbleUrl,
-          instagramUrl: info?.instagramUrl,
-          linkedInUrl: info?.linkedInUrl,
-          twitterUrl: info?.twitterUrl,
+          aboutText: info?.aboutText || '',
+          blurbText: info?.blurbText || '',
+          buttonText: info?.buttonText || '',
+          domainSlugID: info?.domainSlugID || '',
+          dribbbleUrl: info?.dribbbleUrl || '',
+          instagramUrl: info?.instagramUrl || '',
+          linkedInUrl: info?.linkedInUrl || '',
+          twitterUrl: info?.twitterUrl || '',
         }));
         setHireInfo(info);
       } catch (error) {
@@ -158,9 +140,10 @@ const HirePageEditor = ({ currentUser }) => {
     execute();
   }, []);
 
-  function validate({ domainSlugID }: ValidationProps) {
+  function validate() {
     const temp: ValidationProps = {};
-    if (!domainSlugID) temp.domainSlugID = 'error';
+    const re = /^[a-z0-9-]+$/;
+    if (!valuesFields.domainSlugID?.match(re)) temp.domainSlugID = 'error';
     return temp;
   }
 
@@ -190,7 +173,7 @@ const HirePageEditor = ({ currentUser }) => {
     setSaving(true);
     setInvalids({});
     const allFormValues = serialize(e.target, { hash: true, empty: true });
-    const validation = validate(allFormValues);
+    const validation = validate();
     const { name, title, ...formValues } = allFormValues;
 
     if (Object.keys(validation).length) {
@@ -201,8 +184,8 @@ const HirePageEditor = ({ currentUser }) => {
 
     updateUserRequest();
 
-    const domainSlugID = valuesFields.domainSlugID.split('continuum.works/hire/', 2)[1];
-    valuesFields.domainSlugID = domainSlugID;
+    const { domainSlugID } = valuesFields;
+    formValues.domainSlugID = domainSlugID;
     let domainSlugExists = false;
     let domainSlugIsMine = false;
 
@@ -322,7 +305,7 @@ const HirePageEditor = ({ currentUser }) => {
 
     (formValues as CreateHireMeInfoInput).portfolioImages = portfolioImageS3Objects;
 
-    const { name: removedName, title: removedTitle, existingDomainSlug: removedSlug, ...restFormValues } = valuesFields;
+    const { name: removedName, title: removedTitle, ...restFormValues } = valuesFields;
     const mutateHireMeInfoInput = {
       freelancerID,
       ...formValues,
@@ -341,15 +324,14 @@ const HirePageEditor = ({ currentUser }) => {
       setHireInfo(info);
       setValuesFields((prevState) => ({
         ...prevState,
-        aboutText: info?.aboutText,
-        blurbText: info?.blurbText,
-        buttonText: info?.buttonText,
-        domainSlugID: info?.domainSlugID.includes(SLUG_PREFIX) ? info?.domainSlugID : `${SLUG_PREFIX}${info?.domainSlugID}`,
-        existingDomainSlug: info?.domainSlug?.slug,
-        dribbbleUrl: info?.dribbbleUrl,
-        instagramUrl: info?.instagramUrl,
-        linkedInUrl: info?.linkedInUrl,
-        twitterUrl: info?.twitterUrl,
+        aboutText: info?.aboutText || '',
+        blurbText: info?.blurbText || '',
+        buttonText: info?.buttonText || '',
+        domainSlugID: info?.domainSlugID || '',
+        dribbbleUrl: info?.dribbbleUrl || '',
+        instagramUrl: info?.instagramUrl || '',
+        linkedInUrl: info?.linkedInUrl || '',
+        twitterUrl: info?.twitterUrl || '',
       }));
       setFileInputValues({});
 
@@ -398,7 +380,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="name"
                     value={valuesFields.name}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className="input"
                     type="text"
                     maxLength={48}
@@ -413,7 +394,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="title"
                     value={valuesFields.title}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className="input"
                     type="text"
                     maxLength={32}
@@ -428,7 +408,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="buttonText"
                     value={valuesFields.buttonText}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className="input"
                     type="text"
                     maxLength={24}
@@ -443,7 +422,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="blurbText"
                     value={valuesFields.blurbText}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     maxLength={255}
                     rows={3}
                     className="textarea"
@@ -457,7 +435,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="aboutText"
                     value={valuesFields.aboutText}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     maxLength={1000}
                     rows={7}
                     className="textarea"
@@ -471,7 +448,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="twitterUrl"
                     value={valuesFields.twitterUrl}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
@@ -488,7 +464,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="dribbbleUrl"
                     value={valuesFields.dribbbleUrl}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
@@ -505,7 +480,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="instagramUrl"
                     value={valuesFields.instagramUrl}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
@@ -522,7 +496,6 @@ const HirePageEditor = ({ currentUser }) => {
                     name="linkedInUrl"
                     value={valuesFields.linkedInUrl}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className="input"
                     type="url"
                     pattern="https?://.+"
@@ -537,9 +510,8 @@ const HirePageEditor = ({ currentUser }) => {
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="domainSlugID"
-                    value={valuesFields.domainSlugID}
+                    value={`${SLUG_PREFIX}${valuesFields?.domainSlugID || ''}`}
                     onChange={onChangeInput}
-                    onBlur={onBlurInput}
                     className={classnames('input', { 'is-danger': invalids.domainSlugID })}
                     type="text"
                     maxLength={50}
