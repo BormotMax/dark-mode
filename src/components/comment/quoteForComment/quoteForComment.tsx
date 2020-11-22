@@ -5,15 +5,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
 import { ProtectedElse } from '../../protected/protected';
 import { useFlash, useLogger } from '../../../hooks';
 import { getQuote } from '../../../graphql/queries';
-import { updateQuote } from '../../../graphql/mutations';
+import { createQuotePayment, updateQuote } from '../../../graphql/mutations';
 import { GetQuoteQuery, QuoteStatus, UpdateQuoteInput, UpdateQuoteMutation } from '../../../API';
 import { unauthClient } from '../../../pages/_app';
 import styles from './quoteForComment.module.scss';
 import { Quote } from '../../../types/custom';
 import { Role } from '../../withAuthentication';
+import { STRIPE_API_URL, STRIPE_PUBLISHABLE_KEY } from '../../../helpers/constants';
+import { useCurrentProject } from '../../../hooks/useCurrentProject';
 
 dayjs.extend(localizedFormat);
 
@@ -25,7 +29,9 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
   const [quote, setQuote] = useState<Quote>(null);
   const { setFlash } = useFlash();
   const [isUpdating, setIsUpdating] = useState(false);
+  const [payeeStripeAccountID, setPayeeStripeAccountID] = useState(null);
   const { logger } = useLogger();
+  const { currentProjectState } = useCurrentProject();
 
   useEffect(() => {
     const executeGetQuote = async () => {
@@ -44,6 +50,8 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     };
 
     executeGetQuote();
+    const { stripeAccountID } = currentProjectState.project.freelancers.items.find((f) => f.isInitialContact).user;
+    setPayeeStripeAccountID(stripeAccountID);
   }, []);
 
   const updateQuery = async (status: QuoteStatus) => {
@@ -59,7 +67,6 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     };
 
     try {
-      setIsUpdating(true);
       const response: { data: UpdateQuoteMutation } = await unauthClient.mutate({
         mutation: gql(updateQuote),
         variables: { input: updateQuoteInput },
@@ -69,17 +76,60 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     } catch (error) {
       logger.error('UpdateQuoteContent: error updating quote status', { error, input: updateQuoteInput });
       setFlash('Error: failed to update accept / decline quote');
-    } finally {
-      setIsUpdating(false);
+      throw new Error(error);
     }
   };
 
-  const onAcceptClick = () => {
-    updateQuery(QuoteStatus.ACCEPTED);
+  const onAcceptClick = async () => {
+    setIsUpdating(true);
+
+    try {
+      await updateQuery(QuoteStatus.ACCEPTED);
+    } catch (error) {
+      return;
+    }
+
+    const body = {
+      accountID: payeeStripeAccountID,
+      amount: quote.totalPrice * 100,
+    };
+
+    try {
+      const { data } = await axios.post(`${STRIPE_API_URL}/payment/create-checkout-session`, body, { withCredentials: true });
+      const stripe = await loadStripe(STRIPE_PUBLISHABLE_KEY, { stripeAccount: payeeStripeAccountID });
+
+      const createQuotePaymentInput = {
+        fromUserID: currentProjectState.viewer.id,
+        toUserID: currentProjectState.project.freelancers.items.find((f) => f.isInitialContact).user.id,
+        quoteID: id,
+        amount: quote.totalPrice * 100,
+      };
+
+      await unauthClient.mutate({
+        mutation: gql(createQuotePayment),
+        variables: { input: createQuotePaymentInput },
+      });
+
+      stripe.redirectToCheckout({ sessionId: data.id });
+    } catch (error) {
+      logger.error('QuoteForComment: Error creating checkout session for Stripe', { error, input: body });
+      setFlash('Error: failed to update accept / decline quote');
+      setIsUpdating(false);
+      return;
+    }
+
+    setIsUpdating(false);
   };
 
-  const onDeclineClick = () => {
-    updateQuery(QuoteStatus.DECLINE);
+  const onDeclineClick = async () => {
+    setIsUpdating(true);
+
+    try {
+      await updateQuery(QuoteStatus.DECLINE);
+    // eslint-disable-next-line no-empty
+    } catch (error) {}
+
+    setIsUpdating(false);
   };
 
   return !quote ? null : (
@@ -100,18 +150,21 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
       </div>
 
       <div className={styles.buttonContainer}>
-        {(quote.status === QuoteStatus.IDLE || !quote.status) && (
+        {((quote.status === QuoteStatus.IDLE || !quote.status) && payeeStripeAccountID) && (
           <>
-            <ProtectedElse roles={[Role.FREELANCER]}>
-              <button
-                disabled={isUpdating}
-                type="button"
-                onClick={onAcceptClick}
-                className={classnames('btn-large', 'btn-large--inline', 'button', styles.buttonStyles, { 'is-loading': isUpdating })}
-              >
-                ACCEPT QUOTE
-              </button>
-            </ProtectedElse>
+            {payeeStripeAccountID
+            && (
+              <ProtectedElse roles={[Role.FREELANCER]}>
+                <button
+                  disabled={isUpdating}
+                  type="button"
+                  onClick={onAcceptClick}
+                  className={classnames('btn-large', 'btn-large--inline', 'button', styles.buttonStyles, { 'is-loading': isUpdating })}
+                >
+                  ACCEPT QUOTE
+                </button>
+              </ProtectedElse>
+            )}
             <button
               type="button"
               onClick={onDeclineClick}

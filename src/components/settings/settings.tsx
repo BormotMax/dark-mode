@@ -15,9 +15,7 @@ import { client } from '../../pages/_app';
 import { updateUser } from '../../graphql/mutations';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
-
-const STRIPE_API_URL = 'https://enigmatic-sierra-62634.herokuapp.com';
-// const STRIPE_API_URL = 'http://localhost:8080';
+import { STRIPE_API_URL } from '../../helpers/constants';
 
 interface SettingsProps {
   close?: Function
