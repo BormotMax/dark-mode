@@ -92,6 +92,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     const body = {
       accountID: payeeStripeAccountID,
       amount: quote.totalPrice * 100,
+      projectID: currentProjectState.project.id,
     };
 
     try {

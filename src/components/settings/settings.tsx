@@ -161,7 +161,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
       case StripeStatus.COMPLETED:
         return <div className={classnames(styles.stripeStatus, styles.green)}>You are connected with Stripe</div>;
       case StripeStatus.CHARGES_DISABLED:
-        return <div className={classnames(styles.stripeStatus, styles.yellow)}>Connected with Stripe, but charges are disabled</div>;
+        return <div className={classnames(styles.stripeStatus, styles.yellow)}>Your connection is being established</div>;
       case StripeStatus.ERROR:
       default:
         return <div className={classnames(styles.stripeStatus, styles.red)}>Please check back later</div>;
