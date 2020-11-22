@@ -156,7 +156,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const projectTabOptions = {
     [ProjectTabsEnum.Recent]: {
       header: 'Recent',
-      filterFxn: (_item, idx: number) => idx < 20,
+      filterFxn: (_item, idx: number, arr) => idx >= (arr.length - 20), // most recent 20
     },
     [ProjectTabsEnum.All]: {
       header: `All - ${comments.length}`,
