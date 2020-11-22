@@ -17,6 +17,7 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import '../styles.scss';
 import '../bulma.scss';
+import { CurrentProjectProvider } from '../hooks/useCurrentProject';
 
 config.autoAddCss = false;
 
@@ -130,11 +131,13 @@ fbq('track', 'PageView');`,
     <RouteIndicator />
     <FlashProvider>
       <UserDataProvider>
-        <ApolloProvider client={client}>
-          <Rehydrated>
-            <Component {...pageProps} />
-          </Rehydrated>
-        </ApolloProvider>
+        <CurrentProjectProvider>
+          <ApolloProvider client={client}>
+            <Rehydrated>
+              <Component {...pageProps} />
+            </Rehydrated>
+          </ApolloProvider>
+        </CurrentProjectProvider>
       </UserDataProvider>
     </FlashProvider>
   </LoggerProvider>

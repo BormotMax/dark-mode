@@ -20,6 +20,7 @@ import { AddQuoteModal } from '../../components/addQuoteModal';
 import { Protected, ProtectedElse } from '../../components/protected/protected';
 import { QuoteProgress } from '../../components/quote';
 import { isClickOrEnter } from '../../helpers/util';
+import { CurrentProjectAction, useCurrentProject } from '../../hooks/useCurrentProject';
 
 enum ProjectTabsEnum {
   Recent = 'Recent',
@@ -42,6 +43,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const { logger } = useLogger();
   const currentUserId = currentUser?.attributes?.sub;
   const newCommentRef = useRef(null);
+  const { currentProjectDispatch } = useCurrentProject();
 
   useEffect(() => {
     setViewerId(token || localStorage.getItem('viewerId'));
@@ -81,6 +83,15 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       const p: Project = getProjectResult.data?.getProject;
       const { user, projectUser } = determineViewer(p);
       setProject(p);
+
+      currentProjectDispatch({
+        type: CurrentProjectAction.SET_CURRENT_PROJECT,
+        payload: {
+          viewer: user,
+          project: p,
+        },
+      });
+
       viewer.current = user;
       projectViewer.current = projectUser;
     } catch (error) {
