@@ -219,9 +219,9 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     };
 
     try {
+      setFlash("We've sent an invitation to this project space.");
       axios.post('/api/sendEmail', newProjectMemberEmailInput);
     } catch (error) {
-      setFlash("We've sent an invitation to this project space.");
       logger.error('ContactPreview: error sending email to new project member', { error, input: newProjectMemberEmailInput });
     }
   };
