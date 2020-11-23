@@ -162,7 +162,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
                   onClick={onAcceptClick}
                   className={classnames('btn-large', 'btn-large--inline', 'button', styles.buttonStyles, { 'is-loading': isUpdating })}
                 >
-                  ACCEPT QUOTE
+                  ACCEPT AND PAY ${quote.totalPrice}
                 </button>
               </ProtectedElse>
             )}
