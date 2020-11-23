@@ -6,8 +6,9 @@ import { faBackpack, faClipboardUser, faFileAlt, faSackDollar, faStopwatch } fro
 import { FilesTab, NotesTab, TabGroup } from '../../components/tabs';
 import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
-import { Project, Comment as CommentType, AuthProps } from '../../types/custom';
-import { unauthClient } from '../_app';
+import { updateProjectFreelancer } from '../../graphql/mutations';
+import { Project, Comment as CommentType, AuthProps, ProjectClient, ProjectFreelancer } from '../../types/custom';
+import { unauthClient, client } from '../_app';
 import { GetProjectQuery, CommentResourceType } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
@@ -56,7 +57,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     let viewerCandidate;
     const { clients, freelancers } = p as Project;
     const viewingClientItem = clients.items.find((c) => viewerId && c.user.signedOutAuthToken === viewerId);
-    const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f.user.id === currentUserId);
+    const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f?.user?.id === currentUserId);
 
     if (viewingFreelancerItem?.user) {
       viewerCandidate = viewingFreelancerItem;
@@ -278,12 +279,12 @@ const RightColumn = ({ viewer, clients, freelancers, project, fetchProject, curr
       >
         <ContactPreview
           currentUser={viewer.current}
-          users={[...clients.items, ...freelancers.items]}
+          users={[...clients.items, ...freelancers.items] as [ProjectClient | ProjectFreelancer]}
           projectID={project.id}
           refreshUsers={fetchProject}
         />
         <NotesTab
-          projectUser={project.freelancers.items.find((f) => currentUserId && f.user.id === currentUserId)}
+          projectUser={project.freelancers.items.find((f) => currentUserId && f?.user?.id === currentUserId)}
           refetchData={fetchProject}
         />
         <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
@@ -298,7 +299,7 @@ const RightColumn = ({ viewer, clients, freelancers, project, fetchProject, curr
       >
         <ContactPreview
           currentUser={viewer.current}
-          users={[...clients.items, ...freelancers.items]}
+          users={[...clients.items, ...freelancers.items] as [ProjectClient | ProjectFreelancer]}
           projectID={project.id}
           refreshUsers={fetchProject}
         />

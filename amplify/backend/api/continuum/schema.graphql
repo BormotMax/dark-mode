@@ -1,5 +1,6 @@
 type User
   @model
+  @key(name: "byEmail", fields: ["email"], queryField: "usersByEmail")
   @auth(
     rules: [
       # owners
@@ -19,7 +20,6 @@ type User
   signedOutAuthToken: String
   role: UserRole!
   stripeAccountID: String
-  hireMeInfo: HireMeInfo @connection(fields: ["id"])
 }
 
 type ProjectClient
@@ -53,6 +53,7 @@ type ProjectFreelancer
   id: ID!
   createdAt: AWSDateTime!
   freelancerID: ID!
+  pendingEmail: String
   user: User @connection(fields: ["freelancerID"])
   projectID: ID!
   project: Project @connection(fields: ["projectID"])

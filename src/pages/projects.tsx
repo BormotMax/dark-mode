@@ -4,22 +4,52 @@ import Link from 'next/link';
 import classnames from 'classnames';
 import { client } from './_app';
 import { ModelSortDirection, ProjectsByFreelancerQuery } from '../API';
-import { projectsByFreelancer } from '../graphql/queries';
+import { projectsByFreelancer, listProjectFreelancers } from '../graphql/queries';
 import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
-import { AuthProps, Project } from '../types/custom';
+import { AuthProps, Project, ProjectFreelancer } from '../types/custom';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import styles from './styles/projects.module.scss';
 import { Page } from '../components/nav/nav';
 import { ButtonSmall } from '../components/buttons/buttons';
 import { InPlaceModal } from '../components/inPlaceModal';
 import { CreateProjectModal } from '../components/createProjectModal';
+import { updateProjectFreelancer } from '../graphql/mutations';
 
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const { setFlash } = useFlash();
   const { logger } = useLogger();
+  const currentUserId = currentUser?.attributes?.sub;
+  const currentUserEmail = currentUser?.attributes?.email;
+
+  // update all project freelancer associations for current user
+  const updateProjectFreelancerAssociation = async () => {
+    try {
+      const projectsList = await client.query({ query: gql(listProjectFreelancers) });
+
+      const freelancers = (projectsList?.data as any)?.listProjectFreelancers?.items as ProjectFreelancer[];
+      const pendingEmailFreelancers = freelancers.filter((f) => f.pendingEmail === currentUserEmail);
+
+      if (!pendingEmailFreelancers.length) return;
+
+      let updateProjectFreelancerInput;
+      try {
+        await Promise.all(pendingEmailFreelancers.map((projectFreelancer) => {
+          updateProjectFreelancerInput = { id: projectFreelancer.id, freelancerID: currentUserId, pendingEmail: null };
+          return client.mutate({
+            mutation: gql(updateProjectFreelancer),
+            variables: { input: updateProjectFreelancerInput },
+          });
+        }));
+      } catch (error) {
+        logger.error('ProjectFreelancerUpdate: error retrieving Project.', { error, input: updateProjectFreelancerInput });
+      }
+    } catch (error) {
+      logger.error('ProjectFreelancer: error retrieving Project.', { error, input: '' });
+    }
+  };
 
   const getProjects = async () => {
     const projectsByFreelancerInput = { freelancerID: currentUser.attributes.sub, sortDirection: ModelSortDirection.DESC };
@@ -39,7 +69,11 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   };
 
   useEffect(() => {
-    getProjects();
+    const execute = async () => {
+      await updateProjectFreelancerAssociation();
+      getProjects();
+    };
+    execute();
   }, []);
 
   if (loading) return null;

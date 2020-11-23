@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
@@ -6,75 +6,88 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
-
-import { ProjectClient, User } from '../../types/custom';
+import { ProjectClient, ProjectFreelancer, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import { useLogger, useFlash } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
-import { getUser } from '../../graphql/queries';
-import { GetUserQuery, UserRole, CreateUserMutation } from '../../API';
-import { createUser, createProjectClient, updateUser } from '../../graphql/mutations';
-
+import { usersByEmail } from '../../graphql/queries';
+import { UserRole, CreateUserMutation, UsersByEmailQuery } from '../../API';
+import { createUser, createProjectClient, createProjectFreelancer, updateUser } from '../../graphql/mutations';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
+import { Role } from '../withAuthentication';
+import { Protected } from '../protected/protected';
 
 interface ContactPreviewProps {
-  users: ProjectClient[];
+  users: [ProjectClient | ProjectFreelancer];
   projectID: string;
   refreshUsers: () => void;
   currentUser: User;
 }
 
-export const ContactPreview: React.FC<ContactPreviewProps> = ({ currentUser, users, projectID, refreshUsers }) => {
+export const ContactPreview: React.FC<ContactPreviewProps> = ({
+  currentUser,
+  users: usersProp,
+  projectID,
+  refreshUsers,
+}) => {
+  // filter users for non-registered freelancers association
+  const users = useMemo(() => usersProp.filter((item) => Boolean(item.user)), [usersProp]);
+  const sortedProjectMembers = useMemo(() => users.sort(
+    (a, b) => a?.user?.name?.localeCompare(b?.user?.name),
+  ), [users]);
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
         <InPlaceModal variant={InPlaceModalVariants.BLOCK} button={<FontAwesomeIcon color="#3C78FB" icon={faUserPlus} />}>
-          <ModalContent projectID={projectID} refreshUsers={refreshUsers} users={users} currentUser={currentUser} />
+          <ModalContent
+            projectID={projectID}
+            refreshUsers={refreshUsers}
+            users={users as [ProjectClient | ProjectFreelancer]}
+            currentUser={currentUser}
+          />
         </InPlaceModal>
       </div>
-      {users
-        .sort((a, b) => a.user.name.localeCompare(b.user.name))
-        .map((projectMember) => (
-          <InPlaceModal
-            variant={InPlaceModalVariants.BLOCK}
-            key={projectMember.id}
-            button={
-              <div
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  setSelectedUser(projectMember);
-                }}
-                onClick={(e) => {
-                  setSelectedUser(projectMember);
-                }}
-                key={projectMember.user.id}
-                className={classnames(modalStyles.modalPill)}
-              >
-                <div className={classnames(modalStyles.icon)}>
-                  <Avatar width={32} height={32} email={projectMember.user.email} name={projectMember.user.name} />
-                </div>
-                <div>
-                  {projectMember.user.name}
-                  {projectMember.user.title && ', '}
-                  <span className={classnames(modalStyles.title)}>{projectMember.user.title}</span>
-                </div>
+      {sortedProjectMembers.map((projectMember) => (
+        <InPlaceModal
+          variant={InPlaceModalVariants.BLOCK}
+          key={projectMember.id}
+          button={
+            <div
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                setSelectedUser(projectMember);
+              }}
+              onClick={(e) => {
+                setSelectedUser(projectMember);
+              }}
+              key={projectMember.user.id}
+              className={classnames(modalStyles.modalPill)}
+            >
+              <div className={classnames(modalStyles.icon)}>
+                <Avatar width={32} height={32} email={projectMember.user.email} name={projectMember.user.name} />
               </div>
+              <div>
+                {projectMember.user.name}
+                {projectMember.user.title && ', '}
+                <span className={classnames(modalStyles.title)}>{projectMember.user.title}</span>
+              </div>
+            </div>
             }
-          >
-            <ModalContent
-              projectID={projectID}
-              refreshUsers={refreshUsers}
-              users={users}
-              selectedUser={selectedUser}
-              currentUser={currentUser}
-            />
-          </InPlaceModal>
-        ))}
+        >
+          <ModalContent
+            projectID={projectID}
+            refreshUsers={refreshUsers}
+            users={users as [ProjectClient | ProjectFreelancer]}
+            selectedUser={selectedUser}
+            currentUser={currentUser}
+          />
+        </InPlaceModal>
+      ))}
     </>
   );
 };
@@ -89,8 +102,8 @@ interface ValidationProps {
 interface ModalContentProps {
   projectID: string;
   refreshUsers: () => void;
-  users: ProjectClient[];
-  selectedUser?: ProjectClient;
+  users: [ProjectClient | ProjectFreelancer];
+  selectedUser?: ProjectClient | ProjectFreelancer;
   close?: () => void;
   currentUser: User;
 }
@@ -105,6 +118,11 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   const [email, setEmail] = useState(selectedUser?.user?.email || '');
   const [userType, setUserType] = useState(selectedUser?.user.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
 
+  const onChangeUserType = useCallback((event) => {
+    if (selectedUser) return;
+    setUserType(UserRole[event.target.value]);
+  }, [setUserType, selectedUser]);
+
   const isFormValid = useMemo(() => (
     name.trim().length > 0 && title.trim().length > 0 && email.trim().length > 0
   ), [name, title, email]);
@@ -118,14 +136,12 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   }
 
   const createProjectMember = async () => {
-    if (userType === UserRole.FREELANCER) return; // TODO: handle adding freelancers
-
     // Check if there is an existing user with this email. The primary (id) key's value is the client's email.
     let getUserResponse;
-    const getUserInput = { id: email };
+    const getUserInput = { email };
     try {
       getUserResponse = await client.query({
-        query: gql(getUser),
+        query: gql(usersByEmail),
         variables: getUserInput,
       });
     } catch (error) {
@@ -135,20 +151,12 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       return;
     }
 
-    let existingClient: User = (getUserResponse.data as GetUserQuery)?.getUser;
-
-    // todo: if the user is a freelancer
-    // - and they have an account, we will find it before this form is submitted
-    // make the association with the project, and send the email
-    // no need to fill out name or image.
-    // - and they don't have an account, send an email. don't create a user object,
-    // one will get created when they sign up. Do create an association, but use a
-    // field pending email. Then, when they sign up, update the association with their id.
+    let existingClient: User = (getUserResponse.data as UsersByEmailQuery)?.usersByEmail.items.filter((u) => u.role === userType)?.[0];
 
     const signedOutAuthToken = existingClient?.signedOutAuthToken || uuid();
 
-    // If there wasn't an existing User record with this email, create one.
-    if (!existingClient) {
+    // If there wasn't an existing User record with this email, create one. (Client only)
+    if (!existingClient && userType === UserRole.CLIENT) {
       const createUserInput = { id: email, name, email, title, role: UserRole.CLIENT, signedOutAuthToken };
       try {
         const { data }: { data: CreateUserMutation } = await client.mutate({
@@ -165,32 +173,55 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       }
     }
 
-    if (userType === UserRole.CLIENT && !users.map((u) => u.user).find((u) => u.id === existingClient.id)) {
-      // Create the M:M joining record associating a client with a project
-      const createProjectClientInput = { clientID: existingClient.id, projectID };
-      try {
-        await client.mutate({
-          mutation: gql(createProjectClient),
-          variables: { input: createProjectClientInput },
-        });
-      } catch (error) {
-        logger.error('ContactPreviewModalContent: error creating ProjectClient', { error, input: createProjectClientInput });
-      }
+    let existingConnection = false;
 
-      const newProjectMemberEmailInput = {
-        freelancerEmail: currentUser.email,
-        freelancerName: currentUser.name,
-        clientEmail: email,
-        clientName: name,
-        projectUrl: `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`,
-        type: 'NEW_CLIENT_CONTACT_CLIENT',
-      };
+    if (userType === UserRole.CLIENT) {
+      existingConnection = !!users.find((u) => (u as ProjectClient).clientID === existingClient.id);
+    } else if (userType === UserRole.FREELANCER) {
+      existingConnection = !!users.find((u) => (u as ProjectFreelancer).pendingEmail === email);
+    }
 
-      try {
-        axios.post('/api/sendEmail', newProjectMemberEmailInput);
-      } catch (error) {
-        logger.error('ContactPreview: error sending email to new project member', { error, input: newProjectMemberEmailInput });
-      }
+    if (existingConnection) {
+      return;
+    }
+
+    // Create the M:M joining record associating a client or freelancer with a project
+    const projectMutation = userType === UserRole.CLIENT ? createProjectClient : createProjectFreelancer;
+    const createProjectConnectionInput = {
+      [userType === UserRole.CLIENT ? 'clientID' : 'freelancerID']: existingClient ? existingClient.id : uuid(),
+      ...(userType === UserRole.FREELANCER && { pendingEmail: email }),
+      projectID,
+    };
+
+    try {
+      await client.mutate({
+        mutation: gql(projectMutation),
+        variables: { input: createProjectConnectionInput },
+      });
+    } catch (error) {
+      logger.error(
+        `ContactPreviewModalContent: error creating Project${userType === UserRole.CLIENT ? 'Client' : 'Freelancer'}`,
+        { error, input: createProjectConnectionInput },
+      );
+    }
+
+    const projectUrl = userType === UserRole.CLIENT
+      ? `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`
+      : `https://continuum.works/project/${projectID}`;
+
+    const newProjectMemberEmailInput = {
+      freelancerEmail: currentUser.email,
+      freelancerName: currentUser.name,
+      clientEmail: email,
+      clientName: name,
+      projectUrl,
+      type: 'NEW_CLIENT_CONTACT_CLIENT',
+    };
+
+    try {
+      axios.post('/api/sendEmail', newProjectMemberEmailInput);
+    } catch (error) {
+      logger.error('ContactPreview: error sending email to new project member', { error, input: newProjectMemberEmailInput });
     }
   };
 
@@ -198,43 +229,22 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     // only allow updating name, email is the PK
     // can't update name if this is a freelancer (that's done in profile or somewhere else)
 
-    if (selectedUser.user.role === UserRole.CLIENT) {
-      const updateUserInput = { id: selectedUser.user.id, name, title };
+    const updateUserInput = {
+      id: selectedUser?.user?.id,
+      name,
+      // ...(selectedUser?.user?.role === UserRole.CLIENT ? { name } : {}), // update name only for clients
+      title,
+    };
 
-      try {
-        await client.mutate({
-          mutation: gql(updateUser),
-          variables: { input: updateUserInput },
-        });
-      } catch (error) {
-        logger.error('ContactPreviewModalContent: error updating User', { error, input: updateUserInput });
-        setFlash("Something went wrong. We're looking into it");
-      }
+    try {
+      await client.mutate({
+        mutation: gql(updateUser),
+        variables: { input: updateUserInput },
+      });
+    } catch (error) {
+      logger.error('ContactPreviewModalContent: error updating User', { error, input: updateUserInput });
+      setFlash("Something went wrong. We're looking into it");
     }
-
-    // if (selectedUser.user.role === UserRole.CLIENT) {
-    //   const updateProjectClientInput = { id: selectedUser.id };
-    //   try {
-    //     await client.mutate({
-    //       mutation: gql(updateProjectClient),
-    //       variables: { input: updateProjectClientInput },
-    //     });
-    //   } catch (error) {
-    //     logger.error('ContactPreviewModalContent: error updating ProjectClient', { error, input: updateProjectClientInput });
-    //     setFlash("Something went wrong. We're looking into it");
-    //   }
-    // } else if (selectedUser.user.role === UserRole.FREELANCER) {
-    // todo: change this to update association. can only update title
-    // const createProjectFreelancerInput = { freelancerID, projectID };
-    // try {
-    //   await client.mutate({
-    //     mutation: gql(createProjectFreelancer),
-    //     variables: { input: createProjectFreelancerInput },
-    //   });
-    // } catch (error) {
-    //   logger.error('HireMeModal: error updating ProjectFreelancer', { error, input: createProjectFreelancerInput });
-    // }
-    // }
   };
 
   async function handleSubmit(e) {
@@ -315,7 +325,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
         <label className={classnames(modalStyles.radio, 'radio', { [modalStyles.disabledCheckmarks]: !!selectedUser })}>
           <input
             disabled={!!selectedUser}
-            onChange={(e) => setUserType(UserRole[e.target.value])}
+            onChange={onChangeUserType}
             type="radio"
             value={UserRole.CLIENT}
             checked={userType === UserRole.CLIENT}
@@ -331,25 +341,27 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
           </span>
           <div>Client&apos;s Team</div>
         </label>
-        <label className={classnames(modalStyles.radio, 'radio', modalStyles.disabledCheckmarks)}>
-          <input
-            disabled
-            onChange={(e) => setUserType(UserRole[e.target.value])}
-            type="radio"
-            value={UserRole.FREELANCER}
-            checked={userType === UserRole.FREELANCER}
-            name="userType"
-          />
-          <span className={classnames(modalStyles.checkmarks)}>
-            <span className={classnames(modalStyles.unchecked)}>
-              <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
+        <Protected roles={[Role.FREELANCER]}>
+          <label className={classnames(modalStyles.radio, 'radio', { [modalStyles.disabledCheckmarks]: !!selectedUser })}>
+            <input
+              disabled={!!selectedUser}
+              onChange={onChangeUserType}
+              type="radio"
+              value={UserRole.FREELANCER}
+              checked={userType === UserRole.FREELANCER}
+              name="userType"
+            />
+            <span className={classnames(modalStyles.checkmarks)}>
+              <span className={classnames(modalStyles.unchecked)}>
+                <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
+              </span>
+              <span className={classnames(modalStyles.checked)}>
+                <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
+              </span>
             </span>
-            <span className={classnames(modalStyles.checked)}>
-              <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
-            </span>
-          </span>
-          My Team
-        </label>
+            My Team
+          </label>
+        </Protected>
       </div>
       <div className={modalStyles.save}>
         <ButtonSmall text="Save" isSaving={isSaving} disabled={!isFormValid} />
