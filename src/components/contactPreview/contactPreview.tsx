@@ -189,7 +189,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     const projectMutation = userType === UserRole.CLIENT ? createProjectClient : createProjectFreelancer;
     const createProjectConnectionInput = {
       [userType === UserRole.CLIENT ? 'clientID' : 'freelancerID']: existingClient ? existingClient.id : uuid(),
-      ...(userType === UserRole.FREELANCER && { pendingEmail: email }),
+      ...(userType === UserRole.FREELANCER && !existingClient && { pendingEmail: email }),
       projectID,
     };
 
@@ -221,6 +221,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     try {
       axios.post('/api/sendEmail', newProjectMemberEmailInput);
     } catch (error) {
+      setFlash("We've sent an invitation to this project space.");
       logger.error('ContactPreview: error sending email to new project member', { error, input: newProjectMemberEmailInput });
     }
   };
