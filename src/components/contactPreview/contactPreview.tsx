@@ -151,7 +151,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
       return;
     }
 
-    let existingClient: User = (getUserResponse.data as UsersByEmailQuery)?.usersByEmail.items.filter((u) => u.role === userType)?.[0];
+    let existingClient = (getUserResponse.data as UsersByEmailQuery)?.usersByEmail.items.filter((u) => u.role === userType)?.[0];
 
     const signedOutAuthToken = existingClient?.signedOutAuthToken || uuid();
 
