@@ -1,16 +1,20 @@
-import React, { useState, CSSProperties } from 'react';
+import React, { useState, CSSProperties, useEffect } from 'react';
+import { Storage } from 'aws-amplify';
 import classnames from 'classnames';
 import md5 from 'md5';
 
+import { useLogger } from '../../hooks';
 import styles from './avatar.module.scss';
 
 interface AvatarProps {
   url?: string;
+  s3key?: string;
   email?: string;
   name?: string;
   width?: number;
   height?: number;
   className?: string;
+  defaultImage?: string;
   style?: CSSProperties;
 }
 
@@ -68,14 +72,18 @@ const gravatarUrl = (emailAddress: string): string => {
 
 // Use the url if given, else use the email to get the gravatar, else show custom placeholder
 export const Avatar: React.FC<AvatarProps> = ({
-  url,
+  url: urlProp = '',
+  s3key = '',
   className,
   style,
   email,
   name,
   width = 72,
   height = 72,
+  defaultImage = '/blankAvatar.jpg',
 }) => {
+  const { logger } = useLogger();
+  const [url, setUrl] = useState(urlProp);
   const [imageError, setImageError] = useState(false);
 
   /**
@@ -86,13 +94,25 @@ export const Avatar: React.FC<AvatarProps> = ({
     setImageError(true);
   };
 
+  useEffect(() => {
+    if (s3key) {
+      try {
+        Storage.get(s3key).then((image: string) => {
+          setUrl(image);
+        });
+      } catch (error) {
+        logger.error('Avatar: error retrieving s3 image.', { error, input: s3key });
+      }
+    }
+  }, [s3key]);
+
   return (
     <>
       {!imageError ? (
         <img
           alt="avatar"
           className={classnames(styles.avatar, className)}
-          src={url || (email ? gravatarUrl(email) : '/blankAvatar.jpg')}
+          src={url || (email ? gravatarUrl(email) : defaultImage)}
           style={{ width, height, ...style }}
           onError={onImageError}
         />

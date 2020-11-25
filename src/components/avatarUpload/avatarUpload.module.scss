@@ -1,0 +1,61 @@
+@import "~bulma/sass/utilities/_all.sass";
+
+.fileInput {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.avatarIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  align-self: center;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid #828282;
+}
+
+.avatarIcon {
+  width: 96px;
+  height: 96px;
+  background-color: #FAFAFA;
+  border-radius: 50%;
+  border: 1px solid #828282;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatarIconSize {
+  width: 18px;
+  height: 18px;
+}
+
+.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.5;
+  border: 1px solid #828282;
+  border-radius: 50%;
+
+  svg {
+    visibility: hidden;
+  }
+
+  &:after {
+    @include loader;
+    position: absolute;
+    top: calc(50% - 2.5em);
+    left: calc(50% - 2.5em);
+    width: 5em;
+    height: 5em;
+    border-width: 0.25em;
+  }
+}

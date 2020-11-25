@@ -10,6 +10,10 @@ export const onCreateUser = /* GraphQL */ `
       title
       company
       email
+      avatar {
+        key
+        tag
+      }
       phone
       signedOutAuthToken
       role
@@ -42,6 +46,10 @@ export const onCreateUser = /* GraphQL */ `
           title
           company
           email
+          avatar {
+            key
+            tag
+          }
           phone
           signedOutAuthToken
           role
@@ -74,6 +82,10 @@ export const onCreateUser = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -146,6 +158,10 @@ export const onCreateUser = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -199,6 +215,10 @@ export const onUpdateUser = /* GraphQL */ `
       title
       company
       email
+      avatar {
+        key
+        tag
+      }
       phone
       signedOutAuthToken
       role
@@ -231,6 +251,10 @@ export const onUpdateUser = /* GraphQL */ `
           title
           company
           email
+          avatar {
+            key
+            tag
+          }
           phone
           signedOutAuthToken
           role
@@ -263,6 +287,10 @@ export const onUpdateUser = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -335,6 +363,10 @@ export const onUpdateUser = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -388,6 +420,10 @@ export const onDeleteUser = /* GraphQL */ `
       title
       company
       email
+      avatar {
+        key
+        tag
+      }
       phone
       signedOutAuthToken
       role
@@ -420,6 +456,10 @@ export const onDeleteUser = /* GraphQL */ `
           title
           company
           email
+          avatar {
+            key
+            tag
+          }
           phone
           signedOutAuthToken
           role
@@ -452,6 +492,10 @@ export const onDeleteUser = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -524,6 +568,10 @@ export const onDeleteUser = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -584,6 +632,10 @@ export const onCreateProjectClient = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -616,6 +668,10 @@ export const onCreateProjectClient = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -729,6 +785,10 @@ export const onUpdateProjectClient = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -761,6 +821,10 @@ export const onUpdateProjectClient = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -874,6 +938,10 @@ export const onDeleteProjectClient = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -906,6 +974,10 @@ export const onDeleteProjectClient = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -1020,6 +1092,10 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -1052,6 +1128,10 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -1169,6 +1249,10 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -1207,6 +1291,10 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -1334,6 +1422,10 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -1388,6 +1480,10 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -1420,6 +1516,10 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -1537,6 +1637,10 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -1575,6 +1679,10 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -1702,6 +1810,10 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -1756,6 +1868,10 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -1788,6 +1904,10 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -1905,6 +2025,10 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -1943,6 +2067,10 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -2070,6 +2198,10 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -2132,6 +2264,10 @@ export const onCreateProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -2197,6 +2333,10 @@ export const onCreateProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -2398,6 +2538,10 @@ export const onCreateProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -2475,6 +2619,10 @@ export const onUpdateProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -2540,6 +2688,10 @@ export const onUpdateProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -2741,6 +2893,10 @@ export const onUpdateProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -2818,6 +2974,10 @@ export const onDeleteProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -2883,6 +3043,10 @@ export const onDeleteProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -3084,6 +3248,10 @@ export const onDeleteProject = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -3319,6 +3487,10 @@ export const onCreateComment = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -3351,6 +3523,10 @@ export const onCreateComment = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -3466,6 +3642,10 @@ export const onUpdateComment = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -3498,6 +3678,10 @@ export const onUpdateComment = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -3613,6 +3797,10 @@ export const onDeleteComment = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -3645,6 +3833,10 @@ export const onDeleteComment = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -3807,6 +3999,10 @@ export const onCreateHireMeInfo = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -3839,6 +4035,10 @@ export const onCreateHireMeInfo = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -3965,6 +4165,10 @@ export const onCreateHireMeInfo = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -4091,6 +4295,10 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -4123,6 +4331,10 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -4249,6 +4461,10 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -4375,6 +4591,10 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
         title
         company
         email
+        avatar {
+          key
+          tag
+        }
         phone
         signedOutAuthToken
         role
@@ -4407,6 +4627,10 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -4533,6 +4757,10 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
             title
             company
             email
+            avatar {
+              key
+              tag
+            }
             phone
             signedOutAuthToken
             role
@@ -4664,6 +4892,10 @@ export const onCreateDomainSlug = /* GraphQL */ `
           title
           company
           email
+          avatar {
+            key
+            tag
+          }
           phone
           signedOutAuthToken
           role
@@ -4696,6 +4928,10 @@ export const onCreateDomainSlug = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -4768,6 +5004,10 @@ export const onCreateDomainSlug = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -4846,6 +5086,10 @@ export const onUpdateDomainSlug = /* GraphQL */ `
           title
           company
           email
+          avatar {
+            key
+            tag
+          }
           phone
           signedOutAuthToken
           role
@@ -4878,6 +5122,10 @@ export const onUpdateDomainSlug = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -4950,6 +5198,10 @@ export const onUpdateDomainSlug = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -5028,6 +5280,10 @@ export const onDeleteDomainSlug = /* GraphQL */ `
           title
           company
           email
+          avatar {
+            key
+            tag
+          }
           phone
           signedOutAuthToken
           role
@@ -5060,6 +5316,10 @@ export const onDeleteDomainSlug = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role
@@ -5132,6 +5392,10 @@ export const onDeleteDomainSlug = /* GraphQL */ `
               title
               company
               email
+              avatar {
+                key
+                tag
+              }
               phone
               signedOutAuthToken
               role

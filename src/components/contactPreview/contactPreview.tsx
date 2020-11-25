@@ -1,15 +1,18 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
+import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
+import { Storage } from 'aws-amplify';
 import { ProjectClient, ProjectFreelancer, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
+import { AvatarUpload } from '../avatarUpload';
 import { useLogger, useFlash } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
 import { usersByEmail } from '../../graphql/queries';
@@ -69,7 +72,13 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({
               className={classnames(modalStyles.modalPill)}
             >
               <div className={classnames(modalStyles.icon)}>
-                <Avatar width={32} height={32} email={projectMember.user.email} name={projectMember.user.name} />
+                <Avatar
+                  width={32}
+                  height={32}
+                  s3key={projectMember.user?.avatar?.key ?? ''}
+                  email={projectMember.user.email}
+                  name={projectMember.user.name}
+                />
               </div>
               <div>
                 {projectMember.user.name}
@@ -113,8 +122,11 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
   const { setFlash } = useFlash();
+  const [userAvatar, setUserAvatar] = useState('');
+
+  const [fileInputValues, setFileInputValues] = useState(null);
   const [name, setName] = useState(selectedUser?.user?.name || '');
-  const [title, setTitle] = useState(selectedUser?.user.title || '');
+  const [title, setTitle] = useState(selectedUser?.user?.title || '');
   const [email, setEmail] = useState(selectedUser?.user?.email || '');
   const [userType, setUserType] = useState(selectedUser?.user.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
 
@@ -134,6 +146,30 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     if (!userType) temp.userType = 'error';
     return temp;
   }
+
+  const createOrUpdateAvatar = async () => {
+    const key = selectedUser?.user?.avatar?.key ?? '';
+    let updateAvatar = { key, tag: 'avatar' };
+    if (fileInputValues) {
+      if (key) {
+        try {
+          await Storage.remove(key);
+        } catch (error) {
+          logger.error('ContactPreviewModalContent: error deleting user avatar from s3', { error, input: key });
+        }
+      }
+
+      const s3Key = `${uuid()}${fileInputValues.name}`;
+
+      try {
+        await Storage.put(s3Key, fileInputValues);
+      } catch (error) {
+        logger.error('ContactPreviewModalContent: error adding user avatar to s3', { error, input: s3Key });
+      }
+      updateAvatar = { ...updateAvatar, key: s3Key };
+    }
+    return updateAvatar;
+  };
 
   const createProjectMember = async () => {
     // Check if there is an existing user with this email. The primary (id) key's value is the client's email.
@@ -157,7 +193,16 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
 
     // If there wasn't an existing User record with this email, create one. (Client only)
     if (!existingClient && userType === UserRole.CLIENT) {
-      const createUserInput = { id: email, name, email, title, role: UserRole.CLIENT, signedOutAuthToken };
+      const createAvatar = await createOrUpdateAvatar();
+      const createUserInput = {
+        id: email,
+        name,
+        email,
+        avatar: createAvatar,
+        title,
+        role: UserRole.CLIENT,
+        signedOutAuthToken,
+      };
       try {
         const { data }: { data: CreateUserMutation } = await client.mutate({
           mutation: gql(createUser),
@@ -230,9 +275,12 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     // only allow updating name, email is the PK
     // can't update name if this is a freelancer (that's done in profile or somewhere else)
 
+    const updateAvatar = await createOrUpdateAvatar();
+
     const updateUserInput = {
       id: selectedUser?.user?.id,
       name,
+      avatar: updateAvatar,
       // ...(selectedUser?.user?.role === UserRole.CLIENT ? { name } : {}), // update name only for clients
       title,
     };
@@ -271,8 +319,31 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     close();
   }
 
+  useEffect(() => {
+    if (selectedUser?.user?.avatar?.key) {
+      const { key } = selectedUser?.user?.avatar;
+      try {
+        Storage.get(key).then((image: string) => {
+          setUserAvatar(image);
+        });
+      } catch (error) {
+        logger.error('HirePageEditor: error retrieving s3 image.', { error, input: key });
+      }
+    }
+  }, [selectedUser]);
+
+  // TODO possibly, we don't need to create an avatar for invited freelancer
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={handleSubmit}>
+      <div className={modalStyles.avatarContainer}>
+        {userType === UserRole.CLIENT && (
+          <AvatarUpload
+            avatarName="avatar"
+            onChange={setFileInputValues}
+            image={userAvatar}
+          />
+        )}
+      </div>
       <div className="field">
         <label htmlFor="name" className="label">
           Name

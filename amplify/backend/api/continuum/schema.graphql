@@ -16,6 +16,7 @@ type User
   title: String
   company: String
   email: String
+  avatar: S3Object
   phone: String
   signedOutAuthToken: String
   role: UserRole!

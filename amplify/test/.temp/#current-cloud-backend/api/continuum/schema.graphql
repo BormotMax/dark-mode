@@ -1,64 +1,157 @@
 type User
 @model
+@key(name: "byEmail", fields: ["email"], queryField: "usersByEmail")
 @auth(
   rules: [
-    # allow all authenticated users ability to create
-    # allow owners ability to update and delete
+    # owners
     { allow: owner }
-    # allow all authenticated users to read
-    { allow: private, operations: [read] }
-    # allow all guest users (not authenticated) to read
-    { allow: public, provider: iam }
+    # all authenticated users
+    { allow: private, operations: [create, read, update] }
+    # all guest users
+    { allow: public, provider: iam, operations: [create, read, update] }
   ]
 ) {
   id: ID!
   name: String
+  title: String
   company: String
   email: String
+  avatar: S3Object
   phone: String
+  signedOutAuthToken: String
   role: UserRole!
+  stripeAccountID: String
+}
+
+type ProjectClient
+@model
+@key(name: "byProject", fields: ["projectID"])
+@auth(
+  rules: [
+    { allow: owner }
+    { allow: private, operations: [create, read, update] }
+    { allow: public, provider: iam, operations: [create, read, update] }
+  ]
+) {
+  id: ID!
+  clientID: ID!
+  user: User @connection(fields: ["clientID"])
+  projectID: ID!
+  isInitialContact: Boolean
+}
+
+type ProjectFreelancer
+@model
+@key(name: "byProject", fields: ["projectID"])
+@key(name: "byFreelancer", fields: ["freelancerID", "createdAt"], queryField: "projectsByFreelancer")
+@auth(
+  rules: [
+    { allow: owner, operations: [create, read, update, delete] }
+    { allow: private, operations: [create, read, update] }
+    { allow: public, provider: iam, operations: [create, read, update] }
+  ]
+) {
+  id: ID!
+  createdAt: AWSDateTime!
+  freelancerID: ID!
+  pendingEmail: String
+  user: User @connection(fields: ["freelancerID"])
+  projectID: ID!
+  project: Project @connection(fields: ["projectID"])
+  isInitialContact: Boolean
+  notes: [Note!]! @connection(keyName: "byProjectFreelancer", fields: ["id"])
 }
 
 type Project
 @model
-@key(name: "byFreelancer", fields: ["freelancerID"], queryField: "projectsByFreelancer")
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+@auth(
+  rules: [
+    { allow: owner, operations: [create, read, update, delete] }
+    { allow: private, operations: [create, read, update, delete] }
+    { allow: public, provider: iam, operations: [create, read] }
+  ]
+) {
   id: ID!
-  freelancerID: ID!
-  freelancer: User @connection(fields: ["freelancerID"])
-  clientID: ID!
-  client: User @connection(fields: ["clientID"])
-  comments: [Comment] @connection(name: "ProjectComments", keyName: "byProject", fields: ["id"])
-  comments: [Comment]
+  createdAt: AWSDateTime!
+  owner: String!
+  comments: [Comment] @connection(keyName: "byProject", fields: ["id"])
   quotes: [Quote] @connection(keyName: "byProject", fields: ["id"])
   details: String
+  title: String
+  clients: [ProjectClient!]! @connection(keyName: "byProject", fields: ["id"])
+  freelancers: [ProjectFreelancer!]! @connection(keyName: "byProject", fields: ["id"])
+  company: String
+  assets: [ProjectAssets] @connection(keyName: "byProject", fields: ["id"])
+}
+
+type ProjectAssets
+@model
+@key(name: "byProject", fields: ["projectID", "createdAt"])
+@auth(
+  rules: [
+    { allow: owner, operations: [create, read, update, delete] }
+    { allow: private, operations: [create, read, update, delete] }
+    { allow: public, provider: iam, operations: [create, read] }
+  ]
+) {
+  id: ID!
+  asset: S3Object
+  url: String
+  createdAt: AWSDateTime!
+  projectID: ID!
+  fileName: String
 }
 
 type Quote
 @model
 @key(name: "byProject", fields: ["projectID"])
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+@auth(
+  rules: [
+    { allow: owner, operations: [create, read, update, delete] }
+    { allow: private, operations: [create, read, update, delete] }
+    { allow: public, provider: iam }
+  ]
+) {
   id: ID!
   projectID: ID!
   tasks: [Task] @connection(keyName: "byQuote", fields: ["id"])
+  billableHours: Int
+  chargePerHour: Int
+  totalPrice: Int # usd cents
+  billingType: QuoteBillingType!
+  status: QuoteStatus
+  statusLastChangedAt: AWSDateTime
+  payments: [QuotePayment] @connection(keyName: "byQuote", fields: ["id"])
 }
 
 type Comment
-@model(subscriptions: null)
-@key(name: "byProject", fields: ["commentProjectID", "createdAt"])
+@model
+@key(name: "byProject", fields: ["projectID", "createdAt"])
 @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   id: ID!
   createdAt: AWSDateTime!
-  commentProjectID: ID!
+  projectID: ID!
   content: String!
   creatorID: ID!
   creator: User @connection(fields: ["creatorID"])
+  includedResourceType: CommentResourceType
+  includedResourceID: ID
+}
+
+enum CommentResourceType {
+  QUOTE
 }
 
 type Task
 @model
 @key(name: "byQuote", fields: ["quoteID"])
-@auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+@auth(
+  rules: [
+    { allow: owner, operations: [create, read, update, delete] }
+    { allow: private, operations: [create, read, update, delete] }
+    { allow: public, provider: iam }
+  ]
+) {
   id: ID!
   quoteID: ID!
   text: String!
@@ -76,9 +169,7 @@ type HireMeInfo
 @key(name: "byDomainSlug", fields: ["domainSlugID"], queryField: "hireInfoByDomainSlug")
 @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
   freelancerID: ID!
-  name: String
-  title: String
-  email: String!
+  freelancer: User @connection(fields: ["freelancerID"])
   buttonText: String
   blurbText: String
   aboutText: String
@@ -101,13 +192,50 @@ type DomainSlug
   hireMeInfo: HireMeInfo @connection(fields: ["freelancerID"])
 }
 
+type Note
+@model
+@key(name: "byProjectFreelancer", fields: ["projectFreelancerID"])
+@auth(
+  rules: [
+    { allow: owner, operations: [create, read, update, delete] }
+    { allow: public, provider: iam, operations: [create, read, update] }
+    { allow: private, operations: [create, read, update, delete] }
+  ]
+) {
+  id: ID!
+  projectFreelancerID: ID!
+  title: String!
+  content: String
+}
+
+type QuotePayment
+@model
+@key(name: "byQuote", fields: ["quoteID"])
+@auth(
+  rules: [
+    { allow: owner, operations: [create, read] }
+    { allow: public, provider: iam, operations: [create, read] }
+    { allow: private, operations: [create, read] }
+  ]
+) {
+  fromUserID: ID!
+  toUserID: ID!
+  quoteID: ID!
+  amount: Int!
+}
+
+enum QuoteStatus {
+  IDLE
+  ACCEPTED
+  DECLINE
+}
+
 enum UserRole {
   FREELANCER
   CLIENT
 }
 
-type Subscription {
-  onCreateComment(projectID: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, projectID: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, projectID: String): Comment @aws_subscribe(mutations: "deleteComment")
+enum QuoteBillingType {
+  HOURLY
+  TOTAL
 }

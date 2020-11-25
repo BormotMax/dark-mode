@@ -51,7 +51,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     if (token) {
       localStorage.setItem('viewerId', token as string);
     }
-  }, [currentUser]);
+  }, [currentUser, token]);
 
   const determineViewer = (p) => {
     let viewerCandidate;
@@ -74,6 +74,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   };
 
   const fetchProject = async () => {
+    if (!id) return;
     const getProjectInput = { id };
     try {
       const getProjectResult: { data: GetProjectQuery } = await unauthClient.query({
@@ -104,6 +105,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   };
 
   useEffect(() => {
+    if (!id) return;
     const execute = async () => {
       fetchProject();
 
@@ -129,7 +131,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       }
     };
     execute();
-  }, []);
+  }, [id]);
 
   const handleFilterChange = (e, filterOption) => {
     if (isClickOrEnter(e)) {
