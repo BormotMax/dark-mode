@@ -15,6 +15,8 @@ export const onCreateUser = /* GraphQL */ `
         tag
       }
       phone
+      address
+      taxID
       signedOutAuthToken
       role
       stripeAccountID
@@ -51,6 +53,8 @@ export const onCreateUser = /* GraphQL */ `
             tag
           }
           phone
+          address
+          taxID
           signedOutAuthToken
           role
           stripeAccountID
@@ -87,6 +91,8 @@ export const onCreateUser = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -163,6 +169,8 @@ export const onCreateUser = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -220,6 +228,8 @@ export const onUpdateUser = /* GraphQL */ `
         tag
       }
       phone
+      address
+      taxID
       signedOutAuthToken
       role
       stripeAccountID
@@ -256,6 +266,8 @@ export const onUpdateUser = /* GraphQL */ `
             tag
           }
           phone
+          address
+          taxID
           signedOutAuthToken
           role
           stripeAccountID
@@ -292,6 +304,8 @@ export const onUpdateUser = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -368,6 +382,8 @@ export const onUpdateUser = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -425,6 +441,8 @@ export const onDeleteUser = /* GraphQL */ `
         tag
       }
       phone
+      address
+      taxID
       signedOutAuthToken
       role
       stripeAccountID
@@ -461,6 +479,8 @@ export const onDeleteUser = /* GraphQL */ `
             tag
           }
           phone
+          address
+          taxID
           signedOutAuthToken
           role
           stripeAccountID
@@ -497,6 +517,8 @@ export const onDeleteUser = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -573,6 +595,8 @@ export const onDeleteUser = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -637,6 +661,8 @@ export const onCreateProjectClient = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -673,6 +699,8 @@ export const onCreateProjectClient = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -705,6 +733,8 @@ export const onCreateProjectClient = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -751,6 +781,8 @@ export const onCreateProjectClient = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -790,6 +822,8 @@ export const onUpdateProjectClient = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -826,6 +860,8 @@ export const onUpdateProjectClient = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -858,6 +894,8 @@ export const onUpdateProjectClient = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -904,6 +942,8 @@ export const onUpdateProjectClient = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -943,6 +983,8 @@ export const onDeleteProjectClient = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -979,6 +1021,8 @@ export const onDeleteProjectClient = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -1011,6 +1055,8 @@ export const onDeleteProjectClient = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -1057,6 +1103,8 @@ export const onDeleteProjectClient = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -1097,6 +1145,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -1133,6 +1183,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -1165,6 +1217,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -1211,6 +1265,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -1254,6 +1310,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -1296,6 +1354,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -1427,6 +1487,8 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -1485,6 +1547,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -1521,6 +1585,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -1553,6 +1619,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -1599,6 +1667,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -1642,6 +1712,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -1684,6 +1756,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -1815,6 +1889,8 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -1873,6 +1949,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -1909,6 +1987,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -1941,6 +2021,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -1987,6 +2069,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -2030,6 +2114,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -2072,6 +2158,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -2203,6 +2291,8 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -2269,6 +2359,8 @@ export const onCreateProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -2301,6 +2393,8 @@ export const onCreateProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -2338,6 +2432,8 @@ export const onCreateProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -2370,6 +2466,8 @@ export const onCreateProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -2543,6 +2641,8 @@ export const onCreateProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -2575,6 +2675,8 @@ export const onCreateProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -2624,6 +2726,8 @@ export const onUpdateProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -2656,6 +2760,8 @@ export const onUpdateProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -2693,6 +2799,8 @@ export const onUpdateProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -2725,6 +2833,8 @@ export const onUpdateProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -2898,6 +3008,8 @@ export const onUpdateProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -2930,6 +3042,8 @@ export const onUpdateProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -2979,6 +3093,8 @@ export const onDeleteProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -3011,6 +3127,8 @@ export const onDeleteProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3048,6 +3166,8 @@ export const onDeleteProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -3080,6 +3200,8 @@ export const onDeleteProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3253,6 +3375,8 @@ export const onDeleteProject = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -3285,6 +3409,8 @@ export const onDeleteProject = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3492,6 +3618,8 @@ export const onCreateComment = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -3528,6 +3656,8 @@ export const onCreateComment = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -3560,6 +3690,8 @@ export const onCreateComment = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3606,6 +3738,8 @@ export const onCreateComment = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3647,6 +3781,8 @@ export const onUpdateComment = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -3683,6 +3819,8 @@ export const onUpdateComment = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -3715,6 +3853,8 @@ export const onUpdateComment = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3761,6 +3901,8 @@ export const onUpdateComment = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3802,6 +3944,8 @@ export const onDeleteComment = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -3838,6 +3982,8 @@ export const onDeleteComment = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -3870,6 +4016,8 @@ export const onDeleteComment = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -3916,6 +4064,8 @@ export const onDeleteComment = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4004,6 +4154,8 @@ export const onCreateHireMeInfo = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -4040,6 +4192,8 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -4072,6 +4226,8 @@ export const onCreateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4118,6 +4274,8 @@ export const onCreateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4170,6 +4328,8 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -4202,6 +4362,8 @@ export const onCreateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4248,6 +4410,8 @@ export const onCreateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4300,6 +4464,8 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -4336,6 +4502,8 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -4368,6 +4536,8 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4414,6 +4584,8 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4466,6 +4638,8 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -4498,6 +4672,8 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4544,6 +4720,8 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4596,6 +4774,8 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
           tag
         }
         phone
+        address
+        taxID
         signedOutAuthToken
         role
         stripeAccountID
@@ -4632,6 +4812,8 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -4664,6 +4846,8 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4710,6 +4894,8 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4762,6 +4948,8 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               tag
             }
             phone
+            address
+            taxID
             signedOutAuthToken
             role
             stripeAccountID
@@ -4794,6 +4982,8 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4840,6 +5030,8 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
                 company
                 email
                 phone
+                address
+                taxID
                 signedOutAuthToken
                 role
                 stripeAccountID
@@ -4897,6 +5089,8 @@ export const onCreateDomainSlug = /* GraphQL */ `
             tag
           }
           phone
+          address
+          taxID
           signedOutAuthToken
           role
           stripeAccountID
@@ -4933,6 +5127,8 @@ export const onCreateDomainSlug = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -5009,6 +5205,8 @@ export const onCreateDomainSlug = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -5091,6 +5289,8 @@ export const onUpdateDomainSlug = /* GraphQL */ `
             tag
           }
           phone
+          address
+          taxID
           signedOutAuthToken
           role
           stripeAccountID
@@ -5127,6 +5327,8 @@ export const onUpdateDomainSlug = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -5203,6 +5405,8 @@ export const onUpdateDomainSlug = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -5285,6 +5489,8 @@ export const onDeleteDomainSlug = /* GraphQL */ `
             tag
           }
           phone
+          address
+          taxID
           signedOutAuthToken
           role
           stripeAccountID
@@ -5321,6 +5527,8 @@ export const onDeleteDomainSlug = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID
@@ -5397,6 +5605,8 @@ export const onDeleteDomainSlug = /* GraphQL */ `
                 tag
               }
               phone
+              address
+              taxID
               signedOutAuthToken
               role
               stripeAccountID

@@ -71,7 +71,7 @@
 
       @include tablet {
         width: 668px;
-        height: 426px;
+        min-height: 426px;
       }
 
       position: fixed;

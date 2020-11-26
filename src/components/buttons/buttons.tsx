@@ -8,6 +8,7 @@ interface ButtonProps {
   disabled?: boolean;
   inverted?: boolean;
   form?: string;
+  className?: string;
 }
 
 export const ButtonSmall: React.FC<ButtonProps> = ({
@@ -17,6 +18,7 @@ export const ButtonSmall: React.FC<ButtonProps> = ({
   inverted = false,
   form,
   disabled,
+  className,
 }) => (
   <button
     onClick={(e) => (onClick ? onClick(e) : () => {})}
@@ -31,6 +33,7 @@ export const ButtonSmall: React.FC<ButtonProps> = ({
         [styles.disabled]: disabled && !isSaving,
         [styles.inverted]: inverted,
       },
+      className,
     )}
   >
     {text}

@@ -18,6 +18,8 @@ type User
   email: String
   avatar: S3Object
   phone: String
+  address: String
+  taxID: String
   signedOutAuthToken: String
   role: UserRole!
   stripeAccountID: String

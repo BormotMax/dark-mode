@@ -1,19 +1,33 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog, faComments, faGlobeAmericas, faLayerGroup, faPersonSign, faRocket, faSackDollar, faSign, faSignOut, faStopwatch, faTimes, faUserAstronaut } from '@fortawesome/pro-light-svg-icons';
+import gql from 'graphql-tag';
+import {
+  faCog,
+  faComments,
+  faGlobeAmericas,
+  faRocket,
+  faSackDollar,
+  faSign,
+  faSignOut,
+  faStopwatch,
+  faTimes,
+  faUserAstronaut,
+} from '@fortawesome/pro-light-svg-icons';
 
-import { useCurrentUser } from '../../hooks';
+import { useCurrentUser, useLogger } from '../../hooks';
 import { Avatar } from '../avatar/avatar';
-
-import styles from './nav.module.scss';
 import { isClickOrEnter } from '../../helpers/util';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { Settings } from '../settings';
 import { Protected } from '../protected/protected';
+import { unauthClient as client } from '../../pages/_app';
+import { getUser } from '../../graphql/queries';
 import { Role } from '../withAuthentication';
+
+import styles from './nav.module.scss';
 
 export enum Page {
   PROJECT,
@@ -25,13 +39,19 @@ export enum Page {
 
 interface NavProps {
   page?: Page;
-  goToNextPanel?: Function;
+  goToNextPanel?: () => void;
 }
 
+const PROJECTS_LINK = '/projects';
+const HIRE_PAGE_EDITOR = '/hire-page-editor';
+
 export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
+  const { logger } = useLogger();
   const { currentUser, signOut } = useCurrentUser();
+  const [userAvatar, setUserAvatar] = useState('');
   const email = currentUser?.attributes?.email;
   const name = currentUser?.attributes?.name;
+  const userID = currentUser?.attributes?.sub;
 
   const handleLogout = (e: any) => {
     if (isClickOrEnter(e)) {
@@ -45,10 +65,33 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
     }
   };
 
+  const fetchUser = async () => {
+    if (!userID) return;
+    const getUserInput = { id: userID };
+    let getUserResponse;
+    try {
+      getUserResponse = await client.query({
+        query: gql(getUser),
+        variables: getUserInput,
+      });
+    } catch (error) {
+      logger.error('Nav: error get user', { error, input: { email, input: getUserInput } });
+    }
+    if (!getUserResponse) return;
+    const s3key = getUserResponse?.data?.getUser?.avatar?.key ?? '';
+    setUserAvatar(s3key);
+  };
+
+  useEffect(() => {
+    if (userID) {
+      fetchUser();
+    }
+  }, []);
+
   return (
     <div className={classnames(styles.nav)}>
       <div className={classnames(styles.toolbar)}>
-        <Avatar email={email} name={name} width={48} height={48} />
+        <Avatar s3key={userAvatar} email={email} name={name} width={48} height={48} />
         <div
           role="button"
           className={classnames('is-hidden-tablet', styles.closeNav)}
@@ -75,8 +118,8 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           <div className={classnames(styles.soon)}>Soon</div>
         </li>
         <li className={classnames({ [styles.current]: page === Page.PROJECTS })}>
-          <Link href="/projects">
-            <a href="/projects">
+          <Link href={PROJECTS_LINK}>
+            <a href={PROJECTS_LINK}>
               <FontAwesomeIcon color="#ffffff" size="1x" icon={faRocket} />
               Projects
             </a>
@@ -97,8 +140,8 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           <div className={classnames(styles.soon)}>Soon</div>
         </li>
         <li className={classnames({ [styles.current]: page === Page.HIRE_EDITOR })}>
-          <Link href="/hire-page-editor">
-            <a href="/hire-page-editor">
+          <Link href={HIRE_PAGE_EDITOR}>
+            <a href={HIRE_PAGE_EDITOR}>
               <FontAwesomeIcon color="#ffffff" size="1x" icon={faSign} />
               Hire Page
             </a>

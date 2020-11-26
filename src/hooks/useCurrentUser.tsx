@@ -20,10 +20,12 @@ export const UserDataProvider: React.FC = ({ children }) => {
   const { logger } = useLogger();
   const { setFlash } = useFlash();
 
-  const signOut = async () => {
+  const signOut = async (redirect?: string) => {
     try {
-      await Auth.signOut();
-      router.push('/signIn');
+      const res = await Auth.signOut();
+      console.log('redirect -->', redirect, res);
+      router.push(redirect);
+      // router.push(redirect ?? '/signIn');
     } catch (error) {
       logger.error('UserDataProvider: error signing out', { error });
       setFlash('There was an error while trying to sign out.');

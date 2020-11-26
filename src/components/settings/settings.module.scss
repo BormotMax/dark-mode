@@ -5,28 +5,107 @@
   }
 
   .body {
+    padding: 0;
+    height: 554px;
     .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 16px;
+      border-right: 1px solid;
+      border-color: #EEEEEE;
       svg {
         margin-right: 10px;
       }
+      .current {
+        color: #ffffff;
+        background: #3c78fb;
+      }
 
       button {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         background: #fafafa;
-        border-radius: 100px;
+        border-radius: 8px;
         border: none;
         cursor: pointer;
         font: inherit;
         color: #828282;
         padding: 5px 16px;
+        width: 100%;
         font-weight: normal;
+
+        &:focus {
+          outline: 0;
+        }
       }
     }
     .right {
+      padding: 16px;
       color: #000000;
       font-weight: 300;
 
-      button {
+      .paymentButton {
         margin-top: 22px;
+      }
+
+      .profileSettingsWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        height: 100%;
+
+        .avatarContainer {
+          margin-right: 22px;
+        }
+
+        .buttonsBlock {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+
+          &.resetPassword {
+            margin-top: 12px;
+            display: inline-block;
+          }
+
+        }
+        .saveButton {
+          margin-top: 17px;
+          margin-left: auto;
+          display: flex;
+          align-self: flex-end;
+        }
+
+
+        .inputsContainer {
+          flex-grow: 1;
+
+          .inputWrapper {
+            margin-bottom: 8px;
+
+            .label {
+              font-family: Roboto;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 14px;
+              line-height: 16px;
+              color: #828282;
+            }
+          }
+
+          .textarea {
+            height: 96px;
+            font-family: Arial;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 16px;
+            color: #595959;
+          }
+        }
       }
     }
   }
@@ -68,3 +147,8 @@
     }
   }
 }
+
+.buttonResetStyle {
+  outline: 0;
+}
+

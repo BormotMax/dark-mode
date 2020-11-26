@@ -12,6 +12,7 @@ enum UploadState {
 
 type AvatarUpload = {
   email?: string,
+  className?: string,
   image?: string,
   avatarName?: string,
   avatarWidth?: number,
@@ -25,6 +26,7 @@ export const AvatarUpload: React.FC<AvatarUpload> = ({
   avatarWidth = 96,
   avatarHeight = 96,
   onChange,
+  className,
 }) => {
   const [fileSrc, setFileSrc] = useState('');
   const [uploadState, setUploadState] = useState(UploadState.BEGIN);
@@ -48,7 +50,9 @@ export const AvatarUpload: React.FC<AvatarUpload> = ({
 
   return (
     <div className={classnames(
-      styles.avatarIconContainer, { [styles.loading]: uploadState === UploadState.LOADING },
+      styles.avatarIconContainer,
+      className,
+      { [styles.loading]: uploadState === UploadState.LOADING },
     )}
     >
       <label className={styles.browseButton} htmlFor={`${avatarName}-fileInput`}>
