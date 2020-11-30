@@ -3,8 +3,8 @@ import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Autosuggest from 'react-autosuggest';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
-import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
@@ -13,14 +13,15 @@ import { Avatar } from '../avatar/avatar';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import { AvatarUpload } from '../avatarUpload';
-import { useLogger, useFlash } from '../../hooks';
+import { useLogger, useFlash, useDebounce } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
-import { usersByEmail } from '../../graphql/queries';
-import { UserRole, CreateUserMutation, UsersByEmailQuery } from '../../API';
+import { listUsers, usersByEmail, searchUsers, usersByName } from '../../graphql/queries';
+import { UserRole, CreateUserMutation, UsersByEmailQuery, ListUsersQuery } from '../../API';
 import { createUser, createProjectClient, createProjectFreelancer, updateUser } from '../../graphql/mutations';
-import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import { Role } from '../withAuthentication';
 import { Protected } from '../protected/protected';
+import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
+import styles from './contactPreview.module.scss';
 
 interface ContactPreviewProps {
   users: [ProjectClient | ProjectFreelancer];
@@ -117,32 +118,106 @@ interface ModalContentProps {
   currentUser: User;
 }
 
-const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUsers, users, selectedUser, currentUser }) => {
+const ModalContent: React.FC<ModalContentProps> = ({
+  close,
+  projectID,
+  refreshUsers,
+  users,
+  selectedUser,
+  currentUser,
+}) => {
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const { logger } = useLogger();
   const { setFlash } = useFlash();
   const [userAvatar, setUserAvatar] = useState('');
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
 
+  const [isVisible, setIsVisible] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: selectedUser?.user?.name,
+    email: selectedUser?.user?.email,
+    title: selectedUser?.user?.title,
+  });
   const [fileInputValues, setFileInputValues] = useState(null);
-  const [name, setName] = useState(selectedUser?.user?.name || '');
-  const [title, setTitle] = useState(selectedUser?.user?.title || '');
-  const [email, setEmail] = useState(selectedUser?.user?.email || '');
-  const [userType, setUserType] = useState(selectedUser?.user.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
+  const [userType, setUserType] = useState(selectedUser?.user?.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
 
   const onChangeUserType = useCallback((event) => {
     if (selectedUser) return;
     setUserType(UserRole[event.target.value]);
-  }, [setUserType, selectedUser]);
+  }, [setFormValues, selectedUser]);
+
+  const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    setFormValues((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }, [setFormValues]);
+
+  const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
+    const { target: { name, value } = {} } = event;
+    if (name === 'name') {
+      setIsVisible(false);
+    }
+    setFormValues((prevState) => ({
+      ...prevState,
+      [name]: value.trim(),
+    }));
+  }, [setFormValues, setIsVisible]);
+
+  const onSuggestionUserClick = (user) => () => {
+    setFormValues((prevState) => ({
+      ...prevState,
+      name: user?.name,
+      email: user?.email,
+      title: user?.title,
+      ...(selectedUser ? {} : { userType: user?.role || UserRole.CLIENT }),
+    }));
+    setIsVisible(false);
+  };
+
+  const debouncedSearchTerm = useDebounce(formValues.name, 600);
+
+  const loadUsersList = async (value) => {
+    let usersListResponse;
+    const input = { filter: { name: { contains: value } } };
+    try {
+      usersListResponse = await client.query({
+        query: gql(listUsers),
+        variables: input,
+      });
+    } catch (error) {
+      logger.error('ContactPreviewModalContent: error while finding users by name', { error });
+      setFlash("Something went wrong. We're looking into it");
+    }
+    const foundedUsers = (usersListResponse?.data as ListUsersQuery)?.listUsers?.items ?? [];
+    setSuggestedUsers(foundedUsers);
+    setTimeout(() => {
+      setIsVisible(foundedUsers.length > 0);
+    }, 100);
+  };
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      loadUsersList(debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm]);
+
+  const handleChangeUserName = (event) => {
+    const { value } = event.target;
+    setFormValues((prevState) => ({ ...prevState, name: value }));
+    setIsVisible(value.length > 0);
+  };
 
   const isFormValid = useMemo(() => (
-    name.trim().length > 0 && title.trim().length > 0 && email.trim().length > 0
-  ), [name, title, email]);
+    formValues?.name?.trim()?.length > 0 && formValues?.title?.trim()?.length > 0 && formValues?.email?.trim()?.length > 0
+  ), [formValues.name, formValues.title, formValues.email]);
 
   function validate() {
     const temp: ValidationProps = {};
-    if (!name) temp.name = 'error';
-    if (!email) temp.email = 'error';
+    if (!formValues.name) temp.name = 'error';
+    if (!formValues.email) temp.email = 'error';
     if (!userType) temp.userType = 'error';
     return temp;
   }
@@ -174,14 +249,14 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
   const createProjectMember = async () => {
     // Check if there is an existing user with this email. The primary (id) key's value is the client's email.
     let getUserResponse;
-    const getUserInput = { email };
+    const getUserInput = { email: formValues.email };
     try {
       getUserResponse = await client.query({
         query: gql(usersByEmail),
         variables: getUserInput,
       });
     } catch (error) {
-      logger.error('ContactPreviewModalContent: error while finding existing user', { error, input: { email, input: getUserInput } });
+      logger.error('ContactPreviewModalContent: error while finding existing user', { error, input: getUserInput });
       setFlash("Something went wrong. We're looking into it");
       close();
       return;
@@ -195,11 +270,11 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     if (!existingClient && userType === UserRole.CLIENT) {
       const createAvatar = await createOrUpdateAvatar();
       const createUserInput = {
-        id: email,
-        name,
-        email,
+        id: formValues.email,
+        name: formValues.name,
+        email: formValues.email,
         avatar: createAvatar,
-        title,
+        title: formValues.title,
         role: UserRole.CLIENT,
         signedOutAuthToken,
       };
@@ -223,7 +298,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     if (userType === UserRole.CLIENT) {
       existingConnection = !!users.find((u) => (u as ProjectClient).clientID === existingClient.id);
     } else if (userType === UserRole.FREELANCER) {
-      existingConnection = !!users.find((u) => (u as ProjectFreelancer).pendingEmail === email);
+      existingConnection = !!users.find((u) => (u as ProjectFreelancer).pendingEmail === formValues.email);
     }
 
     if (existingConnection) {
@@ -234,7 +309,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     const projectMutation = userType === UserRole.CLIENT ? createProjectClient : createProjectFreelancer;
     const createProjectConnectionInput = {
       [userType === UserRole.CLIENT ? 'clientID' : 'freelancerID']: existingClient ? existingClient.id : uuid(),
-      ...(userType === UserRole.FREELANCER && !existingClient && { pendingEmail: email }),
+      ...(userType === UserRole.FREELANCER && !existingClient && { pendingEmail: formValues.email }),
       projectID,
     };
 
@@ -257,8 +332,8 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
     const newProjectMemberEmailInput = {
       freelancerEmail: currentUser.email,
       freelancerName: currentUser.name,
-      clientEmail: email,
-      clientName: name,
+      clientEmail: formValues.email,
+      clientName: formValues.name,
       projectUrl,
       type: 'NEW_CLIENT_CONTACT_CLIENT',
     };
@@ -279,10 +354,10 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
 
     const updateUserInput = {
       id: selectedUser?.user?.id,
-      name,
+      name: formValues.name,
       avatar: updateAvatar,
       // ...(selectedUser?.user?.role === UserRole.CLIENT ? { name } : {}), // update name only for clients
-      title,
+      title: formValues.title,
     };
 
     try {
@@ -348,16 +423,31 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
         <label htmlFor="name" className="label">
           Name
         </label>
-        <div className="control">
+        <div className={classnames(styles.nameInputContainer, 'control')}>
           <input
             required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onBlur={(e) => setName(e.target.value.trim())}
+            value={formValues.name}
+            onChange={handleChangeUserName}
+            onBlur={onBlurInput}
+            // onFocus={() => setIsVisible(true)}
             name="name"
             className={classnames('input', { 'is-danger': invalids.name })}
             type="text"
           />
+          {isVisible && (
+            <div className={styles.autoSuggestContainer}>
+              {suggestedUsers.map((user) => (
+                <div
+                  role="button"
+                  onClick={onSuggestionUserClick(user)}
+                  className={styles.autoSuggestItem}
+                >
+                  <Avatar email={user.email} url={user.avatar} width={24} height={24} className={styles.avatar} />
+                  {user.name}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <div className="field">
@@ -366,9 +456,9 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
         </label>
         <div className="control">
           <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onBlur={(e) => setTitle(e.target.value.trim())}
+            value={formValues.title}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
             name="title"
             className={classnames('input', { 'is-danger': invalids.title })}
             type="text"
@@ -381,9 +471,9 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refreshUs
         </label>
         <div className="control">
           <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={(e) => setEmail(e.target.value.trim())}
+            value={formValues.email}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
             required
             disabled={!!selectedUser}
             name="email"

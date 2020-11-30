@@ -1,6 +1,7 @@
 type User
   @model
   @key(name: "byEmail", fields: ["email"], queryField: "usersByEmail")
+  @searchable
   @auth(
     rules: [
       # owners

@@ -543,6 +543,175 @@ export const usersByEmail = /* GraphQL */ `
     }
   }
 `;
+export const searchUsers = /* GraphQL */ `
+  query SearchUsers(
+    $filter: SearchableUserFilterInput
+    $sort: SearchableUserSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchUsers(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        name
+        title
+        company
+        email
+        avatar {
+          key
+          tag
+        }
+        phone
+        address
+        taxID
+        signedOutAuthToken
+        role
+        stripeAccountID
+        createdAt
+        updatedAt
+        hireMeInfo {
+          freelancerID
+          buttonText
+          blurbText
+          aboutText
+          twitterUrl
+          dribbbleUrl
+          instagramUrl
+          linkedInUrl
+          domainSlugID
+          bannerImage {
+            key
+            tag
+          }
+          portfolioImages {
+            key
+            tag
+          }
+          createdAt
+          updatedAt
+          freelancer {
+            id
+            name
+            title
+            company
+            email
+            avatar {
+              key
+              tag
+            }
+            phone
+            address
+            taxID
+            signedOutAuthToken
+            role
+            stripeAccountID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                address
+                taxID
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          domainSlug {
+            slug
+            freelancerID
+            createdAt
+            updatedAt
+            hireMeInfo {
+              freelancerID
+              buttonText
+              blurbText
+              aboutText
+              twitterUrl
+              dribbbleUrl
+              instagramUrl
+              linkedInUrl
+              domainSlugID
+              bannerImage {
+                key
+                tag
+              }
+              portfolioImages {
+                key
+                tag
+              }
+              createdAt
+              updatedAt
+              freelancer {
+                id
+                name
+                title
+                company
+                email
+                phone
+                address
+                taxID
+                signedOutAuthToken
+                role
+                stripeAccountID
+                createdAt
+                updatedAt
+              }
+              domainSlug {
+                slug
+                freelancerID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
 export const getProjectClient = /* GraphQL */ `
   query GetProjectClient($id: ID!) {
     getProjectClient(id: $id) {
