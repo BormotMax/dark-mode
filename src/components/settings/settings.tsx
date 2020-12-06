@@ -21,6 +21,7 @@ import { STRIPE_API_URL } from '../../helpers/constants';
 
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import styles from './settings.module.scss';
+import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 interface SettingsProps {
   close?: () => void;
@@ -69,7 +70,6 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [stripeStatus, setStripeStatus] = useState(StripeStatus.NOT_STARTED);
   const [existingAccountID, setExistingAccountID] = useState(null);
-
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const [userAvatar, setUserAvatar] = useState('');
   const [avatarInputValues, setAvatarInputValues] = useState(null);
@@ -126,12 +126,11 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
         return;
       }
 
-      if (user?.avatar) {
+      if (user?.avatar?.key) {
         const { key } = user?.avatar;
         try {
-          Storage.get(key).then((image: string) => {
-            setUserAvatar(image);
-          });
+          const image: any = await Storage.get(key);
+          setUserAvatar(image);
         } catch (error) {
           logger.error('Settings: error retrieving s3 image.', { error, input: key });
         }
@@ -361,7 +360,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
                 <AvatarUpload
                   avatarName="avatar"
                   onChange={setAvatarInputValues}
-                  image={userAvatar}
+                  image={userAvatar || (currentUser.attributes.email ? gravatarUrl(currentUser.attributes.email) : null)}
                   className={styles.avatarContainer}
                 />
                 <div className={classnames(styles.inputsContainer)}>

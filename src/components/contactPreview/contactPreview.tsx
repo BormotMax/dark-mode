@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Autosuggest from 'react-autosuggest';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
@@ -15,7 +14,7 @@ import { ButtonSmall } from '../buttons/buttons';
 import { AvatarUpload } from '../avatarUpload';
 import { useLogger, useFlash, useDebounce } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
-import { listUsers, usersByEmail, searchUsers, usersByName } from '../../graphql/queries';
+import { listUsers, usersByEmail } from '../../graphql/queries';
 import { UserRole, CreateUserMutation, UsersByEmailQuery, ListUsersQuery } from '../../API';
 import { createUser, createProjectClient, createProjectFreelancer, updateUser } from '../../graphql/mutations';
 import { Role } from '../withAuthentication';
@@ -356,7 +355,6 @@ const ModalContent: React.FC<ModalContentProps> = ({
       id: selectedUser?.user?.id,
       name: formValues.name,
       avatar: updateAvatar,
-      // ...(selectedUser?.user?.role === UserRole.CLIENT ? { name } : {}), // update name only for clients
       title: formValues.title,
     };
 
@@ -407,7 +405,6 @@ const ModalContent: React.FC<ModalContentProps> = ({
     }
   }, [selectedUser]);
 
-  // TODO possibly, we don't need to create an avatar for invited freelancer
   return (
     <form onSubmit={handleSubmit}>
       <div className={modalStyles.avatarContainer}>
@@ -429,7 +426,6 @@ const ModalContent: React.FC<ModalContentProps> = ({
             value={formValues.name}
             onChange={handleChangeUserName}
             onBlur={onBlurInput}
-            // onFocus={() => setIsVisible(true)}
             name="name"
             className={classnames('input', { 'is-danger': invalids.name })}
             type="text"
@@ -438,11 +434,13 @@ const ModalContent: React.FC<ModalContentProps> = ({
             <div className={styles.autoSuggestContainer}>
               {suggestedUsers.map((user) => (
                 <div
+                  tabIndex={0}
+                  key={user.id}
                   role="button"
                   onClick={onSuggestionUserClick(user)}
                   className={styles.autoSuggestItem}
                 >
-                  <Avatar email={user.email} url={user.avatar} width={24} height={24} className={styles.avatar} />
+                  <Avatar email={user.email} s3key={user.avatar?.key} width={24} height={24} className={styles.avatar} />
                   {user.name}
                 </div>
               ))}

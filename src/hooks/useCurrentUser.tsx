@@ -22,10 +22,11 @@ export const UserDataProvider: React.FC = ({ children }) => {
 
   const signOut = async (redirect?: string) => {
     try {
-      const res = await Auth.signOut();
-      console.log('redirect -->', redirect, res);
-      router.push(redirect);
-      // router.push(redirect ?? '/signIn');
+      await Auth.signOut();
+
+      if (redirect) {
+        router.push(redirect);
+      }
     } catch (error) {
       logger.error('UserDataProvider: error signing out', { error });
       setFlash('There was an error while trying to sign out.');
