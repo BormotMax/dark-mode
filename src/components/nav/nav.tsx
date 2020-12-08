@@ -162,12 +162,11 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
             <Settings />
           </InPlaceModal>
         </Protected>
-        <li className={classnames(styles.disabled)}>
-          <div className={classnames(styles.disabledInner)}>
+        <li>
+          <a href="https://continuumcommunity.slack.com">
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faGlobeAmericas} />
             Community
-          </div>
-          <div className={classnames(styles.soon)}>Soon</div>
+          </a>
         </li>
         <li>
           <a role="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
