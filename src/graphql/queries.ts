@@ -103,6 +103,7 @@ export const listUsers = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -111,6 +112,7 @@ export const listUsers = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -151,6 +153,7 @@ export const listUsers = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -275,6 +278,7 @@ export const getUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -296,6 +300,7 @@ export const getUser = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -353,6 +358,7 @@ export const getUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -484,6 +490,7 @@ export const usersByEmail = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -492,6 +499,7 @@ export const usersByEmail = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -532,6 +540,7 @@ export const usersByEmail = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -652,6 +661,7 @@ export const searchUsers = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -660,6 +670,7 @@ export const searchUsers = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -700,6 +711,7 @@ export const searchUsers = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -815,6 +827,7 @@ export const getProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -823,6 +836,7 @@ export const getProjectClient = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -863,6 +877,7 @@ export const getProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -960,6 +975,7 @@ export const listProjectClients = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -1087,6 +1103,7 @@ export const getProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1095,6 +1112,7 @@ export const getProjectFreelancer = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -1135,6 +1153,7 @@ export const getProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1477,6 +1496,7 @@ export const listProjectFreelancers = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -1747,6 +1767,7 @@ export const projectsByFreelancer = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -2233,6 +2254,7 @@ export const getProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2306,6 +2328,7 @@ export const getProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2515,6 +2538,7 @@ export const getProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2755,6 +2779,7 @@ export const getComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2763,6 +2788,7 @@ export const getComment = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -2803,6 +2829,7 @@ export const getComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2902,6 +2929,7 @@ export const listComments = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -3064,6 +3092,7 @@ export const listHireMeInfos = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -3085,6 +3114,7 @@ export const listHireMeInfos = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -3142,6 +3172,7 @@ export const listHireMeInfos = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -3281,6 +3312,7 @@ export const getHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3289,6 +3321,7 @@ export const getHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -3329,6 +3362,7 @@ export const getHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3339,6 +3373,7 @@ export const getHireMeInfo = /* GraphQL */ `
       domainSlug {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -3417,6 +3452,7 @@ export const getHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3425,6 +3461,7 @@ export const getHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -3465,6 +3502,7 @@ export const getHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3583,6 +3621,7 @@ export const hireInfoByDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -3604,6 +3643,7 @@ export const hireInfoByDomainSlug = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -3661,6 +3701,7 @@ export const hireInfoByDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -3702,6 +3743,7 @@ export const listDomainSlugs = /* GraphQL */ `
       items {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -3780,6 +3822,7 @@ export const listDomainSlugs = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3788,6 +3831,7 @@ export const listDomainSlugs = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -3828,6 +3872,7 @@ export const listDomainSlugs = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3844,6 +3889,7 @@ export const getDomainSlug = /* GraphQL */ `
     getDomainSlug(slug: $slug) {
       slug
       freelancerID
+      pendingEmail
       createdAt
       updatedAt
       hireMeInfo {
@@ -3939,6 +3985,7 @@ export const getDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -3960,6 +4007,7 @@ export const getDomainSlug = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -4017,6 +4065,7 @@ export const getDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {

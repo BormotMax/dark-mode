@@ -115,6 +115,7 @@ export const onCreateUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -136,6 +137,7 @@ export const onCreateUser = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -193,6 +195,7 @@ export const onCreateUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -328,6 +331,7 @@ export const onUpdateUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -349,6 +353,7 @@ export const onUpdateUser = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -406,6 +411,7 @@ export const onUpdateUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -541,6 +547,7 @@ export const onDeleteUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -562,6 +569,7 @@ export const onDeleteUser = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -619,6 +627,7 @@ export const onDeleteUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -744,6 +753,7 @@ export const onCreateProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -752,6 +762,7 @@ export const onCreateProjectClient = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -792,6 +803,7 @@ export const onCreateProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -905,6 +917,7 @@ export const onUpdateProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -913,6 +926,7 @@ export const onUpdateProjectClient = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -953,6 +967,7 @@ export const onUpdateProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1066,6 +1081,7 @@ export const onDeleteProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1074,6 +1090,7 @@ export const onDeleteProjectClient = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -1114,6 +1131,7 @@ export const onDeleteProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1228,6 +1246,7 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1236,6 +1255,7 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -1276,6 +1296,7 @@ export const onCreateProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1630,6 +1651,7 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1638,6 +1660,7 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -1678,6 +1701,7 @@ export const onUpdateProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2032,6 +2056,7 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2040,6 +2065,7 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -2080,6 +2106,7 @@ export const onDeleteProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2404,6 +2431,7 @@ export const onCreateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2477,6 +2505,7 @@ export const onCreateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2686,6 +2715,7 @@ export const onCreateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2771,6 +2801,7 @@ export const onUpdateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2844,6 +2875,7 @@ export const onUpdateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3053,6 +3085,7 @@ export const onUpdateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3138,6 +3171,7 @@ export const onDeleteProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3211,6 +3245,7 @@ export const onDeleteProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3420,6 +3455,7 @@ export const onDeleteProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3701,6 +3737,7 @@ export const onCreateComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3709,6 +3746,7 @@ export const onCreateComment = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -3749,6 +3787,7 @@ export const onCreateComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3864,6 +3903,7 @@ export const onUpdateComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3872,6 +3912,7 @@ export const onUpdateComment = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -3912,6 +3953,7 @@ export const onUpdateComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4027,6 +4069,7 @@ export const onDeleteComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4035,6 +4078,7 @@ export const onDeleteComment = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4075,6 +4119,7 @@ export const onDeleteComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4237,6 +4282,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4245,6 +4291,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4285,6 +4332,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4295,6 +4343,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
       domainSlug {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -4373,6 +4422,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4381,6 +4431,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4421,6 +4472,7 @@ export const onCreateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4547,6 +4599,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4555,6 +4608,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4595,6 +4649,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4605,6 +4660,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
       domainSlug {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -4683,6 +4739,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4691,6 +4748,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4731,6 +4789,7 @@ export const onUpdateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4857,6 +4916,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4865,6 +4925,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4905,6 +4966,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4915,6 +4977,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
       domainSlug {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -4993,6 +5056,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -5001,6 +5065,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -5041,6 +5106,7 @@ export const onDeleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -5056,6 +5122,7 @@ export const onCreateDomainSlug = /* GraphQL */ `
     onCreateDomainSlug {
       slug
       freelancerID
+      pendingEmail
       createdAt
       updatedAt
       hireMeInfo {
@@ -5151,6 +5218,7 @@ export const onCreateDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -5172,6 +5240,7 @@ export const onCreateDomainSlug = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -5229,6 +5298,7 @@ export const onCreateDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -5256,6 +5326,7 @@ export const onUpdateDomainSlug = /* GraphQL */ `
     onUpdateDomainSlug {
       slug
       freelancerID
+      pendingEmail
       createdAt
       updatedAt
       hireMeInfo {
@@ -5351,6 +5422,7 @@ export const onUpdateDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -5372,6 +5444,7 @@ export const onUpdateDomainSlug = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -5429,6 +5502,7 @@ export const onUpdateDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -5456,6 +5530,7 @@ export const onDeleteDomainSlug = /* GraphQL */ `
     onDeleteDomainSlug {
       slug
       freelancerID
+      pendingEmail
       createdAt
       updatedAt
       hireMeInfo {
@@ -5551,6 +5626,7 @@ export const onDeleteDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -5572,6 +5648,7 @@ export const onDeleteDomainSlug = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -5629,6 +5706,7 @@ export const onDeleteDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {

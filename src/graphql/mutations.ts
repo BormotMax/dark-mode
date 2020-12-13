@@ -118,6 +118,7 @@ export const deleteUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -139,6 +140,7 @@ export const deleteUser = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -196,6 +198,7 @@ export const deleteUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -324,6 +327,7 @@ export const deleteProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -332,6 +336,7 @@ export const deleteProjectClient = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -372,6 +377,7 @@ export const deleteProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -489,6 +495,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -497,6 +504,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -537,6 +545,7 @@ export const deleteProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -864,6 +873,7 @@ export const updateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -937,6 +947,7 @@ export const updateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1146,6 +1157,7 @@ export const updateProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1234,6 +1246,7 @@ export const deleteProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1307,6 +1320,7 @@ export const deleteProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1516,6 +1530,7 @@ export const deleteProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -1562,6 +1577,420 @@ export const deleteProjectAssets = /* GraphQL */ `
       projectID
       fileName
       updatedAt
+    }
+  }
+`;
+export const updateDomainSlug = /* GraphQL */ `
+  mutation UpdateDomainSlug(
+    $input: UpdateDomainSlugInput!
+    $condition: ModelDomainSlugConditionInput
+  ) {
+    updateDomainSlug(input: $input, condition: $condition) {
+      slug
+      freelancerID
+      pendingEmail
+      createdAt
+      updatedAt
+      hireMeInfo {
+        freelancerID
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        dribbbleUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        freelancer {
+          id
+          name
+          title
+          company
+          email
+          avatar {
+            key
+            tag
+          }
+          phone
+          address
+          taxID
+          signedOutAuthToken
+          role
+          stripeAccountID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              avatar {
+                key
+                tag
+              }
+              phone
+              address
+              taxID
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              pendingEmail
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
+        domainSlug {
+          slug
+          freelancerID
+          pendingEmail
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              avatar {
+                key
+                tag
+              }
+              phone
+              address
+              taxID
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              pendingEmail
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const deleteDomainSlug = /* GraphQL */ `
+  mutation DeleteDomainSlug(
+    $input: DeleteDomainSlugInput!
+    $condition: ModelDomainSlugConditionInput
+  ) {
+    deleteDomainSlug(input: $input, condition: $condition) {
+      slug
+      freelancerID
+      pendingEmail
+      createdAt
+      updatedAt
+      hireMeInfo {
+        freelancerID
+        buttonText
+        blurbText
+        aboutText
+        twitterUrl
+        dribbbleUrl
+        instagramUrl
+        linkedInUrl
+        domainSlugID
+        bannerImage {
+          key
+          tag
+        }
+        portfolioImages {
+          key
+          tag
+        }
+        createdAt
+        updatedAt
+        freelancer {
+          id
+          name
+          title
+          company
+          email
+          avatar {
+            key
+            tag
+          }
+          phone
+          address
+          taxID
+          signedOutAuthToken
+          role
+          stripeAccountID
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              avatar {
+                key
+                tag
+              }
+              phone
+              address
+              taxID
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              pendingEmail
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
+        domainSlug {
+          slug
+          freelancerID
+          pendingEmail
+          createdAt
+          updatedAt
+          hireMeInfo {
+            freelancerID
+            buttonText
+            blurbText
+            aboutText
+            twitterUrl
+            dribbbleUrl
+            instagramUrl
+            linkedInUrl
+            domainSlugID
+            bannerImage {
+              key
+              tag
+            }
+            portfolioImages {
+              key
+              tag
+            }
+            createdAt
+            updatedAt
+            freelancer {
+              id
+              name
+              title
+              company
+              email
+              avatar {
+                key
+                tag
+              }
+              phone
+              address
+              taxID
+              signedOutAuthToken
+              role
+              stripeAccountID
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+            domainSlug {
+              slug
+              freelancerID
+              pendingEmail
+              createdAt
+              updatedAt
+              hireMeInfo {
+                freelancerID
+                buttonText
+                blurbText
+                aboutText
+                twitterUrl
+                dribbbleUrl
+                instagramUrl
+                linkedInUrl
+                domainSlugID
+                createdAt
+                updatedAt
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -1728,6 +2157,7 @@ export const createUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -1749,6 +2179,7 @@ export const createUser = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -1806,6 +2237,7 @@ export const createUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -1944,6 +2376,7 @@ export const updateUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -1965,6 +2398,7 @@ export const updateUser = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -2022,6 +2456,7 @@ export const updateUser = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -2150,6 +2585,7 @@ export const createProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2158,6 +2594,7 @@ export const createProjectClient = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -2198,6 +2635,7 @@ export const createProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2314,6 +2752,7 @@ export const updateProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2322,6 +2761,7 @@ export const updateProjectClient = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -2362,6 +2802,7 @@ export const updateProjectClient = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2479,6 +2920,7 @@ export const createProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2487,6 +2929,7 @@ export const createProjectFreelancer = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -2527,6 +2970,7 @@ export const createProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2884,6 +3328,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -2892,6 +3337,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -2932,6 +3378,7 @@ export const updateProjectFreelancer = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3259,6 +3706,7 @@ export const createProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3332,6 +3780,7 @@ export const createProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3541,6 +3990,7 @@ export const createProject = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3805,6 +4255,7 @@ export const createComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3813,6 +4264,7 @@ export const createComment = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -3853,6 +4305,7 @@ export const createComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3971,6 +4424,7 @@ export const updateComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -3979,6 +4433,7 @@ export const updateComment = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4019,6 +4474,7 @@ export const updateComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4137,6 +4593,7 @@ export const deleteComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4145,6 +4602,7 @@ export const deleteComment = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4185,6 +4643,7 @@ export const deleteComment = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4359,6 +4818,7 @@ export const createHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4367,6 +4827,7 @@ export const createHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4407,6 +4868,7 @@ export const createHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4417,6 +4879,7 @@ export const createHireMeInfo = /* GraphQL */ `
       domainSlug {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -4495,6 +4958,7 @@ export const createHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4503,6 +4967,7 @@ export const createHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4543,6 +5008,7 @@ export const createHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4672,6 +5138,7 @@ export const updateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4680,6 +5147,7 @@ export const updateHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4720,6 +5188,7 @@ export const updateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4730,6 +5199,7 @@ export const updateHireMeInfo = /* GraphQL */ `
       domainSlug {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -4808,6 +5278,7 @@ export const updateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4816,6 +5287,7 @@ export const updateHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -4856,6 +5328,7 @@ export const updateHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4985,6 +5458,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -4993,6 +5467,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -5033,6 +5508,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -5043,6 +5519,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
       domainSlug {
         slug
         freelancerID
+        pendingEmail
         createdAt
         updatedAt
         hireMeInfo {
@@ -5121,6 +5598,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -5129,6 +5607,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
           domainSlug {
             slug
             freelancerID
+            pendingEmail
             createdAt
             updatedAt
             hireMeInfo {
@@ -5169,6 +5648,7 @@ export const deleteHireMeInfo = /* GraphQL */ `
               domainSlug {
                 slug
                 freelancerID
+                pendingEmail
                 createdAt
                 updatedAt
               }
@@ -5187,6 +5667,7 @@ export const createDomainSlug = /* GraphQL */ `
     createDomainSlug(input: $input, condition: $condition) {
       slug
       freelancerID
+      pendingEmail
       createdAt
       updatedAt
       hireMeInfo {
@@ -5282,6 +5763,7 @@ export const createDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {
@@ -5303,6 +5785,7 @@ export const createDomainSlug = /* GraphQL */ `
         domainSlug {
           slug
           freelancerID
+          pendingEmail
           createdAt
           updatedAt
           hireMeInfo {
@@ -5360,412 +5843,7 @@ export const createDomainSlug = /* GraphQL */ `
             domainSlug {
               slug
               freelancerID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-export const updateDomainSlug = /* GraphQL */ `
-  mutation UpdateDomainSlug(
-    $input: UpdateDomainSlugInput!
-    $condition: ModelDomainSlugConditionInput
-  ) {
-    updateDomainSlug(input: $input, condition: $condition) {
-      slug
-      freelancerID
-      createdAt
-      updatedAt
-      hireMeInfo {
-        freelancerID
-        buttonText
-        blurbText
-        aboutText
-        twitterUrl
-        dribbbleUrl
-        instagramUrl
-        linkedInUrl
-        domainSlugID
-        bannerImage {
-          key
-          tag
-        }
-        portfolioImages {
-          key
-          tag
-        }
-        createdAt
-        updatedAt
-        freelancer {
-          id
-          name
-          title
-          company
-          email
-          avatar {
-            key
-            tag
-          }
-          phone
-          address
-          taxID
-          signedOutAuthToken
-          role
-          stripeAccountID
-          createdAt
-          updatedAt
-          hireMeInfo {
-            freelancerID
-            buttonText
-            blurbText
-            aboutText
-            twitterUrl
-            dribbbleUrl
-            instagramUrl
-            linkedInUrl
-            domainSlugID
-            bannerImage {
-              key
-              tag
-            }
-            portfolioImages {
-              key
-              tag
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              title
-              company
-              email
-              avatar {
-                key
-                tag
-              }
-              phone
-              address
-              taxID
-              signedOutAuthToken
-              role
-              stripeAccountID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-            domainSlug {
-              slug
-              freelancerID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-          }
-        }
-        domainSlug {
-          slug
-          freelancerID
-          createdAt
-          updatedAt
-          hireMeInfo {
-            freelancerID
-            buttonText
-            blurbText
-            aboutText
-            twitterUrl
-            dribbbleUrl
-            instagramUrl
-            linkedInUrl
-            domainSlugID
-            bannerImage {
-              key
-              tag
-            }
-            portfolioImages {
-              key
-              tag
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              title
-              company
-              email
-              avatar {
-                key
-                tag
-              }
-              phone
-              address
-              taxID
-              signedOutAuthToken
-              role
-              stripeAccountID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-            domainSlug {
-              slug
-              freelancerID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-export const deleteDomainSlug = /* GraphQL */ `
-  mutation DeleteDomainSlug(
-    $input: DeleteDomainSlugInput!
-    $condition: ModelDomainSlugConditionInput
-  ) {
-    deleteDomainSlug(input: $input, condition: $condition) {
-      slug
-      freelancerID
-      createdAt
-      updatedAt
-      hireMeInfo {
-        freelancerID
-        buttonText
-        blurbText
-        aboutText
-        twitterUrl
-        dribbbleUrl
-        instagramUrl
-        linkedInUrl
-        domainSlugID
-        bannerImage {
-          key
-          tag
-        }
-        portfolioImages {
-          key
-          tag
-        }
-        createdAt
-        updatedAt
-        freelancer {
-          id
-          name
-          title
-          company
-          email
-          avatar {
-            key
-            tag
-          }
-          phone
-          address
-          taxID
-          signedOutAuthToken
-          role
-          stripeAccountID
-          createdAt
-          updatedAt
-          hireMeInfo {
-            freelancerID
-            buttonText
-            blurbText
-            aboutText
-            twitterUrl
-            dribbbleUrl
-            instagramUrl
-            linkedInUrl
-            domainSlugID
-            bannerImage {
-              key
-              tag
-            }
-            portfolioImages {
-              key
-              tag
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              title
-              company
-              email
-              avatar {
-                key
-                tag
-              }
-              phone
-              address
-              taxID
-              signedOutAuthToken
-              role
-              stripeAccountID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-            domainSlug {
-              slug
-              freelancerID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-          }
-        }
-        domainSlug {
-          slug
-          freelancerID
-          createdAt
-          updatedAt
-          hireMeInfo {
-            freelancerID
-            buttonText
-            blurbText
-            aboutText
-            twitterUrl
-            dribbbleUrl
-            instagramUrl
-            linkedInUrl
-            domainSlugID
-            bannerImage {
-              key
-              tag
-            }
-            portfolioImages {
-              key
-              tag
-            }
-            createdAt
-            updatedAt
-            freelancer {
-              id
-              name
-              title
-              company
-              email
-              avatar {
-                key
-                tag
-              }
-              phone
-              address
-              taxID
-              signedOutAuthToken
-              role
-              stripeAccountID
-              createdAt
-              updatedAt
-              hireMeInfo {
-                freelancerID
-                buttonText
-                blurbText
-                aboutText
-                twitterUrl
-                dribbbleUrl
-                instagramUrl
-                linkedInUrl
-                domainSlugID
-                createdAt
-                updatedAt
-              }
-            }
-            domainSlug {
-              slug
-              freelancerID
+              pendingEmail
               createdAt
               updatedAt
               hireMeInfo {

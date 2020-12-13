@@ -190,9 +190,16 @@ type HireMeInfo
 type DomainSlug
   @model
   @key(fields: ["slug"])
-  @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }, { allow: public, provider: iam }]) {
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, read, update, delete] }
+      { allow: private, operations: [create, read, update, delete] }
+      { allow: public, provider: iam, operations: [create, read] }
+    ]
+  ) {
   slug: ID!
   freelancerID: ID!
+  pendingEmail: String
   hireMeInfo: HireMeInfo @connection(fields: ["freelancerID"])
 }
 

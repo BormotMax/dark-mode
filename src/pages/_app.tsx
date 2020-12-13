@@ -78,7 +78,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <LoggerProvider>
     <Head>
       <title>Continuum - The Creator OS</title>
-      <meta property="og:title" content="Continuum - The Creator OS" key="title" />
+      <meta property="og:title" content="Continuum - The Platform For The Future of Work." key="title" />
       <meta
         name="description"
         content="The all-in-one platform for solo creatives to run a thriving freelance business from anywhere.
