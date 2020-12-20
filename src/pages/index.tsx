@@ -136,7 +136,7 @@ const Home: React.FC = () => {
           <h1>THE FUTURE of WORK</h1>
           <h3>Landing 2021 🦄</h3>
 
-          <p>In the year 2025 Continuum will be the de facto platform for the Future of Work.</p>
+          <p>The all-in-one collaborative platform for solo creators and crews to run a thriving freelance business.</p>
 
           <form onSubmit={submitForm}>
             <p>Hey, why not reserve your username now</p>
