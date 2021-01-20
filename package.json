@@ -33,7 +33,7 @@
     "aws-amplify-react": "^4.1.17",
     "aws-appsync": "^3.0.4",
     "aws-appsync-react": "^3.0.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bulma": "^0.9.0",
     "classnames": "^2.2.6",
     "cypress": "^4.10.0",
