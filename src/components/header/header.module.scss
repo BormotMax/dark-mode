@@ -1,12 +1,14 @@
+@use 'src/variables' as v;
 @import '~bulma/sass/utilities/_all.sass';
 
 .headerWrapper {
+  min-height: v.$header-min-height;
   margin: -12px -12px 0 -12px;
   background: #FAFAFA;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
 }
 .header {
   font-family: Roboto;

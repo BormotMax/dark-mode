@@ -1,0 +1,30 @@
+@use 'src/variables' as v;
+
+$done-duration: 300ms;
+
+.container {
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: transparent;
+  opacity: 0;
+  transition: all $done-duration ease-in-out;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(200px + #{v.$header-min-height});
+}
+
+.loading {
+  opacity: 1;
+  background-color: white;
+  pointer-events: all;
+}

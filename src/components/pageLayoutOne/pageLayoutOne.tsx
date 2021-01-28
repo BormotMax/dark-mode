@@ -1,18 +1,22 @@
 import classnames from 'classnames';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import styles from './pageLayoutOne.module.scss';
+
 import { Role } from '../withAuthentication';
 import { Protected, ProtectedElse } from '../protected/protected';
 import { Header } from '../header';
 import { Nav, Page } from '../nav/nav';
 import { MobileHeader } from '../mobileHeader';
+import LogoLoader from '../logoLoader';
+
+import styles from './pageLayoutOne.module.scss';
 
 interface PageLayoutOneProps {
   headerText?: string | JSX.Element;
   headerContainer?: string | Record<string, string>;
   headerButton?: JSX.Element;
   page?: Page;
+  loading?: boolean;
 }
 
 export enum ViewingState {
@@ -32,6 +36,7 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
   page,
   headerButton,
   headerContainer = '',
+  loading = true,
 }) => {
   const header = PageInfo[page] ? (
     <>
@@ -50,6 +55,7 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
   ) : (
     <span>{headerText}</span>
   );
+
   return (
     <div className={styles.page}>
       <DesktopLayout
@@ -58,21 +64,23 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
         page={page}
         headerButton={headerButton}
         headerContainer={headerContainer}
+        loading={loading}
       />
       <MobileLayout
         content={children}
         headerText={headerText}
         page={page}
         headerButton={headerButton}
+        loading={loading}
       />
     </div>
   );
 };
 
-const MobileLayout = ({ content, headerText, page, headerButton }) => {
+const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
   const [viewingState, setViewingState] = useState(ViewingState.FIRST_CHILD);
   return (
-    <div className="columns is-mobile is-hidden-tablet">
+    <div className="columns is-mobile is-hidden-tablet relative">
       <Protected roles={[Role.FREELANCER]}>
         {viewingState === ViewingState.NAV && (
           <div className={classnames('column', styles.nav, 'is-hidden-tablet')}>
@@ -82,6 +90,7 @@ const MobileLayout = ({ content, headerText, page, headerButton }) => {
         <div className={classnames('column', 'test', styles.noPadding, { [styles.hidden]: viewingState === ViewingState.NAV })}>
           {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
           <div className={classnames('container', 'is-desktop', styles.pageContent)}>
+            <LogoLoader loading={loading} />
             <MobileHeader
               headerText={headerText}
               currentViewingState={viewingState}
@@ -106,17 +115,18 @@ const MobileLayout = ({ content, headerText, page, headerButton }) => {
   );
 };
 
-const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer }) => (
+const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer, loading }) => (
   <div className={classnames('columns', 'is-hidden-mobile', styles.navColumn)}>
     <Protected roles={[Role.FREELANCER]}>
       <div className={classnames('column', 'is-narrow', styles.nav, styles.desktopNav, 'is-hidden-mobile')}>
         <Nav page={page} />
       </div>
     </Protected>
-    <div className="column">
+    <div className="column relative">
       <Header headerText={headerText} page={page} headerContainer={headerContainer}>
         {headerButton}
       </Header>
+      <LogoLoader loading={loading} />
       <div className={classnames(styles.pageContent)}>
         {content}
       </div>

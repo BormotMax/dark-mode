@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import classnames from 'classnames';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import gql from 'graphql-tag';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
@@ -121,6 +121,11 @@ const Home: React.FC = () => {
   const onUsernameChange = ({ target }) => {
     const { value } = target;
     setUsername(value.toLowerCase());
+    checkUsernameDBounce(value);
+  };
+
+  const onEmailChange = ({ target: { value = '' } = {} }) => {
+    setEmail(value);
   };
 
   return (
@@ -144,7 +149,7 @@ const Home: React.FC = () => {
               <input
                 pattern="^[a-z0-9-]+$"
                 value={username}
-                onChange={(e) => { onUsernameChange(e); checkUsernameDBounce(e.target.value); }}
+                onChange={onUsernameChange}
                 className={classnames(styles.block,
                   {
                     [styles.green]: isUsernameAvailable && usernameIsValid(),
@@ -154,7 +159,7 @@ const Home: React.FC = () => {
                 placeholder="Username (a-z, 0-9, dashes)"
                 required
               />
-              <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required placeholder="Enter your email" />
+              <input value={email} onChange={onEmailChange} type="email" required placeholder="Enter your email" />
               <button
                 disabled={isSaving}
                 type="submit"

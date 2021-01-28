@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import classnames from 'classnames';
-import { client } from './_app';
+
 import { ModelSortDirection, ProjectsByFreelancerQuery } from '../API';
 import { projectsByFreelancer, listProjectFreelancers } from '../graphql/queries';
 import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { AuthProps, Project, ProjectFreelancer } from '../types/custom';
 import { PageLayoutOne } from '../components/pageLayoutOne';
-import styles from './styles/projects.module.scss';
 import { Page } from '../components/nav/nav';
 import { ButtonSmall } from '../components/buttons/buttons';
 import { InPlaceModal } from '../components/inPlaceModal';
 import { CreateProjectModal } from '../components/createProjectModal';
 import { updateProjectFreelancer } from '../graphql/mutations';
+
+import { client } from './_app';
+import styles from './styles/projects.module.scss';
 
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
@@ -51,7 +53,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
     }
   };
 
-  const getProjects = async () => {
+  const getProjects = async (isMounted) => {
     const projectsByFreelancerInput = { freelancerID: currentUser.attributes.sub, sortDirection: ModelSortDirection.DESC };
     try {
       const { data }: { data: ProjectsByFreelancerQuery } = await client.query({
@@ -59,27 +61,38 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
         variables: projectsByFreelancerInput,
       });
 
-      setProjects(data.projectsByFreelancer.items.map((p) => p.project));
+      if (isMounted) {
+        setProjects(data.projectsByFreelancer.items.map((p) => p.project));
+      }
     } catch (error) {
-      setFlash("There was an error retrieving your projects. We're looking into it");
+      if (isMounted) {
+        setFlash("There was an error retrieving your projects. We're looking into it");
+      }
       logger.error('Projects: error retrieving projects', { error, input: projectsByFreelancerInput });
     } finally {
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+      }
     }
   };
 
   useEffect(() => {
+    let isMounted = true;
     const execute = async () => {
       await updateProjectFreelancerAssociation();
-      getProjects();
+      await getProjects(isMounted);
     };
     execute();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  if (loading) return null;
+  const haveNoProjects = !loading && !projects.length;
 
   return (
     <PageLayoutOne
+      loading={loading}
       page={Page.PROJECTS}
       headerText="All Projects"
       headerContainer={styles.headerWidth}
@@ -90,13 +103,14 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
       }
     >
       <div className={classnames('column', styles.projects)}>
-        {!projects.length ? (
+        {haveNoProjects ? (
           <div>You don&apos;t have any projects yet.</div>
         ) : (
           <>
             {projects.filter(Boolean).map((p: Project) => (
               <Link key={p.id} href="/project/[id]" as={`/project/${p.id}`}>
-                <a href={`/project/${p.id}`}>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a>
                   <div className={classnames(styles.comment)}>
                     <div className={styles.header}>
                       {/* todo: click to change title */}
@@ -114,4 +128,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   );
 };
 
-export default WithAuthentication(ProjectsPage, { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.FREELANCER] });
+export default WithAuthentication(
+  memo(ProjectsPage),
+  { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.FREELANCER] },
+);

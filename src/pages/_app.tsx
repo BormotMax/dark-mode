@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react';
 import Amplify from 'aws-amplify';
 import { Auth } from '@aws-amplify/auth';
 import { AppProps } from 'next/app';

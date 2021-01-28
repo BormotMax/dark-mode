@@ -6,18 +6,20 @@ import React, { useEffect, useState, useCallback } from 'react';
 import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
+
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { FileUpload } from '../components/fileUpload';
 import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug, updateUser } from '../graphql/mutations';
 import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery, GetUserQuery } from '../API';
 import { getHireMeInfo, getDomainSlug, getUser } from '../graphql/queries';
-import { client } from './_app';
-import styles from './styles/hireEdit.module.scss';
 import { DomainSlug } from '../types/custom';
 import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Page } from '../components/nav/nav';
 import { ButtonSmall } from '../components/buttons/buttons';
+
+import { client } from './_app';
+import styles from './styles/hireEdit.module.scss';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
 const SLUG_PREFIX = 'continuum.works/hire/';
@@ -359,10 +361,9 @@ const HirePageEditor = ({ currentUser }) => {
     }
   };
 
-  if (loading) return null;
-
   return (
     <PageLayoutOne
+      loading={loading}
       page={Page.HIRE_EDITOR}
       headerText="Hire Page Editor"
       headerButton={
