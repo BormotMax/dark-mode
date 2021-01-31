@@ -1,0 +1,112 @@
+import React, { memo, useMemo } from 'react';
+import {
+  faBackpack,
+  faClipboardUser,
+  faFileAlt,
+  faSackDollar,
+  faStopwatch,
+} from '@fortawesome/pro-light-svg-icons';
+
+import { Protected, ProtectedElse } from '../protected/protected';
+import { Role } from '../withAuthentication';
+import { FilesTab, NotesTab, TabGroup } from '../tabs';
+import { ContactPreview } from '../contactPreview';
+import { ProjectClient, ProjectFreelancer } from '../../types/custom';
+import { QuoteProgress } from '../quote';
+import { AddQuoteModal } from '../addQuoteModal';
+
+import styles from './projectMenu.module.scss';
+
+const TAB_INFO_FREELANCER = [
+  { icon: faClipboardUser, header: 'People' },
+  { icon: faFileAlt, header: 'Notes' },
+  { icon: faBackpack, header: 'Assets' },
+];
+const TAB_INFO_NON_FREELANCER = [
+  { icon: faClipboardUser, header: 'People' },
+  { icon: faBackpack, header: 'Assets' },
+];
+const TAB_INFO_FOOTER = [
+  { icon: faStopwatch, header: 'Tasks & Time' },
+  { icon: faSackDollar, header: 'Financial' },
+];
+const ROLES = [Role.FREELANCER];
+
+const RightColumn = ({
+  viewer,
+  clients,
+  freelancers,
+  project,
+  fetchProject,
+  currentUserId,
+  assets,
+  quotes,
+}) => {
+  const currentViewer = viewer?.current || {};
+
+  const users = useMemo(
+    () => ([...clients?.items, ...freelancers?.items] as [ProjectClient | ProjectFreelancer]),
+    [clients, freelancers],
+  );
+  const quotesBlock = useMemo(
+    () => {
+      if (!quotes.items.length) {
+        return <div>There are no quotes, yet.</div>;
+      }
+      return (
+        <>
+          {quotes.items
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+            .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)}
+        </>
+      );
+    },
+    [quotes.items, fetchProject],
+  );
+  const userProjects = useMemo(
+    () => project.freelancers.items.find((f) => currentUserId && f?.user?.id === currentUserId),
+    [project.freelancers, currentUserId],
+  );
+
+  return (
+    <div className={styles.tabGroupWrapper}>
+      <Protected roles={ROLES}>
+        <TabGroup tabInfos={TAB_INFO_FREELANCER}>
+          <ContactPreview
+            currentUser={currentViewer}
+            users={users}
+            projectID={project.id}
+            refreshUsers={fetchProject}
+          />
+          <NotesTab
+            projectUser={userProjects}
+            refetchData={fetchProject}
+          />
+          <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+        </TabGroup>
+      </Protected>
+      <ProtectedElse roles={ROLES}>
+        <TabGroup tabInfos={TAB_INFO_NON_FREELANCER}>
+          <ContactPreview
+            currentUser={currentViewer}
+            users={users}
+            projectID={project.id}
+            refreshUsers={fetchProject}
+          />
+          <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
+        </TabGroup>
+      </ProtectedElse>
+      <TabGroup tabInfos={TAB_INFO_FOOTER}>
+        {quotesBlock}
+        <AddQuoteModal
+          quotes={quotes.items}
+          projectID={project.id}
+          refetchData={fetchProject}
+          creator={currentViewer}
+        />
+      </TabGroup>
+    </div>
+  );
+};
+
+export default memo(RightColumn);

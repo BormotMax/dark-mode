@@ -89,7 +89,14 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
         )}
         <div className={classnames('column', 'test', styles.noPadding, { [styles.hidden]: viewingState === ViewingState.NAV })}>
           {/* The pageContent class removes the left margin. The nav will be in that area instead. */}
-          <div className={classnames('container', 'is-desktop', styles.pageContent)}>
+          <div
+            className={classnames(
+              'container',
+              'is-desktop',
+              styles.pageContent,
+              { [styles.loadingHeight]: loading },
+            )}
+          >
             <LogoLoader loading={loading} />
             <MobileHeader
               headerText={headerText}
@@ -105,7 +112,7 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
       </Protected>
       <ProtectedElse roles={[Role.FREELANCER]}>
         <div className="column">
-          <div className={classnames('container', 'is-desktop')}>
+          <div className={classnames('container', 'is-desktop', { [styles.loadingHeight]: loading })}>
             <Header headerText={headerText} page={page} />
             {content}
           </div>

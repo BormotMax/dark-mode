@@ -22,18 +22,6 @@
   margin-bottom: 17px;
 }
 
-.tabGroupWrapper {
-  padding: 16px;
-  background: white;
-  border-radius: 8px;
-  margin-bottom: 300px;
-  top: 132px;
-  //overflow-y: auto;
-  //height: calc(100vh - 132px);
-  //position: fixed;
-  z-index: 0;
-}
-
 .leftColumn {
   @include tablet {
     min-width: 500px;

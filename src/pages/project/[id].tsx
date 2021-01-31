@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Router, { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
-import { faBackpack, faClipboardUser, faFileAlt, faSackDollar, faStopwatch } from '@fortawesome/pro-light-svg-icons';
-import { FilesTab, NotesTab, TabGroup } from '../../components/tabs';
-import { WithAuthentication, RouteType, Role } from '../../components/withAuthentication';
+
+import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
-import { updateProjectFreelancer } from '../../graphql/mutations';
-import { Project, Comment as CommentType, AuthProps, ProjectClient, ProjectFreelancer } from '../../types/custom';
-import { unauthClient, client } from '../_app';
+import { Project, Comment as CommentType, AuthProps } from '../../types/custom';
+import { unauthClient } from '../_app';
 import { GetProjectQuery, CommentResourceType } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
@@ -16,12 +14,9 @@ import { onCreateComment } from '../../graphql/subscriptions';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
 import styles from '../styles/project.module.scss';
 import { Page } from '../../components/nav/nav';
-import { ContactPreview } from '../../components/contactPreview';
-import { AddQuoteModal } from '../../components/addQuoteModal';
-import { Protected, ProtectedElse } from '../../components/protected/protected';
-import { QuoteProgress } from '../../components/quote';
 import { isClickOrEnter } from '../../helpers/util';
 import { CurrentProjectAction, useCurrentProject } from '../../hooks/useCurrentProject';
+import ProjectMenu from '../../components/projectMenu';
 
 enum ProjectTabsEnum {
   Recent = 'Recent',
@@ -139,22 +134,28 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     }
   };
 
+  const headerText = useMemo(
+    () => (
+      <>{project?.title || project?.clients?.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>
+    ),
+    [project],
+  );
+  const comments = useMemo(
+    () => (project?.comments.items || []).sort(
+      (e1, e2) => new Date(e1.createdAt).getTime() - new Date(e2.createdAt).getTime(),
+    ) as Array<CommentType>,
+    [project],
+  );
+
   if (!viewerId && !currentUserId) Router.push('/signIn');
-  if (loading) return null;
-  if (!project) return <div>Not found</div>;
-
-  const { comments: cs, quotes, clients, freelancers, assets } = project as Project;
-
-  if (!viewer.current) {
+  if (!loading && !project) return <div>Not found</div>;
+  if (!loading && !viewer.current) {
     logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
     Router.push('/signIn');
     return null;
   }
 
-  // eslint-disable-next-line arrow-body-style
-  const comments = (cs?.items || []).sort((e1, e2) => {
-    return new Date(e1.createdAt).getTime() - new Date(e2.createdAt).getTime();
-  }) as Array<CommentType>;
+  const { quotes, clients = {}, freelancers, assets } = project as Project || {};
 
   const projectTabOptions = {
     [ProjectTabsEnum.Recent]: {
@@ -173,7 +174,8 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   return (
     <PageLayoutOne
-      headerText={<>{project.title || project.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>}
+      loading={loading}
+      headerText={headerText}
       headerContainer={styles.headerContainer}
       page={Page.PROJECT}
     >
@@ -188,22 +190,29 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
           id={id}
         />
       </div>
-      <div className={classnames('column', styles.hideTablet, styles.rightColumn)}>
-        <RightColumn
-          viewer={viewer}
-          clients={clients}
-          freelancers={freelancers}
-          project={project}
-          fetchProject={fetchProject}
-          currentUserId={currentUserId}
-          assets={assets}
-          quotes={quotes}
-        />
-      </div>
+      {project && (
+        <div className={classnames('column', styles.hideTablet, styles.rightColumn)}>
+          <ProjectMenu
+            viewer={viewer}
+            clients={clients}
+            freelancers={freelancers}
+            project={project}
+            fetchProject={fetchProject}
+            currentUserId={currentUserId}
+            assets={assets}
+            quotes={quotes}
+          />
+        </div>
+      )}
       <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
-      <div className={
-          classnames('container', 'columns', styles.hideMobile, styles.desktopColumns, { [styles.center]: !currentUser?.attributes?.sub })
-        }
+      <div
+        className={classnames(
+          'container',
+          'columns',
+          styles.hideMobile,
+          styles.desktopColumns,
+          { [styles.center]: !currentUser?.attributes?.sub },
+        )}
       >
         <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
           <Feed
@@ -215,18 +224,20 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
             id={id}
           />
         </div>
-        <div className={classnames('column', styles.rightColumn)}>
-          <RightColumn
-            viewer={viewer}
-            clients={clients}
-            freelancers={freelancers}
-            project={project}
-            fetchProject={fetchProject}
-            currentUserId={currentUserId}
-            assets={assets}
-            quotes={quotes}
-          />
-        </div>
+        {project && (
+          <div className={classnames('column', styles.rightColumn)}>
+            <ProjectMenu
+              viewer={viewer}
+              clients={clients}
+              freelancers={freelancers}
+              project={project}
+              fetchProject={fetchProject}
+              currentUserId={currentUserId}
+              assets={assets}
+              quotes={quotes}
+            />
+          </div>
+        )}
       </div>
     </PageLayoutOne>
   );
@@ -248,84 +259,28 @@ const Filters = ({ projectTabOptions, projectTab, handleFilterChange }) => (
   </div>
 );
 
-const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, id }) => (
-  <>
-    {comments.filter(projectTabOptions[projectTab].filterFxn).map((comment) => (
-      <CommentWrapper
-        key={comment.id}
-        comment={comment}
-        viewerId={viewer.current.id as string}
-      />
-    ))}
-    <div ref={newCommentRef}>
-      <NewComment
-        name={viewer.current.name}
-        email={viewer.current.email}
-        title={viewer.current.title}
-        projectID={id as string}
-        creatorID={viewer.current.id}
-      />
-    </div>
-  </>
-);
-
-const RightColumn = ({ viewer, clients, freelancers, project, fetchProject, currentUserId, assets, quotes }) => (
-  <div className={classnames(styles.tabGroupWrapper)}>
-    <Protected roles={[Role.FREELANCER]}>
-      <TabGroup
-        tabInfos={[
-          { icon: faClipboardUser, header: 'People' },
-          { icon: faFileAlt, header: 'Notes' },
-          { icon: faBackpack, header: 'Assets' },
-        ]}
-      >
-        <ContactPreview
-          currentUser={viewer.current}
-          users={[...clients.items, ...freelancers.items] as [ProjectClient | ProjectFreelancer]}
-          projectID={project.id}
-          refreshUsers={fetchProject}
+const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, id }) => {
+  const currentViewer = viewer?.current || {};
+  return (
+    <>
+      {comments.filter(projectTabOptions[projectTab].filterFxn).map((comment) => (
+        <CommentWrapper
+          key={comment.id}
+          comment={comment}
+          viewerId={currentViewer.id as string}
         />
-        <NotesTab
-          projectUser={project.freelancers.items.find((f) => currentUserId && f?.user?.id === currentUserId)}
-          refetchData={fetchProject}
+      ))}
+      <div ref={newCommentRef}>
+        <NewComment
+          name={currentViewer.name}
+          email={currentViewer.email}
+          title={currentViewer.title}
+          projectID={id as string}
+          creatorID={currentViewer.id}
         />
-        <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
-      </TabGroup>
-    </Protected>
-    <ProtectedElse roles={[Role.FREELANCER]}>
-      <TabGroup
-        tabInfos={[
-          { icon: faClipboardUser, header: 'People' },
-          { icon: faBackpack, header: 'Assets' },
-        ]}
-      >
-        <ContactPreview
-          currentUser={viewer.current}
-          users={[...clients.items, ...freelancers.items] as [ProjectClient | ProjectFreelancer]}
-          projectID={project.id}
-          refreshUsers={fetchProject}
-        />
-        <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
-      </TabGroup>
-    </ProtectedElse>
-    <TabGroup
-      tabInfos={[
-        { icon: faStopwatch, header: 'Tasks & Time' },
-        { icon: faSackDollar, header: 'Financial' },
-      ]}
-    >
-      <>
-        {quotes.items.length === 0 ? (
-          <div>There are no quotes, yet.</div>
-        ) : (
-          quotes.items
-            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-            .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)
-        )}
-      </>
-      <AddQuoteModal quotes={quotes.items} projectID={project.id} refetchData={fetchProject} creator={viewer.current} />
-    </TabGroup>
-  </div>
-);
+      </div>
+    </>
+  );
+};
 
 export default WithAuthentication(ProjectPage, { routeType: RouteType.NO_REDIRECT });

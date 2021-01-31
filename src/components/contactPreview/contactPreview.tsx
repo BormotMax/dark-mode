@@ -7,6 +7,7 @@ import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
+
 import { ProjectClient, ProjectFreelancer, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
@@ -20,6 +21,7 @@ import { createUser, createProjectClient, createProjectFreelancer, updateUser } 
 import { Role } from '../withAuthentication';
 import { Protected } from '../protected/protected';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
+
 import styles from './contactPreview.module.scss';
 
 interface ContactPreviewProps {
@@ -42,6 +44,10 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({
   ), [users]);
   const [selectedUser, setSelectedUser] = useState(null);
 
+  const onSelectUser = (projectMember) => () => {
+    setSelectedUser(projectMember);
+  };
+
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
@@ -54,49 +60,47 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({
           />
         </InPlaceModal>
       </div>
-      {sortedProjectMembers.map((projectMember) => (
-        <InPlaceModal
-          variant={InPlaceModalVariants.BLOCK}
-          key={projectMember.id}
-          button={
-            <div
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                setSelectedUser(projectMember);
-              }}
-              onClick={(e) => {
-                setSelectedUser(projectMember);
-              }}
-              key={projectMember.user.id}
-              className={classnames(modalStyles.modalPill)}
-            >
-              <div className={classnames(modalStyles.icon)}>
-                <Avatar
-                  width={32}
-                  height={32}
-                  s3key={projectMember.user?.avatar?.key ?? ''}
-                  email={projectMember.user.email}
-                  name={projectMember.user.name}
-                />
+      <div className={styles.membersWrapper}>
+        {sortedProjectMembers.map((projectMember) => (
+          <InPlaceModal
+            variant={InPlaceModalVariants.FIXED_PLACED}
+            key={projectMember.id}
+            button={
+              <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={onSelectUser(projectMember)}
+                onClick={onSelectUser(projectMember)}
+                key={projectMember.user.id}
+                className={classnames(modalStyles.modalPill, styles.memberPill)}
+              >
+                <div className={classnames(modalStyles.icon)}>
+                  <Avatar
+                    width={32}
+                    height={32}
+                    s3key={projectMember.user?.avatar?.key ?? ''}
+                    email={projectMember.user.email}
+                    name={projectMember.user.name}
+                  />
+                </div>
+                <div>
+                  {projectMember.user.name}
+                  {projectMember.user.title && ', '}
+                  <span className={classnames(modalStyles.title)}>{projectMember.user.title}</span>
+                </div>
               </div>
-              <div>
-                {projectMember.user.name}
-                {projectMember.user.title && ', '}
-                <span className={classnames(modalStyles.title)}>{projectMember.user.title}</span>
-              </div>
-            </div>
             }
-        >
-          <ModalContent
-            projectID={projectID}
-            refreshUsers={refreshUsers}
-            users={users as [ProjectClient | ProjectFreelancer]}
-            selectedUser={selectedUser}
-            currentUser={currentUser}
-          />
-        </InPlaceModal>
-      ))}
+          >
+            <ModalContent
+              projectID={projectID}
+              refreshUsers={refreshUsers}
+              users={users as [ProjectClient | ProjectFreelancer]}
+              selectedUser={selectedUser}
+              currentUser={currentUser}
+            />
+          </InPlaceModal>
+        ))}
+      </div>
     </>
   );
 };
@@ -144,7 +148,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const onChangeUserType = useCallback((event) => {
     if (selectedUser) return;
     setUserType(UserRole[event.target.value]);
-  }, [setFormValues, selectedUser]);
+  }, [selectedUser]);
 
   const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
     const { target: { name, value } = {} } = event;
@@ -152,7 +156,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
       ...prevState,
       [name]: value,
     }));
-  }, [setFormValues]);
+  }, []);
 
   const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
     const { target: { name, value } = {} } = event;
@@ -163,9 +167,12 @@ const ModalContent: React.FC<ModalContentProps> = ({
       ...prevState,
       [name]: value.trim(),
     }));
-  }, [setFormValues, setIsVisible]);
+  }, []);
 
-  const onSuggestionUserClick = (user) => () => {
+  const onSuggestionUserClick = (user) => (e) => {
+    if (e.key && e.key !== 'Enter') {
+      return;
+    }
     setFormValues((prevState) => ({
       ...prevState,
       name: user?.name,
@@ -438,6 +445,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
                   key={user.id}
                   role="button"
                   onClick={onSuggestionUserClick(user)}
+                  onKeyDown={onSuggestionUserClick(user)}
                   className={styles.autoSuggestItem}
                 >
                   <Avatar email={user.email} s3key={user.avatar?.key} width={24} height={24} className={styles.avatar} />

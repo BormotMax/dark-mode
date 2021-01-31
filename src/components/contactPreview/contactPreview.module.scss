@@ -1,3 +1,10 @@
+@use 'src/variables' as v;
+
+$member-pill-height: 40px;
+$max-members-in-block: 5;
+$members-wrapper-height: calc(
+  (#{$member-pill-height} * #{$max-members-in-block}) + (#{v.$modal-pill-vertical-margin} * #{$max-members-in-block})
+);
 
 .nameInputContainer {
   position: relative;
@@ -28,4 +35,14 @@
 
 .avatar {
   margin: 0 8px;
+}
+
+.membersWrapper {
+  max-height: $members-wrapper-height;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.memberPill {
+  height: $member-pill-height;
 }
