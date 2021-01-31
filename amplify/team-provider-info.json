@@ -36,9 +36,7 @@
     },
     "categories": {
       "auth": {
-        "continuum23ec4bac": {
-          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"1052574610432-6in7eqegqmpip0p262heo3lj9sb0c3dq.apps.googleusercontent.com\",\"client_secret\":\"N0NqBYsZVYgFwP0AgixM_09B\"}]"
-        }
+        "continuum23ec4bac": {}
       },
       "function": {
         "continuum23ec4bacPostConfirmation": {

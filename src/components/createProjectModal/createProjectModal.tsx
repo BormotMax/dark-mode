@@ -9,7 +9,7 @@ import { createProject, createProjectFreelancer } from '../../graphql/mutations'
 
 interface CreateProjectModalProps {
   close?: () => void;
-  refetchData: () => void;
+  refetchData: (isMounted?: any) => Promise<void>;
 }
 
 interface ValidationProps {

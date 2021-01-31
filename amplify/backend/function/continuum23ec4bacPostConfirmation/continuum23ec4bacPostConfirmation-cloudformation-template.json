@@ -102,7 +102,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-continuum-master-224802-deployment",
-          "S3Key": "amplify-builds/continuum23ec4bacPostConfirmation-456e367159366c736d68-build.zip"
+          "S3Key": "amplify-builds/continuum23ec4bacPostConfirmation-4a506f6b5176356f5138-build.zip"
         }
       }
     },

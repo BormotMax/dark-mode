@@ -39,4 +39,4 @@ Create local branch for every feature using `feature/[xyz]` format. Submit PR an
 ## Deploy
 
 - Merge to master branch, next.js app will deploy to [Vercel](https://nextjs.org/docs/deployment)
-- Or manually using `vercel --prod --scope continuum`.
+- Or manually using `vercel --prod --scope continuum`
