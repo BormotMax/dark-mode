@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import classnames from 'classnames';
@@ -6,13 +5,15 @@ import debounce from 'lodash/debounce';
 import gql from 'graphql-tag';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
-import styles from './styles/index.module.scss';
+
 import { useFlash, useLogger } from '../hooks';
-import { unauthClient } from './_app';
 import { createDomainSlug } from '../graphql/mutations';
 import { getDomainSlug } from '../graphql/queries';
 import { GetDomainSlugQuery } from '../API';
 import { DomainSlug } from '../types/custom';
+
+import { unauthClient } from './_app';
+import styles from './styles/index.module.scss';
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const Home: React.FC = () => {
     if (confirmed === 'true') {
       setFlash('Subscription confirmed! Expect some great emails headed your way very soon.');
     }
-  }, [confirmed]);
+  }, [confirmed, setFlash]);
 
   const usernameIsValid = () => {
     const re = /^[a-z0-9-]+$/;
@@ -63,8 +64,8 @@ const Home: React.FC = () => {
 
   const checkUsernameDBounce = useRef(debounce((q) => checkUsername(q), 300)).current;
 
-  const submitForm = async (e) => {
-    e.preventDefault();
+  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (isSaving) {
       return;
     }
@@ -118,55 +119,93 @@ const Home: React.FC = () => {
     }
   };
 
-  const onUsernameChange = ({ target }) => {
-    const { value } = target;
+  const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { target: { value = '' } = {} } = event;
     setUsername(value.toLowerCase());
     checkUsernameDBounce(value);
   };
 
-  const onEmailChange = ({ target: { value = '' } = {} }) => {
+  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { target: { value = '' } = {} } = event;
     setEmail(value);
   };
 
   return (
-    <div className={styles.home}>
-      <div className={styles.foroverflowhidden}>
-        <div className={styles.maindiv}>
-          <img src="Ned.png" className={styles.Ned} alt="" />
-          <img src="Valentina.png" className={styles.Valentina} alt="" />
-          <img src="Ronald.png" className={styles.Ronald} alt="" />
-
-          <span className={styles.highlight} />
-          <h2>Continuum is The platform for</h2>
-          <h1>THE FUTURE of WORK</h1>
-          <h3>Landing 2021 🦄</h3>
-
-          <p>The all-in-one collaborative platform for solo creators and crews to run a thriving freelance business.</p>
-
-          <form onSubmit={submitForm}>
-            <p>Hey, why not reserve your username now</p>
-            <div className={styles.inputarea}>
-              <input
-                pattern="^[a-z0-9-]+$"
-                value={username}
-                onChange={onUsernameChange}
-                className={classnames(styles.block,
-                  {
-                    [styles.green]: isUsernameAvailable && usernameIsValid(),
-                    [styles.red]: username !== '' && (isUsernameAvailable === false || !usernameIsValid()),
-                  })}
-                type="text"
-                placeholder="Username (a-z, 0-9, dashes)"
-                required
+    <div className={styles.gradientContainer}>
+      <div className={classnames(styles.content, styles.containerFluid)}>
+        <div className={styles.container}>
+          <div className={styles.row}>
+            <div className={styles.col}>
+              <img
+                src="landing/planet1.png"
+                className={styles.planetFirst}
+                alt="the planet with 'Continuum' colors gradient fill"
               />
-              <input value={email} onChange={onEmailChange} type="email" required placeholder="Enter your email" />
-              <button
-                disabled={isSaving}
-                type="submit"
-              >Next <span className={styles.hendb}>☝🏽</span>
-              </button>
+              <img
+                src="landing/planet2.png"
+                className={styles.planetSecond}
+                alt="the planet with 'Continuum' colors gradient fill (secondary)"
+              />
+              <div className={styles.logoWrapper}>
+                <img src="landing/Logo.png" alt="Continuum logo" />
+                <p>Landing 2021 <span role="img" aria-label="unicorn">🦄</span> </p>
+              </div>
+              <div className={styles.cont}>
+                <h1>the future of work</h1>
+                <p>
+                  Continuum is the all-in-one platform for collaborative freelance work.
+                  <br />
+                  Manage conversations, projects, & payments in one place.
+                </p>
+                <form onSubmit={submitForm}>
+                  <p>Reserve your username now</p>
+                  <input
+                    pattern="^[a-z0-9-]+$"
+                    value={username}
+                    onChange={onUsernameChange}
+                    type="text"
+                    placeholder="Username (a-z, 0-9, dashes)"
+                    className={classnames({ [styles.red]: username !== '' && (isUsernameAvailable === false || !usernameIsValid()) })}
+                    required
+                  />
+                  <div className={styles.emailWrapper}>
+                    <input
+                      value={email}
+                      onChange={onEmailChange}
+                      type="email"
+                      required
+                      placeholder="Enter your email"
+                    />
+                    <button
+                      disabled={isSaving}
+                      type="submit"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </form>
+                <img src="landing/People.png" className={styles.people} alt="People" />
+                <ul>
+                  <li>
+                    <a href="https://www.instagram.com/continuumworks/">
+                      <img src="landing/instagram.png" alt="instagram logo" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://twitter.com/continuumworks/">
+                      <img src="landing/twitter.png" alt="twitter logo" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.linkedin.com/company/continuumworks">
+                      <img src="landing/linkedin.png" alt="linkedin logo" />
+                    </a>
+                  </li>
+                </ul>
+                <p className={styles.copyright}>© 2020 Continuum</p>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

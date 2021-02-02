@@ -78,15 +78,15 @@ export const unauthClient = new AWSAppSyncClient(
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <LoggerProvider>
     <Head>
-      <title>Continuum - The Creator OS</title>
-      <meta property="og:title" content="Continuum - The Platform For The Future of Work." key="title" />
+      <title>Continuum — The all-in-one platform for collaborative freelance work.</title>
+      <meta property="og:title" content="Continuum — The all-in-one platform for collaborative freelance work." key="title" />
       <meta
         name="description"
         content="The all-in-one platform for solo creatives to run a thriving freelance business from anywhere.
               Conversations, invoices, payments, crm and project management, all in one place."
         key="description"
       />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="landing/favicon.png" />
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174215284-1" />
       <script
         dangerouslySetInnerHTML={{

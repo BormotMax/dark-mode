@@ -1,459 +1,423 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@font-face {
-  font-family: AvenirLTStd;
-  src: url("../../fonts/AvenirLTStd-Book.ttf");
+.gradientContainer {
+  position: relative;
+  min-width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(285.44deg, #5421CE 4%, #A000EC 101.17%);
+
+  p, h5, h4, h3, h2, h1 {
+    margin: 0;
+    padding: 0;
+  }
+
+  input:focus, textarea:focus, button:focus {
+    outline: none !important;
+  }
+
+  * {
+    font-family: Poppins, sans-serif;
+  }
+
+  @media(max-width: 772px) {
+    background: linear-gradient(285.44deg, #5421CE 4%, #A000EC 101.17%);
+  }
 }
 
-.green {
-  background: #569b02 !important;
-  border: #63a711bb !important;
-  color: white !important;
-}
-
-.red {
-  background: rgba(255, 0, 0, 0.8) !important;
-  border: red !important;
-  color: white !important;
-}
-
-.foroverflowhidden {
-  overflow: hidden;
+.container {
   width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+  @media (min-width: 1200px) {
+    max-width: 942px;
+  }
 }
 
-.home {
-  padding: 0;
-  margin: 0;
-  background: #020024;
-  background: linear-gradient(203deg, #020024 0%, #9900ff 0%, #9900ff 100%);
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
-.maindiv {
-  min-height: 688px;
-  height: 100vh;
-  max-width: 2000px;
-  margin: auto;
-  display: block;
-  padding: 48px 69px 100px 69px;
+.col {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.containerFluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.content {
+  min-height: 100vh;
+  padding-top: 55px;
+  overflow: hidden;
   position: relative;
 
-  .Ned {
+  .planetFirst {
     position: absolute;
-    right: 730px;
-    bottom: 0;
-    max-width: 719px;
-    z-index: 1;
+    bottom: -1412px;
+    left: -1482px;
+    z-index: 0;
+    max-width: unset;
+    width: 2543px;
+    height: 2543px;
+    opacity: 0.6;
+    animation: planetfirst 35s infinite;
   }
-  .Valentina {
+
+  @keyframes planetfirst {
+    0% {
+      bottom: -1412px;
+      left: -1482px;
+      transform: rotate(0deg)
+    }
+    25% {
+      bottom: -1312px;
+      left: -1382px;
+      transform: rotate(10deg)
+    }
+    50% {
+      bottom: -1412px;
+      left: -1582px;
+      transform: rotate(150deg)
+    }
+    75% {
+      bottom: -1612px;
+      left: -1382px;
+      transform: rotate(50deg)
+    }
+    100% {
+      bottom: -1412px;
+      left: -1482px;
+      transform: rotate(0deg)
+    }
+  }
+
+  .planetSecond {
     position: absolute;
-    right: 260px;
-    bottom: 0;
-    max-width: 809px;
-    z-index: 1;
+    top: -1412px;
+    right: -1872px;
+    z-index: 0;
+    animation: planetsec 50s infinite;
+    transform: rotate(0deg);
+    width: 2543px;
+    max-width: unset;
+    height: 2543px;
+    opacity: 0.6;
   }
-  .Ronald {
-    position: absolute;
-    right: -200px;
-    bottom: 0;
-    max-width: 900px;
-    z-index: 1;
+
+  @keyframes planetsec {
+    0% {
+      top: -1412px;
+      right: -1872px;
+      transform: rotate(0deg);
+    }
+    25% {
+      top: -1312px;
+      right: -1772px;
+      transform: rotate(100deg);
+    }
+    50% {
+      top: -1252px;
+      right: -1672px;
+      transform: rotate(200deg);
+    }
+    75% {
+      top: -1312px;
+      right: -1752px;
+      transform: rotate(100deg);
+    }
+    100% {
+      top: -1412px;
+      right: -1872px;
+      transform: rotate(0deg);
+    }
   }
-  h2 {
-    font-family: "Poppins", sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 45px;
-    line-height: 67px;
-    color: #eeeeee;
-    text-align: center;
-  }
-  h1 {
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 90px;
-    line-height: 135px;
-    color: #ffff00;
-    text-align: center;
-    margin-top: -15px;
-  }
-  h3 {
-    font-family: "Poppins", sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 45px;
-    line-height: 67px;
-    color: #eeeeee;
-    text-align: center;
-    margin-top: -20px;
-  }
-  p {
-    font-family: "Poppins", sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 45px;
-    line-height: 67px;
-    max-width: 674px;
-    color: #ffff00;
-    margin-top: 58px;
-  }
-  form {
-    max-width: 400px;
-    margin-top: 40px;
+
+  .logoWrapper {
     position: relative;
-    z-index: 9;
-  }
-  form p {
-    font-family: "Poppins", sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 28px;
-    color: #eeeeee;
-    margin: 0;
-  }
+    z-index: 1;
 
-  .block {
-    max-width: initial;
-  }
-
-  form input {
-    max-width: calc(100% - 122px);
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid #828282;
-    box-sizing: border-box;
-    border-radius: 100px;
-    font-family: AvenirLTStd;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 22px;
-    color: #828282;
-    padding: 9px 16px 7px 16px;
-    margin-top: 8px;
-  }
-  form .inputarea {
-    position: relative;
-  }
-  form button {
-    outline: none;
-    position: absolute;
-    font-family: "Poppins", sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 38px;
-    width: 114px;
-    background: #4a86e8;
-    box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
-    border-radius: 100px;
-    border: 0;
-    color: #fff;
-    bottom: 0;
-    right: 0;
-    -webkit-transition: all 0.25s ease;
-    -moz-transition: all 0.25s ease;
-    -ms-transition: all 0.25s ease;
-    -o-transition: all 0.25s ease;
-    transition: all 0.25s ease;
-  }
-  form button .hendb {
-    position: absolute;
-    left: 0;
-    right: 0;
-    display: block;
-    margin: auto;
-    font-weight: 600;
-    font-size: 45px;
-    top: 45px;
-    line-height: 67px;
-    -webkit-transition: all 0.25s ease;
-    -moz-transition: all 0.25s ease;
-    -ms-transition: all 0.25s ease;
-    -o-transition: all 0.25s ease;
-    transition: all 0.25s ease;
-  }
-  form button:hover {
-    background: #ffff00;
-    color: #4a86e8;
-  }
-  form button:hover .hendb {
-    top: 40px;
-  }
-}
-
-@media screen and (max-height: 1200px) and (max-width: 1920px) {
-  .maindiv {
-    overflow: hidden;
-  }
-}
-
-@media (max-height: 1040px) {
-  .maindiv {
-    .Ronald {
-      max-width: 810px;
-      right: -120px;
-    }
-    .Valentina {
-      right: 300px;
-      max-width: 719px;
-    }
-    .Ned {
-      right: 710px;
-      max-width: 629px;
-    }
-    overflow: hidden;
-  }
-}
-
-@media (max-height: 850px) {
-  .maindiv {
-    .Ronald {
-      max-width: 590px;
-      right: 40px;
-    }
-    .Valentina {
-      right: 360px;
-      max-width: 549px;
-    }
-    .Ned {
-      right: 680px;
-      max-width: 479px;
-    }
-  }
-}
-
-@media (max-width: 1920px) {
-  .maindiv {
-    overflow: hidden;
-  }
-}
-
-@media (max-width: 1880px) {
-  .maindiv {
-    .Ronald {
-      max-width: 810px;
-      right: -260px;
-    }
-    .Valentina {
-      right: 190px;
-      max-width: 719px;
-    }
-    .Ned {
-      right: 610px;
-      max-width: 629px;
-    }
-  }
-}
-
-@media (max-width: 1800px) {
-  .maindiv {
-    .Ronald {
-      max-width: 750px;
-      right: -240px;
-    }
-    .Valentina {
-      right: 170px;
-      max-width: 619px;
-    }
-    .Ned {
-      right: 530px;
-      max-width: 529px;
-    }
-  }
-}
-
-@media (max-width: 1500px) {
-  .maindiv {
-    min-height: 1356px;
     p {
-      margin: auto;
+      font-family: Poppins, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 27px;
+      letter-spacing: 0.25px;
+      color: #FFFFFF;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .cont {
+    position: relative;
+    padding-top: 140px;
+    z-index: 1;
+
+    h1 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 64px;
+      line-height: 96px;
+      color: #FFFFFF;
       text-align: center;
-      margin-top: 74px;
     }
-    form {
+
+    p {
+      font-style: normal;
+      font-size: 24px;
+      line-height: 36px;
+      text-align: center;
+      color: #F4F7FF;
+      max-width: 859px;
       margin: auto;
-      text-align: left;
-      margin-top: 40px;
+      margin-top: 24px;
+      margin-bottom: 45px;
+      font-weight: 500;
     }
-    .Ronald {
-      max-width: 900px;
-      right: -300px;
+
+    form {
+      .red {
+        background: rgba(230, 57, 70, 0.8) !important;
+        color: white !important;
+      }
+
+      max-width: 398px;
+      margin: auto;
+      margin-bottom: 73px;
+
+      p {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 28px;
+        color: #EEEEEE;
+        text-align: center;
+        margin: auto;
+        margin-bottom: 8px;
+      }
+
+      input {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        color: #595959 !important;
+
+        padding: 9px 16px;
+        background: rgba(255, 255, 255, 0.8) !important;
+        border-radius: 100px;
+        border: 0;
+        width: 100%;
+        margin-bottom: 16px;
+
+        &::placeholder {
+          color: #595959;
+          opacity: 1;
+        }
+      }
+
+      .emailWrapper {
+        position: relative;
+
+        input {
+          max-width: calc(100% - 122px);
+        }
+
+        button {
+          cursor: pointer;
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          background: #5421CE;
+          /* 4,24,4,10% */
+
+          box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+          border-radius: 100px;
+          border: 0;
+          min-width: 114px;
+          line-height: 40px;
+
+          font-style: normal;
+          font-weight: 600;
+          font-size: 18px;
+          color: #fff;
+          text-align: center;
+          -webkit-transition: all .25s ease;
+          -moz-transition: all .25s ease;
+          -ms-transition: all .25s ease;
+          -o-transition: all .25s ease;
+          transition: all .25s ease;
+        }
+
+        button:hover {
+          background: rgba(84, 33, 206, 0.7)
+        }
+      }
+
+      *::-webkit-input-placeholder { /* Edge */
+        color: #595959;
+      }
+
+      *:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #595959;
+      }
+
+      *::placeholder {
+        color: #595959;
+      }
     }
-    .Valentina {
-      right: 160px;
-      max-width: 809px;
+
+    .people {
+      max-width: 100%;
+      margin: auto;
+      display: block;
+      margin-bottom: 105px;
     }
-    .Ned {
-      right: 599px;
-      max-width: 719px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      margin-bottom: 32px;
+
+      li {
+        display: inline-block;
+        margin-left: 25px;
+        margin-right: 25px;
+
+        a {
+          -webkit-transition: all .25s ease;
+          -moz-transition: all .25s ease;
+          -ms-transition: all .25s ease;
+          -o-transition: all .25s ease;
+          transition: all .25s ease;
+        }
+
+        a:hover {
+          opacity: 0.7;
+        }
+      }
     }
-    min-height: 1456px;
+
+    .copyright {
+      text-align: center;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 24px;
+      color: #fff;
+    }
   }
 }
 
-@media (max-width: 1170px) {
-  .maindiv {
+@media(max-width: 992px) {
+  .content .cont {
+    padding-top: 80px;
+  }
+  .content .cont h1 {
+    font-size: 54px;
+  }
+  .content .cont p {
+    font-size: 17px;
+  }
+}
+
+@media(max-width: 772px) {
+  .content .planetSecond, .content .planetFirst {
+    display: none;
+  }
+  .content .planetFirst {
+    display: block;
+    bottom: -1290px;
+    animation: none;
+    left: -720px;
+    opacity: 0.6;
+  }
+  .container {
+    max-width: 368px;
+  }
+  .content .logoWrapper p {
+    display: none;
+  }
+  .content {
+    padding-top: 30px;
+  }
+  .content .cont h1 {
+    text-align: left;
+    font-size: 32px;
+    line-height: 48px;
+  }
+  .content .cont p {
+    text-align: left;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    margin-top: 23px;
+    margin-bottom: 66px;
+  }
+  .content .cont form p {
+    text-align: left;
+  }
+  .content .cont form {
+    margin-bottom: 295px;
+  }
+  .content .cont .people {
+    width: 540px;
+    max-width: 540px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: -294px;
+  }
+}
+
+
+@media(max-width: 400px) {
+  .content {
     padding-left: 0;
     padding-right: 0;
-    .Ronald {
-      right: -210px;
-      max-width: 668px;
-    }
-    .Valentina {
-      right: 140px;
-      max-width: 600px;
-    }
-    .Ned {
-      right: 489px;
-      max-width: 533px;
-    }
-    min-height: 1306px;
+  }
+  .content .cont .people {
+    max-width: 410px;
+    margin-top: -254px;
+  }
+  .content .cont ul li {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  .content .cont form {
+    margin-bottom: 275px;
   }
 }
 
-@media (max-width: 992px) {
-  .maindiv {
-    h2 {
-      font-size: 25px;
-      line-height: 47px;
-    }
-    h1 {
-      font-size: 60px;
-      line-height: 105px;
-    }
-    h3 {
-      font-size: 35px;
-      line-height: 67px;
-    }
-    p {
-      margin-top: 50px;
-      font-size: 39px;
-      line-height: 57px;
-    }
-    .Ronald {
-      right: -240px;
-      max-width: 618px;
-    }
-    .Valentina {
-      right: 80px;
-      max-width: 530px;
-    }
-    .Ned {
-      right: 329px;
-      max-width: 483px;
-    }
-    min-height: 1176px;
-  }
-}
-
-@media (max-width: 772px) {
-  .maindiv {
-    .highlight {
-      position: absolute;
-      width: 900px;
-      height: 600px;
-      top: -326px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #7B01CC;
-      border-radius: 100%;
-    }
-    h2 {
-      font-size: 21px;
-      line-height: 31px;
-      position: inherit;
-    }
-    h1 {
-      font-size: 45px;
-      line-height: 45px;
-      margin-top: 16px;
-      max-width: 328px;
-      margin-left: auto;
-      margin-right: auto;
-      position: inherit;
-    }
-    h3 {
-      font-size: 30px;
-      line-height: 45px;
-      margin-top: 16px;
-      position: inherit;
-    }
-    p {
-      margin-top: 73px;
-      font-size: 30px;
-      line-height: 45px;
-      max-width: 366px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    form p {
-      font-size: 18px;
-      line-height: 28px;
-      max-width: 276px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    form input {
-      width: 100%;
-      max-width: 100%;
-    }
-    form button {
-      position: relative;
-      width: 100%;
-      max-width: 100%;
-      margin-top: 40px;
-    }
-    form .inputarea p {
-      display: none;
-    }
-    .Ronald {
-      right: -130px;
-      max-width: 399px;
-    }
-    .Valentina {
-      right: 60px;
-      max-width: 360px;
-    }
-    .Ned {
-      right: 259px;
-      max-width: 319px;
-    }
-    min-height: 1080px;
-  }
-}
-
-@media (max-width: 530px) {
-  .maindiv {
-    padding-left: 10px;
-    padding-right: 10px;
-    .Ned {
-      right: 209px;
-      max-width: 319px;
-    }
-  }
-}
-
-@media (max-width: 380px) {
-  .maindiv {
-    h2 {
-      font-size: 19px;
-    }
-    .Ronald {
-      right: -130px;
-      max-width: 309px;
-    }
-    .Valentina {
-      right: 10px;
-      max-width: 270px;
-    }
-    .Ned {
-      right: 139px;
-      max-width: 229px;
-    }
-    h1 {
-      font-size: 42px;
-    }
-  }
-}
