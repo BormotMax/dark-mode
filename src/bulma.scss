@@ -28,6 +28,7 @@ $footer-color: white;
 $footer-padding: 60px 75px;
 $label-color: #828282;
 $label-weight: normal;
+$headerPadding: 22px 24px 22px 40px;
 
 // 3. Bulma enable Modularity, which allow you to import what you need
 // https://bulma.io/documentation/overview/modular/
@@ -99,4 +100,8 @@ $label-weight: normal;
   max-width: 877px;
   width: auto;
   max-height: initial;
+}
+
+.defaultHeaderPadding {
+  padding: $headerPadding;
 }

@@ -1,9 +1,9 @@
-@use 'src/variables' as v;
+@use 'src/variables' as variables;
 
 $member-pill-height: 40px;
 $max-members-in-block: 5;
 $members-wrapper-height: calc(
-  (#{$member-pill-height} * #{$max-members-in-block}) + (#{v.$modal-pill-vertical-margin} * #{$max-members-in-block})
+  (#{$member-pill-height} * #{$max-members-in-block}) + (#{variables.$modal-pill-vertical-margin} * #{$max-members-in-block})
 );
 
 .nameInputContainer {

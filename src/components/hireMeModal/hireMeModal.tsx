@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import classnames from 'classnames';
 import axios from 'axios';
-import serialize from 'form-serialize';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
@@ -89,8 +88,8 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
     return temp;
   }
 
-  async function handleSubmit(e) {
-    // e.preventDefault();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setInvalids({});
 
     if (currentUser?.attributes?.sub) {
@@ -237,7 +236,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
         <div>{commentContent}</div>
       </Comment>
       <Comment backgroundColor="#ffffff" commentColor="#FAF8F7" noAvatar>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={handleSubmit}>
           <div>
             <div className="field is-horizontal">
               <div className="field-body">
@@ -329,7 +328,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
             </div>
           </div>
           <div className={styles.reply}>
-            <ButtonSmall text="Start a Conversation" isSaving={isSaving} onClick={handleSubmit} />
+            <ButtonSmall text="Start a Conversation" isSaving={isSaving} />
           </div>
         </form>
       </Comment>

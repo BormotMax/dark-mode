@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import classnames from 'classnames';
@@ -21,6 +21,7 @@ import styles from './styles/projects.module.scss';
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const mountedStatus = useRef<boolean>(false);
   const { setFlash } = useFlash();
   const { logger } = useLogger();
   const currentUserId = currentUser?.attributes?.sub;
@@ -53,8 +54,12 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
     }
   };
 
-  const getProjects = async (isMounted) => {
-    const projectsByFreelancerInput = { freelancerID: currentUser.attributes.sub, sortDirection: ModelSortDirection.DESC };
+  const getProjects = async () => {
+    const { current: isMounted } = mountedStatus;
+    const projectsByFreelancerInput = {
+      freelancerID: currentUser.attributes.sub,
+      sortDirection: ModelSortDirection.DESC,
+    };
     try {
       const { data }: { data: ProjectsByFreelancerQuery } = await client.query({
         query: gql(projectsByFreelancer),
@@ -77,14 +82,14 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   };
 
   useEffect(() => {
-    let isMounted = true;
+    mountedStatus.current = true;
     const execute = async () => {
       await updateProjectFreelancerAssociation();
-      await getProjects(isMounted);
+      await getProjects();
     };
     execute();
     return () => {
-      isMounted = false;
+      mountedStatus.current = false;
     };
   }, []);
 

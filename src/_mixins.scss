@@ -7,3 +7,15 @@
   text-transform: uppercase;
   color: #8093a6;
 }
+
+@mixin useFont(
+  $font-size: 16px,
+  $line-height: 19px,
+  $font-weight: normal,
+  $font-family: Roboto,
+) {
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-size: $font-size;
+  line-height: $line-height;
+}

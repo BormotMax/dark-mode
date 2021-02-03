@@ -1,4 +1,4 @@
-@use 'src/variables' as v;
+@use 'src/variables' as variables;
 @import "~bulma/sass/utilities/_all.sass";
 
 .modal {
@@ -169,14 +169,14 @@
   align-items: center;
   background: #fafafa;
   border-radius: 100px;
-  font-family: Poppins;
+  font-family: Poppins, sans-serif;
   overflow: hidden;
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
   color: #828282;
   padding: 4px 16px 4px 4px;
-  margin: v.$modal-pill-vertical-margin 0;
+  margin: variables.$modal-pill-vertical-margin 0;
   cursor: pointer;
 
   .title {

@@ -1,4 +1,18 @@
-export const isClickOrEnter = (e): boolean => e.keyCode === undefined || e.keyCode === 13;
+import React from 'react';
+
+type MouseEvent = React.MouseEvent<EventTarget>;
+type KeyboardEvent = React.KeyboardEvent<EventTarget>;
+
+function isMouseEvent(event: MouseEvent | KeyboardEvent): event is MouseEvent {
+  return event.nativeEvent instanceof MouseEvent;
+}
+
+export const isClickOrEnter = (event: MouseEvent | KeyboardEvent): boolean => {
+  if (isMouseEvent(event)) {
+    return true;
+  }
+  return event.key === 'Enter';
+};
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const truncate = (str, length = 100, ending = '...') => {

@@ -1,8 +1,8 @@
-@use 'src/variables' as v;
+@use 'src/variables' as variables;
 
 .mobileHeader {
   display: flex;
-  min-height: v.$header-min-height;
+  min-height: variables.$header-min-height;
   z-index: 2;
   position: relative;
   justify-content: space-between;
@@ -10,7 +10,7 @@
   padding: 24px 16px;
   background: #ffffff;
   box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
-  font-family: Poppins;
+  font-family: Poppins, sans-serif;
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;

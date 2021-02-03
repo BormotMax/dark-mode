@@ -86,10 +86,6 @@ export const Avatar: React.FC<AvatarProps> = ({
   const [url, setUrl] = useState(urlProp);
   const [imageError, setImageError] = useState(false);
 
-  /**
-   * Handle avatarImage load error
-   * @return{*}
-   */
   const onImageError = () => {
     setImageError(true);
   };

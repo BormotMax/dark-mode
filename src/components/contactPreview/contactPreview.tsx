@@ -44,7 +44,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({
   ), [users]);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const onSelectUser = (projectMember) => () => {
+  const onSelectUser = (projectMember: ProjectClient | ProjectFreelancer) => () => {
     setSelectedUser(projectMember);
   };
 

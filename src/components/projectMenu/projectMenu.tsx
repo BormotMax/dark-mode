@@ -32,7 +32,7 @@ const TAB_INFO_FOOTER = [
 ];
 const ROLES = [Role.FREELANCER];
 
-const RightColumn = ({
+const ProjectMenu = ({
   viewer,
   clients,
   freelancers,
@@ -64,7 +64,9 @@ const RightColumn = ({
     [quotes.items, fetchProject],
   );
   const userProjects = useMemo(
-    () => project.freelancers.items.find((f) => currentUserId && f?.user?.id === currentUserId),
+    () => project.freelancers.items.find(
+      (freelancer: ProjectFreelancer) => currentUserId && freelancer?.user?.id === currentUserId,
+    ),
     [project.freelancers, currentUserId],
   );
 
@@ -109,4 +111,4 @@ const RightColumn = ({
   );
 };
 
-export default memo(RightColumn);
+export default memo(ProjectMenu);

@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react';
+import React, { memo, useState } from 'react';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { ButtonSmall } from '../buttons/buttons';
@@ -9,7 +9,7 @@ import { createProject, createProjectFreelancer } from '../../graphql/mutations'
 
 interface CreateProjectModalProps {
   close?: () => void;
-  refetchData: (isMounted?: any) => Promise<void>;
+  refetchData: () => Promise<void>;
 }
 
 interface ValidationProps {
@@ -37,8 +37,8 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
     return temp;
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setInvalids({});
     setSaving(true);
 
@@ -90,7 +90,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={handleSubmit}>
       <div className="field">
         <label htmlFor="title" className="label">
           Project Title
@@ -140,7 +140,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
         </div>
       </div>
       <div className={modalStyles.save}>
-        <ButtonSmall text="Save" isSaving={isSaving} onClick={handleSubmit} />
+        <ButtonSmall text="Save" isSaving={isSaving} />
       </div>
     </form>
   );

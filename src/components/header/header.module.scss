@@ -1,33 +1,44 @@
-@use 'src/variables' as v;
+@use 'src/variables' as variables;
+@use 'src/colors' as colors;
 @import '~bulma/sass/utilities/_all.sass';
 
 .headerWrapper {
-  min-height: v.$header-min-height;
-  margin: -12px -12px 0 -12px;
-  background: #FAFAFA;
+  box-sizing: border-box;
+  background: colors.$fa-gray;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  border-bottom: 1px solid colors.$gray-5;
   z-index: 3;
 }
+
+.levelingMargin {
+  margin: -12px -12px 0 -12px;
+}
+
 .header {
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 24px;
-  padding: 24px 24px 24px 40px;
+  min-height: variables.$header-min-height;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   a {
-    color: #3c78fb;
+    color: colors.$steel-blue;
     &:hover {
       text-decoration: underline;
-      color: #3c78fb;
+      color: colors.$steel-blue;
     }
   }
 }
 
 .nav {
   padding: 12px;
+}
+
+.headerText {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+  color: colors.$c-gray;
 }

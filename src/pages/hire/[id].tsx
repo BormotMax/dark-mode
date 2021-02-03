@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
@@ -16,12 +15,11 @@ import { unauthClient as client } from '../_app';
 import LinkedInLogo from '../../img/linkedIn.svg';
 import InstagramLogo from '../../img/instagram.svg';
 import Dribbble from '../../img/dribbble.svg';
-import Sprocket from '../../img/sprocket.svg';
 import Twitter from '../../img/twitter.svg';
-
 import styles from '../styles/hire.module.scss';
 import { Header } from '../../components/header';
 import { Page } from '../../components/nav/nav';
+import { Avatar } from '../../components/avatar/avatar';
 import { ButtonSmall } from '../../components/buttons/buttons';
 import { isClickOrEnter } from '../../helpers/util';
 
@@ -29,6 +27,11 @@ enum Tab {
   PORTFOLIO,
   ABOUT,
 }
+
+const PORTFOLIO_IMAGES_COUNT = 6;
+const portfolioImagesSkeletons = new Array(PORTFOLIO_IMAGES_COUNT)
+  .fill(null)
+  .map((item, index) => [String(index), '']);
 
 const Hire: React.FC = () => {
   const router = useRouter();
@@ -103,58 +106,100 @@ const Hire: React.FC = () => {
     execute();
   }, [id]);
 
-  const goToEditHirePage = () => {
-    setIsSaving(true);
-    router.push('/hire-page-editor');
-  };
+  const goToEditHirePage = useCallback(
+    () => {
+      setIsSaving(true);
+      router.push('/hire-page-editor');
+    },
+    [],
+  );
 
-  const carouselImages = Object.values(portfolioImages || {}).map((image) => ({ source: image as string }));
+  const carouselImages = useMemo(
+    () => Object.values(portfolioImages || {})
+      .map((image) => ({ source: image as string })),
+    [portfolioImages],
+  );
 
   const toggleCarousel = (url: string) => {
-    setCurrentCarouselIndex(carouselImages.findIndex((el) => el.source === url));
-    setCarouselOpen(!isCarouselOpen);
+    if (url) {
+      const index = carouselImages.findIndex((el) => el.source === url);
+      setCurrentCarouselIndex(index);
+    } else {
+      setCurrentCarouselIndex(-1);
+    }
+    setCarouselOpen((prevState) => !prevState);
   };
 
-  const handleSetSelectedTab = (e, tab) => {
+  const handleSetSelectedTab = (e: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
+    if (!(e.target instanceof HTMLElement)) {
+      return;
+    }
     if (isClickOrEnter(e)) {
-      setSelectedTab(tab);
+      const { tab } = e.target.dataset;
+      setSelectedTab(Number(tab));
     }
   };
 
-  const handleToggleCarousel = (e, img) => {
+  const handleToggleCarousel = (e: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
+    if (!(e.target instanceof HTMLImageElement)) {
+      return;
+    }
     if (isClickOrEnter(e)) {
-      toggleCarousel(img);
+      toggleCarousel(e.target.src);
     }
   };
+
+  const portfolioImagesArray = useMemo(
+    (): Array<Array<string | null>> => (portfolioImages ? Object.entries(portfolioImages) : portfolioImagesSkeletons),
+    [portfolioImages],
+  );
 
   if (!loading && !hireInfo) return <div>There is no hire page here, yet.</div>;
   if (!hireInfo) return <div>Loading...</div>;
 
+  const showHeader = currentUser?.attributes?.sub === hireInfo.freelancerID;
+  const showCarousel = isCarouselOpen && currentCarouselIndex !== -1;
+  const showCustomButton = !loading && hireInfo.buttonText;
+  const portfolioSelected = selectedTab === Tab.PORTFOLIO;
+  const aboutSelected = selectedTab === Tab.ABOUT;
+  const { freelancer } = hireInfo;
+
   return (
-    <div className={classnames(styles.hire)}>
+    <div className={styles.hire}>
       <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
         <HireMeModal
-          freelancerEmail={hireInfo.freelancer.email}
+          freelancerEmail={freelancer.email}
           handleClose={() => setModalOpen(false)}
-          freelancerName={hireInfo.freelancer.name}
+          freelancerName={freelancer.name}
           freelancerID={hireInfo.freelancerID}
         />
       </Modal>
       <ModalGateway>
-        {isCarouselOpen && currentCarouselIndex !== -1 && (
+        {showCarousel && (
           <ImageModal onClose={() => toggleCarousel(null)}>
             <Carousel views={carouselImages} currentIndex={currentCarouselIndex} />
           </ImageModal>
         )}
       </ModalGateway>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
-        {currentUser?.attributes?.sub === hireInfo.freelancerID && (
-        <Header headerText="Hire Page preview" page={Page.HIRE}>
-          <ButtonSmall inverted onClick={goToEditHirePage} text="Edit" isSaving={isSaving} />
-        </Header>)}
+        {showHeader && (
+          <Header
+            withLevelingMargin={false}
+            headerText="Hire Page preview"
+            page={Page.HIRE}
+          >
+            <ButtonSmall
+              extraBorderRadius
+              inverted
+              padding="0 13px"
+              onClick={goToEditHirePage}
+              text="Edit"
+              isSaving={isSaving}
+            />
+          </Header>
+        )}
         <div className={classnames(styles.upper)}>
           <div className={styles.bannerImage__mobile}>
-            {!hireInfo.bannerImage && null}
             {hireInfo.bannerImage
               && (!bannerImage ? (
                 <Skeleton height={640} width={1100} />
@@ -163,160 +208,87 @@ const Hire: React.FC = () => {
               ))}
           </div>
           <div className={classnames(styles.leftContainer)}>
-            <div className={classnames('text-small-caps', styles.name)}>{hireInfo.freelancer.name}</div>
-            <div className={classnames(styles.title, 'h1')}>{hireInfo.freelancer.title}</div>
+            <Avatar
+              s3key={freelancer.avatar.key}
+              email={freelancer.email}
+              name={freelancer.name}
+              width={72}
+              height={72}
+            />
+            <div className={classnames('text-small-caps', styles.name)}>{freelancer.name}</div>
+            <div className={classnames(styles.title, 'h1')}>{freelancer.title}</div>
             <div ref={blurbTextElement} className={styles.blurbText}>
               {hireInfo.blurbText}
             </div>
-            {!loading && hireInfo.buttonText && (
-              <div className="tar">
-                <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
-                  {hireInfo.buttonText}
-                </button>
-              </div>
+            {showCustomButton && (
+              <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
+                {hireInfo.buttonText}
+              </button>
             )}
           </div>
           <div className={styles.bannerImage__desktop}>
-            {!hireInfo.bannerImage && null}
             {hireInfo.bannerImage
               && (!bannerImage ? (
-                <Skeleton height={640} width={1100} />
+                <Skeleton height={640} width={1200} />
               ) : (
                 <img alt="banner" className={classnames(styles.bannerImage)} src={bannerImage} />
               ))}
           </div>
         </div>
-        <div className={classnames(styles.lower, 'container', 'is-fullhd')}>
+        <div className={styles.content}>
           <div className={classnames('text-small-caps', styles.optionsBar)}>
             <div
               tabIndex={0}
               role="button"
-              onKeyDown={(e) => handleSetSelectedTab(e, Tab.PORTFOLIO)}
-              onClick={(e) => handleSetSelectedTab(e, Tab.PORTFOLIO)}
-              className={classnames(styles.reset, { [styles.selected]: selectedTab === Tab.PORTFOLIO })}
+              data-tab={Tab.PORTFOLIO}
+              onKeyDown={handleSetSelectedTab}
+              onClick={handleSetSelectedTab}
+              className={classnames(styles.reset, { [styles.selected]: portfolioSelected })}
             >
               Portfolio
             </div>
             <div
               tabIndex={0}
               role="button"
-              onKeyDown={(e) => handleSetSelectedTab(e, Tab.ABOUT)}
-              onClick={(e) => handleSetSelectedTab(e, Tab.ABOUT)}
-              className={classnames(styles.reset, { [styles.selected]: selectedTab === Tab.ABOUT }, 'mlxl')}
+              data-tab={Tab.ABOUT}
+              onKeyDown={handleSetSelectedTab}
+              onClick={handleSetSelectedTab}
+              className={classnames(styles.reset, { [styles.selected]: aboutSelected }, 'mlxl')}
             >
               About
             </div>
           </div>
-          {selectedTab === Tab.PORTFOLIO && (
+          {portfolioSelected && (
             <div className={styles.portfolioImages}>
-              {!portfolioImages ? (
-                <div className={styles.skeletonWrapper}>
-                  <Skeleton height={300} width={300} />
-                </div>
-              ) : (
-                portfolioImages['portfolio-1'] && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => handleToggleCarousel(e, portfolioImages['portfolio-1'])}
-                    onClick={(e) => handleToggleCarousel(e, portfolioImages['portfolio-1'])}
-                    className={styles.portfolioImage}
-                  >
-                    <img src={portfolioImages['portfolio-1']} alt="portfolio" />
-                  </div>
-                )
-              )}
-              {!portfolioImages ? (
-                <div className={styles.skeletonWrapper}>
-                  <Skeleton height={300} width={300} />
-                </div>
-              ) : (
-                portfolioImages['portfolio-2'] && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => handleToggleCarousel(e, portfolioImages['portfolio-2'])}
-                    onClick={(e) => handleToggleCarousel(e, portfolioImages['portfolio-2'])}
-                    className={styles.portfolioImage}
-                  >
-                    <img src={portfolioImages['portfolio-2']} alt="portfolio" />
-                  </div>
-                )
-              )}
-              {!portfolioImages ? (
-                <div className={styles.skeletonWrapper}>
-                  <Skeleton height={300} width={300} />
-                </div>
-              ) : (
-                portfolioImages['portfolio-3'] && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => handleToggleCarousel(e, portfolioImages['portfolio-3'])}
-                    onClick={(e) => handleToggleCarousel(e, portfolioImages['portfolio-3'])}
-                    className={styles.portfolioImage}
-                  >
-                    <img src={portfolioImages['portfolio-3']} alt="portfolio" />
-                  </div>
-                )
-              )}
-              {!portfolioImages ? (
-                <div className={styles.skeletonWrapper}>
-                  <Skeleton height={300} width={300} />
-                </div>
-              ) : (
-                portfolioImages['portfolio-4'] && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => handleToggleCarousel(e, portfolioImages['portfolio-4'])}
-                    onClick={(e) => handleToggleCarousel(e, portfolioImages['portfolio-4'])}
-                    className={styles.portfolioImage}
-                  >
-                    <img src={portfolioImages['portfolio-4']} alt="portfolio" />
-                  </div>
-                )
-              )}
-              {!portfolioImages ? (
-                <div className={styles.skeletonWrapper}>
-                  <Skeleton height={300} width={300} />
-                </div>
-              ) : (
-                portfolioImages['portfolio-5'] && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => handleToggleCarousel(e, portfolioImages['portfolio-5'])}
-                    onClick={(e) => handleToggleCarousel(e, portfolioImages['portfolio-5'])}
-                    className={styles.portfolioImage}
-                  >
-                    <img src={portfolioImages['portfolio-5']} alt="portfolio" />
-                  </div>
-                )
-              )}
-              {!portfolioImages ? (
-                <div className={styles.skeletonWrapper}>
-                  <Skeleton height={300} width={300} />
-                </div>
-              ) : (
-                portfolioImages['portfolio-6'] && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => handleToggleCarousel(e, portfolioImages['portfolio-6'])}
-                    onClick={(e) => handleToggleCarousel(e, portfolioImages['portfolio-6'])}
-                    className={styles.portfolioImage}
-                  >
-                    <img src={portfolioImages['portfolio-6']} alt="portfolio" />
-                  </div>
-                )
-              )}
+              <div className={styles.flexGap}>
+                {portfolioImagesArray.map(([key, image]) => {
+                  if (!image) {
+                    return (
+                      <div key={key} className={styles.portfolioImageSize}>
+                        <Skeleton />
+                      </div>
+                    );
+                  }
+                  return (
+                    <div
+                      key={key}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={handleToggleCarousel}
+                      onClick={handleToggleCarousel}
+                      className={styles.portfolioImage}
+                    >
+                      <img src={image} alt="portfolio" />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
-          {selectedTab === Tab.ABOUT && <div className={classnames(styles.about)}>{hireInfo.aboutText}</div>}
+          {aboutSelected && <div className={classnames(styles.about)}>{hireInfo.aboutText}</div>}
         </div>
         <div className={styles.footer}>
-          <div>
+          <div className={styles.linksWrapper}>
             {hireInfo.twitterUrl && hireInfo.twitterUrl.length > 0 && (
               <a target="_blank" rel="noreferrer" href={hireInfo.twitterUrl}>
                 <Twitter />
@@ -340,47 +312,12 @@ const Hire: React.FC = () => {
           </div>
           <div className={styles.copyright}>
             {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-            &copy; {new Date().getFullYear()} {hireInfo.freelancer.name}
-          </div>
-          <div className="tar mrl">
-            {currentUser?.attributes?.sub === hireInfo.freelancerID && (
-              <Link href="/hire-page-editor">
-                <a href="/hire-page-editor">
-                  <Sprocket />
-                </a>
-              </Link>
-            )}
+            &copy; {new Date().getFullYear()} {freelancer.name}
           </div>
         </div>
       </SkeletonTheme>
     </div>
   );
 };
-
-// export async function getServerSideProps(context) {
-//   const { req } = context;
-//   let host;
-//   let username = null;
-
-//   host = req?.headers?.host;
-
-//   if (typeof window !== 'undefined') {
-//     host = window.location.host;
-//   }
-
-//   if (host) {
-//     const isDev = host.includes('localhost');
-//     const splitHost = host.split('.');
-
-//     if ((!isDev && splitHost.length === 3) || (isDev && splitHost.length === 2)) {
-//       if (username !== 'www') {
-//         // eslint-disable-next-line prefer-destructuring
-//         username = splitHost[0];
-//       }
-//     }
-//   }
-
-//   return { props: { username } };
-// }
 
 export default Hire;

@@ -1,6 +1,10 @@
+@use 'src/colors' as colors;
+@use 'src/variables' as variables;
 @import "~bulma/sass/utilities/_all.sass";
 
 .button {
+  border-radius: variables.$border-radius-small;
+  min-height: 32px;
   cursor: pointer;
 
   &.disabled {
@@ -27,24 +31,22 @@
 
 .buttonSmall {
   color: #eeeeee;
-  border: 2px solid #3c78fb;
-  border-radius: 4px;
+  border: 2px solid colors.$steel-blue;
   letter-spacing: 0.271875px;
   text-align: center;
-  padding: 2px 30px;
-  background: #3c78fb;
-  font-family: Poppins;
+  background: colors.$steel-blue;
+  font-family: Poppins, sans-serif;
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
 
   &:hover {
     background: transparent;
-    color: #3c78fb;
+    color: colors.$steel-blue;
   }
 
   &.loading {
-    background: #3c78fb;
+    background: colors.$steel-blue;
     &:after {
       top: calc(50% - 10px);
       left: calc(50% - 10px);
@@ -54,11 +56,19 @@
   }
 
   &.inverted {
-    color: #3c78fb;
+    color: colors.$steel-blue;
     background: transparent;
     &:hover {
-      background: #3c78fb;
+      background: colors.$steel-blue;
       color: #eeeeee;
     }
   }
+}
+
+.defaultPadding {
+  padding: 0 30px;
+}
+
+.extraBorderRadius {
+  border-radius: variables.$border-radius;
 }
