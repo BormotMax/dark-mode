@@ -344,14 +344,14 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
             <FontAwesomeIcon icon={faUserAstronaut} />
             Profile
           </button>
-          <button
+          {/* <button
             onClick={() => setTab(Tab.Payments)}
             type="button"
             className={classnames({ [styles.current]: tab === Tab.Payments })}
           >
             <FontAwesomeIcon icon={faSackDollar} />
             Payments
-          </button>
+          </button> */}
         </div>
         <div className={classnames(styles.right, 'column')}>
           {tab === Tab.Profile && (

@@ -147,21 +147,19 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
             </a>
           </Link>
         </li>
-        <Protected roles={[Role.ADMIN]}>
-          <InPlaceModal
-            variant={InPlaceModalVariants.FIXED}
-            button={
-              <li>
-                <a role="button">
-                  <FontAwesomeIcon color="#ffffff" size="1x" icon={faCog} />
-                  Settings
-                </a>
-              </li>
-            }
-          >
-            <Settings />
-          </InPlaceModal>
-        </Protected>
+        <InPlaceModal
+          variant={InPlaceModalVariants.FIXED}
+          button={
+            <li>
+              <a role="button">
+                <FontAwesomeIcon color="#ffffff" size="1x" icon={faCog} />
+                Settings
+              </a>
+            </li>
+          }
+        >
+          <Settings />
+        </InPlaceModal>
         <li>
           <a href="https://continuumcommunity.slack.com">
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faGlobeAmericas} />
