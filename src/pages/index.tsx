@@ -11,6 +11,7 @@ import { createDomainSlug } from '../graphql/mutations';
 import { getDomainSlug } from '../graphql/queries';
 import { GetDomainSlugQuery } from '../API';
 import { DomainSlug } from '../types/custom';
+import LandingLogo from '../components/svgIcons/LandingLogo';
 
 import { unauthClient } from './_app';
 import styles from './styles/index.module.scss';
@@ -147,7 +148,7 @@ const Home: React.FC = () => {
                 alt="the planet with 'Continuum' colors gradient fill (secondary)"
               />
               <div className={styles.logoWrapper}>
-                <img src="landing/Logo.png" alt="Continuum logo" />
+                <LandingLogo />
                 <p>Landing 2021 <span role="img" aria-label="unicorn">🦄</span> </p>
               </div>
               <div className={styles.cont}>

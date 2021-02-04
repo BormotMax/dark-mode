@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import * as React from 'react';
+import React, { memo } from 'react';
 
 function Logo(props: React.SVGProps<SVGSVGElement>): JSX.Element {
   return (
@@ -39,4 +39,4 @@ function Logo(props: React.SVGProps<SVGSVGElement>): JSX.Element {
   );
 }
 
-export default Logo;
+export default memo(Logo);
