@@ -13,6 +13,7 @@ import styles from './styles/allUsers.module.scss';
 
 const AllUsersPage: React.FC = () => {
   const [users, setUsers] = useState([]);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(true);
   const { setFlash } = useFlash();
   const { logger } = useLogger();
 
@@ -25,6 +26,8 @@ const AllUsersPage: React.FC = () => {
     } catch (error) {
       setFlash("There was an error retrieving the users. We're looking into it.");
       logger.error('AllUsersPage: error retrieving users.', { error });
+    } finally {
+      setIsLoadingUsers(false);
     }
   };
 
@@ -62,6 +65,7 @@ const AllUsersPage: React.FC = () => {
         </>
       }
       page={Page.ALL_USERS}
+      loading={isLoadingUsers}
     >
       <div className={classnames('column', 'is-narrow', styles.allUsers)}>
         <button type="button" onClick={copyEmails} className="button">
