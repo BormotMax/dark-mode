@@ -1,10 +1,10 @@
 import React, { useState, CSSProperties, useEffect } from 'react';
 import { Storage } from 'aws-amplify';
 import classnames from 'classnames';
-import md5 from 'md5';
 
 import { useLogger } from '../../hooks';
 import styles from './avatar.module.scss';
+import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 interface AvatarProps {
   url?: string;
@@ -59,15 +59,6 @@ export const avatarPlaceholderName = (name: string): string => {
   });
 
   return shortName;
-};
-
-/**
- * Get gravatarUrl with email address
- * @return{string}
- */
-const gravatarUrl = (emailAddress: string): string => {
-  const e = emailAddress ? emailAddress.trim().toLowerCase() : '';
-  return `https://www.gravatar.com/avatar/${md5(e)}?d=null`;
 };
 
 // Use the url if given, else use the email to get the gravatar, else show custom placeholder
