@@ -40,3 +40,9 @@ Create local branch for every feature using `feature/[xyz]` format. Submit PR an
 
 - Merge to master branch, next.js app will deploy to [Vercel](https://nextjs.org/docs/deployment)
 - Or manually using `vercel --prod --scope continuum`
+
+## SVG Icons
+
+- All icons in the project must be svg react components.
+- Placement: `src/components/svgIcons`
+- You can use [SVGR](https://react-svgr.com/playground/?memo=true&typescript=true) to convert.
