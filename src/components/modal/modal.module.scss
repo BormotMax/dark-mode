@@ -1,13 +1,47 @@
-.isActive {
-  top: 0 !important;
+@use 'src/variables' as variables;
+
+.modal {
+  width: 100%;
+  z-index: 100;
+  outline: none;
+  filter: drop-shadow(variables.$drop-shadow);
+  border-radius: variables.$border-radius-small;
+
+  @media (max-width: variables.$breakpoint-md) {
+    width: fit-content;
+  }
 }
 
-.modalBackground {
-  opacity: 0.2;
+.overlay {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  outline: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+
+  .animatedOpen {
+    top: 0;
+  }
 }
 
-.modalContent {
+.disableScroll {
+  overflow-y: hidden;
+}
+
+.animatedModal {
+  position: absolute;
   transition-property: top;
   transition-duration: 0.4s;
   top: -100%;
+}
+
+.closeButton {
+  position: fixed;
 }

@@ -1,20 +1,48 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import classnames from 'classnames';
+
+import Portal from '../portal';
+import { isClickOrEnter } from '../../helpers/util';
+
 import styles from './modal.module.scss';
+
+const DEFAULT_MODAL_MAX_WIDTH = '668px';
 
 interface ModalProps {
   isOpen: boolean;
-  handleClose: Function;
+  closeModal: () => void;
+  maxWidth?: string;
+  topPlacedModal?: boolean;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) => {
+export const Modal: React.FC<ModalProps> = ({
+  topPlacedModal = false,
+  isOpen,
+  closeModal,
+  maxWidth = DEFAULT_MODAL_MAX_WIDTH,
+  children,
+}) => {
   const [isModalDown, setIsModalDown] = useState(false);
 
-  function handleKeyDown(e) {
-    if (e.keyCode === 27) {
-      handleClose();
+  // For animation
+  useEffect(
+    () => {
+      if (isOpen) {
+        setIsModalDown(true);
+        document.documentElement.classList.add(styles.disableScroll);
+      } else {
+        setIsModalDown(false);
+        document.documentElement.classList.remove(styles.disableScroll);
+      }
+    },
+    [isOpen],
+  );
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      closeModal();
     }
-  }
+  };
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -24,27 +52,59 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) =
     };
   }, []);
 
-  // This causes the isActive class to get applied after the top value is already -100%
-  // so that the modal transitions to a top = 0.
-  useEffect(() => {
-    if (isOpen) {
-      setIsModalDown(true);
-    } else {
-      setIsModalDown(false);
-    }
-  }, [isOpen]);
+  const onOverlayClick = (event: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
+    if (!isClickOrEnter(event)) return;
+    closeModal();
+  };
 
-  if (isOpen) {
-    document.querySelector('html').classList.add('is-clipped');
-  } else {
-    document.querySelector('html').classList.remove('is-clipped');
+  const onModalClick = (event: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
+    if (!isClickOrEnter(event)) return;
+    event.stopPropagation();
+  };
+
+  const modalStyle = useMemo(
+    () => ({ maxWidth }),
+    [maxWidth],
+  );
+
+  if (!isOpen) {
+    return null;
   }
 
   return (
-    <div className={classnames('modal', { 'is-active': isOpen })}>
-      <div aria-hidden="true" onClick={() => handleClose()} className={classnames('modal-background', styles.modalBackground)} />
-      <div className={classnames('modal-content', styles.modalContent, { [styles.isActive]: isModalDown })}>{children}</div>
-      <button onClick={() => handleClose()} type="button" className="modal-close is-large" aria-label="close" />
-    </div>
+    <Portal>
+      <div
+        role="button"
+        tabIndex={0}
+        onKeyPress={onOverlayClick}
+        onClick={onOverlayClick}
+        className={styles.overlay}
+      >
+        <div
+          role="button"
+          tabIndex={0}
+          onKeyPress={onModalClick}
+          onClick={onModalClick}
+          style={modalStyle}
+          className={classnames(
+            styles.modal,
+            {
+              [styles.animatedModal]: topPlacedModal,
+              [styles.animatedOpen]: isModalDown,
+            },
+          )}
+        >
+          {children}
+        </div>
+        {topPlacedModal && (
+          <button
+            onClick={closeModal}
+            type="button"
+            className={classnames(styles.closeButton, 'modal-close', 'is-large')}
+            aria-label="close"
+          />
+        )}
+      </div>
+    </Portal>
   );
 };

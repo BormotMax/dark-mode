@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,12 +20,10 @@ import {
 import { useCurrentUser, useLogger } from '../../hooks';
 import { Avatar } from '../avatar/avatar';
 import { isClickOrEnter } from '../../helpers/util';
-import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { Settings } from '../settings';
-import { Protected } from '../protected/protected';
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
-import { Role } from '../withAuthentication';
+import { Modal } from '../modal';
 
 import styles from './nav.module.scss';
 
@@ -49,6 +47,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
   const { logger } = useLogger();
   const { currentUser, signOut } = useCurrentUser();
   const [userAvatar, setUserAvatar] = useState('');
+  const [settingsModalIsOpen, setSettingsModalIsOpen] = useState(false);
   const email = currentUser?.attributes?.email;
   const name = currentUser?.attributes?.name;
   const userID = currentUser?.attributes?.sub;
@@ -87,6 +86,19 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
       fetchUser();
     }
   }, []);
+
+  const openModal = (event) => {
+    if (isClickOrEnter(event)) {
+      setSettingsModalIsOpen(true);
+    }
+  };
+
+  const closeModal = useCallback(
+    () => {
+      setSettingsModalIsOpen(false);
+    },
+    [],
+  );
 
   return (
     <div className={classnames(styles.nav)}>
@@ -147,19 +159,12 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
             </a>
           </Link>
         </li>
-        <InPlaceModal
-          variant={InPlaceModalVariants.FIXED}
-          button={
-            <li>
-              <a role="button">
-                <FontAwesomeIcon color="#ffffff" size="1x" icon={faCog} />
-                Settings
-              </a>
-            </li>
-          }
-        >
-          <Settings />
-        </InPlaceModal>
+        <li>
+          <a tabIndex={0} role="button" onKeyPress={openModal} onClick={openModal}>
+            <FontAwesomeIcon color="#ffffff" size="1x" icon={faCog} />
+            Settings
+          </a>
+        </li>
         <li>
           <a href="https://continuumcommunity.slack.com">
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faGlobeAmericas} />
@@ -173,6 +178,12 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           </a>
         </li>
       </ul>
+      <Modal
+        isOpen={settingsModalIsOpen}
+        closeModal={closeModal}
+      >
+        <Settings close={closeModal} />
+      </Modal>
     </div>
   );
 };

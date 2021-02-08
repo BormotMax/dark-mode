@@ -29,7 +29,6 @@ interface HireMeModalProps {
   freelancerName: string;
   freelancerEmail: string;
   freelancerID: string;
-  handleClose: () => void;
 }
 
 interface ValidationProps {

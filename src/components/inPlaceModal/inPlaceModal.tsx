@@ -3,6 +3,7 @@
 import React, { useState, memo } from 'react';
 import classnames from 'classnames';
 
+import InPlaceModalLayout from './modalLayout';
 import styles from './inPlaceModal.module.scss';
 
 export enum InPlaceModalVariants {
@@ -62,7 +63,7 @@ export const InPlaceModal: React.FC<InPlaceModalProps> = memo(({
         {button}
       </span>
       {isModalOpen ? (
-        <>
+        <InPlaceModalLayout isFixedPosition={isFixedPlacedVariant}>
           <div tabIndex={-1} className={classnames(styles.modal)} onClick={closeAddPersonModal} />
           <div className={classnames(styles.modalContent)}>
             <div
@@ -78,7 +79,7 @@ export const InPlaceModal: React.FC<InPlaceModalProps> = memo(({
               {React.cloneElement(children, { close: closeAddPersonModal })}
             </div>
           </div>
-        </>
+        </InPlaceModalLayout>
       ) : null}
     </>
   );

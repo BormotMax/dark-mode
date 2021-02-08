@@ -149,6 +149,17 @@ const Hire: React.FC = () => {
     }
   };
 
+  const closeModal = useCallback(
+    () => {
+      setModalOpen(false);
+    },
+    [],
+  );
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
   const portfolioImagesArray = useMemo(
     (): Array<Array<string | null>> => (portfolioImages ? Object.entries(portfolioImages) : portfolioImagesSkeletons),
     [portfolioImages],
@@ -166,10 +177,9 @@ const Hire: React.FC = () => {
 
   return (
     <div className={styles.hire}>
-      <Modal handleClose={() => setModalOpen(false)} isOpen={isModalOpen}>
+      <Modal maxWidth="877px" topPlacedModal closeModal={closeModal} isOpen={isModalOpen}>
         <HireMeModal
           freelancerEmail={freelancer.email}
-          handleClose={() => setModalOpen(false)}
           freelancerName={freelancer.name}
           freelancerID={hireInfo.freelancerID}
         />
@@ -221,7 +231,7 @@ const Hire: React.FC = () => {
               {hireInfo.blurbText}
             </div>
             {showCustomButton && (
-              <button onClick={() => setModalOpen(true)} className={styles.button} type="button">
+              <button onKeyPress={openModal} onClick={openModal} className={styles.button} type="button">
                 {hireInfo.buttonText}
               </button>
             )}
