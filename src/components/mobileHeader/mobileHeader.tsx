@@ -23,6 +23,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
   headerText,
   changePanel,
   hasSecondChild,
+  children,
 }) => {
   const handleSwitchToNav = (e: any) => {
     if (e.keyCode === undefined || e.keyCode === 13) {
@@ -54,28 +55,29 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
         <FontAwesomeIcon color="#595959" size="1x" icon={faBars} />
       </div>
       <div>{headerText}</div>
-      {currentViewingState === ViewingState.FIRST_CHILD && (
+      {hasSecondChild && currentViewingState === ViewingState.FIRST_CHILD && (
         <div
           role="button"
           tabIndex={0}
           onClick={handleSwitchToRight}
           onKeyDown={handleSwitchToRight}
-          className={classnames(styles.button, { [styles.hidden]: !hasSecondChild })}
+          className={styles.button}
         >
           <FontAwesomeIcon color="#595959" size="1x" icon={faEllipsisV} />
         </div>
       )}
-      {currentViewingState === ViewingState.SECOND_CHILD && (
+      {hasSecondChild && currentViewingState === ViewingState.SECOND_CHILD && (
         <div
           role="button"
           tabIndex={0}
           onClick={handleSwitchToLeft}
           onKeyDown={handleSwitchToLeft}
-          className={classnames(styles.button, { [styles.hidden]: !hasSecondChild })}
+          className={styles.button}
         >
           <FontAwesomeIcon color="#595959" size="1x" icon={faTimes} />
         </div>
       )}
+      {children && children}
     </div>
   );
 };

@@ -86,7 +86,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
               Conversations, invoices, payments, crm and project management, all in one place."
         key="description"
       />
-      <link rel="icon" href="landing/favicon.png" />
+      <link rel="icon" href="/landing/favicon.png" />
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174215284-1" />
       <script
         dangerouslySetInnerHTML={{

@@ -14,6 +14,13 @@ export const isClickOrEnter = (event: MouseEvent | KeyboardEvent): boolean => {
   return event.key === 'Enter';
 };
 
+export const getDatasetValue = (target: EventTarget, key: string): string | null => {
+  if (target instanceof HTMLElement) {
+    return target?.dataset?.[key];
+  }
+  return null;
+};
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const truncate = (str, length = 100, ending = '...') => {
   if (!str) {

@@ -20,6 +20,7 @@ import { UserRole, CreateUserMutation, UsersByEmailQuery, ListUsersQuery } from 
 import { createUser, createProjectClient, createProjectFreelancer, updateUser } from '../../graphql/mutations';
 import { Role } from '../withAuthentication';
 import { Protected } from '../protected/protected';
+import { isClickOrEnter, getDatasetValue } from '../../helpers/util';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 
 import styles from './contactPreview.module.scss';
@@ -138,9 +139,9 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
   const [isVisible, setIsVisible] = useState(false);
   const [formValues, setFormValues] = useState({
-    name: selectedUser?.user?.name,
-    email: selectedUser?.user?.email,
-    title: selectedUser?.user?.title,
+    name: selectedUser?.user?.name || '',
+    email: selectedUser?.user?.email || '',
+    title: selectedUser?.user?.title || '',
   });
   const [fileInputValues, setFileInputValues] = useState(null);
   const [userType, setUserType] = useState(selectedUser?.user?.role || UserRole.CLIENT); // todo: remove CLIENT hardcode
@@ -160,24 +161,25 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
   const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
     const { target: { name, value } = {} } = event;
-    if (name === 'name') {
+
+    const anchor = getDatasetValue(event.relatedTarget, 'anchor');
+    if (anchor !== 'suggestedUser') {
       setIsVisible(false);
     }
+
     setFormValues((prevState) => ({
       ...prevState,
       [name]: value.trim(),
     }));
   }, []);
 
-  const onSuggestionUserClick = (user) => (e) => {
-    if (e.key && e.key !== 'Enter') {
-      return;
-    }
+  const onSuggestionUserClick = (user) => (event: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
+    if (!isClickOrEnter(event)) return;
     setFormValues((prevState) => ({
       ...prevState,
-      name: user?.name,
-      email: user?.email,
-      title: user?.title,
+      name: user?.name || '',
+      email: user?.email || '',
+      title: user?.title || '',
       ...(selectedUser ? {} : { userType: user?.role || UserRole.CLIENT }),
     }));
     setIsVisible(false);
@@ -199,9 +201,11 @@ const ModalContent: React.FC<ModalContentProps> = ({
     }
     const foundedUsers = (usersListResponse?.data as ListUsersQuery)?.listUsers?.items ?? [];
     setSuggestedUsers(foundedUsers);
-    setTimeout(() => {
+
+    const foundedUserAlreadySelected = foundedUsers.length === 1 && foundedUsers[0]?.email === formValues?.email;
+    if (!foundedUserAlreadySelected) {
       setIsVisible(foundedUsers.length > 0);
-    }, 100);
+    }
   };
 
   useEffect(() => {
@@ -444,6 +448,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
                   tabIndex={0}
                   key={user.id}
                   role="button"
+                  data-anchor="suggestedUser"
                   onClick={onSuggestionUserClick(user)}
                   onKeyDown={onSuggestionUserClick(user)}
                   className={styles.autoSuggestItem}

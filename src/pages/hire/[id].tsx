@@ -21,7 +21,7 @@ import { Header } from '../../components/header';
 import { Page } from '../../components/nav/nav';
 import { Avatar } from '../../components/avatar/avatar';
 import { ButtonSmall } from '../../components/buttons/buttons';
-import { isClickOrEnter } from '../../helpers/util';
+import { isClickOrEnter, getDatasetValue } from '../../helpers/util';
 
 enum Tab {
   PORTFOLIO,
@@ -130,14 +130,12 @@ const Hire: React.FC = () => {
     setCarouselOpen((prevState) => !prevState);
   };
 
-  const handleSetSelectedTab = (e: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
-    if (!(e.target instanceof HTMLElement)) {
+  const handleSetSelectedTab = (event: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
+    if (!isClickOrEnter(event)) {
       return;
     }
-    if (isClickOrEnter(e)) {
-      const { tab } = e.target.dataset;
-      setSelectedTab(Number(tab));
-    }
+    const tab = getDatasetValue(event.target, 'tab');
+    setSelectedTab(Number(tab));
   };
 
   const handleToggleCarousel = (e: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
