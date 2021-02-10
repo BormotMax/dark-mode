@@ -6,22 +6,23 @@ import classnames from 'classnames';
 import { Storage } from 'aws-amplify';
 import Carousel, { Modal as ImageModal, ModalGateway } from 'react-images';
 
-import { HireInfoByDomainSlugQuery } from '../../API';
-import { hireInfoByDomainSlug } from '../../graphql/queries';
-import { HireMeModal } from '../../components/hireMeModal';
-import { Modal } from '../../components/modal';
-import { useCurrentUser, useFlash, useLogger } from '../../hooks';
-import { unauthClient as client } from '../_app';
-import LinkedInLogo from '../../img/linkedIn.svg';
-import InstagramLogo from '../../img/instagram.svg';
-import Dribbble from '../../img/dribbble.svg';
-import Twitter from '../../img/twitter.svg';
-import styles from '../styles/hire.module.scss';
-import { Header } from '../../components/header';
-import { Page } from '../../components/nav/nav';
-import { Avatar } from '../../components/avatar/avatar';
-import { ButtonSmall } from '../../components/buttons/buttons';
-import { isClickOrEnter, getDatasetValue } from '../../helpers/util';
+import { HireInfoByDomainSlugQuery } from '../API';
+import { hireInfoByDomainSlug } from '../graphql/queries';
+import { HireMeModal } from '../components/hireMeModal';
+import { Modal } from '../components/modal';
+import { useCurrentUser, useFlash, useLogger } from '../hooks';
+import { unauthClient as client } from './_app';
+import LinkedInLogo from '../img/linkedIn.svg';
+import InstagramLogo from '../img/instagram.svg';
+import Dribbble from '../img/dribbble.svg';
+import Twitter from '../img/twitter.svg';
+import styles from './styles/hire.module.scss';
+import { Header } from '../components/header';
+import { Page } from '../components/nav/nav';
+import { Avatar } from '../components/avatar/avatar';
+import { ButtonSmall } from '../components/buttons/buttons';
+import { isClickOrEnter, getDatasetValue } from '../helpers/util';
+
 
 enum Tab {
   PORTFOLIO,
@@ -217,7 +218,7 @@ const Hire: React.FC = () => {
           </div>
           <div className={classnames(styles.leftContainer)}>
             <Avatar
-              s3key={freelancer.avatar.key}
+              s3key={freelancer.avatar?.key}
               email={freelancer.email}
               name={freelancer.name}
               width={72}

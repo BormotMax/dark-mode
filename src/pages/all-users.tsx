@@ -117,9 +117,9 @@ const Card = ({ user }) => {
           </p>
           <p>
             <b>Hire&nbsp;Page:</b>&nbsp;{slug && (
-            <Link href="/hire/[id]" as={`/hire/${slug}`}>
-              <a href={`/hire/${slug}`}>
-                continuum.works/hire/{slug}
+            <Link href="/[id]" as={`/${slug}`}>
+              <a href={`/${slug}`}>
+                continuum.works/{slug}
               </a>
             </Link>
             )}

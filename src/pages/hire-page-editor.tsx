@@ -12,7 +12,7 @@ import { FileUpload } from '../components/fileUpload';
 import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug, updateUser } from '../graphql/mutations';
 import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery, GetUserQuery } from '../API';
 import { getHireMeInfo, getDomainSlug, getUser } from '../graphql/queries';
-import { DomainSlug } from '../types/custom';
+import { DomainSlug, ReservedRouteNames } from '../types/custom';
 import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Page } from '../components/nav/nav';
@@ -22,7 +22,7 @@ import { client } from './_app';
 import styles from './styles/hireEdit.module.scss';
 
 const imageInputNames = ['banner', 'portfolio-1', 'portfolio-2', 'portfolio-3', 'portfolio-4', 'portfolio-5', 'portfolio-6'];
-const SLUG_PREFIX = 'continuum.works/hire/';
+const SLUG_PREFIX = 'continuum.works/';
 
 interface ValidationProps {
   domainSlugID?: string;
@@ -174,6 +174,13 @@ const HirePageEditor = ({ currentUser }) => {
     e.preventDefault();
     setSaving(true);
     setInvalids({});
+    const { domainSlugID } = valuesFields;
+    const valuesReservedRouteNames = Object.values(ReservedRouteNames);
+    if (valuesReservedRouteNames.includes(domainSlugID)) {
+      setFlash('That domain is unavailable');
+      setSaving(false);
+      return;
+    }
     const allFormValues = serialize(e.target, { hash: true, empty: true });
     const validation = validate();
     const { name, title, ...formValues } = allFormValues;
@@ -186,7 +193,6 @@ const HirePageEditor = ({ currentUser }) => {
 
     updateUserRequest();
 
-    const { domainSlugID } = valuesFields;
     formValues.domainSlugID = domainSlugID;
     let domainSlugExists = false;
     let domainSlugIsMine = false;
@@ -342,7 +348,7 @@ const HirePageEditor = ({ currentUser }) => {
           setDelayedFlash('Your changes have been saved');
           const slug = info?.domainSlug?.slug;
           if (slug) {
-            router.push('/hire/[id]', `/hire/${slug}`, { shallow: true }).then(() => window.scrollTo(0, 0));
+            router.push('/[id]', `/${slug}`, { shallow: true }).then(() => window.scrollTo(0, 0));
           } else {
             setFlash("Something went wrong. We're looking into it");
             logger.error('HirePageEditor: After saving, there is no domain slug', { info: { hireInfoId: info.id } });
@@ -507,7 +513,7 @@ const HirePageEditor = ({ currentUser }) => {
                 </div>
               </div>
               <div className="field">
-                <label className="label">Built-in Domain e.g. continuum.works/hire/xyz</label>
+                <label className="label">Built-in Domain e.g. continuum.works/xyz</label>
                 <div className={classnames(styles.halfWidthControl, 'control')}>
                   <input
                     name="domainSlugID"
