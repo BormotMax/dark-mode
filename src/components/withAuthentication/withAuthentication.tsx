@@ -68,7 +68,7 @@ export function WithAuthentication(WrappedComponent: React.ReactType, options: W
         }
 
         // user is not signed in and this is a signed in page
-        Router.push('/signIn');
+        Router.push('/sign-in');
         return null;
       }}
     </UserContext.Consumer>

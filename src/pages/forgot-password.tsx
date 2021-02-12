@@ -14,7 +14,7 @@ interface ValidationProps {
   email?: string;
 }
 
-const SIGN_IN_PATH = '/signIn';
+const SIGN_IN_PATH = '/sign-in';
 
 const ForgotPassword: React.FC = () => {
   const [emailInState, setEmailInState] = useState('');

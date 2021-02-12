@@ -147,11 +147,11 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     [project],
   );
 
-  if (!viewerId && !currentUserId) Router.push('/signIn');
+  if (!viewerId && !currentUserId) Router.push('/sign-in');
   if (!loading && !project) return <div>Not found</div>;
   if (!loading && !viewer.current) {
     logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
-    Router.push('/signIn');
+    Router.push('/sign-in');
     return null;
   }
 

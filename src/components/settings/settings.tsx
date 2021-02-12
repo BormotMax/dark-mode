@@ -99,7 +99,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
       const userID = currentUser?.attributes?.sub;
       if (!userID) {
         logger.error('Settings: No user in settings menu');
-        router.push('/signIn');
+        router.push('/sign-in');
         return;
       }
 

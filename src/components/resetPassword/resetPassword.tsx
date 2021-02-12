@@ -21,7 +21,7 @@ interface ValidationProps {
   password?: string;
 }
 
-const SIGN_IN = '/signIn';
+const SIGN_IN = '/sign-in';
 
 export const ResetPassword: React.FC<ResetPasswordProps> = ({ email: emailProp }) => {
   const [isRequestPending, setRequestPending] = useState(false);

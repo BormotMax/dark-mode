@@ -48,9 +48,9 @@ describe('routing authorization', () => {
   });
 
   context('signedOut', () => {
-    it('should show signIn page', () => {
+    it('should show sign-in page', () => {
       cy.visit('/hire-page-editor');
-      cy.url().should('equal', `${Cypress.config().baseUrl}/signIn`);
+      cy.url().should('equal', `${Cypress.config().baseUrl}/sign-in`);
     });
   });
 });

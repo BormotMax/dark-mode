@@ -2,7 +2,7 @@ describe('signing in', () => {
   context('successful sign in', () => {
     // happy path
     it('should sign user in', () => {
-      cy.visit('/signIn');
+      cy.visit('/sign-in');
 
       cy.contains('Sign In to Continuum');
 
@@ -26,7 +26,7 @@ describe('signing in', () => {
     });
 
     it('works by hitting enter in password field', () => {
-      cy.visit('/signIn');
+      cy.visit('/sign-in');
 
       cy.get('input[placeholder="Email"]').type('matthew.watts.mw@gmail.com');
 
@@ -36,7 +36,7 @@ describe('signing in', () => {
     });
 
     it('works by hitting enter in email field', () => {
-      cy.visit('/signIn');
+      cy.visit('/sign-in');
 
       cy.get('input[placeholder="Password"]').type('password');
 
@@ -48,7 +48,7 @@ describe('signing in', () => {
 
   context('unsuccessful sign in', () => {
     it('user does not exist', () => {
-      cy.visit('/signIn');
+      cy.visit('/sign-in');
 
       cy.get('input[placeholder="Email"]').type('matt@continuum.works');
 
@@ -60,7 +60,7 @@ describe('signing in', () => {
     });
 
     it('incorrect password', () => {
-      cy.visit('/signIn');
+      cy.visit('/sign-in');
 
       cy.get('input[placeholder="Email"]').type('matthew.watts.mw@gmail.com');
 
@@ -74,13 +74,13 @@ describe('signing in', () => {
 
   context('navigation', () => {
     it('navigates to forgot password page', () => {
-      cy.visit('/signIn');
+      cy.visit('/sign-in');
       cy.get('a[href="/forgot-password"]').click();
       cy.url().should('equal', `${Cypress.config().baseUrl}/forgot-password`);
     });
 
     it('navigates to sign up page', () => {
-      cy.visit('/signIn');
+      cy.visit('/sign-in');
       cy.contains('Sign Up').click();
       cy.url().should('equal', `${Cypress.config().baseUrl}/sign-up`);
     });

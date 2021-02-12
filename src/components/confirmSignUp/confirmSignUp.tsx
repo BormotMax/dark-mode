@@ -64,7 +64,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = memo(({ email: emailP
 
     try {
       await Auth.confirmSignUp(email, code);
-      Router.push('/signIn');
+      Router.push('/sign-in');
     } catch (error) {
       logger.error('ConfirmSignUp: error confirming sign up', { error, input: { email, code } });
       setFlash(error.message);
@@ -150,7 +150,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = memo(({ email: emailP
             onKeyDown={setConfirmingFalse}
             onClick={setConfirmingFalse}
           >
-            Back to {parentPage === 'signIn' ? 'Sign In' : 'Sign Up'}
+            Back to {parentPage === 'sign-in' ? 'Sign In' : 'Sign Up'}
           </a>
         </div>
       </div>

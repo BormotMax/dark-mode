@@ -20,7 +20,7 @@ interface ValidationProps {
 }
 
 const TERMS_CONDITIONS = '/terms-and-conditions';
-const SIGN_IN = '/signIn';
+const SIGN_IN = '/sign-in';
 
 const SignUp: React.FC = memo(() => {
   const [emailInState, setEmailInState] = useState('');

@@ -1,4 +1,4 @@
-import React, {useState, FormEvent, useCallback} from 'react';
+import React, { useState, FormEvent, useCallback } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import serialize from 'form-serialize';
@@ -122,7 +122,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
   }
 
   return isConfirming ? (
-    <ConfirmSignUp email={emailInState} parentPage="signIn" setConfirming={setConfirming} />
+    <ConfirmSignUp email={emailInState} parentPage="sign-in" setConfirming={setConfirming} />
   ) : (
     <div className={pageStyles.authPage}>
       <ProjectHeader />
