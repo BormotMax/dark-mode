@@ -23,11 +23,11 @@ import { createComment, createQuote, createTask } from '../../graphql/mutations'
 import { useFlash, useLogger } from '../../hooks';
 import { Quote, User } from '../../types/custom';
 import { Protected } from '../protected/protected';
-import { Role } from '../withAuthentication';
+import { Features } from '../../permissions';
 
 interface AddQuoteModalProps {
   projectID: string;
-  refetchData: Function;
+  refetchData(): Promise<void>;
   quotes: Quote[];
   creator: User;
 }
@@ -38,7 +38,7 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
   return (
     <>
       <div className={classnames(modalStyles.addNew)}>
-        <Protected roles={[Role.FREELANCER]}>
+        <Protected feature={Features.QuoteModalContent}>
           <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
             <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={null} creator={creator} />
           </InPlaceModal>
@@ -85,7 +85,7 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
 interface AddQuoteModalContentProps {
   close?: Function;
   projectID: string;
-  refetchData: Function;
+  refetchData(): Promise<void>;
   selectedQuote: Quote;
   creator: User;
   index?: number;

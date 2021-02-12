@@ -15,9 +15,9 @@ import { GetQuoteQuery, QuoteStatus, UpdateQuoteInput, UpdateQuoteMutation } fro
 import { unauthClient } from '../../../pages/_app';
 import styles from './quoteForComment.module.scss';
 import { Quote } from '../../../types/custom';
-import { Role } from '../../withAuthentication';
 import { STRIPE_API_URL, STRIPE_PUBLISHABLE_KEY } from '../../../helpers/constants';
 import { useCurrentProject } from '../../../hooks/useCurrentProject';
+import { Features } from '../../../permissions';
 
 dayjs.extend(localizedFormat);
 
@@ -155,7 +155,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
           <>
             {payeeStripeAccountID
             && (
-              <ProtectedElse roles={[Role.FREELANCER]}>
+              <ProtectedElse feature={Features.ButtonAcceptAndPay}>
                 <button
                   disabled={isUpdating}
                   type="button"

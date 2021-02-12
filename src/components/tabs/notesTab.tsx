@@ -3,28 +3,28 @@ import gql from 'graphql-tag';
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CreateNoteInput, CreateNoteMutation, UpdateNoteInput } from '../../API';
+import { CreateNoteInput, UpdateNoteInput } from '../../API';
 import { createNote, updateNote } from '../../graphql/mutations';
 import { useLogger, useFlash } from '../../hooks';
 import { client } from '../../pages/_app';
 import { Note, ProjectFreelancer } from '../../types/custom';
 import { InPlaceModal } from '../inPlaceModal';
-import { Role } from '../withAuthentication';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import styles from './notesTab.module.scss';
 import { Protected } from '../protected/protected';
 import { ButtonSmall } from '../buttons/buttons';
 import { truncate } from '../../helpers/util';
+import { Features } from '../../permissions';
 
 interface NotesTabProps {
-  refetchData: Function;
+  refetchData(): Promise<void>;
   projectUser: ProjectFreelancer;
 }
 
 export const NotesTab: React.FC<NotesTabProps> = ({ refetchData, projectUser }) => (
   <>
     <div className={classnames(modalStyles.addNew)}>
-      <Protected roles={[Role.FREELANCER]}>
+      <Protected feature={Features.NotesTab}>
         <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
           <ModalContent refetchData={refetchData} selectedNote={null} projectUser={projectUser} />
         </InPlaceModal>
@@ -55,7 +55,7 @@ export const NotesTab: React.FC<NotesTabProps> = ({ refetchData, projectUser }) 
 
 interface ModalContentProps {
   close?: Function;
-  refetchData: Function;
+  refetchData(): Promise<void>;
   selectedNote: Note;
   projectUser: ProjectFreelancer;
 }

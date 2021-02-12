@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import { Role } from '../withAuthentication';
 import { Protected, ProtectedElse } from '../protected/protected';
 import { Header } from '../header';
 import { Nav, Page } from '../nav/nav';
@@ -10,6 +9,7 @@ import { MobileHeader } from '../mobileHeader';
 import LogoLoader from '../logoLoader';
 
 import styles from './pageLayoutOne.module.scss';
+import { Features } from '../../permissions';
 
 interface PageLayoutOneProps {
   headerText?: string | JSX.Element;
@@ -40,7 +40,7 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
 }) => {
   const header = PageInfo[page] ? (
     <>
-      <Protected roles={[Role.FREELANCER]}>
+      <Protected feature={Features.HeaderBreadcrumb}>
         {PageInfo[page].href ? (
           <Link href={PageInfo[page].href}>
             <a href={PageInfo[page].href}>{PageInfo[page].breadcrumb}</a>
@@ -50,7 +50,7 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
         )}
         &nbsp;&gt;&nbsp;<span>{headerText}</span>
       </Protected>
-      <ProtectedElse roles={[Role.FREELANCER]}>{headerText}</ProtectedElse>
+      <ProtectedElse feature={Features.HeaderText}>{headerText}</ProtectedElse>
     </>
   ) : (
     <span>{headerText}</span>
@@ -81,7 +81,7 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
   const [viewingState, setViewingState] = useState(ViewingState.FIRST_CHILD);
   return (
     <div className="columns is-mobile is-hidden-tablet relative">
-      <Protected roles={[Role.FREELANCER]}>
+      <Protected feature={Features.MobileNav}>
         {viewingState === ViewingState.NAV && (
           <div className={classnames('column', styles.nav, 'is-hidden-tablet')}>
             <Nav page={page} goToNextPanel={() => setViewingState(ViewingState.FIRST_CHILD)} />
@@ -110,7 +110,7 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
           </div>
         </div>
       </Protected>
-      <ProtectedElse roles={[Role.FREELANCER]}>
+      <ProtectedElse feature={Features.MobileHeader}>
         <div className="column">
           <div className={classnames('container', 'is-desktop', { [styles.loadingHeight]: loading })}>
             <Header headerText={headerText} page={page} />
@@ -124,7 +124,7 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
 
 const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer, loading }) => (
   <div className={classnames('columns', 'is-hidden-mobile', styles.navColumn)}>
-    <Protected roles={[Role.FREELANCER]}>
+    <Protected feature={Features.DesktopNav}>
       <div className={classnames('column', 'is-narrow', styles.nav, styles.desktopNav, 'is-hidden-mobile')}>
         <Nav page={page} />
       </div>

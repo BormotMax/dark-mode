@@ -18,12 +18,12 @@ import { unauthClient as client } from '../../pages/_app';
 import { listUsers, usersByEmail } from '../../graphql/queries';
 import { UserRole, CreateUserMutation, UsersByEmailQuery, ListUsersQuery } from '../../API';
 import { createUser, createProjectClient, createProjectFreelancer, updateUser } from '../../graphql/mutations';
-import { Role } from '../withAuthentication';
 import { Protected } from '../protected/protected';
 import { isClickOrEnter, getDatasetValue } from '../../helpers/util';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 
 import styles from './contactPreview.module.scss';
+import { Features } from '../../permissions';
 
 interface ContactPreviewProps {
   users: [ProjectClient | ProjectFreelancer];
@@ -514,7 +514,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
           </span>
           <div>Client&apos;s Team</div>
         </label>
-        <Protected roles={[Role.FREELANCER]}>
+        <Protected feature={Features.CheckRoleFreelancer}>
           <label className={classnames(modalStyles.radio, 'radio', { [modalStyles.disabledCheckmarks]: !!selectedUser })}>
             <input
               disabled={!!selectedUser}

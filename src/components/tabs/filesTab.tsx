@@ -19,8 +19,8 @@ import { CreateProjectAssetsInput } from '../../API';
 import { createProjectAssets } from '../../graphql/mutations';
 import { ProjectAsset } from '../../types/custom';
 import { Protected } from '../protected/protected';
-import { Role } from '../withAuthentication';
 import { truncate } from '../../helpers/util';
+import { Features } from '../../permissions';
 
 const applicationToIcon: any = {
   figma: <FigmaIcon />,
@@ -69,7 +69,7 @@ export const FilesTab: React.FC<FilesTabProps> = ({ files, projectID, refetchDat
 
   return (
     <>
-      <Protected roles={[Role.FREELANCER]}>
+      <Protected feature={Features.FileModalContent}>
         <div className={classnames(modalStyles.addNew)}>
           <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
             <ModalContent projectID={projectID} refetchData={refetchData} />

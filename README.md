@@ -5,7 +5,7 @@
 1. Clone repo `git clone https://github.com/continuumworks/continuum.git`
 2. Install local dependencies `npm i`
 3. Install Amplify `npm install -g @aws-amplify/cli`
-4. Configure local environment for Amplify `amplify configure`, 
+4. Configure local environment for Amplify `amplify configure`,
    1. Follow instruction for auth, you should use the IAM shared by Continuum team
 ```
 ? Do you want to use an existing environment?
@@ -30,11 +30,12 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Contribution
-Create local branch for every feature using `feature/[xyz]` format. Submit PR and select Continuum team as reviewers. 
+Create local branch for every feature using `feature/[xyz]` format. Submit PR and select Continuum team as reviewers.
 
 ## Documentation
 
 - [Wiki](https://continuum-inc.slite.com)
+- [Roles and access](docs/roles_and_access.md)
 
 ## Deploy
 

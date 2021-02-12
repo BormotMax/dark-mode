@@ -2,8 +2,8 @@ import classnames from 'classnames';
 import React from 'react';
 
 import { Page } from '../nav/nav';
-import { Role } from '../withAuthentication';
 import { Protected } from '../protected/protected';
+import { Features } from '../../permissions';
 
 import styles from './header.module.scss';
 
@@ -16,7 +16,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   headerText,
-  page,
   headerContainer,
   withLevelingMargin = true,
   children,
@@ -24,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
   <div className={classnames(styles.headerWrapper, { [styles.levelingMargin]: withLevelingMargin })}>
     <div className={classnames(styles.header, 'defaultHeaderPadding', headerContainer)}>
       <div className={classnames(styles.headerText)}>{headerText}</div>
-      <Protected roles={[Role.FREELANCER]}>{children && children}</Protected>
+      <Protected feature={Features.Header}>{children && children}</Protected>
     </div>
   </div>
 );

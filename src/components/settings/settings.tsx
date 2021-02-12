@@ -18,10 +18,12 @@ import { updateUser } from '../../graphql/mutations';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
 import { STRIPE_API_URL } from '../../helpers/constants';
+import { gravatarUrl } from '../../helpers/gravatarUrl';
+import { Protected } from '../protected/protected';
+import { Features } from '../../permissions';
 
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 import styles from './settings.module.scss';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 interface SettingsProps {
   close?: () => void;
@@ -344,14 +346,16 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
             <FontAwesomeIcon icon={faUserAstronaut} />
             Profile
           </button>
-          {/* <button
-            onClick={() => setTab(Tab.Payments)}
-            type="button"
-            className={classnames({ [styles.current]: tab === Tab.Payments })}
-          >
-            <FontAwesomeIcon icon={faSackDollar} />
-            Payments
-          </button> */}
+          <Protected feature={Features.Payments}>
+            <button
+              onClick={() => setTab(Tab.Payments)}
+              type="button"
+              className={classnames({ [styles.current]: tab === Tab.Payments })}
+            >
+              <FontAwesomeIcon icon={faSackDollar} />
+              Payments
+            </button>
+          </Protected>
         </div>
         <div className={classnames(styles.right, 'column')}>
           {tab === Tab.Profile && (

@@ -8,7 +8,6 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 
 import { Protected, ProtectedElse } from '../protected/protected';
-import { Role } from '../withAuthentication';
 import { FilesTab, NotesTab, TabGroup } from '../tabs';
 import { ContactPreview } from '../contactPreview';
 import { ProjectClient, ProjectFreelancer } from '../../types/custom';
@@ -16,6 +15,7 @@ import { QuoteProgress } from '../quote';
 import { AddQuoteModal } from '../addQuoteModal';
 
 import styles from './projectMenu.module.scss';
+import { Features } from '../../permissions';
 
 const TAB_INFO_FREELANCER = [
   { icon: faClipboardUser, header: 'People' },
@@ -30,7 +30,6 @@ const TAB_INFO_FOOTER = [
   { icon: faStopwatch, header: 'Tasks & Time' },
   { icon: faSackDollar, header: 'Financial' },
 ];
-const ROLES = [Role.FREELANCER];
 
 const ProjectMenu = ({
   viewer,
@@ -72,7 +71,7 @@ const ProjectMenu = ({
 
   return (
     <div className={styles.tabGroupWrapper}>
-      <Protected roles={ROLES}>
+      <Protected feature={Features.InfoFreelancer}>
         <TabGroup tabInfos={TAB_INFO_FREELANCER}>
           <ContactPreview
             currentUser={currentViewer}
@@ -87,7 +86,7 @@ const ProjectMenu = ({
           <FilesTab projectID={project.id} files={assets.items} refetchData={fetchProject} />
         </TabGroup>
       </Protected>
-      <ProtectedElse roles={ROLES}>
+      <ProtectedElse feature={Features.InfoNoNFreelancer}>
         <TabGroup tabInfos={TAB_INFO_NON_FREELANCER}>
           <ContactPreview
             currentUser={currentViewer}

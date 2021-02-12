@@ -10,9 +10,9 @@ import { useLogger, useFlash, useCurrentUser } from '../../hooks';
 import { CreateTaskInput, UpdateTaskInput } from '../../API';
 import { createTask, updateTask } from '../../graphql/mutations';
 import { client } from '../../pages/_app';
-import { Role } from '../withAuthentication';
 import { isAllowed, Protected } from '../protected/protected';
 import { isClickOrEnter } from '../../helpers/util';
+import { Features } from '../../permissions';
 
 function calcPercentDone(tasks: Array<Task>) {
   let total = 0;
@@ -141,12 +141,12 @@ export const QuoteProgress: React.FC<QuoteProps> = memo(({ quote, i, refetchData
         <form>
           <CheckList
             name={`quote-${i}`}
-            disabled={!isAllowed(currentUser, [Role.FREELANCER])}
+            disabled={!isAllowed(currentUser, Features.QuoteCheckList)}
             callback={handleQuoteProgressUpdate}
             listItems={sortedTask}
           />
         </form>
-        <Protected roles={[Role.FREELANCER]}>
+        <Protected feature={Features.QuoteNewTask}>
           <input
             ref={addTaskRef}
             disabled={isSaving}
