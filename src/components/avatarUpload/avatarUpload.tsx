@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
+
 import styles from './avatarUpload.module.scss';
 
 enum UploadState {
@@ -32,10 +33,8 @@ export const AvatarUpload: React.FC<AvatarUpload> = ({
   const [uploadState, setUploadState] = useState(UploadState.BEGIN);
 
   useEffect(() => {
-    if (image) {
-      setFileSrc(image);
-      setUploadState(UploadState.DONE);
-    }
+    setFileSrc(image);
+    setUploadState(UploadState.DONE);
   }, [image]);
 
   const handleFileInputChange = useCallback((e) => {

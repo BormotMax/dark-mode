@@ -136,6 +136,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const { setFlash } = useFlash();
   const [userAvatar, setUserAvatar] = useState('');
   const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [selectedSuggestedUser, setSelectedSuggestedUser] = useState<User>();
 
   const [isVisible, setIsVisible] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -175,6 +176,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
   const onSuggestionUserClick = (user) => (event: React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>) => {
     if (!isClickOrEnter(event)) return;
+    setSelectedSuggestedUser(user);
     setFormValues((prevState) => ({
       ...prevState,
       name: user?.name || '',
@@ -188,23 +190,22 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const debouncedSearchTerm = useDebounce(formValues.name, 600);
 
   const loadUsersList = async (value) => {
-    let usersListResponse;
-    const input = { filter: { name: { contains: value } } };
     try {
-      usersListResponse = await client.query({
+      const input = { filter: { name: { contains: value } } };
+      const usersListResponse = await client.query<ListUsersQuery>({
         query: gql(listUsers),
         variables: input,
       });
+      const foundedUsers = usersListResponse?.data?.listUsers?.items ?? [];
+      setSuggestedUsers(foundedUsers);
+
+      const foundedUserAlreadySelected = foundedUsers.length === 1 && foundedUsers[0]?.email === formValues?.email;
+      if (!foundedUserAlreadySelected) {
+        setIsVisible(foundedUsers.length > 0);
+      }
     } catch (error) {
       logger.error('ContactPreviewModalContent: error while finding users by name', { error });
       setFlash("Something went wrong. We're looking into it");
-    }
-    const foundedUsers = (usersListResponse?.data as ListUsersQuery)?.listUsers?.items ?? [];
-    setSuggestedUsers(foundedUsers);
-
-    const foundedUserAlreadySelected = foundedUsers.length === 1 && foundedUsers[0]?.email === formValues?.email;
-    if (!foundedUserAlreadySelected) {
-      setIsVisible(foundedUsers.length > 0);
     }
   };
 
@@ -404,17 +405,20 @@ const ModalContent: React.FC<ModalContentProps> = ({
   }
 
   useEffect(() => {
-    if (selectedUser?.user?.avatar?.key) {
-      const { key } = selectedUser?.user?.avatar;
-      try {
-        Storage.get(key).then((image: string) => {
-          setUserAvatar(image);
-        });
-      } catch (error) {
-        logger.error('HirePageEditor: error retrieving s3 image.', { error, input: key });
-      }
+    const avatarS3key = selectedSuggestedUser?.avatar?.key;
+    if (!avatarS3key) {
+      setUserAvatar('');
+      return;
     }
-  }, [selectedUser]);
+
+    Storage.get(avatarS3key)
+      .then((image: string) => {
+        setUserAvatar(image);
+      })
+      .catch((error: Error) => {
+        logger.error('HirePageEditor: error retrieving s3 image.', { error, input: avatarS3key });
+      });
+  }, [selectedSuggestedUser, logger]);
 
   return (
     <form onSubmit={handleSubmit}>

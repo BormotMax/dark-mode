@@ -3,15 +3,20 @@ import React, { useState, useEffect, useContext } from 'react';
 const FLASH_MESSAGE_TIME = 7000;
 const LOCAL_STORAGE_KEY = 'continuum_flash';
 
-export const FlashContext = React.createContext({
+type Flash = {
+  setFlash: (msg: string) => void,
+  setDelayedFlash: (msg: string) => void,
+};
+
+export const FlashContext = React.createContext<Flash>({
   setFlash: null,
   setDelayedFlash: null,
 });
 
-export const useFlash = (): any => useContext(FlashContext);
+export const useFlash = (): Flash => useContext(FlashContext);
 
 export const FlashProvider: React.FC = ({ children }) => {
-  const [flash, setFlashState] = useState(null);
+  const [flash, setFlashState] = useState('');
 
   useEffect(() => {
     const msg = localStorage.getItem(LOCAL_STORAGE_KEY);

@@ -3,9 +3,13 @@ import Rollbar from 'rollbar';
 
 export const LoggerContext = React.createContext({ logger: null });
 
-export const useLogger = (): any => useContext(LoggerContext);
+type RollbarLogger = {
+  logger: Rollbar | null;
+};
 
-export const LoggerProvider: React.FC = ({ children }: { children: any }) => {
+export const useLogger = (): RollbarLogger => useContext(LoggerContext);
+
+export const LoggerProvider: React.FC = ({ children }) => {
   const logger = new Rollbar({
     accessToken: process.env.NEXT_PUBLIC_ROLLBAR_ACCESS_TOKEN,
     captureUncaught: true,
