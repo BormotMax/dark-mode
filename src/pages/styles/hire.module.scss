@@ -41,15 +41,20 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
   }
 
   .leftContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 52px 48px 48px 60px;
     background: #f5f8ff;
 
     & :first-child {
       margin-bottom: 16px;
+      align-self: flex-start;
     }
     & :last-child {
       display: block;
       margin-left: auto;
+      margin-top: auto;
     }
 
     .name {
@@ -66,7 +71,6 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
     }
 
     .blurbText {
-      margin-bottom: 75px;
       color: colors.$gray-3;
       @include mixins.useFont(30px, 35px);
     }
