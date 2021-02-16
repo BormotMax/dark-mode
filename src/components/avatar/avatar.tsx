@@ -1,10 +1,12 @@
-import React, { useState, CSSProperties, useEffect } from 'react';
+import React, { CSSProperties, useMemo } from 'react';
 import { Storage } from 'aws-amplify';
 import classnames from 'classnames';
 
 import { useLogger } from '../../hooks';
+import { getGravatarImage } from '../../helpers/gravatarUrl';
+import useAsync from '../../hooks/useAsync';
+
 import styles from './avatar.module.scss';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
 
 interface AvatarProps {
   url?: string;
@@ -14,7 +16,7 @@ interface AvatarProps {
   width?: number;
   height?: number;
   className?: string;
-  defaultImage?: string;
+  userIsLoading?: boolean;
   style?: CSSProperties;
 }
 
@@ -63,7 +65,7 @@ export const avatarPlaceholderName = (name: string): string => {
 
 // Use the url if given, else use the email to get the gravatar, else show custom placeholder
 export const Avatar: React.FC<AvatarProps> = ({
-  url: urlProp = '',
+  userIsLoading = false,
   s3key = '',
   className,
   style,
@@ -71,53 +73,80 @@ export const Avatar: React.FC<AvatarProps> = ({
   name,
   width = 72,
   height = 72,
-  defaultImage = '/blankAvatar.jpg',
 }) => {
   const { logger } = useLogger();
-  const [url, setUrl] = useState(urlProp);
-  const [imageError, setImageError] = useState(false);
 
-  const onImageError = () => {
-    setImageError(true);
-  };
-
-  useEffect(() => {
-    if (s3key) {
-      try {
-        Storage.get(s3key).then((image: string) => {
-          setUrl(image);
-        });
-      } catch (error) {
-        logger.error('Avatar: error retrieving s3 image.', { error, input: s3key });
+  const { value: s3url = '', loading: s3Loading } = useAsync(async () => {
+    try {
+      if (!s3key) {
+        return '';
       }
+      const image = await Storage.get(s3key) as string;
+      return image || '';
+    } catch {
+      return '';
     }
-  }, [s3key]);
+  }, [s3key, logger]);
+
+  const { value: gravatarImage, loading: gravatarLoading } = useAsync(async () => {
+    try {
+      // only if user have no avatar from s3
+      if (userIsLoading || s3key) {
+        return '';
+      }
+      const image = await getGravatarImage(email);
+      return image ? URL.createObjectURL(image) : '';
+    } catch (error) {
+      logger.error('Avatar: error retrieving s3 image.', { error, input: s3key });
+      return '';
+    }
+  }, [s3key, email, userIsLoading, logger]);
+
+  const url = useMemo(
+    () => (s3url || gravatarImage || ''),
+    [gravatarImage, s3url],
+  );
+
+  const avatarStyle = useMemo(
+    () => ({ width, height, ...style }),
+    [width, height, style],
+  );
+  const avatarPlaceholderStyle = useMemo(
+    () => ({
+      width,
+      height,
+      fontSize: height / 2,
+      lineHeight: `${height + 2}px`,
+      background: getBackgroundColor(name || email),
+      ...style,
+    }),
+    [width, height, style, name, email],
+  );
+
+  const isLoading = userIsLoading || (s3key ? s3Loading : gravatarLoading);
+  const showImage = isLoading || url;
+
+  if (showImage) {
+    return (
+      <img
+        alt="avatar"
+        className={classnames(
+          styles.avatar,
+          { [styles.loading]: isLoading },
+          className,
+        )}
+        src={url}
+        style={avatarStyle}
+      />
+    );
+  }
 
   return (
-    <>
-      {!imageError ? (
-        <img
-          alt="avatar"
-          className={classnames(styles.avatar, className)}
-          src={url || (email ? gravatarUrl(email) : defaultImage)}
-          style={{ width, height, ...style }}
-          onError={onImageError}
-        />
-      ) : (
-        <div
-          style={{
-            width,
-            height,
-            fontSize: height / 2,
-            lineHeight: `${height + 2}px`,
-            background: getBackgroundColor(name || email),
-            ...style,
-          }}
-          className={classnames(styles.avatar, styles.avatarPlaceholder, className)}
-        >
-          {avatarPlaceholderName(name || email)}
-        </div>
-      )}
-    </>
+    <div
+      style={avatarPlaceholderStyle}
+      className={classnames(styles.avatar, styles.avatarPlaceholder, className)}
+    >
+      {avatarPlaceholderName(name || email)}
+    </div>
   );
 };

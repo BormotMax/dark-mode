@@ -277,6 +277,7 @@ const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, 
           title={currentViewer.title}
           projectID={id as string}
           creatorID={currentViewer.id}
+          s3key={currentViewer.avatar?.key ?? ''}
         />
       </div>
     </>

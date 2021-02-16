@@ -28,6 +28,7 @@ interface CommentProps {
   backgroundColor?: string;
   commentColor?: string;
   noAvatar?: boolean;
+  s3key?: string;
 }
 
 interface NewCommentProps {
@@ -36,6 +37,7 @@ interface NewCommentProps {
   email?: string;
   projectID: string;
   creatorID: string;
+  s3key: string;
 }
 
 const getComponent = (comment: CommentType) => {
@@ -79,6 +81,7 @@ export const CommentWrapper: React.FC<CommentWrapperProps> = ({ comment, viewerI
     title={comment.creator?.title}
     createdAt={comment.createdAt}
     email={comment.creator.email}
+    s3key={comment.creator.avatar?.key ?? ''}
     isMine={comment.creator.signedOutAuthToken === viewerId || comment.creator.id === viewerId}
   >
     <>
@@ -101,6 +104,7 @@ export const Comment: React.FC<CommentProps> = ({
   backgroundColor = '#eeeeee',
   commentColor,
   noAvatar,
+  s3key,
 }) => (
   <div
     className={classnames(styles.comment, {
@@ -124,13 +128,14 @@ export const Comment: React.FC<CommentProps> = ({
         name={name}
         width={48}
         height={48}
+        s3key={s3key}
       />
     )}
     <div className={classnames(styles.commentContent)}>{children}</div>
   </div>
 );
 
-export const NewComment: React.FC<NewCommentProps> = ({ name, email, title, projectID, creatorID }) => {
+export const NewComment: React.FC<NewCommentProps> = ({ name, email, title, projectID, creatorID, s3key }) => {
   const [content, setContent] = useState('');
   const [saving, setSaving] = useState(false);
   const { logger } = useLogger();
@@ -174,7 +179,7 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, email, title, proj
   };
 
   return (
-    <Comment name={name} email={email} title={title} isMine>
+    <Comment s3key={s3key ?? ''} name={name} email={email} title={title} isMine>
       <textarea
         onChange={handleChange}
         onKeyPress={handleEnter}

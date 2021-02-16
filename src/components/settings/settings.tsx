@@ -6,8 +6,9 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { Storage } from 'aws-amplify';
-
+import md5 from 'md5';
 import { v4 as uuid } from 'uuid';
+
 import { ButtonSmall } from '../buttons/buttons';
 import { AvatarUpload } from '../avatarUpload';
 import { isClickOrEnter } from '../../helpers/util';
@@ -18,11 +19,10 @@ import { updateUser } from '../../graphql/mutations';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
 import { STRIPE_API_URL } from '../../helpers/constants';
-import { gravatarUrl } from '../../helpers/gravatarUrl';
 import { Protected } from '../protected/protected';
 import { Features } from '../../permissions';
-
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
+
 import styles from './settings.module.scss';
 
 interface SettingsProps {
@@ -322,6 +322,9 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     }
   };
 
+  const DEFAULT_GRAVATAR = 'https%3A%2F%2Fcontinuum-resources.s3.amazonaws.com%2FblankAvatar.jpg';
+  const gravatarImageForSettings = `https://www.gravatar.com/avatar/${md5(currentUser.attributes.email)}?d=${DEFAULT_GRAVATAR}`;
+
   return (
     <div className={classnames(styles.settings, modalStyles.modalWithHeaderContent)}>
       <div className={classnames(modalStyles.header, styles.header)}>
@@ -364,7 +367,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
                 <AvatarUpload
                   avatarName="avatar"
                   onChange={setAvatarInputValues}
-                  image={userAvatar || (currentUser.attributes.email ? gravatarUrl(currentUser.attributes.email) : null)}
+                  image={userAvatar || (currentUser.attributes.email ? gravatarImageForSettings : null)}
                   className={styles.avatarContainer}
                 />
                 <div className={classnames(styles.inputsContainer)}>

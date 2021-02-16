@@ -47,6 +47,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
   const { logger } = useLogger();
   const { currentUser, signOut } = useCurrentUser();
   const [userAvatar, setUserAvatar] = useState('');
+  const [userLoaded, setUserLoaded] = useState(false);
   const [settingsModalIsOpen, setSettingsModalIsOpen] = useState(false);
   const email = currentUser?.attributes?.email;
   const name = currentUser?.attributes?.name;
@@ -73,6 +74,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
         query: gql(getUser),
         variables: getUserInput,
       });
+      setUserLoaded(true);
     } catch (error) {
       logger.error('Nav: error get user', { error, input: { email, input: getUserInput } });
     }
@@ -84,6 +86,8 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
   useEffect(() => {
     if (userID) {
       fetchUser();
+    } else {
+      setUserLoaded(true);
     }
   }, []);
 
@@ -101,9 +105,16 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
   );
 
   return (
-    <div className={classnames(styles.nav)}>
-      <div className={classnames(styles.toolbar)}>
-        <Avatar s3key={userAvatar} email={email} name={name} width={48} height={48} />
+    <div className={styles.nav}>
+      <div className={styles.toolbar}>
+        <Avatar
+          userIsLoading={!userLoaded}
+          s3key={userAvatar}
+          email={email}
+          name={name}
+          width={48}
+          height={48}
+        />
         <div
           role="button"
           className={classnames('is-hidden-tablet', styles.closeNav)}
