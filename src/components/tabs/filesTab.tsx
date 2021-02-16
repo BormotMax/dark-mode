@@ -5,7 +5,7 @@ import { faPlusCircle, faFileAlt, faLink } from '@fortawesome/pro-light-svg-icon
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { v4 as uuid } from 'uuid';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import gql from 'graphql-tag';
 import { AiIcon, DropboxIcon, FramerIcon, MiroIcon, ExcelIcon, FigmaIcon } from '../../img/icons';
 import styles from './filesTab.module.scss';

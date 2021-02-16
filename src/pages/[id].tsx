@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import gql from 'graphql-tag';
 import classnames from 'classnames';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import Carousel, { Modal as ImageModal, ModalGateway } from 'react-images';
 
 import { HireInfoByDomainSlugQuery } from '../API';

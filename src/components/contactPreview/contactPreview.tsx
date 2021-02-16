@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 
 import { ProjectClient, ProjectFreelancer, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
@@ -290,7 +290,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
         signedOutAuthToken,
       };
       try {
-        const { data }: { data: CreateUserMutation } = await client.mutate({
+        const { data } = await client.mutate<CreateUserMutation>({
           mutation: gql(createUser),
           variables: { input: createUserInput },
         });

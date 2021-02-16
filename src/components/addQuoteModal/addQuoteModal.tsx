@@ -5,7 +5,7 @@ import { faPlusCircle, faTimes, faTimesCircle } from '@fortawesome/pro-light-svg
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import { faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
 import gql from 'graphql-tag';
-import styles from './addQuoteModal.module.scss';
+
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
 import { ButtonSmall } from '../buttons/buttons';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
@@ -24,6 +24,8 @@ import { useFlash, useLogger } from '../../hooks';
 import { Quote, User } from '../../types/custom';
 import { Protected } from '../protected/protected';
 import { Features } from '../../permissions';
+
+import styles from './addQuoteModal.module.scss';
 
 interface AddQuoteModalProps {
   projectID: string;
@@ -124,7 +126,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
     let quoteID: string;
 
     try {
-      const { data }: { data: CreateQuoteMutation } = await client.mutate({
+      const { data } = await client.mutate<CreateQuoteMutation>({
         mutation: gql(createQuote),
         variables: { input: createQuoteInput },
       });

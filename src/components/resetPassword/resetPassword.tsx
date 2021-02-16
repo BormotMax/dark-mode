@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
-import { Auth } from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth';
 import Router from 'next/router';
-import serialize from 'form-serialize';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+
 import styles from '../../pages/styles/authPage.module.scss';
 import { ProjectHeader } from '../projectHeader';
 import EmailIcon from '../../img/email.svg';

@@ -4,14 +4,15 @@ import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/pro-regular-svg-icons';
 import Linkify from 'react-linkify';
+
 import { Avatar } from '../avatar/avatar';
 import { createComment } from '../../graphql/mutations';
 import { Comment as CommentType } from '../../types/custom';
 import { CommentResourceType } from '../../API';
 import { unauthClient } from '../../pages/_app';
 import { useLogger } from '../../hooks';
-import { QuoteForComment } from './quoteForComment';
 
+import { QuoteForComment } from './quoteForComment';
 import styles from './comment.module.scss';
 
 interface CommentWrapperProps {

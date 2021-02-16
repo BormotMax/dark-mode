@@ -1,5 +1,5 @@
-import React, { useState, FormEvent, memo, useCallback } from 'react';
-import { Auth } from '@aws-amplify/auth';
+import React, { useState, memo, useCallback } from 'react';
+import Auth from '@aws-amplify/auth';
 import Router from 'next/router';
 import classnames from 'classnames';
 import styles from '../../pages/styles/authPage.module.scss';

@@ -76,7 +76,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     };
 
     try {
-      const response: { data: UpdateQuoteMutation } = await unauthClient.mutate({
+      const response = await unauthClient.mutate<UpdateQuoteMutation>({
         mutation: gql(updateQuote),
         variables: { input: updateQuoteInput },
       });

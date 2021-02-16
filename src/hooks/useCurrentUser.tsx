@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Auth } from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth';
 import { useRouter } from 'next/router';
+
 import { useLogger } from './useLogger';
 import { useFlash } from './useFlash';
 

@@ -1,17 +1,19 @@
-import React, { useState, FormEvent, useCallback, memo } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import Link from 'next/link';
-import { Auth } from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+
 import { ConfirmSignUp } from '../components/confirmSignUp';
-import styles from './styles/authPage.module.scss';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
 import NameIcon from '../img/name.svg';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import { useLogger, useFlash } from '../hooks';
+
+import styles from './styles/authPage.module.scss';
 
 interface ValidationProps {
   name?: string;

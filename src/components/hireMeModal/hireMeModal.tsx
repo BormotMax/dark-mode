@@ -130,7 +130,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
     if (!existingClient) {
       const createUserInput = { id: email, name, company, email, phone, role: UserRole.CLIENT, signedOutAuthToken };
       try {
-        const { data }: { data: CreateUserMutation } = await client.mutate({
+        const { data } = await client.mutate<CreateUserMutation>({
           mutation: gql(createUser),
           variables: { input: createUserInput },
         });

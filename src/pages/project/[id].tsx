@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
 import { Project, Comment as CommentType, AuthProps } from '../../types/custom';
-import { unauthClient } from '../_app';
+import { unauthClient, client } from '../_app';
 import { GetProjectQuery, CommentResourceType } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
@@ -105,7 +105,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       fetchProject();
 
       try {
-        const subscriptionResult = unauthClient.subscribe({ query: gql(onCreateComment) });
+        const subscriptionResult = client.subscribe({ query: gql(onCreateComment) });
         subscriptionResult.subscribe({
           next: (comment) => {
             const c = comment.data.onCreateComment;
@@ -140,10 +140,14 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     ),
     [project],
   );
+
   const comments = useMemo(
-    () => (project?.comments.items || []).sort(
-      (e1, e2) => new Date(e1.createdAt).getTime() - new Date(e2.createdAt).getTime(),
-    ) as Array<CommentType>,
+    () => {
+      const items = project?.comments?.items || [];
+      return [...items].sort(
+        (e1, e2) => new Date(e1?.createdAt).getTime() - new Date(e2?.createdAt).getTime(),
+      ) as Array<CommentType>;
+    },
     [project],
   );
 

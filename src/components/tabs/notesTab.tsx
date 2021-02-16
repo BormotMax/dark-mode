@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { CreateNoteInput, UpdateNoteInput } from '../../API';
 import { createNote, updateNote } from '../../graphql/mutations';
 import { useLogger, useFlash } from '../../hooks';
@@ -10,11 +11,12 @@ import { client } from '../../pages/_app';
 import { Note, ProjectFreelancer } from '../../types/custom';
 import { InPlaceModal } from '../inPlaceModal';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import styles from './notesTab.module.scss';
 import { Protected } from '../protected/protected';
 import { ButtonSmall } from '../buttons/buttons';
 import { truncate } from '../../helpers/util';
 import { Features } from '../../permissions';
+
+import styles from './notesTab.module.scss';
 
 interface NotesTabProps {
   refetchData(): Promise<void>;

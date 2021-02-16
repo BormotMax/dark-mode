@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
-import { Auth } from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth';
 import serialize from 'form-serialize';
 import classnames from 'classnames';
 import styles from './styles/authPage.module.scss';

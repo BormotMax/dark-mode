@@ -1,5 +1,5 @@
-import { Auth } from '@aws-amplify/auth';
-import Amplify from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
+import Amplify from '@aws-amplify/core';
 import awsconfig from '../../../src/aws-exports.js';
 import { addUserToGroup, removeUserFromGroup } from './cli.js';
 

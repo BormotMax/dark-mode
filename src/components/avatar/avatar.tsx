@@ -1,5 +1,5 @@
 import React, { CSSProperties, useMemo } from 'react';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import classnames from 'classnames';
 
 import { useLogger } from '../../hooks';
@@ -83,7 +83,8 @@ export const Avatar: React.FC<AvatarProps> = ({
       }
       const image = await Storage.get(s3key) as string;
       return image || '';
-    } catch {
+    } catch (error) {
+      logger.error('Avatar: error retrieving s3 image.', { error, input: s3key });
       return '';
     }
   }, [s3key, logger]);
@@ -97,7 +98,6 @@ export const Avatar: React.FC<AvatarProps> = ({
       const image = await getGravatarImage(email);
       return image ? URL.createObjectURL(image) : '';
     } catch (error) {
-      logger.error('Avatar: error retrieving s3 image.', { error, input: s3key });
       return '';
     }
   }, [s3key, email, userIsLoading, logger]);

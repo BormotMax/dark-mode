@@ -3,9 +3,12 @@ import axios from 'axios';
 
 export const getGravatarImage = async (email: string): Promise<null | Blob> => {
   try {
-    const checkedEmail = email ? email.trim().toLowerCase() : '';
+    if (!email) {
+      return null;
+    }
+    const formattedEmail = email.trim().toLowerCase();
     const response = await axios.get<Blob>(
-      `https://www.gravatar.com/avatar/${md5(checkedEmail)}?d=404`,
+      `https://www.gravatar.com/avatar/${md5(formattedEmail)}?d=404`,
       { responseType: 'blob' },
     );
     return response.data;

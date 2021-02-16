@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import classnames from 'classnames';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import { v4 as uuid } from 'uuid';
 import React, { useEffect, useState, useCallback } from 'react';
 import serialize from 'form-serialize';

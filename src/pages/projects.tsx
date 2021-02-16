@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
-import gql from 'graphql-tag';
+import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
 import Link from 'next/link';
 import classnames from 'classnames';
+import { useQuery, gql } from '@apollo/client';
 
 import { ModelSortDirection, ProjectsByFreelancerQuery } from '../API';
 import { projectsByFreelancer, listProjectFreelancers } from '../graphql/queries';
@@ -19,7 +19,6 @@ import { client } from './_app';
 import styles from './styles/projects.module.scss';
 
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
-  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const mountedStatus = useRef<boolean>(false);
   const { setFlash } = useFlash();
@@ -27,12 +26,41 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const currentUserId = currentUser?.attributes?.sub;
   const currentUserEmail = currentUser?.attributes?.email;
 
+  const getProjectsVariables = {
+    freelancerID: currentUser.attributes.sub,
+    sortDirection: ModelSortDirection.DESC,
+  };
+
+  const { data: projectsByFreelancerData, refetch: refetchProjects } = useQuery<ProjectsByFreelancerQuery>(
+    gql(projectsByFreelancer),
+    {
+      variables: getProjectsVariables,
+      onCompleted: () => {
+        setLoading(false);
+      },
+      onError: (error) => {
+        setFlash("There was an error retrieving your projects. We're looking into it");
+        logger.error('Projects: error retrieving projects', {
+          error,
+          input: getProjectsVariables,
+        });
+      },
+    },
+  );
+  const projects = useMemo(
+    () => {
+      const { items: fetchedProjects } = projectsByFreelancerData?.projectsByFreelancer ?? {};
+      return fetchedProjects?.map((projectMeta) => projectMeta.project) || [];
+    },
+    [projectsByFreelancerData],
+  );
+
   // update all project freelancer associations for current user
   const updateProjectFreelancerAssociation = async () => {
     try {
       const projectsList = await client.query({ query: gql(listProjectFreelancers) });
 
-      const freelancers = (projectsList?.data as any)?.listProjectFreelancers?.items as ProjectFreelancer[];
+      const freelancers = (projectsList?.data)?.listProjectFreelancers?.items as ProjectFreelancer[];
       const pendingEmailFreelancers = freelancers.filter((f) => f.pendingEmail === currentUserEmail);
 
       if (!pendingEmailFreelancers.length) return;
@@ -54,38 +82,10 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
     }
   };
 
-  const getProjects = async () => {
-    const { current: isMounted } = mountedStatus;
-    const projectsByFreelancerInput = {
-      freelancerID: currentUser.attributes.sub,
-      sortDirection: ModelSortDirection.DESC,
-    };
-    try {
-      const { data }: { data: ProjectsByFreelancerQuery } = await client.query({
-        query: gql(projectsByFreelancer),
-        variables: projectsByFreelancerInput,
-      });
-
-      if (isMounted) {
-        setProjects(data.projectsByFreelancer.items.map((p) => p.project));
-      }
-    } catch (error) {
-      if (isMounted) {
-        setFlash("There was an error retrieving your projects. We're looking into it");
-      }
-      logger.error('Projects: error retrieving projects', { error, input: projectsByFreelancerInput });
-    } finally {
-      if (isMounted) {
-        setLoading(false);
-      }
-    }
-  };
-
   useEffect(() => {
     mountedStatus.current = true;
     const execute = async () => {
       await updateProjectFreelancerAssociation();
-      await getProjects();
     };
     execute();
     return () => {
@@ -103,7 +103,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
       headerContainer={styles.headerWidth}
       headerButton={
         <InPlaceModal button={<ButtonSmall text="New Project" />}>
-          <CreateProjectModal refetchData={getProjects} />
+          <CreateProjectModal refetchData={refetchProjects} />
         </InPlaceModal>
       }
     >
@@ -116,12 +116,12 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
               <Link key={p.id} href="/project/[id]" as={`/project/${p.id}`}>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a>
-                  <div className={classnames(styles.comment)}>
+                  <div className={styles.comment}>
                     <div className={styles.header}>
                       {/* todo: click to change title */}
                       <div>{p.title || p.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</div>
                     </div>
-                    <div className={classnames(styles.commentContent)}>{p.details || 'New Project'}</div>
+                    <div className={styles.commentContent}>{p.details || 'New Project'}</div>
                   </div>
                 </a>
               </Link>

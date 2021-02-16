@@ -1,6 +1,6 @@
-import { Auth } from '@aws-amplify/auth';
-import { Storage } from 'aws-amplify';
-import Amplify from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
+import Storage from '@aws-amplify/storage';
+import Amplify from '@aws-amplify/core';
 import awsconfig from '../../../../src/aws-exports.js';
 import { getHireMeInfoById, deleteHireMeInfoById } from './cleanUp.js';
 

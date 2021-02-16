@@ -1,24 +1,20 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import Amplify from 'aws-amplify';
-import { Auth } from '@aws-amplify/auth';
 import { AppProps } from 'next/app';
-import { ApolloProvider } from 'react-apollo';
-import { Rehydrated } from 'aws-appsync-react';
 import Head from 'next/head';
-import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
+import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { AUTH_TYPE, AuthOptions, createAuthLink } from 'aws-appsync-auth-link';
+import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
 
-import awsconfig from '../aws-exports';
 import { UserDataProvider, LoggerProvider, FlashProvider } from '../hooks';
 import { RouteIndicator } from '../components/routeChange';
-
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import { CurrentProjectProvider } from '../hooks/useCurrentProject';
+import awsConfig from '../aws-exports';
 import '../styles.scss';
 import '../bulma.scss';
-import { CurrentProjectProvider } from '../hooks/useCurrentProject';
 
 config.autoAddCss = false;
 
@@ -30,50 +26,58 @@ if (process.env.NODE_ENV === 'development') {
 
 // Fix issues with multiple redirect urls.
 // Try to figure out which one to use...
-if (awsconfig.oauth.redirectSignIn.includes(',')) {
+if (awsConfig.oauth.redirectSignIn.includes(',')) {
   const filterHost = (url) => new URL(url).host === host;
-  awsconfig.oauth.redirectSignIn = awsconfig.oauth.redirectSignIn.split(',').filter(filterHost).shift();
-  awsconfig.oauth.redirectSignOut = awsconfig.oauth.redirectSignOut.split(',').filter(filterHost).shift();
+  awsConfig.oauth.redirectSignIn = awsConfig.oauth.redirectSignIn.split(',').filter(filterHost).shift();
+  awsConfig.oauth.redirectSignOut = awsConfig.oauth.redirectSignOut.split(',').filter(filterHost).shift();
 }
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsConfig);
 
-export const client = new AWSAppSyncClient(
-  {
-    url: awsconfig.aws_appsync_graphqlEndpoint,
-    region: awsconfig.aws_appsync_region,
-    disableOffline: true,
-    auth: {
-      type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-      jwtToken: async () => (await Auth.currentSession()).getAccessToken().getJwtToken(),
-    },
-  },
-  {
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
-      },
-    },
-  },
-);
+const awsConfigClient = {
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region,
+  auth: {
+    type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
+  } as AuthOptions,
+};
 
-export const unauthClient = new AWSAppSyncClient(
-  {
-    url: awsconfig.aws_appsync_graphqlEndpoint,
-    region: awsconfig.aws_appsync_region,
-    disableOffline: true,
-    auth: { type: AUTH_TYPE.AWS_IAM, credentials: () => Auth.currentCredentials() },
+const awsConfigUnauth = {
+  url: awsConfig.aws_appsync_graphqlEndpoint,
+  region: awsConfig.aws_appsync_region,
+  auth: {
+    type: AUTH_TYPE.AWS_IAM,
+    credentials: () => Auth.currentCredentials(),
+  } as AuthOptions,
+};
+
+// TODO: enable cache and fix cache issues
+export const client = new ApolloClient({
+  link: ApolloLink.from([
+    createAuthLink(awsConfigClient),
+    createSubscriptionHandshakeLink(awsConfigClient),
+  ]),
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: { fetchPolicy: 'no-cache' },
+    query: { fetchPolicy: 'no-cache' },
+    mutate: { fetchPolicy: 'no-cache' },
   },
-  {
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
-      },
-    },
+});
+
+export const unauthClient = new ApolloClient({
+  link: ApolloLink.from([
+    createAuthLink(awsConfigUnauth),
+    createSubscriptionHandshakeLink(awsConfigUnauth),
+  ]),
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: { fetchPolicy: 'no-cache' },
+    query: { fetchPolicy: 'no-cache' },
+    mutate: { fetchPolicy: 'no-cache' },
   },
-);
+});
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
   <LoggerProvider>
@@ -134,9 +138,7 @@ fbq('track', 'PageView');`,
       <UserDataProvider>
         <CurrentProjectProvider>
           <ApolloProvider client={client}>
-            <Rehydrated>
-              <Component {...pageProps} />
-            </Rehydrated>
+            <Component {...pageProps} />
           </ApolloProvider>
         </CurrentProjectProvider>
       </UserDataProvider>

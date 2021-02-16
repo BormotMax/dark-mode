@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import md5 from 'md5';
 import { v4 as uuid } from 'uuid';
 
@@ -50,6 +50,8 @@ type ValidationProps = {
   taxID?: string;
   address?: string;
 };
+
+const DEFAULT_GRAVATAR = 'https%3A%2F%2Fcontinuum-resources.s3.amazonaws.com%2FblankAvatar.jpg';
 
 const initialState = {
   id: '',
@@ -322,7 +324,6 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     }
   };
 
-  const DEFAULT_GRAVATAR = 'https%3A%2F%2Fcontinuum-resources.s3.amazonaws.com%2FblankAvatar.jpg';
   const gravatarImageForSettings = `https://www.gravatar.com/avatar/${md5(currentUser.attributes.email)}?d=${DEFAULT_GRAVATAR}`;
 
   return (

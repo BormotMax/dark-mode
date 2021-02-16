@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/pro-light-svg-icons';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
+
 import { CheckList } from '../checkList';
-import styles from './quoteProgress.module.scss';
 import { Quote, Task } from '../../types/custom';
 import { useLogger, useFlash, useCurrentUser } from '../../hooks';
 import { CreateTaskInput, UpdateTaskInput } from '../../API';
@@ -13,6 +13,8 @@ import { client } from '../../pages/_app';
 import { isAllowed, Protected } from '../protected/protected';
 import { isClickOrEnter } from '../../helpers/util';
 import { Features } from '../../permissions';
+
+import styles from './quoteProgress.module.scss';
 
 function calcPercentDone(tasks: Array<Task>) {
   let total = 0;

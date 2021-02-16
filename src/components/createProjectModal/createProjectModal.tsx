@@ -1,15 +1,23 @@
 import React, { memo, useState } from 'react';
 import classnames from 'classnames';
-import gql from 'graphql-tag';
+import { useMutation, gql, ApolloQueryResult } from '@apollo/client';
+
+import {
+  ProjectsByFreelancerQuery,
+  CreateProjectMutation,
+  CreateProjectFreelancerMutation,
+} from '../../API';
 import { ButtonSmall } from '../buttons/buttons';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import { client } from '../../pages/_app';
 import { useCurrentUser, useLogger, useFlash } from '../../hooks';
-import { createProject, createProjectFreelancer } from '../../graphql/mutations';
+import {
+  createProject as createProjectMutation,
+  createProjectFreelancer as createProjectFreelancerMutation,
+} from '../../graphql/mutations';
 
 interface CreateProjectModalProps {
   close?: () => void;
-  refetchData: () => Promise<void>;
+  refetchData: () => Promise<ApolloQueryResult<ProjectsByFreelancerQuery>>;
 }
 
 interface ValidationProps {
@@ -37,56 +45,64 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
     return temp;
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const freelancerID = currentUser.attributes.sub;
+  const createProjectInput = {
+    company: company.trim(),
+    owner: freelancerID,
+    title: title.trim(),
+    details: details.trim(),
+  };
+  const [createProject, { data: createdProject }] = useMutation<CreateProjectMutation>(
+    gql(createProjectMutation),
+    {
+      variables: { input: createProjectInput },
+      onError: (error) => {
+        logger.error(
+          'CreateProjectModal: error creating Project',
+          { error, input: createProjectInput },
+        );
+      },
+    },
+  );
+
+  const projectID = createdProject?.createProject?.id;
+  const createProjectFreelancerInput = { freelancerID, projectID, isInitialContact: true };
+  const [createProjectFreelancer] = useMutation<CreateProjectFreelancerMutation>(
+    gql(createProjectFreelancerMutation),
+    {
+      variables: { input: createProjectFreelancerInput },
+      onError: (error) => {
+        logger.error(
+          'CreateProjectModal: error creating ProjectFreelancer',
+          { error, input: createProjectFreelancerInput },
+        );
+      },
+    },
+  );
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setInvalids({});
     setSaving(true);
 
     const validation = validate();
 
-    if (Object.keys(validation).length) {
+    if (Object.keys(validation).length > 0) {
       setInvalids(validation);
       setSaving(false);
       return;
     }
 
-    // Create a project
-    let createProjectResponse;
-    const freelancerID = currentUser.attributes.sub;
-    const createProjectInput = {
-      company: company.trim(),
-      owner: freelancerID,
-      title: title.trim(),
-      details: details.trim(),
-    };
-
     try {
-      createProjectResponse = await client.mutate({
-        mutation: gql(createProject),
-        variables: { input: createProjectInput },
-      });
-    } catch (error) {
-      logger.error('CreateProjectModal: error creating Project', { error, input: createProjectInput });
+      await createProject();
+      await createProjectFreelancer();
+      await refetchData();
+    } catch {
       setFlash("Something went wrong. We're looking into it");
+    } finally {
+      setSaving(false);
       close();
-      return;
     }
-
-    // Create the M:M joining record associating a freelancer with a project
-    const projectID = createProjectResponse.data.createProject.id;
-    const createProjectFreelancerInput = { freelancerID, projectID, isInitialContact: true };
-    try {
-      await client.mutate({
-        mutation: gql(createProjectFreelancer),
-        variables: { input: createProjectFreelancerInput },
-      });
-    } catch (error) {
-      logger.error('CreateProjectModal: error creating ProjectFreelancer', { error, input: createProjectFreelancerInput });
-      setFlash("Something went wrong. We're looking into it");
-    }
-
-    close();
-    refetchData();
   };
 
   return (
