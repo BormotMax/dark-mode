@@ -12,11 +12,12 @@ import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { onCreateComment } from '../../graphql/subscriptions';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
-import styles from '../styles/project.module.scss';
 import { Page } from '../../components/nav/nav';
 import { isClickOrEnter } from '../../helpers/util';
 import { CurrentProjectAction, useCurrentProject } from '../../hooks/useCurrentProject';
 import ProjectMenu from '../../components/projectMenu';
+
+import styles from '../styles/project.module.scss';
 
 enum ProjectTabsEnum {
   Recent = 'Recent',
@@ -76,16 +77,15 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         query: gql(getProject),
         variables: getProjectInput,
       });
+      const currentProject: Project = getProjectResult.data?.getProject;
+      const { user, projectUser } = determineViewer(currentProject);
 
-      const p: Project = getProjectResult.data?.getProject;
-      const { user, projectUser } = determineViewer(p);
-      setProject(p);
-
+      setProject(currentProject);
       currentProjectDispatch({
         type: CurrentProjectAction.SET_CURRENT_PROJECT,
         payload: {
           viewer: user,
-          project: p,
+          project: currentProject,
         },
       });
 

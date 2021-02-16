@@ -7,17 +7,19 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
+
 import { ProtectedElse } from '../../protected/protected';
 import { useFlash, useLogger } from '../../../hooks';
 import { getQuote } from '../../../graphql/queries';
 import { createQuotePayment, updateQuote } from '../../../graphql/mutations';
 import { GetQuoteQuery, QuoteStatus, UpdateQuoteInput, UpdateQuoteMutation } from '../../../API';
 import { unauthClient } from '../../../pages/_app';
-import styles from './quoteForComment.module.scss';
 import { Quote } from '../../../types/custom';
 import { STRIPE_API_URL, STRIPE_PUBLISHABLE_KEY } from '../../../helpers/constants';
 import { useCurrentProject } from '../../../hooks/useCurrentProject';
 import { Features } from '../../../permissions';
+
+import styles from './quoteForComment.module.scss';
 
 dayjs.extend(localizedFormat);
 
@@ -50,9 +52,16 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     };
 
     executeGetQuote();
-    const { stripeAccountID } = currentProjectState.project.freelancers.items.find((f) => f.isInitialContact).user;
-    setPayeeStripeAccountID(stripeAccountID);
   }, []);
+
+  useEffect(() => {
+    const freelancers = currentProjectState.project?.freelancers?.items || [];
+    const stripeAccountID = freelancers.find((freelancer) => freelancer.isInitialContact)?.user?.stripeAccountID;
+
+    if (stripeAccountID) {
+      setPayeeStripeAccountID(stripeAccountID);
+    }
+  }, [currentProjectState]);
 
   const updateQuery = async (status: QuoteStatus) => {
     const updateQuoteInput: UpdateQuoteInput = {
