@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import Rollbar from 'rollbar';
 
-export const LoggerContext = React.createContext({ logger: null });
-
-type RollbarLogger = {
-  logger: Rollbar | null;
+type Logger = {
+  logger: Rollbar | null
 };
 
-export const useLogger = (): RollbarLogger => useContext(LoggerContext);
+export const LoggerContext = React.createContext<Logger>({ logger: null });
+
+export const useLogger = (): Logger => useContext(LoggerContext);
 
 export const LoggerProvider: React.FC = ({ children }) => {
   const logger = new Rollbar({

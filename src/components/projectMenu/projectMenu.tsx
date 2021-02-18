@@ -56,7 +56,7 @@ const ProjectMenu = ({
         <>
           {quotes.items
             .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-            .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quote={quote} refetchData={fetchProject} />)}
+            .map((quote, i) => <QuoteProgress key={quote.id} i={i + 1} quoteId={quote.id} />)}
         </>
       );
     },

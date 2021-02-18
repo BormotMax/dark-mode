@@ -1,1 +1,1 @@
-export * from './quoteProgress';
+export { default as QuoteProgress } from './quoteProgress';

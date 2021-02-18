@@ -46,6 +46,10 @@ export type DomainSlug = GetDomainSlugQuery['getDomainSlug'];
 export type ProjectAsset = GetProjectAssetsQuery['getProjectAssets'];
 export type Note = GetNoteQuery['getNote'];
 
+export type ResponseData<T> = {
+  data: T
+};
+
 export enum ReservedRouteNames {
   _APP = '_app',
   ALL_USERS = 'all-users',

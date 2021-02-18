@@ -1,27 +1,38 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Auth from '@aws-amplify/auth';
+import Auth, { CognitoUser } from '@aws-amplify/auth';
 import { useRouter } from 'next/router';
 
 import { useLogger } from './useLogger';
 import { useFlash } from './useFlash';
 
-export const UserContext = React.createContext({
+type CustomCognitoUser = CognitoUser & {
+  [key: string]: any; // Fix for invalid types in CognitoUser
+};
+
+type User = {
+  pending: boolean,
+  currentUser: CustomCognitoUser | null,
+  signIn: (email: string, password: string) => Promise<boolean> |null,
+  signOut: (redirect?: string) => Promise<void> | null,
+};
+
+export const UserContext = React.createContext<User>({
   pending: true,
   currentUser: null,
   signIn: null,
   signOut: null,
 });
 
-export const useCurrentUser = (): any => useContext(UserContext);
+export const useCurrentUser = (): User => useContext(UserContext);
 
 export const UserDataProvider: React.FC = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<CustomCognitoUser | null>(null);
   const [pending, setPending] = useState(true);
   const router = useRouter();
   const { logger } = useLogger();
   const { setFlash } = useFlash();
 
-  const signOut = async (redirect?: string) => {
+  const signOut = async (redirect?: string): Promise<void> => {
     try {
       await Auth.signOut();
 
@@ -34,10 +45,11 @@ export const UserDataProvider: React.FC = ({ children }) => {
     }
   };
 
-  const signIn = async (email, password) => {
+  const signIn = async (email: string, password: string): Promise<boolean> => {
     // let the caller of this function catch any errors. This way we don't have to worry about what to return
     // if Auth.signIn throws an error.
-    const cognitoUser = await Auth.signIn(email, password);
+    const cognitoUser: CustomCognitoUser = await Auth.signIn(email, password);
+    console.log(cognitoUser, 'signIn');
     const data: { verified: { email?: string }; unverified: any } = await Auth.verifiedContact(cognitoUser);
 
     if (!data.verified.email) {
@@ -50,10 +62,11 @@ export const UserDataProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
-    const execute = async () => {
+    const execute = async (): Promise<void> => {
       try {
         setPending(true);
-        const cognitoUser = await Auth.currentAuthenticatedUser();
+        const cognitoUser: CustomCognitoUser = await Auth.currentAuthenticatedUser();
+        console.log(cognitoUser, 'currentAuthenticatedUser');
         setCurrentUser(cognitoUser);
         setPending(false);
       } catch (error) {

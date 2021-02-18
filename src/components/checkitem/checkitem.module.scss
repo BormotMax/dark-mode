@@ -13,13 +13,13 @@
     align-items: center;
   }
 
-  input + label {
+  input + .checkboxes {
     .checked {
       display: none;
     }
   }
 
-  input:checked + label {
+  input:checked + .checkboxes {
     .text {
       text-decoration-line: line-through;
     }

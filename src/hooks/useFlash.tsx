@@ -16,7 +16,7 @@ export const FlashContext = React.createContext<Flash>({
 export const useFlash = (): Flash => useContext(FlashContext);
 
 export const FlashProvider: React.FC = ({ children }) => {
-  const [flash, setFlashState] = useState('');
+  const [flash, setFlashState] = useState<string | null>('');
 
   useEffect(() => {
     const msg = localStorage.getItem(LOCAL_STORAGE_KEY);

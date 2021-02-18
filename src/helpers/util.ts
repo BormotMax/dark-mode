@@ -7,11 +7,13 @@ function isMouseEvent(event: MouseEvent | KeyboardEvent): event is MouseEvent {
   return event.nativeEvent instanceof MouseEvent;
 }
 
+export const isPressEnter = (event: KeyboardEvent): boolean => event.key === 'Enter';
+
 export const isClickOrEnter = (event: MouseEvent | KeyboardEvent): boolean => {
   if (isMouseEvent(event)) {
     return true;
   }
-  return event.key === 'Enter';
+  return isPressEnter(event);
 };
 
 export const getDatasetValue = (target: EventTarget, key: string): string | null => {
