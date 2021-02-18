@@ -133,13 +133,13 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           </div>
           <div className={classnames(styles.soon)}>Soon</div>
         </li>
-        <li className={classnames(styles.disabled)}>
+        {/* <li className={classnames(styles.disabled)}>
           <div className={classnames(styles.disabledInner, styles.longText)}>
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faComments} />
             Conversations
           </div>
           <div className={classnames(styles.soon)}>Soon</div>
-        </li>
+        </li> */}
         <li className={classnames({ [styles.current]: page === Page.PROJECTS })}>
           <Link href={PROJECTS_LINK}>
             <a href={PROJECTS_LINK}>
@@ -148,7 +148,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
             </a>
           </Link>
         </li>
-        <li className={classnames(styles.disabled)}>
+        {/* <li className={classnames(styles.disabled)}>
           <div className={classnames(styles.disabledInner)}>
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faSackDollar} />
             Financial
@@ -161,7 +161,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
             Tasks & Time
           </div>
           <div className={classnames(styles.soon)}>Soon</div>
-        </li>
+        </li> */}
         <li className={classnames({ [styles.current]: page === Page.HIRE_EDITOR })}>
           <Link href={HIRE_PAGE_EDITOR}>
             <a href={HIRE_PAGE_EDITOR}>
