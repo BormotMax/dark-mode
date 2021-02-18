@@ -55,10 +55,15 @@ export const avatarPlaceholderName = (name: string): string => {
   }
 
   const splitArr = name.split(' ').filter(Boolean);
+  const arrLength = splitArr.length;
+
   let shortName = '';
-  splitArr.forEach((w) => {
-    shortName += w[0].toUpperCase();
-  });
+  if (arrLength) {
+    const [firstName] = splitArr;
+    const lastName = splitArr[arrLength - 1];
+
+    shortName = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  }
 
   return shortName;
 };
