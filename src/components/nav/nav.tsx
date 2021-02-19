@@ -77,7 +77,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
     },
   );
   const userAvatarS3Key = useMemo(
-    () => (userAvatarResponse?.getUser.avatar.key) ?? '',
+    () => (userAvatarResponse?.getUser?.avatar?.key) ?? '',
     [userAvatarResponse],
   );
 
