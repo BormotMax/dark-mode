@@ -55,7 +55,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
 
   const handleLogout = (e: any) => {
     if (isClickOrEnter(e)) {
-      signOut();
+      signOut('/');
     }
   };
 
