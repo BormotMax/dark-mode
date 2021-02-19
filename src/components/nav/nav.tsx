@@ -177,7 +177,7 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           </a>
         </li>
         <li>
-          <a href="https://continuumcommunity.slack.com">
+          <a href="https://community.continuum.works/users/sign_in">
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faGlobeAmericas} />
             Community
           </a>

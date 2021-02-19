@@ -75,5 +75,5 @@
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
     "serviceName": "Cognito",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://continuum.works/projects/\",\"http://localhost:3000/projects/\"],\"LogoutURLs\":[\"https://continuum.works/sign-in/\",\"http://localhost:3000/sign-in/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://continuum.works/projects/\",\"http://localhost:3000/projects/\",\"https://community.continuum.works/oauth2/callback/\"],\"LogoutURLs\":[\"https://continuum.works/sign-in/\",\"http://localhost:3000/sign-in/\",\"https://community.continuum.works/\"]}"
 }
