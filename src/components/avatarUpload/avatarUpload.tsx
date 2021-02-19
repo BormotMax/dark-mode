@@ -19,6 +19,7 @@ type AvatarUpload = {
   avatarWidth?: number,
   avatarHeight?: number,
   onChange: (file: any) => void,
+  isLoading?: boolean,
 };
 
 export const AvatarUpload: React.FC<AvatarUpload> = ({
@@ -28,14 +29,21 @@ export const AvatarUpload: React.FC<AvatarUpload> = ({
   avatarHeight = 96,
   onChange,
   className,
+  isLoading = false,
 }) => {
   const [fileSrc, setFileSrc] = useState('');
-  const [uploadState, setUploadState] = useState(UploadState.BEGIN);
+  const [uploadState, setUploadState] = useState(isLoading ? UploadState.LOADING : UploadState.BEGIN);
 
   useEffect(() => {
     setFileSrc(image);
-    setUploadState(UploadState.DONE);
+    if (image) {
+      setUploadState(UploadState.DONE);
+    }
   }, [image]);
+
+  useEffect(() => {
+    setUploadState(isLoading ? UploadState.LOADING : UploadState.DONE);
+  }, [isLoading]);
 
   const handleFileInputChange = useCallback((e) => {
     const file = e.target?.files[0];

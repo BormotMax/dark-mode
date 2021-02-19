@@ -16,6 +16,17 @@ type User = {
   signOut: (redirect?: string) => Promise<void> | null,
 };
 
+type VerifiedContact = {
+  verified: {
+    email?: string,
+    phone_number?: string,
+  },
+  unverified: {
+    email?: string,
+    phone_number?: string,
+  },
+};
+
 export const UserContext = React.createContext<User>({
   pending: true,
   currentUser: null,
@@ -37,7 +48,7 @@ export const UserDataProvider: React.FC = ({ children }) => {
       await Auth.signOut();
 
       if (redirect) {
-        router.push(redirect);
+        await router.push(redirect);
       }
     } catch (error) {
       logger.error('UserDataProvider: error signing out', { error });
@@ -49,7 +60,7 @@ export const UserDataProvider: React.FC = ({ children }) => {
     // let the caller of this function catch any errors. This way we don't have to worry about what to return
     // if Auth.signIn throws an error.
     const cognitoUser: CustomCognitoUser = await Auth.signIn(email, password);
-    const data: { verified: { email?: string }; unverified: any } = await Auth.verifiedContact(cognitoUser);
+    const data: VerifiedContact = await Auth.verifiedContact(cognitoUser);
 
     if (!data.verified.email) {
       // User has an account, but has not verified through email yet

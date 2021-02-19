@@ -9,7 +9,7 @@ import {
 } from '../../API';
 import { ButtonSmall } from '../buttons/buttons';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import { useCurrentUser, useLogger, useFlash } from '../../hooks';
+import { useCurrentUser, useLogger, useFlash, useMountedState } from '../../hooks';
 import {
   createProject as createProjectMutation,
   createProjectFreelancer as createProjectFreelancerMutation,
@@ -32,9 +32,11 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
   const [company, setCompany] = useState('');
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
+
   const { currentUser } = useCurrentUser();
   const { logger } = useLogger();
   const { setFlash } = useFlash();
+  const getIsMounted = useMountedState();
 
   function validate() {
     const temp: ValidationProps = {};
@@ -100,7 +102,9 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
     } catch {
       setFlash("Something went wrong. We're looking into it");
     } finally {
-      setSaving(false);
+      if (getIsMounted()) {
+        setSaving(false);
+      }
       close();
     }
   };

@@ -1,5 +1,6 @@
 @use 'src/colors' as colors;
 @use 'src/variables' as variables;
+@use 'src/mixins';
 @import "~bulma/sass/utilities/_all.sass";
 
 .button {
@@ -21,7 +22,7 @@
     pointer-events: none;
     color: transparent !important;
     &:after {
-      @include loader;
+      @include mixins.spin-loader;
       position: absolute;
       border-color: transparent transparent #dbdbdb #dbdbdb;
       border-width: 2px;

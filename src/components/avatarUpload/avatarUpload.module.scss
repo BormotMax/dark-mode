@@ -1,3 +1,4 @@
+@use 'src/mixins';
 @import "~bulma/sass/utilities/_all.sass";
 
 .fileInput {
@@ -42,7 +43,6 @@
   position: relative;
   pointer-events: none;
   opacity: 0.5;
-  border: 1px solid #828282;
   border-radius: 50%;
 
   svg {
@@ -50,7 +50,7 @@
   }
 
   &:after {
-    @include loader;
+    @include mixins.spin-loader;
     position: absolute;
     top: calc(50% - 2.5em);
     left: calc(50% - 2.5em);

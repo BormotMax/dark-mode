@@ -28,7 +28,7 @@ export const FlashProvider: React.FC = ({ children }) => {
         setFlashState(null);
       }, FLASH_MESSAGE_TIME);
     }
-  });
+  }, []);
 
   const setFlash = (msg: string) => {
     setFlashState(msg);

@@ -1,8 +1,10 @@
+@use 'src/variables' as variables;
 @import "~bulma/sass/utilities/_all.sass";
 
 .nav {
-  padding: 16px;
+  min-width: variables.$nav-bar-min-width;
   min-height: 100vh;
+  padding: 16px;
   background: #1d3557;
   color: #ffffff;
   margin: -12px;
@@ -29,7 +31,9 @@
       }
     }
 
-    a {
+    a, button {
+      display: flex;
+      align-items: center;
       color: #ffffff;
       padding: 6px 16px;
       width: 100%;

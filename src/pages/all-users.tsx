@@ -1,45 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import gql from 'graphql-tag';
+import React from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
+import { useQuery, gql } from '@apollo/client';
+
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
-import { client } from './_app';
-import { ListUsersQuery } from '../API';
+import { ListUsersQuery, UserRole } from '../API';
 import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Page } from '../components/nav/nav';
 import { listUsers } from '../graphql/queries';
+
 import styles from './styles/allUsers.module.scss';
 
 const AllUsersPage: React.FC = () => {
-  const [users, setUsers] = useState([]);
   const { setFlash } = useFlash();
   const { logger } = useLogger();
 
-  const fetchUsers = async () => {
-    try {
-      const listUsersResult: { data: ListUsersQuery } = await client.query({ query: gql(listUsers) });
-
-      const p = listUsersResult.data?.listUsers?.items || [];
-      setUsers(p);
-    } catch (error) {
-      setFlash("There was an error retrieving the users. We're looking into it.");
-      logger.error('AllUsersPage: error retrieving users.', { error });
-    }
-  };
-
-  useEffect(() => {
-    const execute = async () => {
-      fetchUsers();
-    };
-    execute();
-  }, []);
+  const { data: { listUsers: { items: users = [] } = {} } = {} } = useQuery<ListUsersQuery>(
+    gql(listUsers),
+    {
+      onError(error) {
+        setFlash("There was an error retrieving the users. We're looking into it.");
+        logger.error('AllUsersPage: error retrieving users.', { error });
+      },
+    },
+  );
 
   const copyEmails = () => {
     const tempInput = document.createElement('input');
     tempInput.value = users
       .filter(Boolean)
-      .filter((user) => user.role === Role.FREELANCER)
+      .filter((user) => user.role === UserRole.FREELANCER)
       .map((user) => user.email)
       .join(',');
     document.body.appendChild(tempInput);
@@ -51,7 +42,7 @@ const AllUsersPage: React.FC = () => {
 
   const freelancers = users
     .filter(Boolean)
-    .filter((user) => user.role === Role.FREELANCER)
+    .filter((user) => user.role === UserRole.FREELANCER)
     .sort((b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
   return (
@@ -77,7 +68,7 @@ const AllUsersPage: React.FC = () => {
         <h2>Clients</h2>
         {users
           .filter(Boolean)
-          .filter((user) => user.role !== Role.FREELANCER)
+          .filter((user) => user.role !== UserRole.FREELANCER)
           .sort((b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
           .map((user) => (
             <Card key={user.id} user={user} />

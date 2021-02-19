@@ -2,9 +2,8 @@ import React, { CSSProperties, useMemo } from 'react';
 import Storage from '@aws-amplify/storage';
 import classnames from 'classnames';
 
-import { useLogger } from '../../hooks';
+import { useLogger, useAsync } from '../../hooks';
 import { getGravatarImage } from '../../helpers/gravatarUrl';
-import useAsync from '../../hooks/useAsync';
 
 import styles from './avatar.module.scss';
 
@@ -16,7 +15,7 @@ interface AvatarProps {
   width?: number;
   height?: number;
   className?: string;
-  userIsLoading?: boolean;
+  s3AvatarIsLoading?: boolean;
   style?: CSSProperties;
 }
 
@@ -70,7 +69,7 @@ export const avatarPlaceholderName = (name: string): string => {
 
 // Use the url if given, else use the email to get the gravatar, else show custom placeholder
 export const Avatar: React.FC<AvatarProps> = ({
-  userIsLoading = false,
+  s3AvatarIsLoading = false,
   s3key = '',
   className,
   style,
@@ -97,7 +96,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   const { value: gravatarImage, loading: gravatarLoading } = useAsync(async () => {
     try {
       // only if user have no avatar from s3
-      if (userIsLoading || s3key) {
+      if (s3AvatarIsLoading || s3key) {
         return '';
       }
       const image = await getGravatarImage(email);
@@ -105,7 +104,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     } catch (error) {
       return '';
     }
-  }, [s3key, email, userIsLoading, logger]);
+  }, [s3key, email, s3AvatarIsLoading, logger]);
 
   const url = useMemo(
     () => (s3url || gravatarImage || ''),
@@ -128,7 +127,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     [width, height, style, name, email],
   );
 
-  const isLoading = userIsLoading || (s3key ? s3Loading : gravatarLoading);
+  const isLoading = s3AvatarIsLoading || (s3key ? s3Loading : gravatarLoading);
   const showImage = isLoading || url;
 
   if (showImage) {

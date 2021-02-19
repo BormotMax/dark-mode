@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
+import React, { useEffect, useMemo, memo } from 'react';
 import Link from 'next/link';
 import classnames from 'classnames';
 import { useQuery, gql } from '@apollo/client';
@@ -19,8 +19,6 @@ import { client } from './_app';
 import styles from './styles/projects.module.scss';
 
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
-  const [loading, setLoading] = useState(true);
-  const mountedStatus = useRef<boolean>(false);
   const { setFlash } = useFlash();
   const { logger } = useLogger();
   const currentUserId = currentUser?.attributes?.sub;
@@ -31,13 +29,14 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
     sortDirection: ModelSortDirection.DESC,
   };
 
-  const { data: projectsByFreelancerData, refetch: refetchProjects } = useQuery<ProjectsByFreelancerQuery>(
+  const {
+    data: projectsByFreelancerData,
+    refetch: refetchProjects,
+    loading = true,
+  } = useQuery<ProjectsByFreelancerQuery>(
     gql(projectsByFreelancer),
     {
       variables: getProjectsVariables,
-      onCompleted: () => {
-        setLoading(false);
-      },
       onError: (error) => {
         setFlash("There was an error retrieving your projects. We're looking into it");
         logger.error('Projects: error retrieving projects', {
@@ -83,14 +82,10 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   };
 
   useEffect(() => {
-    mountedStatus.current = true;
     const execute = async () => {
       await updateProjectFreelancerAssociation();
     };
     execute();
-    return () => {
-      mountedStatus.current = false;
-    };
   }, []);
 
   const haveNoProjects = !loading && !projects.length;

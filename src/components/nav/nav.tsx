@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { useQuery, gql } from '@apollo/client';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import gql from 'graphql-tag';
 import {
   faCog,
   faComments,
@@ -21,9 +20,10 @@ import { useCurrentUser, useLogger } from '../../hooks';
 import { Avatar } from '../avatar/avatar';
 import { isClickOrEnter } from '../../helpers/util';
 import { Settings } from '../settings';
-import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { Modal } from '../modal';
+import { GetUserQuery } from '../../API';
+import { MouseOrKeyboardEvent } from '../../types/custom';
 
 import styles from './nav.module.scss';
 
@@ -46,50 +46,40 @@ const HIRE_PAGE_EDITOR = '/hire-page-editor';
 export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
   const { logger } = useLogger();
   const { currentUser, signOut } = useCurrentUser();
-  const [userAvatar, setUserAvatar] = useState('');
-  const [userLoaded, setUserLoaded] = useState(false);
   const [settingsModalIsOpen, setSettingsModalIsOpen] = useState(false);
   const email = currentUser?.attributes?.email;
   const name = currentUser?.attributes?.name;
   const userID = currentUser?.attributes?.sub;
 
-  const handleLogout = (e: any) => {
-    if (isClickOrEnter(e)) {
+  const handleLogout = (event: MouseOrKeyboardEvent) => {
+    if (isClickOrEnter(event)) {
       signOut('/');
     }
   };
 
-  const handleOnClick = (e: any) => {
-    if (isClickOrEnter(e)) {
+  const handleOnClick = (event: MouseOrKeyboardEvent) => {
+    if (isClickOrEnter(event)) {
       goToNextPanel();
     }
   };
 
-  const fetchUser = async () => {
-    if (!userID) return;
-    const getUserInput = { id: userID };
-    let getUserResponse;
-    try {
-      getUserResponse = await client.query({
-        query: gql(getUser),
-        variables: getUserInput,
-      });
-      setUserLoaded(true);
-    } catch (error) {
-      logger.error('Nav: error get user', { error, input: { email, input: getUserInput } });
-    }
-    if (!getUserResponse) return;
-    const s3key = getUserResponse?.data?.getUser?.avatar?.key ?? '';
-    setUserAvatar(s3key);
-  };
-
-  useEffect(() => {
-    if (userID) {
-      fetchUser();
-    } else {
-      setUserLoaded(true);
-    }
-  }, []);
+  const {
+    data: userAvatarResponse,
+    loading: s3AvatarIsLoading,
+  } = useQuery<GetUserQuery>(
+    gql(getUser),
+    {
+      variables: { id: userID },
+      skip: !userID,
+      onError(error) {
+        logger.error('Nav: error get user', { error, input: { email, input: { id: userID } } });
+      },
+    },
+  );
+  const userAvatarS3Key = useMemo(
+    () => (userAvatarResponse?.getUser.avatar.key) ?? '',
+    [userAvatarResponse],
+  );
 
   const openModal = (event) => {
     if (isClickOrEnter(event)) {
@@ -108,8 +98,8 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
     <div className={styles.nav}>
       <div className={styles.toolbar}>
         <Avatar
-          userIsLoading={!userLoaded}
-          s3key={userAvatar}
+          s3AvatarIsLoading={s3AvatarIsLoading}
+          s3key={userAvatarS3Key}
           email={email}
           name={name}
           width={48}
@@ -171,10 +161,10 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           </Link>
         </li>
         <li>
-          <a tabIndex={0} role="button" onKeyPress={openModal} onClick={openModal}>
+          <button className="defaultButton" tabIndex={0} type="button" onKeyPress={openModal} onClick={openModal}>
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faCog} />
             Settings
-          </a>
+          </button>
         </li>
         <li>
           <a href="https://community.continuum.works/users/sign_in">
@@ -183,10 +173,10 @@ export const Nav: React.FC<NavProps> = ({ page, goToNextPanel }) => {
           </a>
         </li>
         <li>
-          <a role="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
+          <button className="defaultButton" type="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faSignOut} />
             Logout
-          </a>
+          </button>
         </li>
       </ul>
       <Modal

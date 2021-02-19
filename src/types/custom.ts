@@ -1,4 +1,5 @@
 import { CognitoUser } from '@aws-amplify/auth';
+
 import {
   GetCommentQuery,
   GetProjectQuery,
@@ -23,14 +24,14 @@ interface UserAttributes {
   sub: string;
   email: string;
   email_verified: string;
-  name: string;
+  name?: string;
   updated_at: string;
 }
 
 export interface AuthProps {
   currentUser: CognitoUserExt;
-  signOut: Function;
-  signIn: Function;
+  signIn: (email: string, password: string) => Promise<boolean>,
+  signOut: (redirect?: string) => Promise<void>,
 }
 
 export type Project = GetProjectQuery['getProject'];
@@ -46,9 +47,7 @@ export type DomainSlug = GetDomainSlugQuery['getDomainSlug'];
 export type ProjectAsset = GetProjectAssetsQuery['getProjectAssets'];
 export type Note = GetNoteQuery['getNote'];
 
-export type ResponseData<T> = {
-  data: T
-};
+export type MouseOrKeyboardEvent = React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>;
 
 export enum ReservedRouteNames {
   _APP = '_app',
@@ -72,3 +71,8 @@ export enum ReservedRouteNames {
   CLIENT = 'client',
   FREELANCER = 'freelancer',
 }
+
+export type S3Avatar = {
+  key: string,
+  tag: string,
+};

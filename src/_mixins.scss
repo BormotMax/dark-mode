@@ -19,3 +19,25 @@
   font-size: $font-size;
   line-height: $line-height;
 }
+
+@mixin spin-loader() {
+  animation: spinAround 500ms infinite linear;
+  border: 2px solid hsl(0, 0%, 86%);
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  content: "";
+  display: block;
+  height: 1em;
+  position: relative;
+  width: 1em;
+
+  @keyframes spinAround {
+    from {
+      transform:rotate(0deg);
+    }
+    to {
+      transform:rotate(360deg);
+    }
+  }
+}

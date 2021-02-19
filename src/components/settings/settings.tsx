@@ -1,23 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import classnames from 'classnames';
 import { faSackDollar, faTimes, faUserAstronaut } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import gql from 'graphql-tag';
-import Storage from '@aws-amplify/storage';
 import md5 from 'md5';
-import { v4 as uuid } from 'uuid';
+import { useQuery, gql } from '@apollo/client';
 
 import { ButtonSmall } from '../buttons/buttons';
 import { AvatarUpload } from '../avatarUpload';
 import { isClickOrEnter } from '../../helpers/util';
-import { useCurrentUser, useFlash, useLogger } from '../../hooks';
+import { createOrUpdateAvatar } from '../../helpers/s3';
+import { useAsync, useCurrentUser, useFlash, useLogger, useMountedState, useStorageLink } from '../../hooks';
 import { GetUserQuery, UpdateUserInput } from '../../API';
 import { client } from '../../pages/_app';
 import { updateUser } from '../../graphql/mutations';
 import { getUser } from '../../graphql/queries';
-import { User } from '../../types/custom';
+import { S3Avatar, MouseOrKeyboardEvent } from '../../types/custom';
 import { STRIPE_API_URL } from '../../helpers/constants';
 import { Protected } from '../protected/protected';
 import { Features } from '../../permissions';
@@ -51,6 +50,27 @@ type ValidationProps = {
   address?: string;
 };
 
+type Fields = {
+  id: string,
+  name: string,
+  title: string,
+  email: string,
+  phone: string,
+  taxID: string,
+  address: string,
+  avatar: S3Avatar | Record<string, string>,
+};
+
+type StripeInfoResponse = {
+  charges_enabled: boolean,
+  details_submitted: boolean,
+};
+
+type StripeOnBoardResponse = {
+  url: string,
+  accountID: string,
+};
+
 const DEFAULT_GRAVATAR = 'https%3A%2F%2Fcontinuum-resources.s3.amazonaws.com%2FblankAvatar.jpg';
 
 const initialState = {
@@ -61,7 +81,7 @@ const initialState = {
   phone: '',
   taxID: '',
   address: '',
-  avatar: {},
+  avatar: { key: '' },
 };
 
 export const Settings: React.FC<SettingsProps> = ({ close }) => {
@@ -69,15 +89,15 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
   const { logger } = useLogger();
   const { setFlash } = useFlash();
   const router = useRouter();
-  const [isSaving, setIsSaving] = useState(false);
+  const getIsMounted = useMountedState();
+
+  const [isSaving, setIsSavingState] = useState(false);
   const [tab, setTab] = useState(Tab.Profile);
-  const [isLoading, setIsLoading] = useState(true);
-  const [stripeStatus, setStripeStatus] = useState(StripeStatus.NOT_STARTED);
-  const [existingAccountID, setExistingAccountID] = useState(null);
   const [invalids, setInvalids] = useState<ValidationProps>({});
-  const [userAvatar, setUserAvatar] = useState('');
-  const [avatarInputValues, setAvatarInputValues] = useState(null);
-  const [valuesFields, setValuesFields] = useState<Record<string, any>>(initialState);
+  const [newAvatarFile, setNewAvatarFile] = useState<File>(null);
+  const [valuesFields, setValuesFields] = useState<Fields>(initialState);
+
+  const userID = currentUser?.attributes?.sub;
 
   const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { target: { name, value } = {} } = event;
@@ -95,52 +115,30 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     }));
   }, [setValuesFields]);
 
-  useEffect(() => {
-    const execute = async () => {
-      setIsLoading(true);
-      const userID = currentUser?.attributes?.sub;
+  useEffect(
+    () => {
       if (!userID) {
         logger.error('Settings: No user in settings menu');
-        router.push('/sign-in');
-        return;
+        router.push('/sign-in')
+          .catch(() => {
+            logger.error('error when redirecting to /sign-in');
+          });
       }
+    },
+    [],
+  );
 
-      let getUserResponse;
-      const getUserInput = { id: userID };
-      try {
-        getUserResponse = await client.query({
-          query: gql(getUser),
-          variables: getUserInput,
-        });
-      } catch (error) {
-        logger.error('Settings: error while finding current User', { error, input: { input: getUserInput } });
-        setStripeStatus(StripeStatus.ERROR);
-        setFlash("Something went wrong. We're looking into it");
-        setIsLoading(false);
-        return;
-      }
-
-      const user: User = (getUserResponse.data as GetUserQuery)?.getUser;
-
-      if (!user) {
-        logger.error('Settings: no User found', { input: { input: getUserInput } });
-        setStripeStatus(StripeStatus.ERROR);
-        setFlash("Something went wrong. We're looking into it");
-        setIsLoading(false);
-        return;
-      }
-
-      if (user?.avatar?.key) {
-        const { key } = user?.avatar;
-        try {
-          const image: any = await Storage.get(key);
-          setUserAvatar(image);
-        } catch (error) {
-          logger.error('Settings: error retrieving s3 image.', { error, input: key });
+  const { data: { getUser: userInfo } = {}, loading: isLoading } = useQuery<GetUserQuery>(
+    gql(getUser),
+    {
+      variables: { id: userID },
+      onCompleted(data) {
+        const user = data.getUser;
+        if (!user) {
+          logger.error('Settings: no User found', { input: { id: userID } });
+          setFlash("Something went wrong. We're looking into it");
         }
-      }
-
-      if (user) {
+        if (!getIsMounted()) return;
         setValuesFields((prevState) => ({
           ...prevState,
           id: user?.id ?? '',
@@ -152,45 +150,66 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
           address: user?.address ?? '',
           avatar: user?.avatar ?? {},
         }));
+      },
+      onError(error) {
+        if (!getIsMounted()) return;
+        logger.error('Settings: error while finding current User', { error, input: { id: userID } });
+        setFlash("Something went wrong. We're looking into it");
+      },
+    },
+  );
+
+  const { value: userAvatar, loading: userAvatarIsLoading } = useStorageLink(
+    valuesFields.avatar.key,
+    [valuesFields.avatar.key],
+  );
+
+  const { value: stripeAccountStatus } = useAsync(
+    async () => {
+      if (!userInfo) {
+        return StripeStatus.ERROR;
       }
+      if (!userInfo.stripeAccountID) {
+        return StripeStatus.NOT_STARTED;
+      }
+      try {
+        const { data } = await axios.get<StripeInfoResponse>(
+          `${STRIPE_API_URL}/account/${userInfo.stripeAccountID}`,
+          { withCredentials: true },
+        );
 
-      if (!user?.stripeAccountID) {
-        setStripeStatus(StripeStatus.NOT_STARTED);
-      } else {
-        try {
-          const { data } = await axios.get(`${STRIPE_API_URL}/account/${user.stripeAccountID}`, { withCredentials: true });
-          const { charges_enabled: chargesEnabled, details_submitted: detailsSubmitted } = data;
-
-          if (!detailsSubmitted) {
-            setStripeStatus(StripeStatus.INCOMPLETE);
-          } else if (chargesEnabled) {
-            setStripeStatus(StripeStatus.COMPLETED);
-          } else {
-            setStripeStatus(StripeStatus.CHARGES_DISABLED);
-          }
-
-          setExistingAccountID(user.stripeAccountID);
-        } catch (error) {
-          setStripeStatus(StripeStatus.NOT_STARTED);
+        const {
+          charges_enabled: chargesEnabled,
+          details_submitted: detailsSubmitted,
+        } = data;
+        if (!detailsSubmitted) {
+          return StripeStatus.INCOMPLETE;
+        } if (chargesEnabled) {
+          return StripeStatus.COMPLETED;
         }
+        return StripeStatus.CHARGES_DISABLED;
+      } catch {
+        return StripeStatus.NOT_STARTED;
       }
-      setIsLoading(false);
-    };
+    },
+    [userInfo],
+  );
 
-    execute();
-  }, []);
+  const setIsSaving = (value: boolean) => {
+    if (!getIsMounted()) return;
+    setIsSavingState(value);
+  };
 
   const connectToStripe = async (isRefresh = false) => {
     setIsSaving(true);
-    const userID = currentUser?.attributes?.sub;
     let stripeAccountID: string;
     let stripeOnboardingUrl: string;
 
     const onboardUrl = isRefresh ? `${STRIPE_API_URL}/onboard-user/refresh` : `${STRIPE_API_URL}/onboard-user`;
-    const body = isRefresh ? { accountID: existingAccountID } : {};
+    const body = isRefresh ? { accountID: userInfo.stripeAccountID } : {};
 
     try {
-      const { data } = await axios.post(onboardUrl, body, { withCredentials: true });
+      const { data } = await axios.post<StripeOnBoardResponse>(onboardUrl, body, { withCredentials: true });
       const { url, accountID } = data;
       stripeAccountID = accountID;
       stripeOnboardingUrl = url;
@@ -230,32 +249,8 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     return temp;
   }
 
-  const createOrUpdateAvatar = async () => {
-    const key = valuesFields.avatar?.key ?? '';
-    let updateAvatar = { key, tag: 'avatar' };
-    if (avatarInputValues) {
-      if (key) {
-        try {
-          await Storage.remove(key);
-        } catch (error) {
-          logger.error('Settings: error deleting user avatar from s3', { error, input: key });
-        }
-      }
-
-      const s3Key = `${uuid()}${avatarInputValues.name}`;
-
-      try {
-        await Storage.put(s3Key, avatarInputValues);
-      } catch (error) {
-        logger.error('Settings: error adding user avatar to s3', { error, input: s3Key });
-      }
-      updateAvatar = { ...updateAvatar, key: s3Key };
-    }
-    return updateAvatar;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setInvalids({});
     setIsSaving(true);
 
@@ -266,14 +261,26 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
       setIsSaving(false);
     }
 
-    const updatedAvatar = await createOrUpdateAvatar();
+    const avatarS3Key = valuesFields.avatar?.key ?? '';
+    let avatar = { key: avatarS3Key, tag: 'avatar' };
+
+    // update avatar
+    if (newAvatarFile) {
+      avatar = await createOrUpdateAvatar({
+        key: avatarS3Key,
+        name: newAvatarFile.name,
+        file: newAvatarFile,
+        page: 'Settings',
+        logger,
+      });
+    }
 
     const updateUserInput = {
       id: valuesFields?.id,
       name: valuesFields?.name,
       title: valuesFields?.title ?? '',
       email: valuesFields?.email,
-      avatar: updatedAvatar,
+      avatar,
       phone: valuesFields?.phone ?? '',
       taxID: valuesFields?.taxID ?? '',
       address: valuesFields?.address ?? '',
@@ -289,17 +296,22 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
       logger.error('Settings: error updating User', { error, input: updateUserInput });
       setFlash("Something went wrong. We're looking into it");
     } finally {
-      setIsSaving(false);
+      if (getIsMounted()) {
+        setIsSaving(false);
+      }
     }
   };
 
-  const resetPassword = () => {
-    signOut('/forgot-password');
+  const resetPassword = (event: MouseOrKeyboardEvent) => {
+    if (!isClickOrEnter(event)) return;
+    signOut('/forgot-password').catch(() => {
+      logger.error('error when redirecting to /forgot-password');
+    });
   };
 
   const chooseStatusIndicator = () => {
     if (isLoading) return <div className={classnames(styles.stripeStatus, styles.white)}>Loading...</div>;
-    switch (stripeStatus) {
+    switch (stripeAccountStatus) {
       case StripeStatus.NOT_STARTED:
         return <ButtonSmall
           text="Connect with Stripe"
@@ -324,7 +336,18 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     }
   };
 
-  const gravatarImageForSettings = `https://www.gravatar.com/avatar/${md5(currentUser.attributes.email)}?d=${DEFAULT_GRAVATAR}`;
+  const userAvatarImage = useMemo(
+    () => {
+      if (isLoading || userAvatarIsLoading || userAvatar) {
+        return userAvatar;
+      }
+      if (currentUser.attributes.email) {
+        return `https://www.gravatar.com/avatar/${md5(currentUser.attributes.email)}?d=${DEFAULT_GRAVATAR}`;
+      }
+      return null;
+    },
+    [isLoading, userAvatarIsLoading, userAvatar, currentUser.attributes.email],
+  );
 
   return (
     <div className={classnames(styles.settings, modalStyles.modalWithHeaderContent)}>
@@ -367,11 +390,12 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
               <div className={styles.profileSettingsWrapper}>
                 <AvatarUpload
                   avatarName="avatar"
-                  onChange={setAvatarInputValues}
-                  image={userAvatar || (currentUser.attributes.email ? gravatarImageForSettings : null)}
+                  isLoading={isLoading || userAvatarIsLoading}
+                  onChange={setNewAvatarFile}
+                  image={userAvatarImage}
                   className={styles.avatarContainer}
                 />
-                <div className={classnames(styles.inputsContainer)}>
+                <div className={styles.inputsContainer}>
                   <div className={styles.inputWrapper}>
                     <label htmlFor="name" className={classnames('label', styles.label)}>
                       Name
@@ -471,8 +495,10 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
                   </div>
                   <div className={styles.buttonsBlock}>
                     <div
+                      tabIndex={0}
                       role="button"
                       onClick={resetPassword}
+                      onKeyPress={resetPassword}
                       className={classnames(styles.resetPassword, 'btn-small', 'btn-invert')}
                     >
                       Reset password

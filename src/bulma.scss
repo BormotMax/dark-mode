@@ -105,3 +105,25 @@ $headerPadding: 22px 24px 22px 40px;
 .defaultHeaderPadding {
   padding: $headerPadding;
 }
+
+.defaultButton {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  cursor: pointer;
+
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+}

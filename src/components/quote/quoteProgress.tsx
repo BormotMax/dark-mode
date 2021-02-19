@@ -134,7 +134,7 @@ const QuoteProgress: React.FC<Props> = ({ i, quoteId }) => {
           role="button"
           tabIndex={0}
           onKeyDown={handleToggle}
-          className={`${styles.hideTasksButton} text-small-caps text-blue`}
+          className={classnames(styles.hideTasksButton, 'text-small-caps', 'text-blue')}
         >
           {isShowing ? <FontAwesomeIcon color="#595959" icon={faChevronDown} /> : <FontAwesomeIcon color="#595959" icon={faChevronUp} />}
         </div>

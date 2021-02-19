@@ -1,5 +1,5 @@
+import React, { useState, useMemo } from 'react';
 import classnames from 'classnames';
-import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faTimes, faTimesCircle } from '@fortawesome/pro-light-svg-icons';
 import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';

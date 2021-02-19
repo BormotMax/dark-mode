@@ -18,7 +18,7 @@ import {
 import { unauthClient as client } from '../../pages/_app';
 import { getUser } from '../../graphql/queries';
 import { User } from '../../types/custom';
-import { useCurrentUser, useLogger, useFlash } from '../../hooks';
+import { useCurrentUser, useLogger, useFlash, useMountedState } from '../../hooks';
 
 import styles from './hireMeModal.module.scss';
 
@@ -52,13 +52,21 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
   freelancerName,
   freelancerID,
 }) => {
-  const [isSaving, setSaving] = useState(false);
+  const [isSaving, setSavingState] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
+  const [valuesFields, setValuesFields] = useState<Record<string, string>>(initialInputsState);
+
   const router = useRouter();
   const { currentUser } = useCurrentUser();
-  const [valuesFields, setValuesFields] = useState<Record<string, string>>(initialInputsState);
   const { logger } = useLogger();
   const { setFlash, setDelayedFlash } = useFlash();
+  const getIsMounted = useMountedState();
+
+  const setSaving = (saving) => {
+    if (getIsMounted()) {
+      setSavingState(saving);
+    }
+  };
 
   const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { target: { name, value } = {} } = event;
@@ -224,7 +232,12 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
     }
 
     setDelayedFlash(`Thank you! ${freelancerName} will get back to you shortly.`);
-    router.push(`/project/[id]?token=${signedOutAuthToken}`, `/project/${projectID}`, { shallow: true }).then(() => window.scrollTo(0, 0));
+    await router.push(
+      `/project/[id]?token=${signedOutAuthToken}`,
+      `/project/${projectID}`,
+      { shallow: true },
+    );
+    window.scrollTo(0, 0);
   }
 
   return (

@@ -1,3 +1,4 @@
+@use 'src/mixins';
 @import '~bulma/sass/utilities/_all.sass';
 
 .comment {
@@ -107,7 +108,7 @@
       pointer-events: none;
       opacity: 0.5;
       &:after {
-        @include loader;
+        @include mixins.spin-loader;
         position: absolute;
         top: calc(50% - 10px);
         left: calc(50% - 10px);

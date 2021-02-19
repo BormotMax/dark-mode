@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { useState, useEffect, useCallback, useRef, DependencyList } from 'react';
 
-type AsyncState<T> =
+export type AsyncState<T> =
   | {
     loading: boolean;
     error?: undefined;
@@ -36,11 +36,11 @@ type AsyncFnReturn<T extends FunctionReturningPromise = FunctionReturningPromise
   T
 ];
 
-function useAsyncFn<T extends FunctionReturningPromise>(
+export const useAsyncFn = <T extends FunctionReturningPromise>(
   fn: T,
   deps: DependencyList = [],
   initialState: StateFromFunctionReturningPromise<T> = { loading: false },
-): AsyncFnReturn<T> {
+): AsyncFnReturn<T> => {
   const [state, set] = useState<StateFromFunctionReturningPromise<T>>(initialState);
   const mountedStatus = useRef<boolean>(false);
   const lastCallId = useRef(0);
@@ -72,12 +72,12 @@ function useAsyncFn<T extends FunctionReturningPromise>(
   }, deps);
 
   return [state, (callback as unknown) as T];
-}
+};
 
-export default function useAsync<T extends FunctionReturningPromise>(
+export const useAsync = <T extends FunctionReturningPromise>(
   fn: T,
   deps: DependencyList = [],
-): StateFromFunctionReturningPromise<T> {
+): StateFromFunctionReturningPromise<T> => {
   const [state, callback] = useAsyncFn(fn, deps, { loading: true });
 
   useEffect(() => {
@@ -85,4 +85,4 @@ export default function useAsync<T extends FunctionReturningPromise>(
   }, [callback]);
 
   return state;
-}
+};
