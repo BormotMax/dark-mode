@@ -31,7 +31,6 @@ interface ValidationProps {
 const HirePageEditor = ({ currentUser }) => {
   const router = useRouter();
   const { setFlash, setDelayedFlash } = useFlash();
-  const [loading, setLoading] = useState(true);
   const [hireInfo, setHireInfo] = useState(null);
   const [saving, setSaving] = useState(false);
   const [portfolioImages, setPortfolioImages] = useState({});
@@ -135,8 +134,6 @@ const HirePageEditor = ({ currentUser }) => {
       } catch (error) {
         setFlash("There was an error retreiving your Hire Page info. We're looking into it.");
         logger.error('HirePageEditor: error retrieving Hire page info', { error, input: getHireMeInfoInput });
-      } finally {
-        setLoading(false);
       }
     };
     execute();
@@ -369,7 +366,6 @@ const HirePageEditor = ({ currentUser }) => {
 
   return (
     <PageLayoutOne
-      loading={loading}
       page={Page.HIRE_EDITOR}
       headerText="Hire Page Editor"
       headerButton={

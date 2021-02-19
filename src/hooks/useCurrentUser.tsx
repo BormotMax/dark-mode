@@ -49,7 +49,6 @@ export const UserDataProvider: React.FC = ({ children }) => {
     // let the caller of this function catch any errors. This way we don't have to worry about what to return
     // if Auth.signIn throws an error.
     const cognitoUser: CustomCognitoUser = await Auth.signIn(email, password);
-    console.log(cognitoUser, 'signIn');
     const data: { verified: { email?: string }; unverified: any } = await Auth.verifiedContact(cognitoUser);
 
     if (!data.verified.email) {
@@ -66,7 +65,6 @@ export const UserDataProvider: React.FC = ({ children }) => {
       try {
         setPending(true);
         const cognitoUser: CustomCognitoUser = await Auth.currentAuthenticatedUser();
-        console.log(cognitoUser, 'currentAuthenticatedUser');
         setCurrentUser(cognitoUser);
         setPending(false);
       } catch (error) {

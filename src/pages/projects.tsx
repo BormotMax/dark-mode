@@ -97,7 +97,6 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   return (
     <PageLayoutOne
-      loading={loading}
       page={Page.PROJECTS}
       headerText="All Projects"
       headerContainer={styles.headerWidth}

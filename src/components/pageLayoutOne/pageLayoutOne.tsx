@@ -6,7 +6,6 @@ import { Protected, ProtectedElse } from '../protected/protected';
 import { Header } from '../header';
 import { Nav, Page } from '../nav/nav';
 import { MobileHeader } from '../mobileHeader';
-import LogoLoader from '../logoLoader';
 
 import styles from './pageLayoutOne.module.scss';
 import { Features } from '../../permissions';
@@ -16,7 +15,6 @@ interface PageLayoutOneProps {
   headerContainer?: string | Record<string, string>;
   headerButton?: JSX.Element;
   page?: Page;
-  loading?: boolean;
 }
 
 export enum ViewingState {
@@ -36,7 +34,6 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
   page,
   headerButton,
   headerContainer = '',
-  loading = true,
 }) => {
   const header = PageInfo[page] ? (
     <>
@@ -64,20 +61,18 @@ export const PageLayoutOne: React.FC<PageLayoutOneProps> = ({
         page={page}
         headerButton={headerButton}
         headerContainer={headerContainer}
-        loading={loading}
       />
       <MobileLayout
         content={children}
         headerText={headerText}
         page={page}
         headerButton={headerButton}
-        loading={loading}
       />
     </div>
   );
 };
 
-const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
+const MobileLayout = ({ content, headerText, page, headerButton }) => {
   const [viewingState, setViewingState] = useState(ViewingState.FIRST_CHILD);
   return (
     <div className="columns is-mobile is-hidden-tablet relative">
@@ -94,10 +89,8 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
               'container',
               'is-desktop',
               styles.pageContent,
-              { [styles.loadingHeight]: loading },
             )}
           >
-            <LogoLoader loading={loading} />
             <MobileHeader
               headerText={headerText}
               currentViewingState={viewingState}
@@ -112,7 +105,7 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
       </Protected>
       <ProtectedElse feature={Features.MobileHeader}>
         <div className="column">
-          <div className={classnames('container', 'is-desktop', { [styles.loadingHeight]: loading })}>
+          <div className={classnames('container', 'is-desktop')}>
             <Header headerText={headerText} page={page} />
             {content}
           </div>
@@ -122,7 +115,7 @@ const MobileLayout = ({ content, headerText, page, headerButton, loading }) => {
   );
 };
 
-const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer, loading }) => (
+const DesktopLayout = ({ content, headerText, page, headerButton, headerContainer }) => (
   <div className={classnames('columns', 'is-hidden-mobile', styles.navColumn)}>
     <Protected feature={Features.DesktopNav}>
       <div className={classnames('column', 'is-narrow', styles.nav, styles.desktopNav, 'is-hidden-mobile')}>
@@ -133,7 +126,6 @@ const DesktopLayout = ({ content, headerText, page, headerButton, headerContaine
       <Header headerText={headerText} page={page} headerContainer={headerContainer}>
         {headerButton}
       </Header>
-      <LogoLoader loading={loading} />
       <div className={classnames(styles.pageContent)}>
         {content}
       </div>

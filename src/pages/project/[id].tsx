@@ -178,7 +178,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   return (
     <PageLayoutOne
-      loading={loading}
       headerText={headerText}
       headerContainer={styles.headerContainer}
       page={Page.PROJECT}
