@@ -6,14 +6,13 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import Auth from '@aws-amplify/auth';
 import classnames from 'classnames';
 
-import { ConfirmSignUp } from '../components/confirmSignUp';
 import ForgotPassword from '../img/forgotPassword.svg';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
 import { AuthProps } from '../types/custom';
-import EmailIcon from '../img/email.svg';
-import { ProjectHeader } from '../components/projectHeader';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import { useLogger, useFlash } from '../hooks';
+import SignInLogo from '../components/svgIcons/SignInLogo';
+import { SIGN_UP_WITH_CIRCLE } from '../helpers/constants';
 
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
@@ -23,13 +22,10 @@ interface ValidationProps {
   password?: string;
 }
 
-const SIGN_UP = '/sign-up';
 const FORGOT_PASSWORD = '/forgot-password';
 
 const SignIn: React.FC<AuthProps> = ({ signIn }) => {
-  const [emailInState, setEmailInState] = useState('');
   const [isPasswordShowing, setPasswordShowing] = useState(false);
-  const [isConfirming, setConfirming] = useState(false);
   const [isRequestPending, setRequestPending] = useState(false);
   const [valuesFields, setValuesFields] = useState<Record<string, string>>({ email: '', password: '' });
   const { setFlash } = useFlash();
@@ -91,8 +87,6 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
       return;
     }
 
-    setEmailInState(email);
-
     try {
       const isConfirmed = await signIn(email, password);
       // If the user is confirmed, withAuthentication HOC will redirect to /projects
@@ -100,7 +94,6 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
       if (!isConfirmed) {
         setFlash('');
         setRequestPending(false);
-        setConfirming(true);
       }
     } catch (error) {
       setFlash(error.message);
@@ -109,7 +102,6 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
 
       if (error.code === 'UserNotConfirmedException') {
         setFlash('');
-        setConfirming(true);
       } else if (error.code === 'PasswordResetRequiredException') {
         Router.push('/forgot-password');
       }
@@ -122,26 +114,39 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
     }
   }
 
-  return isConfirming ? (
-    <ConfirmSignUp email={emailInState} parentPage="sign-in" setConfirming={setConfirming} />
-  ) : (
-    <div className={pageStyles.authPage}>
-      <ProjectHeader />
-      <div className={pageStyles.body}>
-        <div className={classnames(pageStyles.header)}>Sign In to Continuum</div>
-        <div className={pageStyles.inputWrapper}>
+  return (
+    <div className={styles.container}>
+      <div className={styles.logoWrapper}>
+        <Link href="/">
+          <a href="/">
+            <SignInLogo />
+          </a>
+        </Link>
+      </div>
+      <div className={styles.title}>Welcome back to Continuum!</div>
+      <div className={styles.body}>
+        <div className={styles.inputWrapper}>
+          <label htmlFor="email-input" className={styles.labelInput}>
+            Name
+          </label>
           <input
+            id="email-input"
             name="email"
             value={valuesFields.email}
             onChange={onChangeInput}
             onBlur={onBlurInput}
             type="email"
             placeholder="Email"
-            className={`${invalids.email ? pageStyles[invalids.email] : ''} input-1`}
+            className={classnames(
+              styles.inputBlock,
+              { [pageStyles[invalids.password]]: invalids.password },
+            )}
           />
-          <EmailIcon />
         </div>
-        <div className={pageStyles.inputWrapper}>
+        <div className={styles.inputWrapper}>
+          <label htmlFor="email-input" className={styles.labelInput}>
+            Password
+          </label>
           <input
             name="password"
             value={valuesFields.password}
@@ -149,7 +154,10 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
             onBlur={onBlurInput}
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
-            className={`${invalids.password ? pageStyles[invalids.password] : ''} input-1`}
+            className={classnames(
+              styles.inputBlock,
+              { [pageStyles[invalids.password]]: invalids.password },
+            )}
           />
           <div tabIndex={0} role="button" className={styles.eyeIconWrapper} onKeyDown={handleEyeballClick} onClick={handleEyeballClick}>
             {isPasswordShowing ? (
@@ -170,19 +178,28 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
           disabled={isRequestPending}
           type="submit"
           onClick={handleSignInClick}
-          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
+          className={classnames(
+            { 'is-loading': isRequestPending },
+            'defaultButton',
+            styles.signInButton,
+          )}
         >
           Sign In
         </button>
-        <div className="text-1 text-drkgray">Or...</div>
-        <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign in to Continuum</GoogleAuthButton>
+        <div className={styles.optionsDivider}>
+          <div className={styles.divider} />
+          <div className={styles.optionText}>or</div>
+          <div className={styles.divider} />
+        </div>
+        <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign In with Google</GoogleAuthButton>
         <div>
           No account?{' '}
-          <Link href={SIGN_UP}>
-            <a href={SIGN_UP}>Sign Up</a>
+          <Link href={SIGN_UP_WITH_CIRCLE}>
+            <a href={SIGN_UP_WITH_CIRCLE}>Sign Up</a>
           </Link>
         </div>
       </div>
+      <div className={styles.footer} />
     </div>
   );
 };

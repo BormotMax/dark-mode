@@ -1,3 +1,5 @@
+@use 'src/colors' as colors;
+
 .gradientContainer {
   position: relative;
   min-width: 100%;
@@ -158,19 +160,25 @@
     }
   }
 
+
+  a, button {
+    color: colors.$white;
+  }
+
   .logoWrapper {
     position: relative;
     z-index: 1;
+    align-items: center;
+    display: flex;
 
     p {
       font-family: Poppins, sans-serif;
       font-style: normal;
-      font-weight: 600;
       font-size: 18px;
-      line-height: 27px;
+      line-height: 28px;
       letter-spacing: 0.25px;
-      color: #FFFFFF;
       position: absolute;
+      font-weight: 600;
       right: 0;
       top: 50%;
       transform: translateY(-50%);
@@ -179,17 +187,8 @@
 
   .cont {
     position: relative;
-    padding-top: 140px;
+    padding-top: 132px;
     z-index: 1;
-
-    h1 {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 64px;
-      line-height: 96px;
-      color: #FFFFFF;
-      text-align: center;
-    }
 
     p {
       font-style: normal;
@@ -198,104 +197,56 @@
       text-align: center;
       color: #F4F7FF;
       max-width: 859px;
-      margin: auto;
-      margin-top: 24px;
-      margin-bottom: 45px;
+
       font-weight: 500;
     }
-
-    form {
-      .red {
-        background: rgba(230, 57, 70, 0.8) !important;
-        color: white !important;
+    .futureWork {
+      h1 {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 64px;
+        line-height: 96px;
+        color: #FFFFFF;
+        text-align: center;
+        margin-bottom: 24px;
       }
-
-      max-width: 398px;
-      margin: auto;
-      margin-bottom: 73px;
 
       p {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 28px;
-        color: #EEEEEE;
-        text-align: center;
-        margin: auto;
-        margin-bottom: 8px;
+        margin: 0 auto 39px;
+        font-weight: normal;
       }
+    }
 
-      input {
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 22px;
-        display: flex;
-        align-items: center;
-        color: #595959 !important;
+    .springLaunching {
+      p {
+        margin: 0 auto 48px;
+        font-size: 18px;
+        line-height: 27px;
+        font-weight: normal;
+      }
+      button {
+        cursor: pointer;
 
-        padding: 9px 16px;
-        background: rgba(255, 255, 255, 0.8) !important;
+        background: colors.$dark-blue;
+
+        box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
         border-radius: 100px;
         border: 0;
-        width: 100%;
-        margin-bottom: 16px;
+        min-width: 233px;
+        line-height: 54px;
 
-        &::placeholder {
-          color: #595959;
-          opacity: 1;
-        }
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        text-align: center;
+        -webkit-transition: all .25s ease;
+        -moz-transition: all .25s ease;
+        -ms-transition: all .25s ease;
+        -o-transition: all .25s ease;
+        transition: all .25s ease;
       }
 
-      .emailWrapper {
-        position: relative;
-
-        input {
-          max-width: calc(100% - 122px);
-        }
-
-        button {
-          cursor: pointer;
-          position: absolute;
-          top: 0;
-          right: 0;
-
-          background: #5421CE;
-          /* 4,24,4,10% */
-
-          box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
-          border-radius: 100px;
-          border: 0;
-          min-width: 114px;
-          line-height: 40px;
-
-          font-style: normal;
-          font-weight: 600;
-          font-size: 18px;
-          color: #fff;
-          text-align: center;
-          -webkit-transition: all .25s ease;
-          -moz-transition: all .25s ease;
-          -ms-transition: all .25s ease;
-          -o-transition: all .25s ease;
-          transition: all .25s ease;
-        }
-
-        button:hover {
-          background: rgba(84, 33, 206, 0.7)
-        }
-      }
-
-      *::-webkit-input-placeholder { /* Edge */
-        color: #595959;
-      }
-
-      *:-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: #595959;
-      }
-
-      *::placeholder {
-        color: #595959;
-      }
+      margin-bottom: 31px;
     }
 
     .people {
@@ -337,6 +288,7 @@
       font-size: 16px;
       line-height: 24px;
       color: #fff;
+      margin: 0 auto 45px;
     }
   }
 }
@@ -367,9 +319,6 @@
   .container {
     max-width: 368px;
   }
-  .content .logoWrapper p {
-    display: none;
-  }
   .content {
     padding-top: 30px;
   }
@@ -392,13 +341,14 @@
   .content .cont form {
     margin-bottom: 295px;
   }
+  .content .cont .springLaunching .button{
+    margin: 0 20%;
+  }
   .content .cont .people {
     width: 540px;
     max-width: 540px;
-    position: absolute;
     left: 50%;
-    transform: translateX(-50%);
-    margin-top: -294px;
+    transform: translateX(-20%);
   }
 }
 
@@ -410,7 +360,9 @@
   }
   .content .cont .people {
     max-width: 410px;
-    margin-top: -254px;
+    width: 100%;
+    transform: none;
+    //margin-top: -254px;
   }
   .content .cont ul li {
     margin-left: 15px;
@@ -421,3 +373,7 @@
   }
 }
 
+.btnStart {
+  display: block;
+  text-align: center;
+}
