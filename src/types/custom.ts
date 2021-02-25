@@ -1,3 +1,4 @@
+import React from 'react';
 import { CognitoUser } from '@aws-amplify/auth';
 
 import {
@@ -13,6 +14,7 @@ import {
   GetProjectAssetsQuery,
   GetNoteQuery,
   GetProjectFreelancerQuery,
+  ListUsersQuery,
 } from '../API';
 
 interface CognitoUserExt extends CognitoUser {
@@ -46,6 +48,7 @@ export type HireMeInfoByDomainSlug = HireInfoByDomainSlugQuery['hireInfoByDomain
 export type DomainSlug = GetDomainSlugQuery['getDomainSlug'];
 export type ProjectAsset = GetProjectAssetsQuery['getProjectAssets'];
 export type Note = GetNoteQuery['getNote'];
+export type UsersList = ListUsersQuery['listUsers']['items'];
 
 export type MouseOrKeyboardEvent = React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>;
 

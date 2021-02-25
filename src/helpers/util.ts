@@ -1,4 +1,7 @@
-import React from 'react';
+import * as React from 'react';
+
+import { UsersList } from '../types/custom';
+import { UserRole } from '../API';
 
 type MouseEvent = React.MouseEvent<EventTarget>;
 type KeyboardEvent = React.KeyboardEvent<EventTarget>;
@@ -34,4 +37,21 @@ export const truncate = (str, length = 100, ending = '...') => {
     return str.substring(0, length - ending.length) + ending;
   }
   return str;
+};
+
+export const filterUsersByRole = (
+  users: UsersList,
+  role: UserRole,
+  exclude = false,
+  sort = true,
+): UsersList => {
+  const filteredUsers = users
+    .filter((user) => (exclude ? user.role !== role : user.role === role));
+
+  if (!sort) {
+    return filteredUsers;
+  }
+  return filteredUsers.sort((b, a) => (
+    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  ));
 };

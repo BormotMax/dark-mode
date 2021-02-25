@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { useQuery, gql } from '@apollo/client';
@@ -9,6 +9,7 @@ import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
 import { Page } from '../components/nav/nav';
 import { listUsers } from '../graphql/queries';
+import { filterUsersByRole } from '../helpers/util';
 
 import styles from './styles/allUsers.module.scss';
 
@@ -16,7 +17,7 @@ const AllUsersPage: React.FC = () => {
   const { setFlash } = useFlash();
   const { logger } = useLogger();
 
-  const { data: { listUsers: { items: users = [] } = {} } = {} } = useQuery<ListUsersQuery>(
+  const { data: { listUsers: { items: usersList = [] } = {} } = {} } = useQuery<ListUsersQuery>(
     gql(listUsers),
     {
       onError(error) {
@@ -25,12 +26,21 @@ const AllUsersPage: React.FC = () => {
       },
     },
   );
+  const { users, freelancers, clients } = useMemo(
+    () => {
+      const filteredUsers = usersList.filter(Boolean);
+      return {
+        users: filteredUsers,
+        freelancers: filterUsersByRole(filteredUsers, UserRole.FREELANCER),
+        clients: filterUsersByRole(filteredUsers, UserRole.CLIENT),
+      };
+    },
+    [usersList],
+  );
 
-  const copyEmails = () => {
+  const copyFreelancersEmails = () => {
     const tempInput = document.createElement('input');
-    tempInput.value = users
-      .filter(Boolean)
-      .filter((user) => user.role === UserRole.FREELANCER)
+    tempInput.value = freelancers
       .map((user) => user.email)
       .join(',');
     document.body.appendChild(tempInput);
@@ -39,11 +49,6 @@ const AllUsersPage: React.FC = () => {
     document.execCommand('copy');
     document.body.removeChild(tempInput);
   };
-
-  const freelancers = users
-    .filter(Boolean)
-    .filter((user) => user.role === UserRole.FREELANCER)
-    .sort((b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
   return (
     <PageLayoutOne
@@ -55,24 +60,19 @@ const AllUsersPage: React.FC = () => {
       page={Page.ALL_USERS}
     >
       <div className={classnames('column', 'is-narrow', styles.allUsers)}>
-        <button type="button" onClick={copyEmails} className="button">
+        <h2>{`Freelancers: ${freelancers.length}`}</h2>
+        <h2>{`Clients: ${clients.length}`}</h2>
+        <h2>{`All: ${users.length}`}</h2>
+        <br />
+        <button type="button" onClick={copyFreelancersEmails} className="button">
           Copy freelancer emails to clipboard
         </button>
         <h2>Freelancer Accounts ({freelancers.length})</h2>
-        <div className={classnames(styles.section)}>
-          {freelancers
-            .map((user) => (
-              <Card key={user.id} user={user} />
-            ))}
+        <div className={styles.section}>
+          {freelancers.map((user) => <Card key={user.id} user={user} />)}
         </div>
         <h2>Clients</h2>
-        {users
-          .filter(Boolean)
-          .filter((user) => user.role !== UserRole.FREELANCER)
-          .sort((b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-          .map((user) => (
-            <Card key={user.id} user={user} />
-          ))}
+        {clients.map((user) => <Card key={user.id} user={user} />)}
       </div>
     </PageLayoutOne>
   );
@@ -117,4 +117,7 @@ const Card = ({ user }) => {
   );
 };
 
-export default WithAuthentication(AllUsersPage, { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.ADMIN] });
+export default WithAuthentication(
+  AllUsersPage,
+  { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.ADMIN] },
+);

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { useFlash } from '../hooks';
 import LandingLogo from '../components/svgIcons/LandingLogo';
-import { SIGN_UP_WITH_CIRCLE } from '../helpers/constants';
+import { SIGN_UP_URL } from '../helpers/constants';
 
 import styles from './styles/index.module.scss';
 
@@ -62,8 +62,8 @@ const Home: React.FC = () => {
                     after launch. No credit card required.
                   </p>
 
-                  <Link href={SIGN_UP_WITH_CIRCLE}>
-                    <a href={SIGN_UP_WITH_CIRCLE} className={styles.btnStart}>
+                  <Link href={SIGN_UP_URL}>
+                    <a href={SIGN_UP_URL} className={styles.btnStart}>
                       <button type="button">Start your free trial</button>
                     </a>
                   </Link>

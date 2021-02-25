@@ -12,7 +12,7 @@ import { AuthProps } from '../types/custom';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import { useLogger, useFlash } from '../hooks';
 import SignInLogo from '../components/svgIcons/SignInLogo';
-import { SIGN_UP_WITH_CIRCLE } from '../helpers/constants';
+import { SIGN_UP_URL } from '../helpers/constants';
 
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
@@ -194,8 +194,8 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign In with Google</GoogleAuthButton>
         <div>
           No account?{' '}
-          <Link href={SIGN_UP_WITH_CIRCLE}>
-            <a href={SIGN_UP_WITH_CIRCLE}>Sign Up</a>
+          <Link href={SIGN_UP_URL}>
+            <a href={SIGN_UP_URL}>Sign Up</a>
           </Link>
         </div>
       </div>
