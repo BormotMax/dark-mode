@@ -7,11 +7,11 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 import { ConfirmSignUp } from '../components/confirmSignUp';
 import { WithAuthentication, RouteType } from '../components/withAuthentication';
-import { ProjectHeader } from '../components/projectHeader';
 import EmailIcon from '../img/email.svg';
 import NameIcon from '../img/name.svg';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import { useLogger, useFlash } from '../hooks';
+import AuthLogo from '../components/svgIcons/AuthLogo';
 
 import styles from './styles/authPage.module.scss';
 
@@ -123,12 +123,21 @@ const SignUp: React.FC = memo(() => {
     <ConfirmSignUp email={emailInState} parentPage="signUp" setConfirming={setConfirming} />
   ) : (
     <div className={styles.authPage}>
-      <ProjectHeader />
+      <div className={classnames(styles.logoWrapper, styles.logoMarginSignup)}>
+        <Link href="/">
+          <a>
+            <AuthLogo />
+          </a>
+        </Link>
+      </div>
       <div className={styles.body}>
-        <div className={classnames(styles.header)}>Sign up for Continuum</div>
+        <div className={styles.title}>Sign up for Continuum</div>
         <GoogleAuthButton onClick={handleSignUpwithGoogleClick as any}>Sign Up with Google</GoogleAuthButton>
         <div className="text-1 text-drkgray mbm">Or, sign up with Email</div>
         <div className={styles.inputWrapper}>
+          <label htmlFor="name" className={styles.labelInput}>
+            Name
+          </label>
           <input
             name="name"
             value={valuesFields.name}
@@ -136,11 +145,17 @@ const SignUp: React.FC = memo(() => {
             onBlur={onBlurInput}
             type="text"
             placeholder="Full Name"
-            className={`${invalids.name ? styles[invalids.name] : ''} input-1`}
+            className={classnames(
+              styles.inputBlock,
+              { [styles[invalids.name]]: invalids.name },
+            )}
           />
           <NameIcon />
         </div>
         <div className={styles.inputWrapper}>
+          <label htmlFor="email" className={styles.labelInput}>
+            Email
+          </label>
           <input
             name="email"
             value={valuesFields.email}
@@ -148,11 +163,17 @@ const SignUp: React.FC = memo(() => {
             onBlur={onBlurInput}
             type="email"
             placeholder="Email"
-            className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
+            className={classnames(
+              styles.inputBlock,
+              { [styles[invalids.email]]: invalids.email },
+            )}
           />
           <EmailIcon />
         </div>
         <div className={styles.inputWrapper}>
+          <label htmlFor="password" className={styles.labelInput}>
+            Password
+          </label>
           <input
             name="password"
             value={valuesFields.password}
@@ -160,7 +181,10 @@ const SignUp: React.FC = memo(() => {
             onBlur={onBlurInput}
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
-            className={`${invalids.password ? styles[invalids.password] : ''} input-1`}
+            className={classnames(
+              styles.inputBlock,
+              { [styles[invalids.password]]: invalids.password },
+            )}
           />
           <div
             role="button"
@@ -186,7 +210,11 @@ const SignUp: React.FC = memo(() => {
           disabled={isRequestPending}
           type="submit"
           onClick={handleCreateAccountClick}
-          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
+          className={classnames(
+            { 'is-loading': isRequestPending },
+            'defaultButton',
+            styles.submitButton,
+          )}
         >
           Create a Free Account
         </button>
@@ -197,6 +225,7 @@ const SignUp: React.FC = memo(() => {
           with existing account
         </div>
       </div>
+      <div className={styles.footer} />
     </div>
   );
 });

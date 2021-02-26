@@ -11,8 +11,7 @@ import { WithAuthentication, RouteType } from '../components/withAuthentication'
 import { AuthProps } from '../types/custom';
 import { GoogleAuthButton } from '../components/googleAuthButton';
 import { useLogger, useFlash } from '../hooks';
-import SignInLogo from '../components/svgIcons/SignInLogo';
-import { SIGN_UP_URL } from '../helpers/constants';
+import AuthLogo from '../components/svgIcons/AuthLogo';
 
 import styles from './styles/signIn.module.scss';
 import pageStyles from './styles/authPage.module.scss';
@@ -116,10 +115,10 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.logoWrapper}>
+      <div className={classnames(pageStyles.logoWrapper, pageStyles.logoMarginLarge)}>
         <Link href="/">
-          <a href="/">
-            <SignInLogo />
+          <a>
+            <AuthLogo />
           </a>
         </Link>
       </div>
@@ -138,7 +137,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
             type="email"
             placeholder="Email"
             className={classnames(
-              styles.inputBlock,
+              pageStyles.inputBlock,
               { [pageStyles[invalids.password]]: invalids.password },
             )}
           />
@@ -155,7 +154,7 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
             type={isPasswordShowing ? 'text' : 'password'}
             placeholder="Password"
             className={classnames(
-              styles.inputBlock,
+              pageStyles.inputBlock,
               { [pageStyles[invalids.password]]: invalids.password },
             )}
           />
@@ -194,12 +193,12 @@ const SignIn: React.FC<AuthProps> = ({ signIn }) => {
         <GoogleAuthButton onClick={handleGoogleSignInClick as any}>Sign In with Google</GoogleAuthButton>
         <div>
           No account?{' '}
-          <Link href={SIGN_UP_URL}>
-            <a href={SIGN_UP_URL}>Sign Up</a>
+          <Link href="/sign-up">
+            <a>Sign Up</a>
           </Link>
         </div>
       </div>
-      <div className={styles.footer} />
+      <div className={pageStyles.footer} />
     </div>
   );
 };

@@ -1,19 +1,13 @@
-.authPage {
-  .header {
-    font-family: Poppins;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 36px;
-    color: #000000;
-    margin-bottom: 36px;
-  }
+@use 'src/colors' as colors;
+@use 'src/mixins';
 
+.authPage {
   text-align: center;
-  background: #eeeeee;
   height: 100vh;
+  background-color: colors.$white;
 
   .body {
-    max-width: 336px;
+    max-width: 288px;
     margin: auto;
   }
 
@@ -22,12 +16,31 @@
   }
 }
 
+.logoWrapper {
+  display: flex;
+  padding-top: 48px;
+  padding-left: 72px;
+  margin-bottom: 60px;
+}
+
+.logoMarginLarge {
+  margin-bottom: 140px;
+}
+
+.title {
+  @include mixins.useFont(24px, 37px, 600, Poppins);
+  color: colors.$black;
+  margin-bottom: 36px;
+}
+
 .inputWrapper {
   position: relative;
+  text-align: left;
+  margin-bottom: 19px;
 
   svg {
     position: absolute;
-    top: calc(50% - 7px);
+    top: calc(50% + 5px);
     right: 15px;
     width: 21px;
   }
@@ -37,8 +50,59 @@
   }
 }
 
-.inlineInput {
-  display: flex;
+.labelInput {
+  display: block;
+  @include mixins.useFont(14px, 21px, 300, Poppins);
+  color: colors.$black;
+  margin-bottom: 7px;
+}
+
+.inputBlock {
+  // reset
+  margin:0;
+  border:0;
+  display:inline-block;
+  vertical-align:middle;
+  white-space:normal;
+  -webkit-box-sizing:content-box;
+  -moz-box-sizing:content-box;
+  box-sizing:content-box;
+
+  // styles
+  background: #F4F4F6;
+  border-radius: 100px;
+  width: 288px;
+  height: 45px;
+  color: colors.$black;
+  @include mixins.useFont(14px, 21px, 300, Poppins);
+  padding: 12px 24px;
+  &:focus {
+    outline:0;
+  }
+}
+
+.submitButton {
+  width: 100%;
+  height: 45px;
+  background: linear-gradient(285.44deg, #5421CE 4%, #A000EC 101.17%);
+  color: colors.$white;
+  border-radius: 100px;
+  @include mixins.useFont(14px, 21px, normal, Poppins);
+  margin-bottom: 24px;
+}
+
+.footer {
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 11px;
+  background: linear-gradient(285.44deg, #5421CE 4%, #A000EC 101.17%);
+}
+
+.resendCode {
+  cursor: pointer;
+  margin: -8px 0 10px 0;
 }
 
 .error {

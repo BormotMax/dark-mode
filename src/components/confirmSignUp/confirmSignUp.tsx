@@ -2,10 +2,11 @@ import React, { useState, memo, useCallback } from 'react';
 import Auth from '@aws-amplify/auth';
 import Router from 'next/router';
 import classnames from 'classnames';
+import Link from 'next/link';
+
 import styles from '../../pages/styles/authPage.module.scss';
-import s from './confirmSignUp.module.scss';
-import { ProjectHeader } from '../projectHeader';
 import { useLogger, useFlash } from '../../hooks';
+import AuthLogo from '../svgIcons/AuthLogo';
 
 interface ConfirmSignUpProps {
   email: string;
@@ -105,32 +106,54 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = memo(({ email: emailP
 
   return (
     <div className={styles.authPage}>
-      <ProjectHeader />
+      <div className={classnames(styles.logoWrapper, styles.logoMarginLarge)}>
+        <Link href="/">
+          <a>
+            <AuthLogo />
+          </a>
+        </Link>
+      </div>
       <div className={styles.body}>
-        <div className={classnames(styles.header)}>Confirm Sign Up</div>
-        <input
-          readOnly
-          value={valuesFields.email}
-          onChange={onChangeInput}
-          onBlur={onBlurInput}
-          name="email"
-          className={`${invalids.email ? styles[invalids.email] : ''} input-1`}
-          placeholder="Email"
-        />
-        <input
-          name="code"
-          value={valuesFields.code}
-          onChange={onChangeInput}
-          onBlur={onBlurInput}
-          placeholder="Enter your code"
-          className={`${invalids.code ? styles[invalids.code] : ''} input-1`}
-        />
+        <div className={styles.title}>Confirm Sign Up</div>
+        <div className={styles.inputWrapper}>
+          <label htmlFor="email" className={styles.labelInput}>
+            Email
+          </label>
+          <input
+            readOnly
+            value={valuesFields.email}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
+            name="email"
+            className={classnames(
+              styles.inputBlock,
+              { [styles[invalids.email]]: invalids.email },
+            )}
+            placeholder="Email"
+          />
+        </div>
+        <div className={styles.inputWrapper}>
+          <label htmlFor="code" className={styles.labelInput}>
+            Code
+          </label>
+          <input
+            name="code"
+            value={valuesFields.code}
+            onChange={onChangeInput}
+            onBlur={onBlurInput}
+            placeholder="Enter your code"
+            className={classnames(
+              styles.inputBlock,
+              { [styles[invalids.code]]: invalids.code },
+            )}
+          />
+        </div>
         <div
           onKeyDown={handleResendCode}
           onClick={handleResendCode}
           tabIndex={0}
           role="button"
-          className={`${s.resendCode} text-1 text-drkgray tal`}
+          className={`${styles.resendCode} text-1 text-drkgray tal`}
         >
           Resend code
         </div>
@@ -138,7 +161,11 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = memo(({ email: emailP
           disabled={isRequestPending}
           type="submit"
           onClick={handleConfirmClick}
-          className={`${isRequestPending ? 'is-loading' : ''} btn-large mbm button is-primary`}
+          className={classnames(
+            { 'is-loading': isRequestPending },
+            'defaultButton',
+            styles.submitButton,
+          )}
         >
           Confirm
         </button>
@@ -154,6 +181,7 @@ export const ConfirmSignUp: React.FC<ConfirmSignUpProps> = memo(({ email: emailP
           </a>
         </div>
       </div>
+      <div className={styles.footer} />
     </div>
   );
 });

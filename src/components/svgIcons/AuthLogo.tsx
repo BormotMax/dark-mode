@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, { memo } from 'react';
 
-const SignInLogo = (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
+const AuthLogo = (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
   <svg
     width={220}
     height={59}
@@ -27,4 +27,4 @@ const SignInLogo = (props: React.SVGProps<SVGSVGElement>): JSX.Element => (
   </svg>
 );
 
-export default memo(SignInLogo);
+export default memo(AuthLogo);

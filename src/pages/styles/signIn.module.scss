@@ -29,13 +29,6 @@
   margin-bottom: 36px;
 }
 
-.logoWrapper {
-  display: flex;
-  padding-top: 48px;
-  padding-left: 72px;
-  margin-bottom: 140px;
-}
-
 .signInButton {
   width: 100%;
   height: 45px;
@@ -85,37 +78,4 @@
   @include mixins.useFont(14px, 21px, 300, Poppins);
   color: colors.$black;
   margin-bottom: 7px;
-}
-
-.inputBlock {
-  // reset
-  margin:0;
-  border:0;
-  display:inline-block;
-  vertical-align:middle;
-  white-space:normal;
-  -webkit-box-sizing:content-box;
-  -moz-box-sizing:content-box;
-  box-sizing:content-box;
-
-  // styles
-  background: #F4F4F6;
-  border-radius: 100px;
-  width: 288px;
-  height: 45px;
-  color: colors.$black;
-  @include mixins.useFont(14px, 21px, 300, Poppins);
-  padding: 12px 24px;
-  &:focus {
-    outline:0;
-  }
-}
-
-.footer {
-  margin-top: auto;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 11px;
-  background: linear-gradient(285.44deg, #5421CE 4%, #A000EC 101.17%);
 }
