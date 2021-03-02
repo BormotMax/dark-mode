@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faTimes, faTimesCircle } from '@fortawesome/pro-light-svg-icons';
-import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCirclePlus, faXmark, faCircleXmark } from '@fortawesome/pro-light-svg-icons';
+import { faCircleCheck, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import { faFileInvoiceDollar } from '@fortawesome/pro-regular-svg-icons';
 import gql from 'graphql-tag';
 
@@ -41,7 +41,7 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
     <>
       <div className={classnames(modalStyles.addNew)}>
         <Protected feature={Features.QuoteModalContent}>
-          <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
+          <InPlaceModal variant={InPlaceModalVariants.WIDE} button={<FontAwesomeIcon color="#3C78FB" icon={faCirclePlus} />}>
             <AddQuoteModalContent projectID={projectID} refetchData={refetchData} selectedQuote={null} creator={creator} />
           </InPlaceModal>
         </Protected>
@@ -249,7 +249,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
       <div className={classnames(styles.header)}>
         {selectedQuote ? <div>Quote #{(index + 1).toString().padStart(3, '0')}</div> : <div>Generate Quote</div>}
         <div onClick={closeModal} role="button" onKeyDown={closeModal} tabIndex={0}>
-          <FontAwesomeIcon color="#fff" icon={faTimes} />
+          <FontAwesomeIcon color="#fff" icon={faXmark} />
         </div>
       </div>
       <div className={classnames(styles.body)}>
@@ -266,7 +266,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                   onKeyDown={(e) => deleteTask(e, idx)}
                   onClick={(e) => deleteTask(e, idx)}
                 >
-                  <FontAwesomeIcon color="#BDBDBD" icon={faTimesCircle} />
+                  <FontAwesomeIcon color="#BDBDBD" icon={faCircleXmark} />
                 </div>
               )}
             </div>
@@ -300,7 +300,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                         <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
                       </span>
                       <span className={classnames(modalStyles.checked)}>
-                        <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
+                        <FontAwesomeIcon color="#3C78FB" icon={faCircleCheck} />
                       </span>
                     </span>
                   </>
@@ -326,7 +326,7 @@ const AddQuoteModalContent: React.FC<AddQuoteModalContentProps> = ({ close, proj
                       <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
                     </span>
                     <span className={classnames(modalStyles.checked)}>
-                      <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
+                      <FontAwesomeIcon color="#3C78FB" icon={faCircleCheck} />
                     </span>
                   </span>
                 </>

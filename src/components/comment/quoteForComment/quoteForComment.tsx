@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCircleCheck } from '@fortawesome/pro-solid-svg-icons';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import axios from 'axios';
@@ -141,7 +141,7 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
           .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
           .map((task) => (
             <div key={task.id} className={classnames(styles.task)}>
-              <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
+              <FontAwesomeIcon color="#3C78FB" icon={faCircleCheck} />
               <div>{task.text}</div>
             </div>
           ))}

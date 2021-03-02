@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import classnames from 'classnames';
-import { faSackDollar, faTimes, faUserAstronaut } from '@fortawesome/pro-light-svg-icons';
+import { faSackDollar, faXmark, faUserAstronaut } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -360,7 +360,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
           onKeyDown={closeModal}
           tabIndex={0}
         >
-          <FontAwesomeIcon color="#595959" icon={faTimes} />
+          <FontAwesomeIcon color="#595959" icon={faXmark} />
         </div>
       </div>
       <div className={classnames(modalStyles.body, styles.body, 'columns')}>

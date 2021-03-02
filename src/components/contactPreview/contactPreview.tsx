@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
-import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCircleCheck, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
 import Storage from '@aws-amplify/storage';
 import { useQuery, gql } from '@apollo/client';
@@ -522,7 +522,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
               <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
             </span>
             <span className={classnames(modalStyles.checked)}>
-              <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
+              <FontAwesomeIcon color="#3C78FB" icon={faCircleCheck} />
             </span>
           </span>
           <div>Client&apos;s Team</div>
@@ -542,7 +542,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
                 <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />
               </span>
               <span className={classnames(modalStyles.checked)}>
-                <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
+                <FontAwesomeIcon color="#3C78FB" icon={faCircleCheck} />
               </span>
             </span>
             My Team

@@ -1,5 +1,5 @@
-import React from 'react';
-import { faBars, faEllipsisV, faTimes } from '@fortawesome/pro-regular-svg-icons';
+import * as React from 'react';
+import { faBars, faEllipsisVertical, faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 
@@ -63,7 +63,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
           onKeyDown={handleSwitchToRight}
           className={styles.button}
         >
-          <FontAwesomeIcon color="#595959" size="1x" icon={faEllipsisV} />
+          <FontAwesomeIcon color="#595959" size="1x" icon={faEllipsisVertical} />
         </div>
       )}
       {hasSecondChild && currentViewingState === ViewingState.SECOND_CHILD && (
@@ -74,7 +74,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
           onKeyDown={handleSwitchToLeft}
           className={styles.button}
         >
-          <FontAwesomeIcon color="#595959" size="1x" icon={faTimes} />
+          <FontAwesomeIcon color="#595959" size="1x" icon={faXmark} />
         </div>
       )}
       {children && children}

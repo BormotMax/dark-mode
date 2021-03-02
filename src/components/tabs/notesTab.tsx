@@ -1,4 +1,4 @@
-import { faPlusCircle, faClipboard } from '@fortawesome/pro-light-svg-icons';
+import { faCirclePlus, faClipboard } from '@fortawesome/pro-light-svg-icons';
 import gql from 'graphql-tag';
 import React, { useState } from 'react';
 import classnames from 'classnames';
@@ -27,7 +27,7 @@ export const NotesTab: React.FC<NotesTabProps> = ({ refetchData, projectUser }) 
   <>
     <div className={classnames(modalStyles.addNew)}>
       <Protected feature={Features.NotesTab}>
-        <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
+        <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faCirclePlus} />}>
           <ModalContent refetchData={refetchData} selectedNote={null} projectUser={projectUser} />
         </InPlaceModal>
       </Protected>

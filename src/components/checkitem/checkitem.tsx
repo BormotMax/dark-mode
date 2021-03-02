@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-import { faCheckCircle, faCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCircleCheck, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 
@@ -40,7 +40,7 @@ const CheckItem: React.FC<Props> = ({
         />
         <div className={styles.checkboxes}>
           <div className={styles.checked}>
-            <FontAwesomeIcon color="#3C78FB" icon={faCheckCircle} />
+            <FontAwesomeIcon color="#3C78FB" icon={faCircleCheck} />
           </div>
           <div className={styles.unchecked}>
             <FontAwesomeIcon color="#E0E0E0" icon={faCircle} />

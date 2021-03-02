@@ -3,14 +3,15 @@ import classnames from 'classnames';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCog,
-  faTimes,
+  faGear,
+  faXmark,
   faSolarSystem,
-  faRobot,
-  faSignOutAlt,
+  faRightFromBracket,
 } from '@fortawesome/pro-light-svg-icons';
 import {
-  faAlienMonster,
+  faAlien8bit,
+  faUsers,
+  faRobot,
 } from '@fortawesome/pro-regular-svg-icons';
 
 import { useCurrentUser } from '../../hooks';
@@ -18,7 +19,6 @@ import { isClickOrEnter } from '../../helpers/util';
 import { Settings } from '../settings';
 import { Modal } from '../modal';
 import { MouseOrKeyboardEvent, Page } from '../../types/custom';
-import CommunityIcon from '../svgIcons/Community';
 
 import styles from './nav.module.scss';
 
@@ -76,7 +76,7 @@ const Nav: React.FC<NavProps> = ({
           onKeyDown={handleOnClick}
           tabIndex={0}
         >
-          <FontAwesomeIcon size="1x" icon={faTimes} color="black" />
+          <FontAwesomeIcon size="1x" icon={faXmark} color="black" />
         </div>
       </div>
       <ul className={classnames(
@@ -129,7 +129,7 @@ const Nav: React.FC<NavProps> = ({
             <a href={HIRE_PAGE_EDITOR}>
               <FontAwesomeIcon
                 size="1x"
-                icon={faAlienMonster}
+                icon={faAlien8bit}
                 color={page === Page.HIRE_EDITOR ? 'white' : 'black'}
               />
               {!isCollapsed && 'Hire Page'}
@@ -138,19 +138,19 @@ const Nav: React.FC<NavProps> = ({
         </li>
         <li>
           <button className="defaultButton" tabIndex={0} type="button" onKeyPress={openModal} onClick={openModal}>
-            <FontAwesomeIcon size="1x" icon={faCog} color="black" />
+            <FontAwesomeIcon size="1x" icon={faGear} color="black" />
             {!isCollapsed && 'Settings'}
           </button>
         </li>
         <li className={styles.community}>
           <a href="https://community.continuum.works/users/sign_in">
-            <CommunityIcon />
+            <FontAwesomeIcon size="1x" icon={faUsers} color="black" />
             {!isCollapsed && 'Community'}
           </a>
         </li>
         <li>
           <button className="defaultButton" type="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
-            <FontAwesomeIcon size="1x" icon={faSignOutAlt} color="black" />
+            <FontAwesomeIcon size="1x" icon={faRightFromBracket} color="black" />
             {!isCollapsed && 'Logout'}
           </button>
         </li>

@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import React, { useState, KeyboardEvent } from 'react';
-import { faPlusCircle, faFileAlt, faLink } from '@fortawesome/pro-light-svg-icons';
+import { faCirclePlus, faFileLines, faLink } from '@fortawesome/pro-light-svg-icons';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { v4 as uuid } from 'uuid';
@@ -71,7 +71,7 @@ export const FilesTab: React.FC<FilesTabProps> = ({ files, projectID, refetchDat
     <>
       <Protected feature={Features.FileModalContent}>
         <div className={classnames(modalStyles.addNew)}>
-          <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faPlusCircle} />}>
+          <InPlaceModal button={<FontAwesomeIcon color="#3C78FB" icon={faCirclePlus} />}>
             <ModalContent projectID={projectID} refetchData={refetchData} />
           </InPlaceModal>
         </div>
@@ -239,7 +239,7 @@ const FilePill: React.FC<FilePillProps> = ({ file, onClick }) => {
       <div className={classnames(modalStyles.icon)}>
         {file.url
           ? <FontAwesomeIcon color="#828282" icon={faLink} />
-          : <FontAwesomeIcon color="#828282" icon={faFileAlt} />}
+          : <FontAwesomeIcon color="#828282" icon={faFileLines} />}
       </div>
       <div>{text}</div>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowCircleRight } from '@fortawesome/pro-regular-svg-icons';
+import { faCircleArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import Linkify from 'react-linkify';
 
 import { Avatar } from '../avatar/avatar';
@@ -198,7 +198,7 @@ export const NewComment: React.FC<NewCommentProps> = ({ name, email, title, proj
           onKeyDown={handleCreateComment}
           onClick={handleCreateComment}
         >
-          <FontAwesomeIcon size="1x" color="#4F4F4F" icon={faArrowCircleRight} />
+          <FontAwesomeIcon size="1x" color="#4F4F4F" icon={faCircleArrowRight} />
         </span>
       </div>
     </Comment>

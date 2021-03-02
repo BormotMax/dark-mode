@@ -1,8 +1,9 @@
 /* eslint-disable no-restricted-syntax */
+import * as React from 'react';
 import classnames from 'classnames';
-import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudUpload } from '@fortawesome/pro-light-svg-icons';
+import { faCloudArrowUp } from '@fortawesome/pro-light-svg-icons';
+
 import styles from './assetDragAndDrop.module.scss';
 
 interface AssetDragAndDropProps {
@@ -10,7 +11,7 @@ interface AssetDragAndDropProps {
 }
 
 export const AssetDragAndDrop: React.FC<AssetDragAndDropProps> = ({ onDrop }) => {
-  const [isDragOver, setDragOver] = useState(false);
+  const [isDragOver, setDragOver] = React.useState(false);
 
   const handleFileDrop = (e) => {
     e.preventDefault();
@@ -44,7 +45,7 @@ export const AssetDragAndDrop: React.FC<AssetDragAndDropProps> = ({ onDrop }) =>
       }}
       className={classnames(styles.assetDragAndDrop, { [styles.dragOver]: isDragOver })}
     >
-      <FontAwesomeIcon color="#3C78FB" size="4x" icon={faCloudUpload} />
+      <FontAwesomeIcon color="#3C78FB" size="4x" icon={faCloudArrowUp} />
       <div className={classnames(styles.text)}>Drag & drop your files here</div>
     </div>
   );

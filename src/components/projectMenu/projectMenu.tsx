@@ -2,7 +2,7 @@ import React, { memo, useMemo } from 'react';
 import {
   faBackpack,
   faClipboardUser,
-  faFileAlt,
+  faFileLines,
   faSackDollar,
   faStopwatch,
 } from '@fortawesome/pro-light-svg-icons';
@@ -19,7 +19,7 @@ import { Features } from '../../permissions';
 
 const TAB_INFO_FREELANCER = [
   { icon: faClipboardUser, header: 'People' },
-  { icon: faFileAlt, header: 'Notes' },
+  { icon: faFileLines, header: 'Notes' },
   { icon: faBackpack, header: 'Assets' },
 ];
 const TAB_INFO_NON_FREELANCER = [
