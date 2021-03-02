@@ -5,14 +5,13 @@ import { useSubscription, useQuery, gql } from '@apollo/client';
 
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
-import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
+import { Project, Comment as CommentType, AuthProps, User, Page } from '../../types/custom';
 import { unauthClient, client } from '../_app';
 import { GetProjectQuery, CommentResourceType, OnCreateCommentSubscription } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { onCreateComment } from '../../graphql/subscriptions';
 import { PageLayoutOne } from '../../components/pageLayoutOne';
-import { Page } from '../../components/nav/nav';
 import { isClickOrEnter } from '../../helpers/util';
 import { CurrentProjectAction, useCurrentProject } from '../../hooks/useCurrentProject';
 import ProjectMenu from '../../components/projectMenu';
@@ -40,6 +39,10 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const currentUserId = currentUser?.attributes?.sub;
   const newCommentRef = useRef<HTMLDivElement>(null);
   const { currentProjectDispatch } = useCurrentProject();
+
+  useEffect(() => () => {
+    currentProjectDispatch({ type: CurrentProjectAction.RESET });
+  }, []);
 
   const {
     data: { getProject: fetchedProject } = {},
@@ -84,7 +87,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
       setProject(fetchedProject);
       currentProjectDispatch({
-        type: CurrentProjectAction.SET_CURRENT_PROJECT,
+        type: CurrentProjectAction.SET,
         payload: {
           viewer: user,
           project: fetchedProject,
@@ -151,13 +154,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     }
   };
 
-  const headerText = useMemo(
-    () => (
-      <>{project?.title || project?.clients?.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</>
-    ),
-    [project],
-  );
-
   const comments = useMemo(
     () => {
       const items = project?.comments?.items || [];
@@ -194,11 +190,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   };
 
   return (
-    <PageLayoutOne
-      headerText={headerText}
-      headerContainer={styles.headerContainer}
-      page={Page.PROJECT}
-    >
+    <PageLayoutOne page={Page.PROJECT}>
       <div className={classnames('column', styles.hideTablet, styles.leftColumn, styles.commentWrapper)}>
         <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
         <Feed

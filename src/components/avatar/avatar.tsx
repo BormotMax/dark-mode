@@ -128,9 +128,12 @@ export const Avatar: React.FC<AvatarProps> = ({
   );
 
   const isLoading = s3AvatarIsLoading || (s3key ? s3Loading : gravatarLoading);
-  const showImage = isLoading || url;
 
-  if (showImage) {
+  if (isLoading) {
+    return <div style={avatarStyle} />;
+  }
+
+  if (url) {
     return (
       <img
         alt="avatar"

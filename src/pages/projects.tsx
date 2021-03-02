@@ -7,9 +7,8 @@ import { ModelSortDirection, ProjectsByFreelancerQuery } from '../API';
 import { projectsByFreelancer, listProjectFreelancers } from '../graphql/queries';
 import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
-import { AuthProps, Project, ProjectFreelancer } from '../types/custom';
+import { AuthProps, Project, ProjectFreelancer, Page } from '../types/custom';
 import { PageLayoutOne } from '../components/pageLayoutOne';
-import { Page } from '../components/nav/nav';
 import { ButtonSmall } from '../components/buttons/buttons';
 import { InPlaceModal } from '../components/inPlaceModal';
 import { CreateProjectModal } from '../components/createProjectModal';
@@ -91,23 +90,19 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const haveNoProjects = !loading && !projects.length;
 
   return (
-    <PageLayoutOne
-      page={Page.PROJECTS}
-      headerText="All Projects"
-      headerContainer={styles.headerWidth}
-      headerButton={
-        <InPlaceModal button={<ButtonSmall text="New Project" />}>
-          <CreateProjectModal refetchData={refetchProjects} />
-        </InPlaceModal>
-      }
-    >
+    <PageLayoutOne page={Page.PROJECTS}>
       <div className={classnames('column', styles.projects)}>
         {haveNoProjects ? (
           <div>You don&apos;t have any projects yet.</div>
         ) : (
           <>
+            <div className={styles.createProjectButton}>
+              <InPlaceModal button={<ButtonSmall text="New Project" />}>
+                <CreateProjectModal refetchData={refetchProjects} />
+              </InPlaceModal>
+            </div>
             {projects.filter(Boolean).map((p: Project) => (
-              <Link key={p.id} href="/project/[id]" as={`/project/${p.id}`}>
+              <Link key={p.id} href="/projects/[id]" as={`/projects/${p.id}`}>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a>
                   <div className={styles.comment}>

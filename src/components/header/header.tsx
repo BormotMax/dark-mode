@@ -1,29 +1,82 @@
+import * as React from 'react';
+import { gql, useQuery } from '@apollo/client';
 import classnames from 'classnames';
-import React from 'react';
 
-import { Page } from '../nav/nav';
 import { Protected } from '../protected/protected';
 import { Features } from '../../permissions';
+import { GetUserQuery } from '../../API';
+import { getUser } from '../../graphql/queries';
+import { useCurrentUser, useLogger } from '../../hooks';
+import { Avatar } from '../avatar/avatar';
+import Breadcrumbs from '../breadcrumbs';
+import DoubleArrow from '../svgIcons/DoubleArrow';
 
 import styles from './header.module.scss';
 
-interface HeaderProps {
-  headerText?: string | JSX.Element;
-  headerContainer?: string | Record<string, string>;
-  page: Page;
-  withLevelingMargin?: boolean;
-}
+const USER_AVATAR_SIZE = 48;
 
-export const Header: React.FC<HeaderProps> = ({
-  headerText,
-  headerContainer,
-  withLevelingMargin = true,
+type Props = {
+  onClickCollapseButton?: () => void,
+  navIsCollapsed?: boolean,
+};
+
+export const Header: React.FC<Props> = React.memo(({
   children,
-}) => (
-  <div className={classnames(styles.headerWrapper, { [styles.levelingMargin]: withLevelingMargin })}>
-    <div className={classnames(styles.header, 'defaultHeaderPadding', headerContainer)}>
-      <div className={classnames(styles.headerText)}>{headerText}</div>
-      <Protected feature={Features.Header}>{children && children}</Protected>
+  onClickCollapseButton = () => {},
+  navIsCollapsed,
+}) => {
+  const { currentUser } = useCurrentUser();
+  const { logger } = useLogger();
+  const userId = currentUser?.attributes?.sub;
+  const email = currentUser?.attributes?.email;
+
+  const {
+    data: userAvatarResponse,
+    loading: s3AvatarIsLoading,
+  } = useQuery<GetUserQuery>(
+    gql(getUser),
+    {
+      variables: { id: userId },
+      skip: !userId,
+      onError(error) {
+        logger.error('Header: error get user', { error, input: { id: userId } });
+      },
+    },
+  );
+  const userAvatarS3Key = React.useMemo(
+    () => (userAvatarResponse?.getUser?.avatar?.key) ?? '',
+    [userAvatarResponse],
+  );
+
+  return (
+    <div className={styles.headerWrapper}>
+      <div className={styles.header}>
+        {children
+          ? <Protected feature={Features.Header}>{children}</Protected>
+          : (
+            <>
+              <div className={styles.avatarWrapper}>
+                <Avatar
+                  s3AvatarIsLoading={s3AvatarIsLoading}
+                  s3key={userAvatarS3Key}
+                  email={email}
+                  name={name}
+                  width={USER_AVATAR_SIZE}
+                  height={USER_AVATAR_SIZE}
+                />
+              </div>
+              <DoubleArrow
+                onClick={onClickCollapseButton}
+                className={classnames(
+                  styles.arrow,
+                  { [styles.arrowCollapsed]: navIsCollapsed },
+                  { [styles.arrowExpanded]: !navIsCollapsed },
+                )}
+              />
+              <Breadcrumbs />
+            </>
+          )}
+      </div>
     </div>
-  </div>
-);
+  );
+});

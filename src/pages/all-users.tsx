@@ -6,8 +6,8 @@ import { useQuery, gql } from '@apollo/client';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { ListUsersQuery, UserRole } from '../API';
 import { useFlash, useLogger } from '../hooks';
+import { Page } from '../types/custom';
 import { PageLayoutOne } from '../components/pageLayoutOne';
-import { Page } from '../components/nav/nav';
 import { listUsers } from '../graphql/queries';
 import { filterUsersByRole } from '../helpers/util';
 
@@ -51,14 +51,7 @@ const AllUsersPage: React.FC = () => {
   };
 
   return (
-    <PageLayoutOne
-      headerText={
-        <>
-          All Users - <small>Admin Only</small>
-        </>
-      }
-      page={Page.ALL_USERS}
-    >
+    <PageLayoutOne page={Page.ALL_USERS}>
       <div className={classnames('column', 'is-narrow', styles.allUsers)}>
         <h2>{`Freelancers: ${freelancers.length}`}</h2>
         <h2>{`Clients: ${clients.length}`}</h2>

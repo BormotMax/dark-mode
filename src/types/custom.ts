@@ -79,3 +79,11 @@ export type S3Avatar = {
   key: string,
   tag: string,
 };
+
+export enum Page {
+  PROJECT,
+  PROJECTS,
+  HIRE,
+  HIRE_EDITOR,
+  ALL_USERS,
+}

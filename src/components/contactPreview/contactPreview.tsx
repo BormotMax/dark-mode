@@ -330,8 +330,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
     }
 
     const projectUrl = userType === UserRole.CLIENT
-      ? `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`
-      : `https://continuum.works/project/${projectID}`;
+      ? `https://continuum.works/projects/${projectID}?token=${signedOutAuthToken}`
+      : `https://continuum.works/projects/${projectID}`;
 
     const newProjectMemberEmailInput = {
       freelancerEmail: currentUser.email,

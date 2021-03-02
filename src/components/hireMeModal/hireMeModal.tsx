@@ -206,7 +206,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
       freelancerName,
       clientName: name,
       clientEmail: existingClient.email,
-      projectUrl: `https://continuum.works/project/${projectID}`,
+      projectUrl: `https://continuum.works/projects/${projectID}`,
       type: 'NEW_CLIENT_CONTACT_FREELANCER',
     };
 
@@ -221,7 +221,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
       freelancerName,
       clientEmail: existingClient.email,
       clientName: name,
-      projectUrl: `https://continuum.works/project/${projectID}?token=${signedOutAuthToken}`,
+      projectUrl: `https://continuum.works/projects/${projectID}?token=${signedOutAuthToken}`,
       type: 'NEW_CLIENT_CONTACT_CLIENT',
     };
 
@@ -233,8 +233,8 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
 
     setDelayedFlash(`Thank you! ${freelancerName} will get back to you shortly.`);
     await router.push(
-      `/project/[id]?token=${signedOutAuthToken}`,
-      `/project/${projectID}`,
+      `/projects/[id]?token=${signedOutAuthToken}`,
+      `/projects/${projectID}`,
       { shallow: true },
     );
     window.scrollTo(0, 0);

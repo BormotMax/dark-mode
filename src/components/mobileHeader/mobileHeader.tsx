@@ -3,6 +3,8 @@ import { faBars, faEllipsisV, faTimes } from '@fortawesome/pro-regular-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 
+import Breadcrumbs from '../breadcrumbs';
+
 import styles from './mobileHeader.module.scss';
 
 export enum ViewingState {
@@ -13,14 +15,12 @@ export enum ViewingState {
 
 interface MobileHeaderProps {
   currentViewingState: ViewingState;
-  headerText: string;
-  changePanel: Function;
+  changePanel: (arg0: ViewingState) => void;
   hasSecondChild: boolean;
 }
 
 export const MobileHeader: React.FC<MobileHeaderProps> = ({
   currentViewingState,
-  headerText,
   changePanel,
   hasSecondChild,
   children,
@@ -44,7 +44,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
   };
 
   return (
-    <div className={classnames(styles.mobileHeader)}>
+    <div className={styles.mobileHeader}>
       <div
         role="button"
         tabIndex={0}
@@ -54,7 +54,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
       >
         <FontAwesomeIcon color="#595959" size="1x" icon={faBars} />
       </div>
-      <div>{headerText}</div>
+      <Breadcrumbs />
       {hasSecondChild && currentViewingState === ViewingState.FIRST_CHILD && (
         <div
           role="button"

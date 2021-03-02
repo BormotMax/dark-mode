@@ -271,3 +271,16 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
     }
   }
 }
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 0 40px;
+}
+
+.headerText {
+  @include mixins.useFont(24px, 28px, 400, Roboto);
+  color: colors.$c-gray;
+}

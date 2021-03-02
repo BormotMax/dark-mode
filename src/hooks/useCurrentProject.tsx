@@ -3,7 +3,8 @@ import React, { createContext, useContext, useReducer, Dispatch } from 'react';
 import { Project, User } from '../types/custom';
 
 export enum CurrentProjectAction {
-  SET_CURRENT_PROJECT = 'set/project',
+  SET = 'SET_CURRENT_PROJECT',
+  RESET = 'RESET_CURRENT_PROJECT',
 }
 
 type State = {
@@ -13,7 +14,7 @@ type State = {
 
 type Action = {
   type: CurrentProjectAction,
-  payload: State,
+  payload?: State,
 };
 
 type ProjectContext = {
@@ -21,22 +22,24 @@ type ProjectContext = {
   currentProjectDispatch: Dispatch<Action>
 };
 
+const initialState: State = {
+  viewer: null,
+  project: null,
+};
+
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case CurrentProjectAction.SET_CURRENT_PROJECT:
+    case CurrentProjectAction.SET:
       return {
         ...state,
         viewer: action.payload.viewer,
         project: action.payload.project,
       };
+    case CurrentProjectAction.RESET:
+      return initialState;
     default:
       return state;
   }
-};
-
-const initialState: State = {
-  viewer: null,
-  project: null,
 };
 
 export const CurrentProjectContext = createContext<ProjectContext>({

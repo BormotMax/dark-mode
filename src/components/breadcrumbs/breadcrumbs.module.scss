@@ -1,0 +1,70 @@
+@use "src/mixins";
+@use 'src/colors' as colors;
+@use 'src/variables' as variables;
+
+$line-height: 36px;
+
+.nav {
+  max-width: 50%;
+}
+
+.list {
+  position: relative;
+  text-transform: capitalize;
+  @include mixins.useFont(24px, 36px, 400, Poppins);
+  color: colors.$black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-height: $line-height;
+  padding-right: 1rem;
+
+  @media only screen and (max-width: variables.$breakpoint-md) {
+    --max-lines: 2;
+    --small-line-height: 21px;
+    --font-size: 14px;
+
+    position: relative;
+    font-size: var(--font-size);
+    line-height: var(--small-line-height);
+    max-height: calc(var(--small-line-height) * var(--max-lines));
+    white-space: unset;
+
+    &::before {
+      position: absolute;
+      content: "...";
+      inset-block-end: 0;
+      inset-inline-end: 0;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset-inline-end: 0;
+      width: 1rem;
+      height: 1rem;
+      background: colors.$white;
+    }
+  }
+
+  & a {
+    color: colors.$black;
+  }
+
+  & a.firstPath {
+    color: colors.$steel;
+  }
+
+  & li {
+    display: inline;
+    color: colors.$black;
+  }
+}
+
+.divider {
+  margin: 0 8px;
+  color: colors.$steel;
+}
+
+.firstPath {
+  color: colors.$steel;
+}

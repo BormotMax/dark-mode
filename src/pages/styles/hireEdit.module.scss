@@ -23,3 +23,10 @@
     grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
   }
 }
+
+.saveButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  padding-right: 12px;
+}

@@ -1,14 +1,15 @@
 @use 'src/variables' as variables;
 @use 'src/colors' as colors;
+@use "src/mixins";
 @import '~bulma/sass/utilities/_all.sass';
 
 .headerWrapper {
   box-sizing: border-box;
-  background: colors.$fa-gray;
+  background: colors.$white;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  border-bottom: 1px solid colors.$gray-5;
+  border-bottom: variables.$header-border-bottom-height solid colors.$steel;
   z-index: 3;
 }
 
@@ -17,28 +18,30 @@
 }
 
 .header {
-  min-height: variables.$header-min-height;
+  height: variables.$header-height;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-
-  a {
-    color: colors.$steel-blue;
-    &:hover {
-      text-decoration: underline;
-      color: colors.$steel-blue;
-    }
-  }
 }
 
 .nav {
   padding: 12px;
 }
 
-.headerText {
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
-  color: colors.$c-gray;
+.avatarWrapper {
+  padding-left: 27px;
+}
+
+.arrow {
+  cursor: pointer;
+  margin-right: 40px;
+  transition: transform 0.2s ease-in-out, margin 0.2s ease-in-out;
+}
+
+.arrowCollapsed {
+  margin-left: 13px;
+  transform: rotate(180deg);
+}
+
+.arrowExpanded {
+  margin-left: 174px;
 }

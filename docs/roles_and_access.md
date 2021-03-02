@@ -26,8 +26,8 @@ The project uses the following roles:
 `src/pages/hire/[id].tsx`;
 - available button `New Project` in` Header` on page `/projects`,
 - available `Save` button in` Header` on `/hire-page-editor` page,
-- available breadcrumbs instead of header title in `/projects` and `/project/[id]` pages,
-- header title is not visible on pages `/projects` and `/project/[id]`,
+- available breadcrumbs instead of header title in `/projects` and `/projects/[id]` pages,
+- header title is not visible on pages `/projects` and `/projects/[id]`,
 - navigation is available in the mobile version of the project,
 - navigation is available in the desktop version of the project -> <br>
 `src/components/pageLayoutOne/pageLayoutOne.tsx`;
@@ -63,8 +63,8 @@ The project uses the following roles:
 `src/pages/hire/[id].tsx`;
 - available button `New Project` in `Header` on page `/projects`,
 - available `Save` button in `Header` on `/hire-page-editor` page,
-- available breadcrumbs instead of header title in `/projects` and `/project/[id]` pages,
-- header title is not visible on pages `/projects` and `/project/[id]`,
+- available breadcrumbs instead of header title in `/projects` and `/projects/[id]` pages,
+- header title is not visible on pages `/projects` and `/projects/[id]`,
 - navigation is available in the mobile version of the project,
 - navigation is available in the desktop version of the project -> <br>
 `src/components/pageLayoutOne/pageLayoutOne.tsx`;
@@ -99,8 +99,8 @@ The project uses the following roles:
 `src/components/contactPreview/contactPreview.tsx`;
 - not available `Edit` button in `Header` on `/hire/something` page -> <br>
 `src/pages/hire/[id].tsx`;
-- breadcrumbs are not available instead of a header title in the `/projects` and `/project/[id]` pages,
-- header title is visible on pages `/projects` and `/project/[id]`,
+- breadcrumbs are not available instead of a header title in the `/projects` and `/projects/[id]` pages,
+- header title is visible on pages `/projects` and `/projects/[id]`,
 - navigation is not available in the mobile version of the project,
 - navigation is not available in the desktop version of the project -> <br>
 `src/components/pageLayoutOne/pageLayoutOne.tsx`;

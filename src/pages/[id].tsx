@@ -16,7 +16,6 @@ import InstagramLogo from '../img/instagram.svg';
 import Dribbble from '../img/dribbble.svg';
 import Twitter from '../img/twitter.svg';
 import { Header } from '../components/header';
-import { Page } from '../components/nav/nav';
 import { Avatar } from '../components/avatar/avatar';
 import { ButtonSmall } from '../components/buttons/buttons';
 import { isClickOrEnter, getDatasetValue } from '../helpers/util';
@@ -162,6 +161,23 @@ const Hire: React.FC = () => {
     [portfolioImages],
   );
 
+  const headerContent = useMemo(
+    () => (
+      <div className={styles.header}>
+        <div className={styles.headerText}>Hire Page preview</div>
+        <ButtonSmall
+          extraBorderRadius
+          inverted
+          padding="0 13px"
+          onClick={goToEditHirePage}
+          text="Edit"
+          isSaving={isSaving}
+        />
+      </div>
+    ),
+    [goToEditHirePage, isSaving],
+  );
+
   if (!loading && !hireInfo) return <div>There is no hire page here, yet.</div>;
   if (!hireInfo) return <div>Loading...</div>;
 
@@ -190,19 +206,8 @@ const Hire: React.FC = () => {
       </ModalGateway>
       <SkeletonTheme color="#FAF8F7" highlightColor="white">
         {showHeader && (
-          <Header
-            withLevelingMargin={false}
-            headerText="Hire Page preview"
-            page={Page.HIRE}
-          >
-            <ButtonSmall
-              extraBorderRadius
-              inverted
-              padding="0 13px"
-              onClick={goToEditHirePage}
-              text="Edit"
-              isSaving={isSaving}
-            />
+          <Header>
+            {headerContent}
           </Header>
         )}
         <div className={classnames(styles.upper)}>

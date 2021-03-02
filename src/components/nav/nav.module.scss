@@ -1,16 +1,18 @@
 @use 'src/variables' as variables;
+@use 'src/colors' as colors;
+@use 'src/mixins';
 @import "~bulma/sass/utilities/_all.sass";
 
 .nav {
-  min-width: variables.$nav-bar-min-width;
+  // fix bulma column padding
+  height: calc(100% + 24px);
+
   min-height: 100vh;
   padding: 16px;
-  background: #1d3557;
-  color: #ffffff;
+  background-color: colors.$background-silver;
+  border-right: 1px solid colors.$steel;
+  color: colors.$black;
   margin: -12px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
   z-index: 2;
 
   a {
@@ -18,15 +20,23 @@
   }
 
   ul {
+    position: sticky;
+    top: calc(#{variables.$header-height} + #{variables.$header-border-bottom-height} + 23px);
+    @include mixins.useFont(18px, 27px, normal, Poppins);
+
     li {
       margin: 6px 0;
-      svg {
-        margin-right: 16px;
-      }
-      border-radius: 8px;
+      height: 40px;
+      border-radius: 100px;
+
       &:hover {
         &:not(.disabled) {
-          background: #3c78fb;
+          background-color: colors.$black;
+
+          & a, button, svg {
+            color: colors.$white;
+            font-weight: 500;
+          }
         }
       }
     }
@@ -34,13 +44,17 @@
     a, button {
       display: flex;
       align-items: center;
-      color: #ffffff;
-      padding: 6px 16px;
-      width: 100%;
+      color: colors.$black;
+      width: fit-content;
     }
 
     .current {
-      background: #3c78fb;
+      background-color: colors.$black;
+
+      & a, button {
+        color: colors.$white;
+        font-weight: 500;
+      }
     }
   }
 
@@ -69,7 +83,6 @@
 }
 
 .disabled {
-  padding: 6px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,8 +107,66 @@
   }
 }
 
+.navList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & li {
+    transition: width 0.2s ease-in-out;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    & svg {
+      max-width: 20px;
+    }
+  }
+
+  & a {
+    width: fit-content;
+  }
+}
+
+.navListExpanded {
+  & li {
+    width: 100%;
+
+    & svg {
+      margin-left: 25px;
+      margin-right: 16px;
+    }
+  }
+}
+
+.navListCollapsed {
+  & li {
+    width: 43px;
+
+    & > * {
+      margin: 0 auto;
+    }
+
+    & svg {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
 .longText {
   svg {
     margin-right: 12px !important;
+  }
+}
+
+.community {
+  path {
+    fill: colors.$black;
+  }
+
+  &:hover {
+    path {
+      fill: colors.$white;
+    }
   }
 }

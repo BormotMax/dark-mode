@@ -12,10 +12,9 @@ import { FileUpload } from '../components/fileUpload';
 import { updateHireMeInfo, createHireMeInfo, createDomainSlug, deleteDomainSlug, updateUser } from '../graphql/mutations';
 import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery, GetUserQuery } from '../API';
 import { getHireMeInfo, getDomainSlug, getUser } from '../graphql/queries';
-import { DomainSlug, ReservedRouteNames } from '../types/custom';
+import { DomainSlug, ReservedRouteNames, Page } from '../types/custom';
 import { useFlash, useLogger } from '../hooks';
 import { PageLayoutOne } from '../components/pageLayoutOne';
-import { Page } from '../components/nav/nav';
 import { ButtonSmall } from '../components/buttons/buttons';
 
 import { client } from './_app';
@@ -365,14 +364,11 @@ const HirePageEditor = ({ currentUser }) => {
   };
 
   return (
-    <PageLayoutOne
-      page={Page.HIRE_EDITOR}
-      headerText="Hire Page Editor"
-      headerButton={
-        <ButtonSmall form="hirePageForm" text="Save" isSaving={saving} />
-      }
-    >
+    <PageLayoutOne page={Page.HIRE_EDITOR}>
       <div className={classnames(styles.hirePageEditor, 'column', 'container')}>
+        <div className={classnames(styles.saveButtonWrapper, 'is-hidden-mobile')}>
+          <ButtonSmall form="hirePageForm" text="Save" isSaving={saving} />
+        </div>
         <div className={classnames('text-1', 'columns')}>
           <div className="column">
             <form id="hirePageForm" onSubmit={(e) => handleSubmit(e)}>
