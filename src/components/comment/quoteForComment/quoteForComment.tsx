@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
-import gql from 'graphql-tag';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
+import { useQuery, gql } from '@apollo/client';
 
 import { ProtectedElse } from '../../protected/protected';
 import { useFlash, useLogger } from '../../../hooks';
@@ -14,7 +14,6 @@ import { getQuote } from '../../../graphql/queries';
 import { createQuotePayment, updateQuote } from '../../../graphql/mutations';
 import { GetQuoteQuery, QuoteStatus, UpdateQuoteInput, UpdateQuoteMutation } from '../../../API';
 import { unauthClient } from '../../../pages/_app';
-import { Quote } from '../../../types/custom';
 import { STRIPE_API_URL, STRIPE_PUBLISHABLE_KEY } from '../../../helpers/constants';
 import { useCurrentProject } from '../../../hooks/useCurrentProject';
 import { Features } from '../../../permissions';
@@ -28,31 +27,21 @@ interface QuoteForCommentProps {
 }
 
 export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
-  const [quote, setQuote] = useState<Quote>(null);
   const { setFlash } = useFlash();
   const [isUpdating, setIsUpdating] = useState(false);
   const [payeeStripeAccountID, setPayeeStripeAccountID] = useState(null);
   const { logger } = useLogger();
   const { currentProjectState } = useCurrentProject();
 
-  useEffect(() => {
-    const executeGetQuote = async () => {
-      const getQuoteInput = { id };
-
-      try {
-        const res: { data: GetQuoteQuery } = await unauthClient.query({
-          query: gql(getQuote),
-          variables: getQuoteInput,
-        });
-
-        setQuote(res.data.getQuote);
-      } catch (error) {
-        logger.error('QuoteForComment: error retrieving Quote', { error, input: getQuoteInput });
-      }
-    };
-
-    executeGetQuote();
-  }, []);
+  const { data: { getQuote: quote } = {}, refetch: refetchQuote } = useQuery<GetQuoteQuery>(
+    gql(getQuote),
+    {
+      variables: { id },
+      onError(error) {
+        logger.error('QuoteForComment: error retrieving Quote', { error, input: { id } });
+      },
+    },
+  );
 
   useEffect(() => {
     const freelancers = currentProjectState.project?.freelancers?.items || [];
@@ -76,12 +65,11 @@ export const QuoteForComment: React.FC<QuoteForCommentProps> = ({ id }) => {
     };
 
     try {
-      const response = await unauthClient.mutate<UpdateQuoteMutation>({
+      await unauthClient.mutate<UpdateQuoteMutation>({
         mutation: gql(updateQuote),
         variables: { input: updateQuoteInput },
       });
-
-      setQuote(response.data.updateQuote);
+      await refetchQuote({ id: quote.id });
     } catch (error) {
       logger.error('UpdateQuoteContent: error updating quote status', { error, input: updateQuoteInput });
       setFlash('Error: failed to update accept / decline quote');

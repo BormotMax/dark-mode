@@ -1,28 +1,28 @@
-import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
+import React, { useCallback, useRef, useState, useMemo, memo } from 'react';
 import { useRouter } from 'next/router';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import gql from 'graphql-tag';
 import classnames from 'classnames';
 import Storage from '@aws-amplify/storage';
 import Carousel, { Modal as ImageModal, ModalGateway } from 'react-images';
+import { useQuery, gql } from '@apollo/client';
 
 import { HireInfoByDomainSlugQuery } from '../API';
 import { hireInfoByDomainSlug } from '../graphql/queries';
 import { HireMeModal } from '../components/hireMeModal';
 import { Modal } from '../components/modal';
-import { useCurrentUser, useFlash, useLogger } from '../hooks';
-import { unauthClient as client } from './_app';
+import { useCurrentUser, useFlash, useLogger, useAsync } from '../hooks';
 import LinkedInLogo from '../img/linkedIn.svg';
 import InstagramLogo from '../img/instagram.svg';
 import Dribbble from '../img/dribbble.svg';
 import Twitter from '../img/twitter.svg';
-import styles from './styles/hire.module.scss';
 import { Header } from '../components/header';
 import { Page } from '../components/nav/nav';
 import { Avatar } from '../components/avatar/avatar';
 import { ButtonSmall } from '../components/buttons/buttons';
 import { isClickOrEnter, getDatasetValue } from '../helpers/util';
 
+import { unauthClient } from './_app';
+import styles from './styles/hire.module.scss';
 
 enum Tab {
   PORTFOLIO,
@@ -38,12 +38,8 @@ const Hire: React.FC = () => {
   const router = useRouter();
   const { currentUser } = useCurrentUser();
   const { setFlash } = useFlash();
-  const { id } = router.query;
+  const { id: domainSlugID } = router.query;
   const [selectedTab, setSelectedTab] = useState(Tab.PORTFOLIO);
-  const [hireInfo, setHireInfo] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [portfolioImages, setPortfolioImages] = useState(null);
-  const [bannerImage, setBannerImage] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCarouselOpen, setCarouselOpen] = useState(false);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(-1);
@@ -51,61 +47,63 @@ const Hire: React.FC = () => {
   const blurbTextElement = useRef(null);
   const { logger } = useLogger();
 
-  useEffect(() => {
-    const execute = async () => {
-      if (!id) return;
-
-      const hireInfoByDomainSlugInput = { domainSlugID: id };
-      try {
-        const { data }: { data: HireInfoByDomainSlugQuery } = await client.query({
-          query: gql(hireInfoByDomainSlug),
-          variables: hireInfoByDomainSlugInput,
-        });
-
-        if (data?.hireInfoByDomainSlug?.items?.length > 1) {
-          logger.error('Hire: freelancer has more than one HireInfo', { input: hireInfoByDomainSlugInput });
+  const {
+    data: { hireInfoByDomainSlug: { items: [hireInfo] = [] } = {} } = {},
+    loading,
+  } = useQuery<HireInfoByDomainSlugQuery>(
+    gql(hireInfoByDomainSlug),
+    {
+      skip: !domainSlugID,
+      variables: { domainSlugID },
+      client: unauthClient,
+      onCompleted(data) {
+        if (data.hireInfoByDomainSlug?.items?.length > 1) {
+          logger.error('Hire: freelancer has more than one HireInfo', { input: { domainSlugID } });
         }
-
-        const info = data?.hireInfoByDomainSlug?.items[0];
-
-        if (info) {
-          const map = {};
-          const promises = [];
-
-          info.portfolioImages?.forEach(({ key, tag }) => {
-            try {
-              promises.push(
-                Storage.get(key).then((img) => {
-                  map[tag] = img;
-                }),
-              );
-            } catch (error) {
-              logger.error('Hire: error getting banner image', { error, input: key });
-            }
-          });
-
-          Promise.all(promises).then(() => setPortfolioImages(map));
-
-          if (info.bannerImage) {
-            const s3Key = info.bannerImage.key;
-            try {
-              Storage.get(s3Key).then((b) => setBannerImage(b));
-            } catch (error) {
-              logger.error('Hire: error getting banner image', { error, input: s3Key });
-            }
-          }
-        }
-
-        setHireInfo(info);
-      } catch (error) {
+      },
+      onError(error) {
         setFlash('There has been an error. Please contact support');
-        logger.error('Hire: error getting hireInfoByDomainSlug', { error, input: hireInfoByDomainSlugInput });
-      } finally {
-        setLoading(false);
+        logger.error('Hire: error getting hireInfoByDomainSlug', { error, input: { domainSlugID } });
+      },
+    },
+  );
+
+  const { value: portfolioImages = {} } = useAsync(
+    async () => {
+      if (!Array.isArray(hireInfo?.portfolioImages)) return {};
+      const images = {};
+      const promises = [];
+      hireInfo.portfolioImages.forEach(({ key, tag }) => {
+        try {
+          promises.push(
+            Storage.get(key).then((img) => {
+              images[tag] = img;
+            }),
+          );
+        } catch (error) {
+          logger.error('Hire: error getting banner image', { error, input: key });
+        }
+      });
+      await Promise.all(promises);
+      return images;
+    },
+    [hireInfo],
+  );
+
+  const { value: bannerImage } = useAsync(
+    async () => {
+      const s3Key = hireInfo?.bannerImage?.key;
+      if (!s3Key) return '';
+      try {
+        const loadedBanner = await Storage.get(hireInfo?.bannerImage?.key);
+        return typeof loadedBanner === 'string' ? loadedBanner : '';
+      } catch (error) {
+        logger.error('Hire: error getting banner image', { error, input: s3Key });
+        return '';
       }
-    };
-    execute();
-  }, [id]);
+    },
+    [hireInfo],
+  );
 
   const goToEditHirePage = useCallback(
     () => {
@@ -116,7 +114,7 @@ const Hire: React.FC = () => {
   );
 
   const carouselImages = useMemo(
-    () => Object.values(portfolioImages || {})
+    () => Object.values(portfolioImages)
       .map((image) => ({ source: image as string })),
     [portfolioImages],
   );
@@ -329,4 +327,4 @@ const Hire: React.FC = () => {
   );
 };
 
-export default Hire;
+export default memo(Hire);

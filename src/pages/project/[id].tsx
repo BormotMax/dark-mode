@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, memo } from 'react';
 import Router, { useRouter } from 'next/router';
-import gql from 'graphql-tag';
 import classnames from 'classnames';
+import { useSubscription, useQuery, gql } from '@apollo/client';
 
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
-import { Project, Comment as CommentType, AuthProps } from '../../types/custom';
+import { Project, Comment as CommentType, AuthProps, User } from '../../types/custom';
 import { unauthClient, client } from '../_app';
-import { GetProjectQuery, CommentResourceType } from '../../API';
+import { GetProjectQuery, CommentResourceType, OnCreateCommentSubscription } from '../../API';
 import { useFlash, useLogger } from '../../hooks';
 import { CommentWrapper, NewComment } from '../../components/comment';
 import { onCreateComment } from '../../graphql/subscriptions';
@@ -16,7 +16,6 @@ import { Page } from '../../components/nav/nav';
 import { isClickOrEnter } from '../../helpers/util';
 import { CurrentProjectAction, useCurrentProject } from '../../hooks/useCurrentProject';
 import ProjectMenu from '../../components/projectMenu';
-
 import styles from '../styles/project.module.scss';
 
 enum ProjectTabsEnum {
@@ -30,17 +29,114 @@ enum ProjectTabsEnum {
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id, token } = router.query;
-  const [project, setProject] = useState(null);
+  const [project, setProject] = useState<Project>(null);
   const [projectTab, setProjectTab] = useState(ProjectTabsEnum.Recent);
   const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
-  const viewer = useRef(null);
-  const projectViewer = useRef(null);
+  const viewer = useRef<User>(null);
+  const projectViewer = useRef<User>(null);
   const [loading, setLoading] = useState(true);
   const { setFlash, setDelayedFlash } = useFlash();
   const { logger } = useLogger();
   const currentUserId = currentUser?.attributes?.sub;
-  const newCommentRef = useRef(null);
+  const newCommentRef = useRef<HTMLDivElement>(null);
   const { currentProjectDispatch } = useCurrentProject();
+
+  const {
+    data: { getProject: fetchedProject } = {},
+    refetch: fetchProject,
+  } = useQuery<GetProjectQuery>(
+    gql(getProject),
+    {
+      skip: !id,
+      variables: { id },
+      client: unauthClient,
+      onError(error) {
+        setFlash("There was an error retrieving this project. We're looking into it.");
+        logger.error('Project: error retrieving Project.', { error, input: { id } });
+        setLoading(false);
+      },
+    },
+  );
+
+  useEffect(
+    () => {
+      if (!fetchedProject) return;
+      // determineViewer
+      let viewerCandidate;
+      const { clients, freelancers } = fetchedProject;
+      const viewingClientItem = clients.items
+        .find((viewerClient) => viewerId && viewerClient?.user?.signedOutAuthToken === viewerId);
+      const viewingFreelancerItem = freelancers.items
+        .find((freelancer) => currentUserId && freelancer?.user?.id === currentUserId);
+
+      if (viewingFreelancerItem?.user) {
+        viewerCandidate = viewingFreelancerItem;
+      } else if (viewingClientItem?.user) {
+        if (currentUserId) {
+          logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
+          setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
+          Router.push('/projects');
+        }
+        viewerCandidate = viewingClientItem;
+      }
+      const user = viewerCandidate?.user;
+      const projectUser = viewerCandidate;
+
+      setProject(fetchedProject);
+      currentProjectDispatch({
+        type: CurrentProjectAction.SET_CURRENT_PROJECT,
+        payload: {
+          viewer: user,
+          project: fetchedProject,
+        },
+      });
+
+      viewer.current = user;
+      projectViewer.current = projectUser;
+      setLoading(false);
+    },
+    [fetchedProject, currentUserId, id, viewerId],
+  );
+
+  const {
+    data: { onCreateComment: newComment } = {},
+    error: commentsSubscriptionError,
+  } = useSubscription<OnCreateCommentSubscription>(
+    gql(onCreateComment),
+    { client: currentUser ? client : unauthClient },
+  );
+
+  useEffect(
+    () => {
+      if (!newComment) return;
+      setProject((prevProject) => {
+        if (newComment.projectID !== prevProject.id) {
+          return prevProject;
+        }
+        return {
+          ...prevProject,
+          comments: {
+            ...prevProject.comments,
+            items: [...prevProject.comments.items, newComment],
+          },
+        };
+      });
+
+      if (viewer.current?.id === newComment.creator.id) {
+        newCommentRef.current?.scrollIntoView();
+      }
+    },
+    [newComment],
+  );
+
+  useEffect(
+    () => {
+      if (!commentsSubscriptionError) return;
+      setFlash('Messaging may be unavailable. Try reloading the page.');
+      logger.error('Project: error subscribing to onCreateComment', { error: commentsSubscriptionError });
+    },
+    [commentsSubscriptionError],
+  );
 
   useEffect(() => {
     setViewerId(token || localStorage.getItem('viewerId'));
@@ -48,85 +144,6 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
       localStorage.setItem('viewerId', token as string);
     }
   }, [currentUser, token]);
-
-  const determineViewer = (p) => {
-    let viewerCandidate;
-    const { clients, freelancers } = p as Project;
-    const viewingClientItem = clients.items.find((c) => viewerId && c.user.signedOutAuthToken === viewerId);
-    const viewingFreelancerItem = freelancers.items.find((f) => currentUserId && f?.user?.id === currentUserId);
-
-    if (viewingFreelancerItem?.user) {
-      viewerCandidate = viewingFreelancerItem;
-    } else if (viewingClientItem?.user) {
-      if (currentUserId) {
-        logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
-        setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
-        Router.push('/projects');
-      }
-      viewerCandidate = viewingClientItem;
-    }
-
-    return { user: viewerCandidate?.user, projectUser: viewerCandidate };
-  };
-
-  const fetchProject = async () => {
-    if (!id) return;
-    const getProjectInput = { id };
-    try {
-      const getProjectResult: { data: GetProjectQuery } = await unauthClient.query({
-        query: gql(getProject),
-        variables: getProjectInput,
-      });
-      const currentProject: Project = getProjectResult.data?.getProject;
-      const { user, projectUser } = determineViewer(currentProject);
-
-      setProject(currentProject);
-      currentProjectDispatch({
-        type: CurrentProjectAction.SET_CURRENT_PROJECT,
-        payload: {
-          viewer: user,
-          project: currentProject,
-        },
-      });
-
-      viewer.current = user;
-      projectViewer.current = projectUser;
-    } catch (error) {
-      setFlash("There was an error retrieving this project. We're looking into it.");
-      logger.error('Project: error retrieving Project.', { error, input: getProjectInput });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!id) return;
-    const execute = async () => {
-      fetchProject();
-
-      try {
-        const subscriptionResult = client.subscribe({ query: gql(onCreateComment) });
-        subscriptionResult.subscribe({
-          next: (comment) => {
-            const c = comment.data.onCreateComment;
-
-            setProject((p) => {
-              if (c.projectID !== p.id) return p;
-              return { ...p, comments: { ...p.comments, items: [...p.comments.items, comment.data.onCreateComment] } };
-            });
-
-            if (viewer.current.id === c.creator.id) {
-              newCommentRef?.current?.scrollIntoView();
-            }
-          },
-        });
-      } catch (error) {
-        setFlash('Messaging may be unavailable. Try reloading the page.');
-        logger.error('Project: error subscribing to onCreateComment', { error });
-      }
-    };
-    execute();
-  }, [id]);
 
   const handleFilterChange = (e, filterOption) => {
     if (isClickOrEnter(e)) {
@@ -159,7 +176,7 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     return null;
   }
 
-  const { quotes, clients = {}, freelancers, assets } = project as Project || {};
+  const { quotes, clients = {}, freelancers, assets } = project || {};
 
   const projectTabOptions = {
     [ProjectTabsEnum.Recent]: {
@@ -287,4 +304,4 @@ const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, 
   );
 };
 
-export default WithAuthentication(ProjectPage, { routeType: RouteType.NO_REDIRECT });
+export default WithAuthentication(memo(ProjectPage), { routeType: RouteType.NO_REDIRECT });
