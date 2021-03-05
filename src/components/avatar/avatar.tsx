@@ -7,7 +7,7 @@ import { getGravatarImage } from '../../helpers/gravatarUrl';
 
 import styles from './avatar.module.scss';
 
-interface AvatarProps {
+export interface AvatarProps {
   url?: string;
   s3key?: string;
   email?: string;

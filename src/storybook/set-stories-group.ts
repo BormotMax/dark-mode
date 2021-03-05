@@ -26,6 +26,8 @@ interface Response {
   title: string
   component: React.FC<unknown> | (() => null)
   decorators?: unknown[]
+  args?: Record<string, any>
+  argTypes?: Record<string, any>
 }
 
 export const setStoriesGroup = (
