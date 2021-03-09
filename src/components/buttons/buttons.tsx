@@ -78,6 +78,7 @@ export const ConfirmButton: React.FC<ButtonProps> = memo(({
   extraBorderRadius = false,
   size,
   invert,
+  children,
 }) => {
   const fontSize = size === Size.MIDDLE ? styles.confirmButton__middle : styles.confirmButton;
   const invertColor = invert ? styles.confirmButton__invert : '';
@@ -87,7 +88,7 @@ export const ConfirmButton: React.FC<ButtonProps> = memo(({
       onClick={onClick || undefined}
       form={form}
       disabled={isSaving || disabled}
-      type="submit"
+      type={invert ? 'button' : 'submit'}
       className={classnames(
         styles.button,
         fontSize,
@@ -101,6 +102,7 @@ export const ConfirmButton: React.FC<ButtonProps> = memo(({
         },
       )}
     >
+      {children}
       {text}
     </button>
   );
