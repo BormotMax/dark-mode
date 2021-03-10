@@ -85,12 +85,12 @@ const Nav: React.FC<NavProps> = ({
         { [styles.navListExpanded]: !isCollapsed },
       )}
       >
-        <li className={classnames(styles.disabled)}>
+        {/* <li className={classnames(styles.disabled)}>
           <div className={classnames(styles.disabledInner)}>
             <FontAwesomeIcon size="1x" icon={faRobot} color="black" />
             {!isCollapsed && 'Dashboard'}
           </div>
-        </li>
+        </li> */}
         {/* <li className={classnames(styles.disabled)}>
           <div className={classnames(styles.disabledInner, styles.longText)}>
             <FontAwesomeIcon color="#ffffff" size="1x" icon={faComments} />
