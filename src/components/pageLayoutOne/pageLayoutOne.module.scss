@@ -5,7 +5,7 @@
 .page {
   background: #eeeeee;
   min-height: 100vh;
-  font-family: Poppins;
+  font-family: Poppins, sans-serif;
   font-style: normal;
   font-weight: 300;
   font-size: 16px;
@@ -16,10 +16,6 @@
   }
 
   .pageContent {
-    @include mobile {
-      overflow-x: hidden;
-    }
-
     @include tablet {
       padding-left: 12px;
     }
@@ -45,6 +41,7 @@
 }
 
 .noPadding {
+  width: 100%;
   padding: 0;
 }
 

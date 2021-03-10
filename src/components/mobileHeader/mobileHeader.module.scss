@@ -5,8 +5,9 @@
   display: flex;
   height: variables.$header-height;
   border-bottom: variables.$header-border-bottom-height solid colors.$steel;
-  z-index: 2;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 3;
   justify-content: space-between;
   align-items: center;
   padding: 24px 16px;
