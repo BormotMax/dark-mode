@@ -8,7 +8,7 @@
 .button {
   width: 100%;
   height: 48px;
-  @include mixins.useFont(14px, 21px, normal, Poppins);
+  @include mixins.useFont(14px, 21px);
   background: white;
   color: colors.$steel-blue;
   border: 1px solid colors.$silver;

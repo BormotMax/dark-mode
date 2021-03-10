@@ -17,7 +17,7 @@ import {
 import { useCurrentUser } from '../../hooks';
 import { isClickOrEnter } from '../../helpers/util';
 import { Settings } from '../settings';
-import { Modal } from '../modal';
+import Modal from '../modal';
 import { MouseOrKeyboardEvent, Page } from '../../types/custom';
 
 import styles from './nav.module.scss';
@@ -156,6 +156,7 @@ const Nav: React.FC<NavProps> = ({
         </li>
       </ul>
       <Modal
+        maxWidth="668px"
         isOpen={settingsModalIsOpen}
         closeModal={closeModal}
       >

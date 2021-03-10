@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { UsersList } from '../types/custom';
+import { FreelancerProject, Project, UsersList } from '../types/custom';
 import { UserRole } from '../API';
 
 type MouseEvent = React.MouseEvent<EventTarget>;
@@ -54,4 +54,10 @@ export const filterUsersByRole = (
   return filteredUsers.sort((b, a) => (
     new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   ));
+};
+
+export const getProjectTitle = (project: Project | FreelancerProject): string => {
+  const client = project?.clients?.items?.find((item) => item?.isInitialContact);
+  const clientName = client?.user?.name;
+  return project?.title || clientName || 'Title';
 };

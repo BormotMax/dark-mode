@@ -64,21 +64,23 @@ export const InPlaceModal: React.FC<InPlaceModalProps> = memo(({
       </span>
       {isModalOpen ? (
         <InPlaceModalLayout isFixedPosition={isFixedPlacedVariant}>
-          <div tabIndex={-1} className={classnames(styles.modal)} onClick={closeAddPersonModal} />
-          <div className={classnames(styles.modalContent)}>
-            <div
-              style={isFixedPlacedVariant ? modalPosition : null}
-              className={classnames(styles.modalContentInner, {
-                [styles['modalContentInner--wide']]: variant === InPlaceModalVariants.WIDE,
-                [styles['modalContentInner--block']]: variant === InPlaceModalVariants.BLOCK,
-                [styles['modalContentInner--fixed']]: variant === InPlaceModalVariants.FIXED,
-                [styles['modalContentInner--fixedPlaced']]: isFixedPlacedVariant,
-              })}
-            >
-              {/* @ts-ignore */}
-              {React.cloneElement(children, { close: closeAddPersonModal })}
+          <>
+            <div tabIndex={-1} className={classnames(styles.modal)} onClick={closeAddPersonModal} />
+            <div className={classnames(styles.modalContent)}>
+              <div
+                style={isFixedPlacedVariant ? modalPosition : null}
+                className={classnames(styles.modalContentInner, {
+                  [styles['modalContentInner--wide']]: variant === InPlaceModalVariants.WIDE,
+                  [styles['modalContentInner--block']]: variant === InPlaceModalVariants.BLOCK,
+                  [styles['modalContentInner--fixed']]: variant === InPlaceModalVariants.FIXED,
+                  [styles['modalContentInner--fixedPlaced']]: isFixedPlacedVariant,
+                })}
+              >
+                {/* @ts-ignore */}
+                {React.cloneElement(children, { close: closeAddPersonModal })}
+              </div>
             </div>
-          </div>
+          </>
         </InPlaceModalLayout>
       ) : null}
     </>

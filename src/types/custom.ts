@@ -14,7 +14,7 @@ import {
   GetProjectAssetsQuery,
   GetNoteQuery,
   GetProjectFreelancerQuery,
-  ListUsersQuery,
+  ListUsersQuery, ProjectsByFreelancerQuery,
 } from '../API';
 
 interface CognitoUserExt extends CognitoUser {
@@ -49,6 +49,7 @@ export type DomainSlug = GetDomainSlugQuery['getDomainSlug'];
 export type ProjectAsset = GetProjectAssetsQuery['getProjectAssets'];
 export type Note = GetNoteQuery['getNote'];
 export type UsersList = ListUsersQuery['listUsers']['items'];
+export type FreelancerProject = ProjectsByFreelancerQuery['projectsByFreelancer']['items'][0]['project'];
 
 export type MouseOrKeyboardEvent = React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>;
 

@@ -9,7 +9,7 @@ import { useQuery, gql } from '@apollo/client';
 import { HireInfoByDomainSlugQuery } from '../API';
 import { hireInfoByDomainSlug } from '../graphql/queries';
 import { HireMeModal } from '../components/hireMeModal';
-import { Modal } from '../components/modal';
+import Modal from '../components/modal';
 import { useCurrentUser, useFlash, useLogger, useAsync } from '../hooks';
 import LinkedInLogo from '../img/linkedIn.svg';
 import InstagramLogo from '../img/instagram.svg';

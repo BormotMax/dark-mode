@@ -60,26 +60,26 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
     .name {
       color: colors.$gray-1;
       margin-bottom: 8px;
-      @include mixins.useFont(16px, 19px, bold);
+      @include mixins.useFont(16px, 19px, bold, Roboto);
       letter-spacing: 1.61539px;
     }
 
     .title {
       color: colors.$black;
       margin-bottom: 24px;
-      @include mixins.useFont(36px, 42px, bold);
+      @include mixins.useFont(36px, 42px, bold, Roboto);
     }
 
     .blurbText {
       color: colors.$gray-3;
-      @include mixins.useFont(30px, 35px);
+      @include mixins.useFont(30px, 35px, normal, Roboto);
     }
 
     .button {
       background: colors.$prussian-blue;
       color: colors.$white;
       border-radius: 8px;
-      @include mixins.useFont(18px, 33px, 500);
+      @include mixins.useFont(18px, 33px, 500, Roboto);
       padding: 15px 30px;
       border: none;
       cursor: pointer;
@@ -232,7 +232,7 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
     margin: 0 10%;
     white-space: pre-wrap;
     color: colors.$gray-3;
-    @include mixins.useFont(30px, 35px);
+    @include mixins.useFont(30px, 35px, normal, Roboto);
   }
 
   .footer {
@@ -254,7 +254,7 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
 
     .copyright {
       margin-bottom: 38px;
-      @include mixins.useFont(16px, 24px);
+      @include mixins.useFont(16px, 24px, normal, Roboto);
       color: colors.$gray-3;
     }
 

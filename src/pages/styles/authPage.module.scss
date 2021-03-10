@@ -28,7 +28,7 @@
 }
 
 .title {
-  @include mixins.useFont(24px, 37px, 600, Poppins);
+  @include mixins.useFont(24px, 37px, 600);
   color: colors.$black;
   margin-bottom: 36px;
 }
@@ -52,7 +52,7 @@
 
 .labelInput {
   display: block;
-  @include mixins.useFont(14px, 21px, 300, Poppins);
+  @include mixins.useFont(14px, 21px, 300);
   color: colors.$black;
   margin-bottom: 7px;
 }
@@ -74,7 +74,7 @@
   width: 288px;
   height: 45px;
   color: colors.$black;
-  @include mixins.useFont(14px, 21px, 300, Poppins);
+  @include mixins.useFont(14px, 21px, 300);
   padding: 12px 24px;
   &:focus {
     outline:0;
@@ -87,7 +87,7 @@
   background: linear-gradient(285.44deg, #5421CE 4%, #A000EC 101.17%);
   color: colors.$white;
   border-radius: 100px;
-  @include mixins.useFont(14px, 21px, normal, Poppins);
+  @include mixins.useFont(14px, 21px);
   margin-bottom: 24px;
 }
 

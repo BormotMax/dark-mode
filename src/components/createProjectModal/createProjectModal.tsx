@@ -1,5 +1,4 @@
 import React, { memo, useState } from 'react';
-import classnames from 'classnames';
 import { useMutation, gql, ApolloQueryResult } from '@apollo/client';
 
 import {
@@ -7,47 +6,67 @@ import {
   CreateProjectMutation,
   CreateProjectFreelancerMutation,
 } from '../../API';
-import { ButtonSmall } from '../buttons/buttons';
-import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import { useCurrentUser, useLogger, useFlash, useMountedState } from '../../hooks';
+import { useCurrentUser, useLogger, useFlash } from '../../hooks';
 import {
   createProject as createProjectMutation,
   createProjectFreelancer as createProjectFreelancerMutation,
 } from '../../graphql/mutations';
+import { Input, TextArea } from '../input';
+import Button from '../button';
+import { isClickOrEnter } from '../../helpers/util';
+import { MouseOrKeyboardEvent } from '../../types/custom';
 
-interface CreateProjectModalProps {
-  close?: () => void;
-  refetchData: () => Promise<ApolloQueryResult<ProjectsByFreelancerQuery>>;
+import styles from './createProjectModal.module.scss';
+
+type CreateProjectModalProps = {
+  refetchData: () => Promise<ApolloQueryResult<ProjectsByFreelancerQuery>>,
+  closeModal: () => void,
+};
+
+type ValidationProps = {
+  title?: string,
+  details?: string,
+  company?: string,
+};
+
+type Inputs = {
+  title: string,
+  details: string,
+  company: string,
+};
+
+enum InputNames {
+  TITLE = 'title',
+  DETAILS = 'details',
+  COMPANY = 'company',
 }
 
-interface ValidationProps {
-  title?: string;
-  details?: string;
-  company?: string;
-}
-
-export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ close, refetchData }) => {
-  const [title, setTitle] = useState('');
-  const [details, setDetails] = useState('');
-  const [company, setCompany] = useState('');
+const CreateProjectModal = ({ refetchData, closeModal }: CreateProjectModalProps): JSX.Element => {
+  const [values, setValues] = useState<Inputs>({
+    title: '',
+    details: '',
+    company: '',
+  });
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
 
   const { currentUser } = useCurrentUser();
   const { logger } = useLogger();
   const { setFlash } = useFlash();
-  const getIsMounted = useMountedState();
+
+  const { title, details, company } = values;
 
   function validate() {
     const temp: ValidationProps = {};
 
     if (!title.trim()) temp.title = 'error';
     if (!details.trim()) temp.details = 'error';
+    if (!company.trim()) temp.company = 'error';
 
     return temp;
   }
 
-  const freelancerID = currentUser.attributes.sub;
+  const freelancerID = currentUser?.attributes?.sub;
   const createProjectInput = {
     company: company.trim(),
     owner: freelancerID,
@@ -85,7 +104,6 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setInvalids({});
-    setSaving(true);
 
     const validation = validate();
 
@@ -96,74 +114,72 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = memo(({ clo
     }
 
     try {
+      setSaving(true);
       await createProject();
       await createProjectFreelancer();
       await refetchData();
     } catch {
       setFlash("Something went wrong. We're looking into it");
     } finally {
-      if (getIsMounted()) {
-        setSaving(false);
-      }
-      close();
+      closeModal();
+      setSaving(false);
     }
   };
 
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setValues((prevState) => ({ ...prevState, [name]: value }));
+  };
+  const onBlurInput = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setValues((prevState) => ({ ...prevState, [name]: value.trim() }));
+  };
+  const onClickCancel = (event: MouseOrKeyboardEvent) => {
+    if (!isClickOrEnter(event)) return;
+    closeModal();
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label htmlFor="title" className="label">
-          Project Title
-        </label>
-        <div className="control">
-          <input
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onBlur={() => setTitle(title.trim())}
-            name="title"
-            className={classnames('input', { 'is-danger': invalids.title })}
-            type="text"
-          />
-        </div>
-      </div>
-      <div className="field">
-        <label htmlFor="details" className="label">
-          Project Description
-        </label>
-        <div className="control">
-          <textarea
-            rows={4}
-            value={details}
-            onChange={(e) => setDetails(e.target.value)}
-            onBlur={() => setDetails(details.trim())}
-            name="details"
-            className={classnames('textarea', { 'is-danger': invalids.details })}
-          />
-        </div>
-      </div>
-      <div className="field">
-        <label htmlFor="company" className="label">
-          Company
-        </label>
-        <div className="control">
-          <input
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-            onBlur={() => setCompany(company.trim())}
-            required
-            name="company"
-            className={classnames('input', { 'is-danger': invalids.company })}
-            type="text"
-            maxLength={48}
-          />
-        </div>
-      </div>
-      <div className={modalStyles.save}>
-        <ButtonSmall text="Save" isSaving={isSaving} />
+    <form className={styles.root} onSubmit={handleSubmit}>
+      <div className={styles.title}>New Project</div>
+      <Input
+        placeholder="e.g. UX/UI for iOS app"
+        label="Name"
+        value={title}
+        onChange={onChangeInput}
+        onBlur={onBlurInput}
+        name={InputNames.TITLE}
+        isInvalid={Boolean(invalids.title)}
+        type="text"
+      />
+      <TextArea
+        height={96}
+        placeholder="description"
+        label="Project Description"
+        value={details}
+        onChange={onChangeInput}
+        onBlur={onBlurInput}
+        name={InputNames.DETAILS}
+        isInvalid={Boolean(invalids.details)}
+        type="text"
+      />
+      <Input
+        placeholder="company name"
+        label="Company"
+        value={company}
+        onChange={onChangeInput}
+        onBlur={onBlurInput}
+        name={InputNames.COMPANY}
+        isInvalid={Boolean(invalids.company)}
+        type="text"
+        maxLength={48}
+      />
+      <div className={styles.control}>
+        <Button onClick={onClickCancel}>Cancel</Button>
+        <Button type="submit" inverted isLoading={isSaving}>Save</Button>
       </div>
     </form>
   );
-});
+};
 
-CreateProjectModal.displayName = 'CreateProjectModal';
+export default memo(CreateProjectModal);

@@ -1,0 +1,60 @@
+@use 'src/colors' as colors;
+@use 'src/variables' as variables;
+@use 'src/mixins';
+
+.rootButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 100px;
+  cursor: pointer;
+  border: 1px solid colors.$black;
+  padding: 8px 16px;
+  outline: none;
+  @include mixins.useFont(16px, 24px);
+  color: colors.$black;
+
+  &.loading {
+    color: transparent;
+  }
+
+  &:hover, :active {
+    opacity: 0.8;
+  }
+
+  & svg {
+    font-size: 18px;
+  }
+}
+
+.childrenMargin {
+  width: fit-content;
+  margin-left: 8px;
+}
+
+.loading {
+  position: relative;
+  pointer-events: none;
+  transition: color 0.2s ease-in-out;
+
+  &:after {
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    @include mixins.spin-loader;
+    position: absolute;
+    border-width: 2px;
+  }
+}
+
+.inverted {
+  color: colors.$white;
+  background-color: colors.$black;
+  border: none;
+}
+
+.disabled {
+  opacity: 0.5;
+}

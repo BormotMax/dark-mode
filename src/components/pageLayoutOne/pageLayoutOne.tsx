@@ -8,6 +8,8 @@ import Nav from '../nav';
 import { MobileHeader } from '../mobileHeader';
 import { Features } from '../../permissions';
 import { Page } from '../../types/custom';
+import { useWindowSize } from '../../hooks';
+import { MOBILE_LAYOUT_BREAKPOINT } from '../../helpers/constants';
 
 import styles from './pageLayoutOne.module.scss';
 
@@ -25,18 +27,29 @@ export enum ViewingState {
 export const PageLayoutOne: React.FC<PageLayoutOneProps> = React.memo(({
   children,
   page,
-}) => (
-  <div className={styles.page}>
-    <DesktopLayout
-      content={children}
-      page={page}
-    />
-    <MobileLayout
-      content={children}
-      page={page}
-    />
-  </div>
-));
+}) => {
+  const windowSize = useWindowSize();
+
+  if (windowSize.width <= MOBILE_LAYOUT_BREAKPOINT) {
+    return (
+      <div className={styles.page}>
+        <MobileLayout
+          content={children}
+          page={page}
+        />
+      </div>
+    );
+  }
+  return (
+    <div className={styles.page}>
+      <DesktopLayout
+        content={children}
+        page={page}
+      />
+    </div>
+  );
+});
+
 PageLayoutOne.displayName = 'PageLayoutOne';
 
 const MobileLayout = ({ content, page }) => {

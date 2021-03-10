@@ -1,59 +1,58 @@
+@use 'src/colors' as colors;
+@use 'src/variables' as variables;
+@use 'src/mixins';
 @import "~bulma/sass/utilities/_all.sass";
 
 .projects {
-  max-width: 792px;
+  max-width: variables.$project-list-card-max-width;
+  margin-left: -9px;
+  margin-top: 12px;
+  padding-bottom: 24px;
 
-  @include tablet {
-    padding-left: 0;
+  @media (max-width: variables.$breakpoint-md) {
+    margin: 24px 15px 0 15px;
   }
+}
 
-  a {
-    color: inherit;
+.createProjectButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.projectCardRoot {
+  display: flex;
+  border-radius: variables.$project-list-card-border-radius;
+  height: variables.$project-list-card-height;
+}
+
+.noProjectsPlug {
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed colors.$light-mode-1;
+  color: colors.$light-mode-1;
+  @include mixins.useFont(18px, 27px);
+}
+
+.projectsList {
+  & a:not(:last-child) > div  {
+    margin-bottom: 8px;
   }
+}
 
-  .projectName {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 28px;
-    color: #1d3557;
-  }
+.projectCard {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  background-color: colors.$white;
+  color: colors.$black;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.08);
+}
 
-  @import '~bulma/sass/utilities/_all.sass';
+.title {
+  @include mixins.useFont(24px, 36px, 500);
+}
 
-  .comment {
-    background: white;
-    &:first-child {
-      margin-top: 0;
-    }
-
-    margin: 8px 0;
-    padding: 16px;
-    border-radius: 8px;
-
-    .header {
-      font-family: Poppins;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 24px;
-      color: #828282;
-    }
-
-    .commentContent {
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-family: Roboto;
-      font-weight: normal;
-      font-size: 18px;
-      line-height: 28px;
-      color: #1d3557;
-    }
-  }
-
-  .createProjectButton {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 24px;
-  }
+.details {
+  @include mixins.useFont(16px, 24px);
 }

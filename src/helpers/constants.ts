@@ -10,3 +10,5 @@ const SIGN_UP_URL_DEV = 'https://continuuma908d34b-a908d34b-dev.auth.us-east-1.a
 export const SIGN_UP_URL = process.env.NODE_ENV === 'development'
   ? SIGN_UP_URL_DEV
   : SIGN_UP_URL_MASTER;
+
+export const MOBILE_LAYOUT_BREAKPOINT = 768;

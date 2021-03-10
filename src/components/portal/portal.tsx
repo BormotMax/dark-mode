@@ -1,15 +1,14 @@
+import { memo } from 'react';
 import ReactDOM from 'react-dom';
-import React from 'react';
 
-const DEFAULT_ELEMENT = typeof document !== 'undefined' && document.getElementById('__next');
+type PortalProps = {
+  element?: HTMLElement,
+  children: JSX.Element,
+};
 
-interface PortalProps {
-  element?: HTMLElement;
-}
-
-const Portal: React.FC<PortalProps> = ({
+const Portal = ({
   element,
   children,
-}) => ReactDOM.createPortal(children, element || DEFAULT_ELEMENT);
+}: PortalProps) => ReactDOM.createPortal(children, element || document.body);
 
-export default Portal;
+export default memo(Portal);

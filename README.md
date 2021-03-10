@@ -44,6 +44,6 @@ Create local branch for every feature using `feature/[xyz]` format. Submit PR an
 
 ## SVG Icons
 
-- All icons in the project must be svg react components.
+- All icons in the project must be svg react components (the exception is fontawesome-icons).
 - Placement: `src/components/svgIcons`
 - You can use [SVGR](https://react-svgr.com/playground/?memo=true&typescript=true) to convert.

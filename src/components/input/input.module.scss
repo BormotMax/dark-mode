@@ -1,0 +1,37 @@
+@use 'src/colors' as colors;
+@use 'src/variables' as variables;
+@use 'src/mixins';
+
+.wrapper {
+  width: 100%;
+  color: colors.$dark-mode-1;
+}
+
+.rootInput {
+  @include mixins.useFont(14px, 21px);
+  border: 1px solid transparent;
+  width: 100%;
+  height: 32px;
+  background-color: colors.$bg-silver;
+  border-radius: 4px;
+  padding: 6px;
+
+  &::placeholder {
+    color: colors.$steel;
+  }
+}
+
+.textArea {
+  display: block;
+  resize: none;
+}
+
+.label {
+  @include mixins.useFont(14px, 21px);
+  margin-bottom: 1px;
+  color: colors.$steel;
+}
+
+.invalid {
+  border-color: colors.$invalid-red;
+}

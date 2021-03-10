@@ -1,7 +1,6 @@
 @use 'src/variables' as variables;
 
 .modal {
-  width: 100%;
   z-index: 100;
   outline: none;
   filter: drop-shadow(variables.$drop-shadow);

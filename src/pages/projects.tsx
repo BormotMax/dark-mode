@@ -1,18 +1,22 @@
-import React, { useEffect, useMemo, memo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import classnames from 'classnames';
 import { useQuery, gql } from '@apollo/client';
+import { faCirclePlus } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { usePopper } from 'react-popper';
 
-import { ModelSortDirection, ProjectsByFreelancerQuery } from '../API';
+import { ListProjectFreelancersQuery, ModelSortDirection, ProjectsByFreelancerQuery } from '../API';
 import { projectsByFreelancer, listProjectFreelancers } from '../graphql/queries';
 import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
-import { AuthProps, Project, ProjectFreelancer, Page } from '../types/custom';
+import { AuthProps, Page } from '../types/custom';
 import { PageLayoutOne } from '../components/pageLayoutOne';
-import { ButtonSmall } from '../components/buttons/buttons';
-import { InPlaceModal } from '../components/inPlaceModal';
-import { CreateProjectModal } from '../components/createProjectModal';
+import CreateProjectModal from '../components/createProjectModal';
 import { updateProjectFreelancer } from '../graphql/mutations';
+import { getProjectTitle } from '../helpers/util';
+import Button from '../components/button';
+import Modal from '../components/modal';
 
 import { client } from './_app';
 import styles from './styles/projects.module.scss';
@@ -20,6 +24,21 @@ import styles from './styles/projects.module.scss';
 const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const { setFlash } = useFlash();
   const { logger } = useLogger();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement>(null);
+  const [popperElement, setPopperElement] = useState<HTMLDivElement>(null);
+  const { styles: popperStyles, attributes } = usePopper(
+    referenceElement,
+    popperElement,
+    {
+      placement: 'bottom-end',
+      modifiers: [{
+        name: 'offset',
+        options: { offset: [0, 17] },
+      }],
+    },
+  );
+
   const currentUserId = currentUser?.attributes?.sub;
   const currentUserEmail = currentUser?.attributes?.email;
 
@@ -48,7 +67,10 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const projects = useMemo(
     () => {
       const { items: fetchedProjects } = projectsByFreelancerData?.projectsByFreelancer ?? {};
-      return fetchedProjects?.map((projectMeta) => projectMeta.project) || [];
+      if (Array.isArray(fetchedProjects)) {
+        return fetchedProjects.map((projectMeta) => projectMeta.project).filter(Boolean);
+      }
+      return [];
     },
     [projectsByFreelancerData],
   );
@@ -56,24 +78,30 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   // update all project freelancer associations for current user
   const updateProjectFreelancerAssociation = async () => {
     try {
-      const projectsList = await client.query({ query: gql(listProjectFreelancers) });
-
-      const freelancers = (projectsList?.data)?.listProjectFreelancers?.items as ProjectFreelancer[];
+      const projectsList = await client.query<ListProjectFreelancersQuery>({ query: gql(listProjectFreelancers) });
+      const freelancers = projectsList?.data?.listProjectFreelancers?.items;
       const pendingEmailFreelancers = freelancers.filter((f) => f.pendingEmail === currentUserEmail);
 
       if (!pendingEmailFreelancers.length) return;
 
-      let updateProjectFreelancerInput;
+      const updateProjectFreelancerInput = {
+        id: null,
+        freelancerID: currentUserId,
+        pendingEmail: null,
+      };
       try {
         await Promise.all(pendingEmailFreelancers.map((projectFreelancer) => {
-          updateProjectFreelancerInput = { id: projectFreelancer.id, freelancerID: currentUserId, pendingEmail: null };
+          updateProjectFreelancerInput.id = projectFreelancer.id;
           return client.mutate({
             mutation: gql(updateProjectFreelancer),
             variables: { input: updateProjectFreelancerInput },
           });
         }));
       } catch (error) {
-        logger.error('ProjectFreelancerUpdate: error retrieving Project.', { error, input: updateProjectFreelancerInput });
+        logger.error('ProjectFreelancerUpdate: error retrieving Project.', {
+          error,
+          input: updateProjectFreelancerInput,
+        });
       }
     } catch (error) {
       logger.error('ProjectFreelancer: error retrieving Project.', { error, input: '' });
@@ -87,35 +115,62 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
     execute();
   }, []);
 
+  const openModal = useCallback(() => {
+    setModalIsOpen(true);
+  }, []);
+  const closeModal = useCallback(() => {
+    setModalIsOpen(false);
+  }, []);
+
   const haveNoProjects = !loading && !projects.length;
 
   return (
     <PageLayoutOne page={Page.PROJECTS}>
-      <div className={classnames('column', styles.projects)}>
+      <div className={styles.projects}>
+        <div className={styles.createProjectButton}>
+          <Button
+            ref={setReferenceElement}
+            onClick={openModal}
+            height={40}
+            color="black"
+            icon={(
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                fontSize="18px"
+                color="black"
+              />
+            )}
+          >
+            New Project
+          </Button>
+          <Modal
+            closeOnBackdropClick={false}
+            closeModal={closeModal}
+            isOpen={modalIsOpen}
+            ref={setPopperElement}
+            popperStyles={popperStyles.popper}
+            popperAttributes={attributes.popper}
+          >
+            <CreateProjectModal closeModal={closeModal} refetchData={refetchProjects} />
+          </Modal>
+        </div>
         {haveNoProjects ? (
-          <div>You don&apos;t have any projects yet.</div>
+          <div className={classnames(styles.projectCardRoot, styles.noProjectsPlug)}>You have no projects</div>
         ) : (
-          <>
-            <div className={styles.createProjectButton}>
-              <InPlaceModal button={<ButtonSmall text="New Project" />}>
-                <CreateProjectModal refetchData={refetchProjects} />
-              </InPlaceModal>
-            </div>
-            {projects.filter(Boolean).map((p: Project) => (
-              <Link key={p.id} href="/projects/[id]" as={`/projects/${p.id}`}>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <div className={styles.projectsList}>
+            {projects.map((project) => (
+              <Link key={project.id} href="/projects/[id]" as={`/projects/${project.id}`}>
                 <a>
-                  <div className={styles.comment}>
-                    <div className={styles.header}>
-                      {/* todo: click to change title */}
-                      <div>{p.title || p.clients.items.find((i) => i.isInitialContact)?.user.name || 'Title'}</div>
+                  <div className={classnames(styles.projectCardRoot, styles.projectCard)}>
+                    <div className={styles.title}>
+                      {getProjectTitle(project)}
                     </div>
-                    <div className={styles.commentContent}>{p.details || 'New Project'}</div>
+                    <div className={styles.details}>{project.details || 'New Project'}</div>
                   </div>
                 </a>
               </Link>
             ))}
-          </>
+          </div>
         )}
       </div>
     </PageLayoutOne>
@@ -123,6 +178,9 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
 };
 
 export default WithAuthentication(
-  memo(ProjectsPage),
-  { routeType: RouteType.SIGNED_IN, allowedRoles: [Role.FREELANCER] },
+  React.memo(ProjectsPage),
+  {
+    routeType: RouteType.SIGNED_IN,
+    allowedRoles: [Role.FREELANCER],
+  },
 );

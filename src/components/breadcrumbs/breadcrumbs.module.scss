@@ -11,7 +11,7 @@ $line-height: 36px;
 .list {
   position: relative;
   text-transform: capitalize;
-  @include mixins.useFont(24px, 36px, 400, Poppins);
+  @include mixins.useFont(24px, 36px, 400);
   color: colors.$black;
   overflow: hidden;
   text-overflow: ellipsis;

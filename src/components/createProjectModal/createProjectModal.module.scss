@@ -1,2 +1,33 @@
-.createProjectModal {
+@use 'src/colors' as colors;
+@use 'src/mixins';
+
+.root {
+  width: 332px;
+  background: colors.$white;
+  box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 16px;
+
+  & > div:not(:last-child, :first-child) {
+    margin-bottom: 8px;
+  }
+
+  & > div:nth-last-child(2) {
+    margin-bottom: 16px;
+  }
+}
+
+.control {
+  display: flex;
+  justify-content: flex-end;
+
+  & > *:first-child {
+    margin-right: 15px;
+  }
+}
+
+.title {
+  @include mixins.useFont(24px, 32px, 500);
+  color: colors.$black;
+  margin-bottom: 16px;
 }
