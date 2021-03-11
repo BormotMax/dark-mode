@@ -1,4 +1,5 @@
 @use 'src/variables' as variables;
+@use 'src/colors' as colors;
 
 $member-pill-height: 40px;
 $max-members-in-block: 5;
@@ -32,6 +33,12 @@ $members-wrapper-height: calc(
   color: #FFFFFF;
   height: 32px;
   cursor: pointer;
+}
+
+.deleteButton {
+  color: colors.$white;
+  background-color: colors.$invalid-red;
+  border: colors.$white;
 }
 
 .avatar {

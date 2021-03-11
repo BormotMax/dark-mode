@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import md5 from 'md5';
 import { useQuery, gql } from '@apollo/client';
 
-import { ButtonSmall } from '../buttons/buttons';
+import Button from '../button';
 import { AvatarUpload } from '../avatarUpload';
 import { isClickOrEnter } from '../../helpers/util';
 import { createOrUpdateAvatar } from '../../helpers/s3';
@@ -98,6 +98,10 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
   const [valuesFields, setValuesFields] = useState<Fields>(initialState);
 
   const userID = currentUser?.attributes?.sub;
+
+  const closeWindow = () => {
+    close();
+  };
 
   const onChangeInput = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { target: { name, value } = {} } = event;
@@ -198,6 +202,10 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
   const setIsSaving = (value: boolean) => {
     if (!getIsMounted()) return;
     setIsSavingState(value);
+  };
+
+  const continueWithStripe = () => {
+    window.open('https://connect.stripe.com/setup/s/ty02aUVDSnGF');
   };
 
   const connectToStripe = async (isRefresh = false) => {
@@ -313,19 +321,23 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
     if (isLoading) return <div className={classnames(styles.stripeStatus, styles.white)}>Loading...</div>;
     switch (stripeAccountStatus) {
       case StripeStatus.NOT_STARTED:
-        return <ButtonSmall
-          text="Connect with Stripe"
-          onClick={() => connectToStripe(false)}
-          isSaving={isSaving}
-          className={styles.paymentButton}
-        />;
+        return <Button
+                inverted
+                onClick={() => continueWithStripe()}
+                isLoading={isSaving}
+                className={styles.paymentButton}
+              >
+                Continue Connecting with Stripe
+              </Button>;
       case StripeStatus.INCOMPLETE:
-        return <ButtonSmall
-          text="Continue connecting with Stripe"
-          onClick={() => connectToStripe(true)}
-          isSaving={isSaving}
-          className={styles.paymentButton}
-        />;
+        return <Button
+                inverted
+                onClick={() => connectToStripe()}
+                isLoading={isSaving}
+                className={styles.paymentButton}
+              >
+                Continue Connecting with Stripe
+              </Button>;
       case StripeStatus.COMPLETED:
         return <div className={classnames(styles.stripeStatus, styles.green)}>You are connected with Stripe</div>;
       case StripeStatus.CHARGES_DISABLED:
@@ -365,24 +377,32 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
       </div>
       <div className={classnames(modalStyles.body, styles.body, 'columns')}>
         <div className={classnames(styles.left, 'column', 'is-narrow')}>
-          <button
-            onClick={() => setTab(Tab.Profile)}
-            className={classnames({ [styles.current]: tab === Tab.Profile })}
-            type="button"
-          >
-            <FontAwesomeIcon icon={faUserAstronaut} />
-            Profile
-          </button>
-          <Protected feature={Features.Payments}>
-            <button
-              onClick={() => setTab(Tab.Payments)}
-              type="button"
-              className={classnames({ [styles.current]: tab === Tab.Payments })}
+          <div className={styles.buttons_container}>
+            <Button
+              inverted
+              onClick={() => setTab(Tab.Profile)}
+              icon={<FontAwesomeIcon icon={faUserAstronaut} />}
             >
-              <FontAwesomeIcon icon={faSackDollar} />
-              Payments
-            </button>
-          </Protected>
+              Profile
+            </Button>
+            <Protected feature={Features.Payments}>
+              <Button
+                onClick={() => setTab(Tab.Payments)}
+                icon={<FontAwesomeIcon icon={faSackDollar} />}
+              >
+                Payment
+              </Button>
+            </Protected>
+          </div>
+          {
+            tab === Tab.Profile ?
+              <Button
+                onClick={(event) => resetPassword(event)}
+              >
+                Reset Password
+              </Button>
+              : null
+          }
         </div>
         <div className={classnames(styles.right, 'column')}>
           {tab === Tab.Profile && (
@@ -494,21 +514,18 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
                     </div>
                   </div>
                   <div className={styles.buttonsBlock}>
-                    <div
-                      tabIndex={0}
-                      role="button"
-                      onClick={resetPassword}
-                      onKeyPress={resetPassword}
-                      className={classnames(styles.resetPassword, 'btn-small', 'btn-invert')}
+                    <Button
+                      onClick={() => closeWindow()}
                     >
-                      Reset password
-                    </div>
-                    <ButtonSmall
-                      text="Save"
-                      onClick={() => null}
-                      isSaving={isSaving}
-                      className={styles.saveButton}
-                    />
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      isLoading={isSaving}
+                      inverted
+                    >
+                      Save
+                    </Button>
                   </div>
                 </div>
               </div>

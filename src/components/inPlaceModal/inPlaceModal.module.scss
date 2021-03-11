@@ -1,4 +1,5 @@
 @use 'src/variables' as variables;
+@use 'src/colors' as colors;
 @import "~bulma/sass/utilities/_all.sass";
 
 .modal {
@@ -34,7 +35,7 @@
   }
 
   input {
-    background: #fafafa;
+    background: colors.$background-silver;
     margin-top: 4px;
     border: 1px solid #eeeeee;
     box-sizing: border-box;
@@ -50,7 +51,7 @@
     background: white;
     padding: 16px;
     box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 20px;
 
     &--wide {
       max-width: 668px;
@@ -92,8 +93,32 @@
   }
 }
 
+.deleteMember {
+  background-color: colors.$white;
+  box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  padding: 40px;
+}
+
 .save {
   text-align: right;
+}
+
+.change {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.delete {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
 }
 
 .disabledCheckmarks {
@@ -218,9 +243,9 @@
 .cancel {
   border: none;
   background: transparent;
-  font-family: Roboto;
+  font-family: Poppins;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 16px;
   color: #828282;
   cursor: pointer;

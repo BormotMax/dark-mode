@@ -6,13 +6,14 @@ import styles from './buttons.module.scss';
 interface ButtonProps {
   text: string;
   isSaving?: boolean;
-  onClick?: () => void;
+  onClick?: (event?: any) => void;
   disabled?: boolean;
   inverted?: boolean;
   form?: string;
   className?: string;
   extraBorderRadius?: boolean;
   padding?: string;
+  invert?: boolean;
 }
 
 export const ButtonSmall: React.FC<ButtonProps> = memo(({

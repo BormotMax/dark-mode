@@ -2,12 +2,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classnames from 'classnames';
 import { v4 as uuid } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus } from '@fortawesome/pro-light-svg-icons';
+import { faUserPlus, faTrash } from '@fortawesome/pro-light-svg-icons';
 import { faCircleCheck, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import axios from 'axios';
 import Storage from '@aws-amplify/storage';
 import { useQuery, gql } from '@apollo/client';
 import { ApolloQueryResult } from '@apollo/client/core/types';
+import Modal from '../modal';
 
 import { ProjectClient, ProjectFreelancer, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
@@ -17,15 +18,17 @@ import { AvatarUpload } from '../avatarUpload';
 import { useLogger, useFlash, useDebounce, useAsync } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
 import { listUsers, usersByEmail } from '../../graphql/queries';
-import { UserRole, CreateUserMutation, UsersByEmailQuery, ListUsersQuery } from '../../API';
-import { createUser, createProjectClient, createProjectFreelancer, updateUser } from '../../graphql/mutations';
+import { UserRole, CreateUserMutation, UsersByEmailQuery, ListUsersQuery, DeleteProjectClientInput } from '../../API';
+import { createUser, createProjectClient, createProjectFreelancer, updateUser, deleteProjectClient } from '../../graphql/mutations';
 import { Protected } from '../protected/protected';
 import { isClickOrEnter, getDatasetValue } from '../../helpers/util';
 import { Features } from '../../permissions';
 import { createOrUpdateAvatar } from '../../helpers/s3';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
+import Button from '../button';
 
 import styles from './contactPreview.module.scss';
+import { DeletePersonModal } from './deletePersonModal';
 
 interface ContactPreviewProps {
   users: [ProjectClient | ProjectFreelancer];
@@ -60,6 +63,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({
             refreshUsers={refreshUsers}
             users={users as [ProjectClient | ProjectFreelancer]}
             currentUser={currentUser}
+            addUser={true}
           />
         </InPlaceModal>
       </div>
@@ -100,6 +104,7 @@ export const ContactPreview: React.FC<ContactPreviewProps> = ({
               users={users as [ProjectClient | ProjectFreelancer]}
               selectedUser={selectedUser}
               currentUser={currentUser}
+              addUser={false}
             />
           </InPlaceModal>
         ))}
@@ -122,6 +127,7 @@ interface ModalContentProps {
   selectedUser?: ProjectClient | ProjectFreelancer;
   close?: () => void;
   currentUser: User;
+  addUser?: boolean;
 }
 
 const ModalContent: React.FC<ModalContentProps> = ({
@@ -131,13 +137,15 @@ const ModalContent: React.FC<ModalContentProps> = ({
   users,
   selectedUser,
   currentUser,
+  addUser,
 }) => {
   const { logger } = useLogger();
   const { setFlash } = useFlash();
-
+  const widthModalWindow = '399px';
   const [isSaving, setSaving] = useState(false);
   const [invalids, setInvalids] = useState<ValidationProps>({});
   const [selectedSuggestedUser, setSelectedSuggestedUser] = useState<User>();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -160,6 +168,10 @@ const ModalContent: React.FC<ModalContentProps> = ({
       [name]: value,
     }));
   }, []);
+
+  const switchDeleteModal = (isOpen: boolean) => {
+    setOpenDeleteModal(isOpen);
+  };
 
   const onBlurInput = useCallback((event: React.FocusEvent<HTMLInputElement>): void => {
     const { target: { name, value } = {} } = event;
@@ -350,6 +362,23 @@ const ModalContent: React.FC<ModalContentProps> = ({
     }
   };
 
+  const deleteProjectMember = async () => {
+    setOpenDeleteModal(false);
+    close();
+
+    const deleteUserInput: DeleteProjectClientInput = { id: selectedUser.id };
+    try {
+      await client.mutate({
+        mutation: gql(deleteProjectClient),
+        variables: { input: deleteUserInput },
+      });
+      await refreshUsers();
+    } catch (error) {
+      logger.error('ContactPreviewModalContent: error deleting User', { error, input: deleteUserInput });
+      setFlash("Something went wrong. We're looking into it");
+    }
+  };
+
   const updateProjectMember = async () => {
     // only allow updating name, email is the PK
     // can't update name if this is a freelancer (that's done in profile or somewhere else)
@@ -430,6 +459,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   );
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <div className={modalStyles.avatarContainer}>
         {userType === UserRole.CLIENT && (
@@ -549,9 +579,43 @@ const ModalContent: React.FC<ModalContentProps> = ({
           </label>
         </Protected>
       </div>
-      <div className={modalStyles.save}>
-        <ButtonSmall text="Save" isSaving={isSaving} disabled={!isFormValid} />
-      </div>
+      {
+        addUser
+          ?
+            <div className={modalStyles.save}>
+              <ButtonSmall text="Save" isSaving={isSaving} disabled={!isFormValid} />
+            </div>
+          :
+            <div className={modalStyles.change}>
+              <Button
+                icon={<FontAwesomeIcon color="white" icon={faTrash} />}
+                onClick={() => switchDeleteModal(true)}
+                className={styles.deleteButton}
+              >
+                Delete
+              </Button>
+              <Button
+                isLoading={isSaving}
+                disabled={!isFormValid}
+                type="submit"
+                inverted
+              >
+                Save
+              </Button>
+            </div>
+      }
     </form>
+      <Modal
+        isOpen={openDeleteModal}
+        closeModal={() => switchDeleteModal(false)}
+        maxWidth={widthModalWindow}
+      >
+        <DeletePersonModal
+          closeModal={() => switchDeleteModal(false)}
+          deletePerson={deleteProjectMember}
+          userName={selectedUser ? selectedUser.user.name : ''}
+        />
+      </Modal>
+    </>
   );
 };

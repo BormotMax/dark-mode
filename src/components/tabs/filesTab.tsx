@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent, useRef } from 'react';
 import { faCirclePlus, faFileLines, faLink } from '@fortawesome/pro-light-svg-icons';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +11,6 @@ import { AiIcon, DropboxIcon, FramerIcon, MiroIcon, ExcelIcon, FigmaIcon } from 
 import styles from './filesTab.module.scss';
 import { InPlaceModal } from '../inPlaceModal';
 import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
-import { ButtonSmall } from '../buttons/buttons';
 import { AssetDragAndDrop } from '../assetDragAndDrop/assetDragAndDrop';
 import { useFlash, useLogger } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
@@ -21,6 +20,7 @@ import { ProjectAsset } from '../../types/custom';
 import { Protected } from '../protected/protected';
 import { truncate } from '../../helpers/util';
 import { Features } from '../../permissions';
+import Button from '../button';
 
 const applicationToIcon: any = {
   figma: <FigmaIcon />,
@@ -66,7 +66,7 @@ export const FilesTab: React.FC<FilesTabProps> = ({ files, projectID, refetchDat
       }
     }
   };
-
+  
   return (
     <>
       <Protected feature={Features.FileModalContent}>
@@ -97,6 +97,13 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
   const [isSaving, setIsSaving] = useState(false);
   const { logger } = useLogger();
   const { setFlash } = useFlash();
+  const ref = useRef<HTMLInputElement>(null);
+
+  const checkRef = () => {
+    if (ref.current) {
+      ref.current.click();
+    }
+  };
 
   function handleAddFile(e: KeyboardEvent) {
     if (e.keyCode === 13 && fileUrl) {
@@ -172,9 +179,9 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
 
   return (
     <div className={classnames(styles.modalContent)}>
-      <div className={classnames(styles.centeredLabel)}>New Assets</div>
+      <div className={classnames(styles.header)}>New Asset</div>
       <AssetDragAndDrop onDrop={handleFileDrop} />
-      <div className={classnames(styles.centeredLabel)}>Or, add URL:</div>
+      <div className={classnames(styles.label)}>Or, add URL:</div>
       <input
         className={classnames(styles.urlInput)}
         type="text"
@@ -187,10 +194,13 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
       />
       <div className={classnames(styles.orBrowse)}>
         <div className={classnames(styles.or)}>Or</div>
-        <label className={styles.browseButton} htmlFor="fileInput">
-          <input type="file" className={styles.fileInput} id="fileInput" multiple onChange={handleFileInputChange} />
-          <div className="btn-small btn-invert">Browse</div>
-        </label>
+        <input ref={ref} type="file" className={styles.fileInput} id="fileInput" multiple onChange={handleFileInputChange} />
+        <Button
+            onClick={() => checkRef()}
+            inverted
+          >
+            Browse
+          </Button>
       </div>
       <div className={classnames(styles.filePillContainer)}>
         {files.map((file, i) => (
@@ -208,7 +218,13 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
         <button onClick={() => close()} className={classnames(modalStyles.cancel)} type="button">
           Cancel
         </button>
-        <ButtonSmall text="Save" onClick={uploadFiles} isSaving={isSaving} />
+        <Button
+          onClick={uploadFiles}
+          isLoading={isSaving}
+          inverted
+        >
+          Save
+        </Button>
       </div>
     </div>
   );

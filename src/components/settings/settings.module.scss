@@ -1,3 +1,5 @@
+@use 'src/colors' as colors;
+
 .settings {
   max-width: 668px;
   width: 100%;
@@ -8,30 +10,34 @@
   font-size: 14px;
   line-height: 16px;
   color: #828282;
+  border-radius: 20px;
 
   label {
     font-size: 14px;
   }
 
   textarea {
-    background: #fafafa;
+    background: colors.$background-silver;
     border: 1px solid #eeeeee;
     resize: none;
     margin-top: 4px;
+    color: colors.$black;
   }
 
   input {
-    background: #fafafa;
+    background: colors.$background-silver;
     margin-top: 4px;
     border: 1px solid #eeeeee;
     box-sizing: border-box;
     border-radius: 4px;
     height: 32px;
+    color: colors.$black;
   }
 
   .header {
-    background: #eeeeee;
-    color: #595959;
+    color: colors.$black;
+    font-weight: 500;
+    border-bottom: 1px solid colors.$silver;
   }
 
   .body {
@@ -40,7 +46,7 @@
     .left {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: flex-start;
       padding: 16px;
       border-right: 1px solid;
@@ -57,19 +63,12 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        background: #fafafa;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        font: inherit;
-        color: #828282;
-        padding: 5px 16px;
         width: 100%;
-        font-weight: normal;
-
-        &:focus {
-          outline: 0;
-        }
+        min-width: 152px;
+        margin-bottom: 12px;
+      }
+      .buttons_container {
+        width: 100%;
       }
     }
     .right {
@@ -93,13 +92,17 @@
 
         .buttonsBlock {
           display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+          flex-direction: row;
+          justify-content: flex-end;
           align-items: flex-start;
+          gap: 8px;
 
-          &.resetPassword {
-            margin-top: 12px;
-            display: inline-block;
+          button {
+            margin-top: 73px;
+
+            @media (max-width: 768px) {
+              margin-top: 12px;
+            }
           }
 
         }
@@ -124,7 +127,7 @@
               font-weight: normal;
               font-size: 14px;
               line-height: 16px;
-              color: #828282;
+              color: colors.$steel;
             }
           }
 

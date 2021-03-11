@@ -45,7 +45,7 @@ export const AssetDragAndDrop: React.FC<AssetDragAndDropProps> = ({ onDrop }) =>
       }}
       className={classnames(styles.assetDragAndDrop, { [styles.dragOver]: isDragOver })}
     >
-      <FontAwesomeIcon color="#3C78FB" size="4x" icon={faCloudArrowUp} />
+      <FontAwesomeIcon color="#A4A2AE" size="4x" icon={faCloudArrowUp} />
       <div className={classnames(styles.text)}>Drag & drop your files here</div>
     </div>
   );

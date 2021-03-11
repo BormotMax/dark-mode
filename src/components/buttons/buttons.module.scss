@@ -3,6 +3,46 @@
 @use 'src/mixins';
 @import "~bulma/sass/utilities/_all.sass";
 
+@mixin button-hover($background, $color) {
+  &:hover {
+    background: transparent;
+    background-color: $color;
+    color: $background;
+
+    svg {
+      color: $background;
+    }
+  }
+
+  &.loading {
+    background: $background;
+    &:after {
+      top: calc(50% - 10px);
+      left: calc(50% - 10px);
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &.inverted {
+    color: $background;
+    background: transparent;
+
+    svg {
+      color: $background;
+    }
+
+    &:hover {
+      background: $background;
+      color: $color;
+
+      svg {
+        color: $color;
+      }
+    }
+  }
+}
+
 .button {
   border-radius: variables.$border-radius-small;
   min-height: 32px;
@@ -41,29 +81,56 @@
   font-size: 16px;
   line-height: 24px;
 
-  &:hover {
-    background: transparent;
-    color: colors.$steel-blue;
+  @include button-hover(colors.$steel-blue, #eeeeee);
+}
+
+.confirmButton {
+  color: colors.$white;
+  border: 2px solid colors.$black;
+  letter-spacing: 0.271875px;
+  text-align: center;
+  background: colors.$black;
+  border-radius: 100px;
+  font-family: Poppins, sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0px 14px;
+
+  @include button-hover(colors.$black, colors.$white);
+}
+
+.confirmButton__middle {
+  @extend .confirmButton;
+  font-size: 18px;
+  height: 40px;
+}
+
+.confirmButton__invert {
+  @extend .confirmButton;
+  color: colors.$black;
+  background: colors.$white;
+  @include button-hover(colors.$white, colors.$black);
+}
+
+.deleteButton {
+  color: colors.$white;
+  border: 2px solid rgba(230, 57, 70, 0.8);
+  letter-spacing: 0.271875px;
+  text-align: center;
+  background: rgba(230, 57, 70, 0.8);
+  border-radius: 100px;
+  font-family: Poppins, sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0px 14px;
+
+  svg {
+    margin-right: 8px;
   }
 
-  &.loading {
-    background: colors.$steel-blue;
-    &:after {
-      top: calc(50% - 10px);
-      left: calc(50% - 10px);
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  &.inverted {
-    color: colors.$steel-blue;
-    background: transparent;
-    &:hover {
-      background: colors.$steel-blue;
-      color: #eeeeee;
-    }
-  }
+  @include button-hover(rgba(230, 57, 70, 0.8), colors.$white);
 }
 
 .defaultPadding {
