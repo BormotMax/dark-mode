@@ -13,7 +13,7 @@ import Modal from '../modal';
 import { ProjectClient, ProjectFreelancer, User } from '../../types/custom';
 import { Avatar } from '../avatar/avatar';
 import { InPlaceModal, InPlaceModalVariants } from '../inPlaceModal';
-import { ButtonSmall, ConfirmButton, DeleteButton } from '../buttons/buttons';
+import { ButtonSmall } from '../buttons/buttons';
 import { AvatarUpload } from '../avatarUpload';
 import { useLogger, useFlash, useDebounce, useAsync } from '../../hooks';
 import { unauthClient as client } from '../../pages/_app';
