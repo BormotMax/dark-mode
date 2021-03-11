@@ -133,18 +133,52 @@ $emojis-modal-breakpoint: 480px;
     --left-offset: 90px;
   }
 
-  &[data-popper-placement^='top'] > .arrow::before {
-    bottom: var(--vertical-offset);
-    left: var(--left-offset);
-  }
-  &[data-popper-placement^='bottom'] > .arrow::before {
-    top: var(--vertical-offset);
-    left: var(--left-offset);
+  .commentText {
+    border: 1px solid var(--color-line);
+    background-color: var(--color-small-block);
+    border-radius: 4px 4px 0 0;
+    border-bottom: none;
+    vertical-align: top;
+    width: 100%;
+    padding: 5px;
+    resize: none;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-text);
   }
 }
 
-.arrow {
-  visibility: hidden;
+  .commentBar {
+    border-radius: 0 0 4px 4px;
+    background: var(--color-small-block);
+    border: 1px solid var(--color-line);
+    padding: 6px;
+    text-align: right;
+    color: var(--color-text);
+    
+    .isLoading {
+      position: relative;
+      pointer-events: none;
+      opacity: 0.5;
+      &:after {
+        @include mixins.spin-loader;
+        position: absolute;
+        top: calc(50% - 10px);
+        left: calc(50% - 10px);
+        width: 20px;
+        color: #4f4f4f;
+        height: 20px;
+        border-width: 0.25em;
+      }
+
+      * {
+        visibility: hidden;
+        pointer-events: none;
+      }
+    }
 
   &::before {
     --size: 19px;
