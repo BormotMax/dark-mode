@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import classnames from 'classnames';
+import { faMoon } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Protected } from '../protected/protected';
 import { Features } from '../../permissions';
@@ -12,6 +14,7 @@ import Breadcrumbs from '../breadcrumbs';
 import DoubleArrow from '../svgIcons/DoubleArrow';
 
 import styles from './header.module.scss';
+import Button from '../button';
 
 const USER_AVATAR_SIZE = 48;
 
@@ -29,6 +32,10 @@ export const Header: React.FC<Props> = React.memo(({
   const { logger } = useLogger();
   const userId = currentUser?.attributes?.sub;
   const email = currentUser?.attributes?.email;
+
+  const toggleMode = () => {
+    document.body.classList.toggle('dark');
+  };
 
   const {
     data: userAvatarResponse,
@@ -65,17 +72,23 @@ export const Header: React.FC<Props> = React.memo(({
                   height={USER_AVATAR_SIZE}
                 />
               </div>
-              <Protected feature={Features.DesktopNav}>
-                <DoubleArrow
-                  onClick={onClickCollapseButton}
-                  className={classnames(
-                    styles.arrow,
-                    { [styles.arrowCollapsed]: navIsCollapsed },
-                    { [styles.arrowExpanded]: !navIsCollapsed },
-                  )}
-                />
-              </Protected>
-              <Breadcrumbs />
+              <DoubleArrow
+                onClick={onClickCollapseButton}
+                className={classnames(
+                  styles.arrow,
+                  { [styles.arrowCollapsed]: navIsCollapsed },
+                  { [styles.arrowExpanded]: !navIsCollapsed },
+                )}
+              />
+              <div className={styles.container}>
+                <Breadcrumbs />
+                <Button
+                  className={styles.imageButton}
+                  onClick={toggleMode}
+                >
+                  <FontAwesomeIcon icon={faMoon} />
+                </Button>
+              </div>
             </>
           )}
       </div>

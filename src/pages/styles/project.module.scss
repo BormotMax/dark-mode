@@ -1,5 +1,6 @@
 @use "src/mixins";
 @use 'src/variables' as variables;
+@import "~bulma/sass/utilities/_all.sass";
 
 .columns {
   display: flex;
@@ -27,10 +28,55 @@
   }
 }
 
+.filters {
+  display: flex;
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #828282;
+  border-bottom: 1px solid var(--color-line);
+  border-top: 1px solid var(--color-line);
+  padding: 11px 0 0 0px;
+  background-color: var(--color-background);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 72px;
+  z-index: 1;
+
+  @include mobile {
+    padding-left: 12px;
+    margin: -12px -12px 0;
+  }
+
+  @include tablet {
+    padding-left: 24px;
+    margin: -1px -12px 0 -24px;
+  }
+
+  .filter {
+    padding-bottom: 11px;
+    border-bottom: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 25px;
+
+    &:hover {
+      color: var(--color-text);
+    }
+  }
+
+  .activeFilter {
+    border-bottom: 3px solid var(--color-border);
+    padding-bottom: 8px;
+    color: var(--color-text);
+
 .alternatePageView {
   margin: 0;
   max-width: unset;
   width: 100%;
+}
+}
 }
 
 .center {

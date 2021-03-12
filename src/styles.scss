@@ -1,11 +1,62 @@
 // Add global styles here
 @use "src/mixins";
+@use 'src/colors' as colors;
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 body {
   line-height: 28px !important;
   height: 100%;
+
+  --c-gray: #{colors.$c-gray};
+  --fa-gray: #{colors.$fa-gray};
+  --gray-1: #{colors.$gray-1};
+  --gray-3: #{colors.$gray-3};
+  --gray-5: #{colors.$gray-5};
+  --gray-6: #{colors.$gray-6};
+  --steel-blue: #{colors.$steel-blue};
+  --prussian-blue: #{colors.$prussian-blue};
+  --black: #{colors.$black};
+  --dark-blue: #{colors.$dark-blue};
+  --silver: #{colors.$silver};
+  --background-silver: #{colors.$background-silver};
+  --steel: #{colors.$steel};
+  --light-mode-1: #{colors.$light-mode-1};
+  --light-mode-2: #{colors.$light-mode-2};
+  --light-mode-3: #{colors.$light-mode-3};
+  --invalid-red: #{colors.$invalid-red};
+  --white: #{colors.$white};
+  --black: #{colors.$black};
+  --purple: #{colors.$purple};
+
+  --color-block: #{colors.$white};
+  --color-small-block: #{colors.$background-silver};
+  --color-nav: #{colors.$black};
+  --color-hover: #{colors.$black};
+  --color-background: #{colors.$white};
+  --color-text: #{colors.$black};
+  --color-border: #{colors.$black};
+  --color-button: #{colors.$black};
+  --color-progress: #{colors.$steel-blue};
+  --color-line: #{colors.$silver};
+}
+
+.dark {
+  --light-mode-1: #{colors.$dark-mode-1};
+  --light-mode-2: #{colors.$dark-mode-2};
+  --light-mode-3: #{colors.$dark-mode-3};
+  --background-silver: #{colors.$black};
+
+  --color-text: #{colors.$white};
+  --color-background: #{colors.$black};
+  --color-hover: linear-gradient(285.44deg, var(--dark-blue) 4%, var(--purple) 101.17%);
+  --color-nav: #{colors.$steel};
+  --color-block: #{colors.$dark-mode-3};
+  --color-small-block: #{colors.$dark-mode-2};
+  --color-border: #{colors.$dark-mode-1};
+  --color-button: #{colors.$purple};
+  --color-progress: #{colors.$purple};
+  --color-line: #{colors.$dark-mode-1};
 }
 
 *,

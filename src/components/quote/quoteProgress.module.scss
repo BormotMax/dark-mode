@@ -8,7 +8,7 @@
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
-  color: #595959;
+  color: var(--color-text);
 }
 
 .percent {
@@ -33,6 +33,23 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
+
+  progress::-webkit-progress-bar { 
+    background-color: var(--color-small-block); 
+  } 
+
+  progress::-webkit-progress-value { 
+      background-color: var(--color-progress) !important; 
+  } 
+  /* For IE10 */ 
+  progress { 
+      background-color: var(--color-small-block); 
+      background-color: var(--color-progress); 
+  } 
+/* For Firefox */ 
+  progress::-moz-progress-bar { 
+      background-color: var(--color-progress) !important; 
+  } 
 }
 
 .hideTasksButton {
@@ -49,10 +66,11 @@
   font-size: 14px;
   width: 100%;
   line-height: 21px;
-  color: #595959;
+  color: var(--color-text);
   margin-top: 8px;
   border: none;
-  border-bottom: 1px solid #bdbdbd;
+  border-bottom: 1px solid var(--color-small-block);
+  background-color: var(--color-small-block);;
 
   &:disabled {
     color: #bdbdbd;

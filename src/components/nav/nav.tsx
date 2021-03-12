@@ -102,7 +102,6 @@ const Nav: React.FC<NavProps> = ({
               <FontAwesomeIcon
                 size="1x"
                 icon={faSolarSystem}
-                color={currentPageIsProjects ? 'white' : 'black'}
               />
               {!isCollapsed && 'Project Spaces'}
             </a>
@@ -128,7 +127,6 @@ const Nav: React.FC<NavProps> = ({
               <FontAwesomeIcon
                 size="1x"
                 icon={faAlien8bit}
-                color={page === Page.HIRE_EDITOR ? 'white' : 'black'}
               />
               {!isCollapsed && 'Hire Page'}
             </a>
@@ -136,19 +134,19 @@ const Nav: React.FC<NavProps> = ({
         </li>
         <li>
           <button className="defaultButton" tabIndex={0} type="button" onKeyPress={openModal} onClick={openModal}>
-            <FontAwesomeIcon size="1x" icon={faGear} color="black" />
+            <FontAwesomeIcon size="1x" icon={faGear} />
             {!isCollapsed && 'Settings'}
           </button>
         </li>
         <li className={styles.community}>
           <a href="https://community.continuum.works/users/sign_in">
-            <FontAwesomeIcon size="1x" icon={faUsers} color="black" />
+            <FontAwesomeIcon size="1x" icon={faUsers}  />
             {!isCollapsed && 'Community'}
           </a>
         </li>
         <li>
           <button className="defaultButton" type="button" tabIndex={0} onKeyDown={handleLogout} onClick={handleLogout}>
-            <FontAwesomeIcon size="1x" icon={faRightFromBracket} color="black" />
+            <FontAwesomeIcon size="1x" icon={faRightFromBracket} />
             {!isCollapsed && 'Logout'}
           </button>
         </li>

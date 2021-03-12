@@ -1,13 +1,13 @@
 .assetDragAndDrop {
-  background: #fafafa;
-  border: 1px dashed #bdbdbd;
+  background: var(--color-small-block);
+  border: 1px dashed var(--steel);
   border-radius: 20px;
   margin-bottom: 24px;
   font-family: Poppins;
   font-weight: normal;
   font-size: 12px;
   line-height: 18px;
-  color: #bdbdbd;
+  color: var(--steel);
   text-align: center;
   padding: 23px 0;
 

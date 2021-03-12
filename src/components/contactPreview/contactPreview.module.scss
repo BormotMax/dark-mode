@@ -9,6 +9,13 @@ $members-wrapper-height: calc(
 
 .nameInputContainer {
   position: relative;
+  input {
+    background-color: var(--color-small-block);
+    border: none;
+  }
+  input:disabled {
+    background-color: var(--color-small-block);
+  }
 }
 
 .autoSuggestContainer {

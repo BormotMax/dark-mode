@@ -16,7 +16,7 @@ $line-height: 36px;
 .list {
   text-transform: capitalize;
   @include mixins.useFont(24px, 36px, 400);
-  color: colors.$black;
+  color: var(--color-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -34,28 +34,24 @@ $line-height: 36px;
   }
 
   & a {
-    color: colors.$black;
+    color: var(--color-text);
   }
 
   & a.firstPath {
-    color: colors.$steel;
+    color: var(--steel);
   }
 
   & li {
     display: inline;
-    color: colors.$black;
+    color: var(--color-text);
   }
 }
 
 .divider {
   margin: 0 8px;
-  color: colors.$steel;
-
-  & > svg {
-    width: 10px !important;
-  }
+  color: var(--steel);
 }
 
 .firstPath {
-  color: colors.$steel;
+  color: var(--steel);
 }

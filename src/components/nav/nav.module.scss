@@ -9,13 +9,13 @@
 
   min-height: 100vh;
   padding: 16px;
-  background-color: colors.$background-silver;
-  color: colors.$black;
+  background-color: var(--background-silver);
+  color: var(--color-text);
   margin: -12px;
   z-index: 2;
 
   @media (min-width: variables.$breakpoint-md) {
-    border-right: 1px solid colors.$steel;
+    border-right: 1px solid var(--color-line);
   }
 
   a {
@@ -31,13 +31,12 @@
       margin: 6px 0;
       height: 40px;
       border-radius: 100px;
-
       &:hover {
         &:not(.disabled) {
-          background-color: colors.$black;
+          background: var(--color-hover);
 
           & a, button, svg {
-            color: colors.$white;
+            color: var(--white);
             font-weight: 500;
           }
         }
@@ -47,15 +46,15 @@
     a, button {
       display: flex;
       align-items: center;
-      color: colors.$black;
+      color: var(--color-nav);
       width: 100%;
     }
 
     .current {
-      background-color: colors.$black;
+      background: var(--color-hover);
 
       & a, button {
-        color: colors.$white;
+        color: var(--white);
         font-weight: 500;
       }
     }
@@ -164,12 +163,12 @@
 
 .community {
   path {
-    fill: colors.$black;
+    fill: var(--color-nav);
   }
 
   &:hover {
     path {
-      fill: colors.$white;
+      fill: var(--white);
     }
   }
 }

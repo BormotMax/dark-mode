@@ -508,7 +508,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
         <label htmlFor="title" className="label">
           Title
         </label>
-        <div className="control">
+        <div className={classnames(styles.nameInputContainer, 'control')}>
           <input
             value={formValues.title}
             onChange={onChangeInput}
@@ -523,7 +523,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
         <label htmlFor="email" className="label">
           Email
         </label>
-        <div className="control">
+        <div className={classnames(styles.nameInputContainer, 'control')}>
           <input
             value={formValues.email}
             onChange={onChangeInput}

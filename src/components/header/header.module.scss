@@ -9,8 +9,10 @@
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  border-bottom: variables.$header-border-bottom-height solid colors.$steel;
+  border-bottom: variables.$header-border-bottom-height solid var(--color-line);
   z-index: 3;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 .levelingMargin {
@@ -23,6 +25,14 @@
   align-items: center;
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+}
+
 .nav {
   padding: 12px;
 }
@@ -31,8 +41,18 @@
   padding-left: 27px;
 }
 
+.imageButton {
+  border: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  color: var(--steel) !important;
+}
+
 .arrow {
   cursor: pointer;
+  margin-right: 40px;
+  fill: var(--steel);
   transition: transform 0.2s ease-in-out, margin 0.2s ease-in-out;
 }
 

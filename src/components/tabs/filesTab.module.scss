@@ -8,7 +8,7 @@
   color: #828282;
 
   .header {
-    color: colors.$black;
+    color: var(--color-text);
     font-weight: 500;
     font-size: 24px;
     line-height: 32px;
@@ -34,7 +34,9 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 21px;
-    color: #bdbdbd;
+    color: var(--color-text);
+    background-color: var(--color-small-block);
+    border: none;
     padding: 5px;
   }
 

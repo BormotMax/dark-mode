@@ -48,7 +48,7 @@
     position: absolute;
     right: 0;
     text-align: left;
-    background: white;
+    background: var(--color-block);
     padding: 16px;
     box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
@@ -152,6 +152,10 @@
       margin-right: 10px;
     }
 
+    &:hover {
+      color: var(--color-text);
+    }
+
     display: flex;
     align-items: center;
     white-space: nowrap;
@@ -192,14 +196,14 @@
 .modalPill {
   display: flex;
   align-items: center;
-  background: #fafafa;
+  background: var(--color-small-block);
   border-radius: 100px;
   font-family: Poppins, sans-serif;
   overflow: hidden;
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
-  color: #828282;
+  color: var(--color-text);
   padding: 4px 16px 4px 4px;
   margin: variables.$modal-pill-vertical-margin 0;
   cursor: pointer;
