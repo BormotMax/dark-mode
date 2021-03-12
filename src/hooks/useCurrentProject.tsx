@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, Dispatch } from 'react';
 
-import { Project, User } from '../types/custom';
+import { Project, ProjectRelatedClient, ProjectRelatedFreelancer, User } from '../types/custom';
 
 export enum CurrentProjectAction {
   SET = 'SET_CURRENT_PROJECT',
@@ -8,7 +8,7 @@ export enum CurrentProjectAction {
 }
 
 type State = {
-  viewer: User | null,
+  viewer: User | ProjectRelatedClient['user'] | ProjectRelatedFreelancer['user'] | null,
   project: Project | null,
 };
 

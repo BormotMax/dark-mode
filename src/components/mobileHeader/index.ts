@@ -1,1 +1,3 @@
-export * from './mobileHeader';
+import MobileHeader from './mobileHeader';
+
+export default MobileHeader;

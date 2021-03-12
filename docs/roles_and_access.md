@@ -30,7 +30,7 @@ The project uses the following roles:
 - header title is not visible on pages `/projects` and `/projects/[id]`,
 - navigation is available in the mobile version of the project,
 - navigation is available in the desktop version of the project -> <br>
-`src/components/pageLayoutOne/pageLayoutOne.tsx`;
+`src/components/pageLayout/pageLayout.tsx`;
 - available to change the status of tasks for `Quote`,
 - available to add new tasks for `Quote` -> <br>
 `src/components/quote/quoteProgress.tsx`;
@@ -67,7 +67,7 @@ The project uses the following roles:
 - header title is not visible on pages `/projects` and `/projects/[id]`,
 - navigation is available in the mobile version of the project,
 - navigation is available in the desktop version of the project -> <br>
-`src/components/pageLayoutOne/pageLayoutOne.tsx`;
+`src/components/pageLayout/pageLayout.tsx`;
 - available to change the status of tasks for `Quote`,
 - available to add new tasks for `Quote` -> <br>
 `src/components/quote/quoteProgress.tsx`;
@@ -103,7 +103,7 @@ The project uses the following roles:
 - header title is visible on pages `/projects` and `/projects/[id]`,
 - navigation is not available in the mobile version of the project,
 - navigation is not available in the desktop version of the project -> <br>
-`src/components/pageLayoutOne/pageLayoutOne.tsx`;
+`src/components/pageLayout/pageLayout.tsx`;
 - not available to change the status of tasks for `Quote`,
 - not available to add new tasks for `Quote` -> <br>
 `src/components/quote/quoteProgress.tsx`;

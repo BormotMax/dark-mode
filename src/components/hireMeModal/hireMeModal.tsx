@@ -5,8 +5,8 @@ import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { useRouter } from 'next/router';
 
-import { Comment } from '../comment';
 import { ButtonSmall } from '../buttons/buttons';
+import { Avatar } from '../avatar/avatar';
 import { UserRole, GetUserQuery, CreateUserMutation } from '../../API';
 import {
   createUser,
@@ -244,10 +244,21 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
     <div className={styles.hireMeModal}>
       <img src="/wave.png" alt="hello" />
       <h1 className="h1 vat">Hello There!</h1>
-      <Comment isMine={false} name={freelancerName} email={freelancerEmail} backgroundColor="#ffffff" commentColor="#F5F8FF">
-        <div>{commentContent}</div>
-      </Comment>
-      <Comment backgroundColor="#ffffff" commentColor="#FAF8F7" noAvatar>
+      <div className={styles.comment}>
+        <div className={styles.commentHeader}>
+          <div className={styles.commentName}>
+            {freelancerName}
+          </div>
+        </div>
+        <Avatar
+          className={styles.avatar}
+          email={freelancerEmail}
+          width={48}
+          height={48}
+        />
+        <div className={styles.commentContent}>{commentContent}</div>
+      </div>
+      <div className={classnames(styles.comment, styles.form)}>
         <form onSubmit={handleSubmit}>
           <div>
             <div className="field is-horizontal">
@@ -343,7 +354,7 @@ export const HireMeModal: React.FC<HireMeModalProps> = ({
             <ButtonSmall text="Start a Conversation" isSaving={isSaving} />
           </div>
         </form>
-      </Comment>
+      </div>
     </div>
   );
 };

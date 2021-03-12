@@ -1,133 +1,163 @@
+@use 'src/colors' as colors;
+@use 'src/variables' as variables;
 @use 'src/mixins';
 @import '~bulma/sass/utilities/_all.sass';
 
-.comment {
-  &:last-child {
-    margin-bottom: 0;
+$text-left-padding: 24px;
+$info-padding-left: $text-left-padding + variables.$avatar-width + variables.$avatar-right-margin;
+$no-avatar-margin-left: variables.$avatar-width + variables.$avatar-right-margin;
+$emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+
+.container {
+  &:not(:last-child) {
+    margin-bottom: 8px;
   }
-
-  @include tablet {
-    margin: 0 0 8px 48px;
-  }
-
-  margin: 8px 0;
-  padding: 16px 16px 24px 16px;
-  position: relative;
-  border-radius: 8px;
-
-  &Light {
-    background: #ffffff;
-  }
-
-  &Dark {
-    background: #fcfcfc;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
+  &:nth-last-child(2) {
     margin-bottom: 16px;
-    font-weight: normal;
-    font-size: 16px;
-    flex-wrap: wrap;
-    color: #595959;
+  }
+}
+
+.info {
+  display: flex;
+  padding-left: $info-padding-left;
+  margin-bottom: 4px;
+  @include mixins.useFont(12px, 18px);
+  color: colors.$steel;
+}
+
+.content {
+  display: flex;
+}
+
+.groupComment {
+  margin-left: $no-avatar-margin-left;
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  border-radius: 20px;
+  background-color: colors.$white;
+  box-shadow: variables.$card-shadow;
+  @include mixins.useFont(14px, 21px);
+  color: colors.$black;
+}
+
+.contentWrapperPaddings {
+  padding: 8px 40px 8px $text-left-padding;
+}
+
+.contentWrapperPaddingsLarge {
+  padding: 16px 40px 16px $text-left-padding;
+}
+
+.fluid {
+  width: 100%;
+}
+
+.fit {
+  width: fit-content;
+}
+
+.avatar {
+  margin-right: variables.$avatar-right-margin;
+  align-self: flex-end;
+}
+
+.lastComment {
+  border-bottom-left-radius: 0;
+}
+
+.optionsButton {
+  margin-left: 13px;
+  color: colors.$gray-4;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 16px;
+  padding: 0 16px;
+  border-radius: 20px;
+  background-color: rgba(228, 227, 232, 0.4);
+}
+
+.input {
+  width: 100%;
+  margin: 0 16px;
+  padding: 7px 0;
+  border: none;
+  resize: none;
+  background-color: transparent;
+  min-height: 36px;
+  @include mixins.useFont(14px, 21px, 400, Poppins);
+  color: colors.$black;
+
+  &::placeholder {
+    color: colors.$steel;
+    opacity: 1;
+  }
+}
+
+.emojiButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.sendButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include mixins.useFont(16px, 24px);
+  color: colors.$steel;
+}
+
+.emojis {
+  position: relative;
+  box-shadow: $emojis-modal-box-shadow;
+  --left-offset: 14px;
+  --vertical-offset: -8px;
+
+  & > section {
+    border: none;
+    border-radius: 8px;
   }
 
-  .name {
-    font-weight: 500;
+  &[data-popper-placement^='top'] > .arrow::before {
+    bottom: var(--vertical-offset);
+    left: var(--left-offset);
   }
-
-  .title {
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 24px;
+  &[data-popper-placement^='bottom'] > .arrow::before {
+    top: var(--vertical-offset);
+    left: var(--left-offset);
   }
+}
 
-  .createdTime {
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
-    color: #BDBDBD;
-  }
+.arrow {
+  visibility: hidden;
 
-  .commentContent {
-    white-space: pre-wrap;
-    word-break: break-word;
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 21px;
-  }
-
-  .avatar {
-    @include tablet {
-      display: initial;
-    }
-
-    box-sizing: initial !important;
-    display: none;
-    height: 72px;
-    border-radius: 50%;
-    border-width: 8px;
-    border-style: solid;
+  &::before {
+    --size: 19px;
+    z-index: -1;
+    box-shadow: $emojis-modal-box-shadow;
     position: absolute;
-    left: -56px;
-    top: -8px;
+    visibility: visible;
+    content: '';
+    transform: rotate(45deg);
+    width: var(--size);
+    height: var(--size);
+    background: colors.$white;
   }
+}
 
-  .commentText {
-    border: 1px solid #e0e0e0;
-    border-radius: 4px 4px 0 0;
-    border-bottom: none;
-    vertical-align: top;
-    width: 100%;
-    padding: 5px;
-    resize: none;
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 24px;
-    color: #595959;
-  }
+.flexColumn {
+  flex-direction: column;
+}
 
-  .commentBar {
-    border-radius: 0 0 4px 4px;
-    background: white;
-    border: 1px solid #e0e0e0;
-    padding: 6px;
-    text-align: right;
-
-    .isLoading {
-      position: relative;
-      pointer-events: none;
-      opacity: 0.5;
-      &:after {
-        @include mixins.spin-loader;
-        position: absolute;
-        top: calc(50% - 10px);
-        left: calc(50% - 10px);
-        width: 20px;
-        color: #4f4f4f;
-        height: 20px;
-        border-width: 0.25em;
-      }
-
-      * {
-        visibility: hidden;
-        pointer-events: none;
-      }
-    }
-
-    svg {
-      cursor: pointer;
-      font-size: 1.3em; // font awesome icon is too small
-      vertical-align: middle;
-    }
-  }
+.resourceWrapper {
+  width: 100%;
 }

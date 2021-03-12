@@ -14,7 +14,7 @@ import { CreateHireMeInfoInput, GetHireMeInfoQuery, GetDomainSlugQuery, GetUserQ
 import { getHireMeInfo, getDomainSlug, getUser } from '../graphql/queries';
 import { DomainSlug, ReservedRouteNames, Page } from '../types/custom';
 import { useFlash, useLogger } from '../hooks';
-import { PageLayoutOne } from '../components/pageLayoutOne';
+import PageLayout from '../components/pageLayout';
 import { ButtonSmall } from '../components/buttons/buttons';
 
 import { client } from './_app';
@@ -364,7 +364,7 @@ const HirePageEditor = ({ currentUser }) => {
   };
 
   return (
-    <PageLayoutOne page={Page.HIRE_EDITOR}>
+    <PageLayout page={Page.HIRE_EDITOR}>
       <div className={classnames(styles.hirePageEditor, 'column', 'container')}>
         <div className={classnames(styles.saveButtonWrapper, 'is-hidden-mobile')}>
           <ButtonSmall form="hirePageForm" text="Save" isSaving={saving} />
@@ -584,7 +584,7 @@ const HirePageEditor = ({ currentUser }) => {
           </button>
         </div>
       </div>
-    </PageLayoutOne>
+    </PageLayout>
   );
 };
 

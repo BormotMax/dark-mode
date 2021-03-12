@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import classnames from 'classnames';
 import { useQuery, gql } from '@apollo/client';
@@ -11,7 +11,7 @@ import { projectsByFreelancer, listProjectFreelancers } from '../graphql/queries
 import { useFlash, useLogger } from '../hooks';
 import { WithAuthentication, RouteType, Role } from '../components/withAuthentication';
 import { AuthProps, Page } from '../types/custom';
-import { PageLayoutOne } from '../components/pageLayoutOne';
+import PageLayout from '../components/pageLayout';
 import CreateProjectModal from '../components/createProjectModal';
 import { updateProjectFreelancer } from '../graphql/mutations';
 import { getProjectTitle } from '../helpers/util';
@@ -25,10 +25,10 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const { setFlash } = useFlash();
   const { logger } = useLogger();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement>(null);
+  const referenceElementRef = useRef<HTMLButtonElement>();
   const [popperElement, setPopperElement] = useState<HTMLDivElement>(null);
   const { styles: popperStyles, attributes } = usePopper(
-    referenceElement,
+    referenceElementRef.current,
     popperElement,
     {
       placement: 'bottom-end',
@@ -125,11 +125,11 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
   const haveNoProjects = !loading && !projects.length;
 
   return (
-    <PageLayoutOne page={Page.PROJECTS}>
+    <PageLayout page={Page.PROJECTS}>
       <div className={styles.projects}>
         <div className={styles.createProjectButton}>
           <Button
-            ref={setReferenceElement}
+            ref={referenceElementRef}
             onClick={openModal}
             height={40}
             color="black"
@@ -173,7 +173,7 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
           </div>
         )}
       </div>
-    </PageLayoutOne>
+    </PageLayout>
   );
 };
 

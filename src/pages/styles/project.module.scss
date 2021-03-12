@@ -1,94 +1,42 @@
 @use "src/mixins";
-@import "~bulma/sass/utilities/_all.sass";
+@use 'src/variables' as variables;
 
-.hideMobile {
-  @include mobile {
-    display: none;
+.columns {
+  display: flex;
+  padding-top: 16px;
+  margin: 0 15px;
+  padding-bottom: 100px;
+
+  @media (max-width: variables.$breakpoint-xl) {
+    flex-wrap: wrap-reverse;
   }
-}
-
-.hideTablet {
-  @include tablet {
-    display: none;
-  }
-}
-
-.projectProgressHeader {
-  @include mixins.header-1-sm;
-  text-align: center;
-  color: #3c78fb;
-  border-bottom: 4px solid #3c78fb;
-  padding-bottom: 17px;
-  margin-bottom: 17px;
 }
 
 .leftColumn {
-  @include tablet {
-    min-width: 500px;
-  }
+  width: 100%;
+  max-width: 802px;
 }
 
 .rightColumn {
-  @include tablet {
-    max-width: 378px;
+  margin-left: 40px;
+  max-width: 378px;
+
+  @media (max-width: variables.$breakpoint-xl) {
+    margin-left: variables.$avatar-width + variables.$avatar-right-margin;
+    margin-bottom: 24px;
   }
 }
 
-.commentWrapper {
-  padding-top: 16px;
-  padding-left: 0;
-  margin-bottom: 60px;
-}
-
-.filters {
-  display: flex;
-  font-family: Poppins;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: #828282;
-  border-bottom: 1px solid #E0E0E0;
-  border-top: 1px solid #E0E0E0;
-  padding: 11px 0 0 0px;
-  background-color: #eeeeee;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 72px;
-  z-index: 1;
-
-  @include mobile {
-    padding-left: 12px;
-    margin: -12px -12px 0;
-  }
-
-  @include tablet {
-    padding-left: 24px;
-    margin: -1px -12px 0 -24px;
-  }
-
-  .filter {
-    padding-bottom: 11px;
-    border-bottom: none;
-    outline: none;
-    cursor: pointer;
-    margin-right: 25px;
-
-    &:hover {
-      color: black;
-    }
-  }
-
-  .activeFilter {
-    border-bottom: 3px solid black;
-    padding-bottom: 8px;
-    color: black;
-  }
-}
-
-.desktopColumns {
-  flex-wrap: wrap;
+.alternatePageView {
+  margin: 0;
+  max-width: unset;
+  width: 100%;
 }
 
 .center {
-  margin: auto;
+  justify-content: center;
+
+  @media (max-width: variables.$breakpoint-xl) {
+    justify-content: flex-start;
+  }
 }

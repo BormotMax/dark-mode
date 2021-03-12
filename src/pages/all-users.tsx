@@ -7,7 +7,7 @@ import { WithAuthentication, RouteType, Role } from '../components/withAuthentic
 import { ListUsersQuery, UserRole } from '../API';
 import { useFlash, useLogger } from '../hooks';
 import { Page } from '../types/custom';
-import { PageLayoutOne } from '../components/pageLayoutOne';
+import PageLayout from '../components/pageLayout';
 import { listUsers } from '../graphql/queries';
 import { filterUsersByRole } from '../helpers/util';
 
@@ -51,7 +51,7 @@ const AllUsersPage: React.FC = () => {
   };
 
   return (
-    <PageLayoutOne page={Page.ALL_USERS}>
+    <PageLayout page={Page.ALL_USERS}>
       <div className={classnames('column', 'is-narrow', styles.allUsers)}>
         <h2>{`Freelancers: ${freelancers.length}`}</h2>
         <h2>{`Clients: ${clients.length}`}</h2>
@@ -67,7 +67,7 @@ const AllUsersPage: React.FC = () => {
         <h2>Clients</h2>
         {clients.map((user) => <Card key={user.id} user={user} />)}
       </div>
-    </PageLayoutOne>
+    </PageLayout>
   );
 };
 

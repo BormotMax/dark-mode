@@ -130,7 +130,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   const isLoading = s3AvatarIsLoading || (s3key ? s3Loading : gravatarLoading);
 
   if (isLoading) {
-    return <div style={avatarStyle} />;
+    return <div style={avatarStyle} className={className} />;
   }
 
   if (url) {

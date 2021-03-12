@@ -24,7 +24,7 @@ import styles from './nav.module.scss';
 
 interface NavProps {
   page?: Page;
-  goToNextPanel?: () => void;
+  setNavIsOpen?: (isOpen: boolean) => void;
   isCollapsed?: boolean;
 }
 
@@ -33,22 +33,20 @@ const HIRE_PAGE_EDITOR = '/hire-page-editor';
 
 const Nav: React.FC<NavProps> = ({
   page,
-  goToNextPanel,
+  setNavIsOpen,
   isCollapsed,
 }) => {
   const { signOut } = useCurrentUser();
   const [settingsModalIsOpen, setSettingsModalIsOpen] = React.useState(false);
 
   const handleLogout = (event: MouseOrKeyboardEvent) => {
-    if (isClickOrEnter(event)) {
-      signOut('/');
-    }
+    if (isClickOrEnter(event)) return;
+    signOut('/');
   };
 
-  const handleOnClick = (event: MouseOrKeyboardEvent) => {
-    if (isClickOrEnter(event)) {
-      goToNextPanel();
-    }
+  const onCloseNav = (event: MouseOrKeyboardEvent) => {
+    if (!isClickOrEnter(event)) return;
+    setNavIsOpen(false);
   };
 
   const openModal = (event) => {
@@ -72,8 +70,8 @@ const Nav: React.FC<NavProps> = ({
         <div
           role="button"
           className={styles.closeNav}
-          onClick={handleOnClick}
-          onKeyDown={handleOnClick}
+          onClick={onCloseNav}
+          onKeyDown={onCloseNav}
           tabIndex={0}
         >
           <FontAwesomeIcon size="1x" icon={faXmark} color="black" />

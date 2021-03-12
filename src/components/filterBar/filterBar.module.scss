@@ -1,0 +1,48 @@
+@use 'src/colors' as colors;
+@use 'src/variables' as variables;
+@use "src/mixins";
+
+$line-height: 24px;
+$active-underline-height: 3px;
+
+.filters {
+  display: flex;
+  align-items: center;
+  height: variables.$filter-bar-height;
+  padding: 0 24px;
+  z-index: 1;
+  @include mixins.useFont(16px, $line-height);
+  color: colors.$gray-3;
+  background-color: colors.$background-silver;
+  border-bottom: 1px solid colors.$steel;
+  position: sticky;
+  top: calc(#{variables.$header-height} + #{variables.$header-border-bottom-height});
+
+  @media (max-width: variables.$breakpoint-md) {
+    top: variables.$header-height-mobile;
+  }
+}
+
+.filter {
+  outline: none;
+  cursor: pointer;
+  margin-right: 25px;
+
+  &:hover {
+    color: colors.$black;
+  }
+}
+
+.activeFilter {
+  position: relative;
+  color: colors.$black;
+  &:after {
+    width: 100%;
+    position: absolute;
+    top: calc((#{$line-height} * 1.5) - (#{$active-underline-height} - 1px));
+    left: 0;
+    content: "";
+    height: $active-underline-height;
+    background-color: colors.$black;
+  }
+}

@@ -12,11 +12,13 @@ export type ModalProps = {
   closeModal: () => void,
   maxWidth?: string,
   topPlacedModal?: boolean,
-  children: JSX.Element | string,
+  children: React.ReactNode,
   closeOnBackdropClick?: boolean,
   popperStyles?: React.CSSProperties;
   popperAttributes?: { [key: string]: string; };
   setPopperElement?: () => void,
+  noOverlay?: boolean,
+  className?: string,
 };
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(({
@@ -27,6 +29,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({
   closeOnBackdropClick,
   popperStyles,
   popperAttributes,
+  noOverlay,
+  className,
   children,
 }, ref): JSX.Element | null => {
   const [isModalDown, setIsModalDown] = useState(false);
@@ -92,7 +96,10 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({
         tabIndex={0}
         onKeyPress={onOverlayClick}
         onClick={onOverlayClick}
-        className={styles.overlay}
+        className={classnames(
+          styles.overlay,
+          { [styles.overlayBackground]: !noOverlay },
+        )}
       >
         <div
           ref={ref}
@@ -103,6 +110,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({
           style={modalStyle}
           className={classnames(
             styles.modal,
+            className,
             {
               [styles.animatedModal]: topPlacedModal,
               [styles.animatedOpen]: isModalDown,
@@ -113,12 +121,12 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({
           {children}
         </div>
         {topPlacedModal && (
-        <button
-          onClick={closeModal}
-          type="button"
-          className={classnames(styles.closeButton, 'modal-close', 'is-large')}
-          aria-label="close"
-        />
+          <button
+            onClick={closeModal}
+            type="button"
+            className={classnames(styles.closeButton, 'modal-close', 'is-large')}
+            aria-label="close"
+          />
         )}
       </div>
     </Portal>
@@ -134,6 +142,8 @@ Modal.defaultProps = {
   popperStyles: {},
   popperAttributes: {},
   setPopperElement: null,
+  noOverlay: false,
+  className: null,
 };
 
 export default React.memo(Modal);

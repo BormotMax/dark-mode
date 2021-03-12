@@ -37,6 +37,9 @@ export interface AuthProps {
 }
 
 export type Project = GetProjectQuery['getProject'];
+export type ProjectComment = GetProjectQuery['getProject']['comments']['items'][number];
+export type ProjectRelatedClient = GetProjectQuery['getProject']['clients']['items'][number];
+export type ProjectRelatedFreelancer = GetProjectQuery['getProject']['freelancers']['items'][number];
 export type Comment = GetCommentQuery['getComment'];
 export type Quote = GetQuoteQuery['getQuote'];
 export type Task = GetTaskQuery['getTask'];
@@ -49,7 +52,7 @@ export type DomainSlug = GetDomainSlugQuery['getDomainSlug'];
 export type ProjectAsset = GetProjectAssetsQuery['getProjectAssets'];
 export type Note = GetNoteQuery['getNote'];
 export type UsersList = ListUsersQuery['listUsers']['items'];
-export type FreelancerProject = ProjectsByFreelancerQuery['projectsByFreelancer']['items'][0]['project'];
+export type FreelancerProject = ProjectsByFreelancerQuery['projectsByFreelancer']['items'][number]['project'];
 
 export type MouseOrKeyboardEvent = React.MouseEvent<EventTarget> | React.KeyboardEvent<EventTarget>;
 

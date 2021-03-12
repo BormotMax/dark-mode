@@ -65,14 +65,16 @@ export const Header: React.FC<Props> = React.memo(({
                   height={USER_AVATAR_SIZE}
                 />
               </div>
-              <DoubleArrow
-                onClick={onClickCollapseButton}
-                className={classnames(
-                  styles.arrow,
-                  { [styles.arrowCollapsed]: navIsCollapsed },
-                  { [styles.arrowExpanded]: !navIsCollapsed },
-                )}
-              />
+              <Protected feature={Features.DesktopNav}>
+                <DoubleArrow
+                  onClick={onClickCollapseButton}
+                  className={classnames(
+                    styles.arrow,
+                    { [styles.arrowCollapsed]: navIsCollapsed },
+                    { [styles.arrowExpanded]: !navIsCollapsed },
+                  )}
+                />
+              </Protected>
               <Breadcrumbs />
             </>
           )}

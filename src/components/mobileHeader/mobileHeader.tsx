@@ -1,83 +1,73 @@
-import * as React from 'react';
+import React, { memo } from 'react';
 import { faBars, faEllipsisVertical, faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classnames from 'classnames';
+import { useReactiveVar, ReactiveVar } from '@apollo/client';
 
 import Breadcrumbs from '../breadcrumbs';
+import { isClickOrEnter } from '../../helpers/util';
+import { MouseOrKeyboardEvent } from '../../types/custom';
+import { Features } from '../../permissions';
+import { Protected } from '../protected/protected';
 
 import styles from './mobileHeader.module.scss';
 
-export enum ViewingState {
-  FIRST_CHILD,
-  SECOND_CHILD,
-  NAV,
-}
+type MobileHeaderProps = {
+  hasAlternateView?: boolean,
+  children?: React.ReactNode,
+  alternatePageViewVar: ReactiveVar<boolean>,
+  setNavIsOpen: (isOpen: boolean) => void,
+};
 
-interface MobileHeaderProps {
-  currentViewingState: ViewingState;
-  changePanel: (arg0: ViewingState) => void;
-  hasSecondChild: boolean;
-}
-
-export const MobileHeader: React.FC<MobileHeaderProps> = ({
-  currentViewingState,
-  changePanel,
-  hasSecondChild,
+const MobileHeader = ({
+  hasAlternateView,
+  alternatePageViewVar,
+  setNavIsOpen,
   children,
-}) => {
-  const handleSwitchToNav = (e: any) => {
-    if (e.keyCode === undefined || e.keyCode === 13) {
-      changePanel(ViewingState.NAV);
-    }
+}: MobileHeaderProps): JSX.Element => {
+  const alternatePageView = useReactiveVar(alternatePageViewVar);
+
+  const handleSwitchToNav = (event: MouseOrKeyboardEvent) => {
+    if (!isClickOrEnter(event)) return;
+    setNavIsOpen(true);
   };
 
-  const handleSwitchToRight = (e: any) => {
-    if (e.keyCode === undefined || e.keyCode === 13) {
-      changePanel(ViewingState.SECOND_CHILD);
-    }
-  };
-
-  const handleSwitchToLeft = (e: any) => {
-    if (e.keyCode === undefined || e.keyCode === 13) {
-      changePanel(ViewingState.FIRST_CHILD);
-    }
+  const handleSwitchToAlternateView = (event: MouseOrKeyboardEvent) => {
+    if (!isClickOrEnter(event)) return;
+    alternatePageViewVar(!alternatePageView);
   };
 
   return (
     <div className={styles.mobileHeader}>
-      <div
-        role="button"
-        tabIndex={0}
-        className={classnames(styles.button, { [styles.hidden]: currentViewingState === ViewingState.SECOND_CHILD })}
-        onClick={handleSwitchToNav}
-        onKeyDown={handleSwitchToNav}
-      >
-        <FontAwesomeIcon color="#595959" size="1x" icon={faBars} />
-      </div>
+      <Protected feature={Features.MobileNav}>
+        <div
+          role="button"
+          tabIndex={0}
+          className={styles.button}
+          onClick={handleSwitchToNav}
+          onKeyDown={handleSwitchToNav}
+        >
+          <FontAwesomeIcon color="#595959" size="1x" icon={faBars} />
+        </div>
+      </Protected>
       <Breadcrumbs />
-      {hasSecondChild && currentViewingState === ViewingState.FIRST_CHILD && (
+      {hasAlternateView && (
         <div
           role="button"
           tabIndex={0}
-          onClick={handleSwitchToRight}
-          onKeyDown={handleSwitchToRight}
+          onClick={handleSwitchToAlternateView}
+          onKeyDown={handleSwitchToAlternateView}
           className={styles.button}
         >
-          <FontAwesomeIcon color="#595959" size="1x" icon={faEllipsisVertical} />
+          {alternatePageView
+            ? <FontAwesomeIcon color="#595959" size="1x" icon={faXmark} />
+            : <FontAwesomeIcon color="#595959" size="1x" icon={faEllipsisVertical} />}
         </div>
       )}
-      {hasSecondChild && currentViewingState === ViewingState.SECOND_CHILD && (
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={handleSwitchToLeft}
-          onKeyDown={handleSwitchToLeft}
-          className={styles.button}
-        >
-          <FontAwesomeIcon color="#595959" size="1x" icon={faXmark} />
-        </div>
-      )}
-      {children && children}
+      {children}
     </div>
   );
 };
+
+MobileHeader.defaultProps = { hasAlternateView: false, children: null };
+
+export default memo(MobileHeader);

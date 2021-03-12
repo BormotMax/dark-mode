@@ -1,16 +1,14 @@
 @use 'src/colors' as colors;
 @use 'src/variables' as variables;
 @use 'src/mixins';
-@import "~bulma/sass/utilities/_all.sass";
 
 .projects {
   max-width: variables.$project-list-card-max-width;
-  margin-left: -9px;
-  margin-top: 12px;
-  padding-bottom: 24px;
+  margin: 24px 15px;
 
   @media (max-width: variables.$breakpoint-md) {
     margin: 24px 15px 0 15px;
+    padding-bottom: 24px;
   }
 }
 

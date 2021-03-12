@@ -1,17 +1,15 @@
+@use 'src/colors' as colors;
+@use 'src/mixins';
 @import '~bulma/sass/utilities/_all.sass';
 
 .hireMeModal {
-  background: white;
+  background: colors.$white;
   max-width: 877px;
   padding: 45px;
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 24px;
-  color: #595959;
+  @include mixins.useFont(16px, 24px, 300);
+  color: colors.$c-gray;
 
   h1 {
     display: inline;
@@ -27,4 +25,60 @@
   margin-top: 19.5px;
   text-align: right;
   white-space: nowrap;
+}
+
+.comment {
+  background: rgb(245, 248, 255);
+  margin: 8px 0;
+  padding: 16px 16px 24px 16px;
+  position: relative;
+  border-radius: 8px;
+
+  @include tablet {
+    margin: 0 0 8px 48px;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form {
+  background: rgb(250, 248, 247);
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-weight: normal;
+  font-size: 16px;
+  flex-wrap: wrap;
+  color: colors.$c-gray;
+}
+
+.commentName {
+  font-weight: 500;
+}
+
+.avatar {
+  @include tablet {
+    display: initial;
+  }
+
+  box-sizing: initial !important;
+  display: none;
+  height: 72px;
+  border-radius: 50%;
+  border-width: 8px;
+  border-style: solid;
+  border-color: colors.$white;
+  position: absolute;
+  left: -56px;
+  top: -8px;
+}
+
+.commentContent {
+  white-space: pre-wrap;
+  word-break: break-word;
+  @include mixins.useFont(14px, 21px);
 }

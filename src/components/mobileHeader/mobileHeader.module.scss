@@ -3,7 +3,7 @@
 
 .mobileHeader {
   display: flex;
-  height: variables.$header-height;
+  height: variables.$header-height-mobile;
   border-bottom: variables.$header-border-bottom-height solid colors.$steel;
   position: sticky;
   top: 0;

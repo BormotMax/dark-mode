@@ -1,44 +1,58 @@
-import React, { useEffect, useRef, useState, useMemo, memo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, memo, useCallback } from 'react';
 import Router, { useRouter } from 'next/router';
 import classnames from 'classnames';
-import { useSubscription, useQuery, gql } from '@apollo/client';
+import { useSubscription, useQuery, gql, useReactiveVar } from '@apollo/client';
 
 import { WithAuthentication, RouteType } from '../../components/withAuthentication';
 import { getProject } from '../../graphql/queries';
-import { Project, Comment as CommentType, AuthProps, User, Page } from '../../types/custom';
+import { Project, ProjectRelatedClient, ProjectRelatedFreelancer, ProjectComment, AuthProps, Page } from '../../types/custom';
 import { unauthClient, client } from '../_app';
 import { GetProjectQuery, CommentResourceType, OnCreateCommentSubscription } from '../../API';
-import { useFlash, useLogger } from '../../hooks';
-import { CommentWrapper, NewComment } from '../../components/comment';
+import { useFlash, useLogger, useWindowSize } from '../../hooks';
 import { onCreateComment } from '../../graphql/subscriptions';
-import { PageLayoutOne } from '../../components/pageLayoutOne';
-import { isClickOrEnter } from '../../helpers/util';
+import PageLayout, { alternatePageViewVar } from '../../components/pageLayout';
 import { CurrentProjectAction, useCurrentProject } from '../../hooks/useCurrentProject';
 import ProjectMenu from '../../components/projectMenu';
+import FilterBar from '../../components/filterBar';
+import ProjectFeed from '../../components/projectFeed';
 import styles from '../styles/project.module.scss';
+import { MOBILE_LAYOUT_BREAKPOINT } from '../../helpers/constants';
 
 enum ProjectTabsEnum {
   Recent = 'Recent',
   All = 'All',
-  Quotes = 'Quotes',
-  Invoices = 'Invoices',
-  Bookmarks = 'Bookmarks',
+  Proposals = 'Proposals',
 }
+
+const RECENT_COMMENTS_COUNT = 20;
+const getTabName = (name: string, length: number) => (length ? `${name} - ${length}` : name);
 
 const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   const router = useRouter();
   const { id, token } = router.query;
-  const [project, setProject] = useState<Project>(null);
-  const [projectTab, setProjectTab] = useState(ProjectTabsEnum.Recent);
-  const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
-  const viewer = useRef<User>(null);
-  const projectViewer = useRef<User>(null);
-  const [loading, setLoading] = useState(true);
+  const projectId = Array.isArray(id) ? id[0] : id;
+
+  const { currentProjectDispatch } = useCurrentProject();
   const { setFlash, setDelayedFlash } = useFlash();
   const { logger } = useLogger();
-  const currentUserId = currentUser?.attributes?.sub;
+  const [project, setProject] = useState<Project>(null);
+  const [projectTab, setProjectTab] = useState<ProjectTabsEnum>(ProjectTabsEnum.All);
+  const [viewerId, setViewerId] = useState(token || localStorage.getItem('viewerId'));
+  const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState<ProjectComment[]>([]);
+  const viewer = useRef<ProjectRelatedClient['user'] | ProjectRelatedFreelancer['user']>(null);
+  const projectViewer = useRef<ProjectRelatedClient | ProjectRelatedFreelancer>(null);
   const newCommentRef = useRef<HTMLDivElement>(null);
-  const { currentProjectDispatch } = useCurrentProject();
+
+  const alternatePageView = useReactiveVar(alternatePageViewVar);
+
+  const currentUserId = currentUser?.attributes?.sub;
+
+  const windowSize = useWindowSize();
+  const isDesktop = useMemo(
+    () => (windowSize.width > MOBILE_LAYOUT_BREAKPOINT),
+    [windowSize.width],
+  );
 
   useEffect(() => () => {
     currentProjectDispatch({ type: CurrentProjectAction.RESET });
@@ -50,12 +64,12 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
   } = useQuery<GetProjectQuery>(
     gql(getProject),
     {
-      skip: !id,
-      variables: { id },
+      skip: !projectId,
+      variables: { id: projectId },
       client: unauthClient,
       onError(error) {
         setFlash("There was an error retrieving this project. We're looking into it.");
-        logger.error('Project: error retrieving Project.', { error, input: { id } });
+        logger.error('Project: error retrieving Project.', { error, input: { id: projectId } });
         setLoading(false);
       },
     },
@@ -65,26 +79,25 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     () => {
       if (!fetchedProject) return;
       // determineViewer
-      let viewerCandidate;
       const { clients, freelancers } = fetchedProject;
       const viewingClientItem = clients.items
         .find((viewerClient) => viewerId && viewerClient?.user?.signedOutAuthToken === viewerId);
       const viewingFreelancerItem = freelancers.items
         .find((freelancer) => currentUserId && freelancer?.user?.id === currentUserId);
 
-      if (viewingFreelancerItem?.user) {
-        viewerCandidate = viewingFreelancerItem;
-      } else if (viewingClientItem?.user) {
-        if (currentUserId) {
-          logger.info('Project: signed in user acting as a client', { info: { id, viewerId, currentUserId } });
-          setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
-          Router.push('/projects');
-        }
-        viewerCandidate = viewingClientItem;
+      const viewerCandidate = viewingFreelancerItem?.user
+        ? viewingFreelancerItem
+        : viewingClientItem;
+
+      if (!viewingFreelancerItem?.user && viewingClientItem?.user && currentUserId) {
+        logger.info('Project: signed in user acting as a client', { info: { id: projectId, viewerId, currentUserId } });
+        setDelayedFlash("You can't view a project as a client while signed in as a freelancer.");
+        Router.push('/projects');
       }
       const user = viewerCandidate?.user;
       const projectUser = viewerCandidate;
 
+      // set project
       setProject(fetchedProject);
       currentProjectDispatch({
         type: CurrentProjectAction.SET,
@@ -94,11 +107,17 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
         },
       });
 
+      // set comments
+      const projectComments = fetchedProject?.comments?.items || [];
+      setComments([...projectComments].sort(
+        (e1, e2) => new Date(e1?.createdAt).getTime() - new Date(e2?.createdAt).getTime(),
+      ));
+
       viewer.current = user;
       projectViewer.current = projectUser;
       setLoading(false);
     },
-    [fetchedProject, currentUserId, id, viewerId],
+    [fetchedProject, currentUserId, projectId, viewerId],
   );
 
   const {
@@ -111,25 +130,13 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
 
   useEffect(
     () => {
-      if (!newComment) return;
-      setProject((prevProject) => {
-        if (newComment.projectID !== prevProject.id) {
-          return prevProject;
-        }
-        return {
-          ...prevProject,
-          comments: {
-            ...prevProject.comments,
-            items: [...prevProject.comments.items, newComment],
-          },
-        };
-      });
-
-      if (viewer.current?.id === newComment.creator.id) {
+      if (!newComment || newComment.projectID !== projectId) return;
+      setComments((prevState) => [...prevState, newComment]);
+      if (viewer.current?.id === newComment.creator?.id) {
         newCommentRef.current?.scrollIntoView();
       }
     },
-    [newComment],
+    [newComment, projectId],
   );
 
   useEffect(
@@ -141,158 +148,112 @@ const ProjectPage: React.FC<AuthProps> = ({ currentUser }) => {
     [commentsSubscriptionError],
   );
 
-  useEffect(() => {
-    setViewerId(token || localStorage.getItem('viewerId'));
-    if (token) {
-      localStorage.setItem('viewerId', token as string);
-    }
-  }, [currentUser, token]);
-
-  const handleFilterChange = (e, filterOption) => {
-    if (isClickOrEnter(e)) {
-      setProjectTab(filterOption);
-    }
-  };
-
-  const comments = useMemo(
+  useEffect(
     () => {
-      const items = project?.comments?.items || [];
-      return [...items].sort(
-        (e1, e2) => new Date(e1?.createdAt).getTime() - new Date(e2?.createdAt).getTime(),
-      ) as Array<CommentType>;
+      setViewerId(token || localStorage.getItem('viewerId'));
+      if (token) {
+        localStorage.setItem('viewerId', token as string);
+      }
     },
-    [project],
+    [currentUser, token],
   );
 
-  if (!viewerId && !currentUserId) Router.push('/sign-in');
-  if (!loading && !project) return <div>Not found</div>;
+  const handleFilterChange = useCallback(
+    (filterOption) => {
+      setProjectTab(filterOption);
+    },
+    [],
+  );
+
+  const filteredComments = useMemo(
+    () => ({
+      [ProjectTabsEnum.Recent]: comments.slice(0, RECENT_COMMENTS_COUNT),
+      [ProjectTabsEnum.All]: comments,
+      [ProjectTabsEnum.Proposals]: comments.filter(({ includedResourceType }) => (
+        includedResourceType === CommentResourceType.QUOTE
+      )),
+    }),
+    [comments],
+  );
+
+  const projectTabs = useMemo(
+    () => ({
+      [ProjectTabsEnum.Recent]: ProjectTabsEnum.Recent,
+      [ProjectTabsEnum.All]: getTabName(ProjectTabsEnum.All, filteredComments.All.length),
+      [ProjectTabsEnum.Proposals]: getTabName(ProjectTabsEnum.Proposals, filteredComments.Proposals.length),
+    }),
+    [filteredComments.Proposals.length, filteredComments.All.length],
+  );
+
+  const currentComments = useMemo(
+    () => (filteredComments[projectTab]),
+    [filteredComments, projectTab],
+  );
+
+  if (!viewerId && !currentUserId) {
+    Router.push('/sign-in');
+    return null;
+  }
+  if (!loading && !project) {
+    return <div>Not found</div>;
+  }
   if (!loading && !viewer.current) {
-    logger.info('Project: no viewer on Projects space', { info: { id, viewerId, currentUserId } });
+    logger.info('Project: no viewer on Projects space', { info: { id: projectId, viewerId, currentUserId } });
     Router.push('/sign-in');
     return null;
   }
 
   const { quotes, clients = {}, freelancers, assets } = project || {};
-
-  const projectTabOptions = {
-    [ProjectTabsEnum.Recent]: {
-      header: 'Recent',
-      filterFxn: (_item, idx: number, arr) => idx >= (arr.length - 20), // most recent 20
-    },
-    [ProjectTabsEnum.All]: {
-      header: `All - ${comments.length}`,
-      filterFxn: (item) => item,
-    },
-    [ProjectTabsEnum.Quotes]: {
-      header: `Quotes - ${comments.filter(({ includedResourceType }) => includedResourceType === CommentResourceType.QUOTE).length}`,
-      filterFxn: ({ includedResourceType }) => includedResourceType === CommentResourceType.QUOTE,
-    },
-  };
+  const showMenu = project && (isDesktop || alternatePageView);
 
   return (
-    <PageLayoutOne page={Page.PROJECT}>
-      <div className={classnames('column', styles.hideTablet, styles.leftColumn, styles.commentWrapper)}>
-        <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
-        <Feed
-          comments={comments}
-          projectTabOptions={projectTabOptions}
-          projectTab={projectTab}
-          viewer={viewer}
-          newCommentRef={newCommentRef}
-          id={id}
-        />
-      </div>
-      {project && (
-        <div className={classnames('column', styles.hideTablet, styles.rightColumn)}>
-          <ProjectMenu
-            viewer={viewer}
-            clients={clients}
-            freelancers={freelancers}
-            project={project}
-            fetchProject={fetchProject}
-            currentUserId={currentUserId}
-            assets={assets}
-            quotes={quotes}
+    <PageLayout hasAlternateView page={Page.PROJECT}>
+      <>
+        {!alternatePageView && (
+          <FilterBar
+            options={projectTabs}
+            current={projectTab}
+            handleChange={handleFilterChange}
           />
-        </div>
-      )}
-      <Filters projectTabOptions={projectTabOptions} projectTab={projectTab} handleFilterChange={handleFilterChange} />
-      <div
-        className={classnames(
-          'container',
-          'columns',
-          styles.hideMobile,
-          styles.desktopColumns,
-          { [styles.center]: !currentUser?.attributes?.sub },
         )}
-      >
-        <div className={classnames('column', styles.leftColumn, styles.commentWrapper)}>
-          <Feed
-            comments={comments}
-            projectTabOptions={projectTabOptions}
-            projectTab={projectTab}
-            viewer={viewer}
-            newCommentRef={newCommentRef}
-            id={id}
-          />
+        <div
+          className={classnames(
+            styles.columns,
+            { [styles.center]: !currentUser?.attributes?.sub },
+          )}
+        >
+          {!alternatePageView && (
+            <div className={styles.leftColumn}>
+              <ProjectFeed
+                comments={currentComments}
+                viewer={viewer}
+                newCommentRef={newCommentRef}
+                projectId={projectId}
+              />
+            </div>
+          )}
+          {showMenu && (
+            <div
+              className={classnames(
+                styles.rightColumn,
+                { [styles.alternatePageView]: alternatePageView },
+              )}
+            >
+              <ProjectMenu
+                viewer={viewer}
+                clients={clients}
+                freelancers={freelancers}
+                project={project}
+                fetchProject={fetchProject}
+                currentUserId={currentUserId}
+                assets={assets}
+                quotes={quotes}
+              />
+            </div>
+          )}
         </div>
-        {project && (
-          <div className={classnames('column', styles.rightColumn)}>
-            <ProjectMenu
-              viewer={viewer}
-              clients={clients}
-              freelancers={freelancers}
-              project={project}
-              fetchProject={fetchProject}
-              currentUserId={currentUserId}
-              assets={assets}
-              quotes={quotes}
-            />
-          </div>
-        )}
-      </div>
-    </PageLayoutOne>
-  );
-};
-
-const Filters = ({ projectTabOptions, projectTab, handleFilterChange }) => (
-  <div className={classnames(styles.filters)}>
-    {Object.entries(projectTabOptions).map(([k, v]) => (
-      <div
-        role="button"
-        tabIndex={0}
-        className={classnames(styles.filter, { [styles.activeFilter]: projectTab === k })}
-        onClick={(e) => handleFilterChange(e, k)}
-        onKeyDown={(e) => handleFilterChange(e, k)}
-        key={(v as any).header}
-      >{(v as any).header}
-      </div>
-    ))}
-  </div>
-);
-
-const Feed = ({ comments, projectTabOptions, projectTab, viewer, newCommentRef, id }) => {
-  const currentViewer = viewer?.current || {};
-  return (
-    <>
-      {comments.filter(projectTabOptions[projectTab].filterFxn).map((comment) => (
-        <CommentWrapper
-          key={comment.id}
-          comment={comment}
-          viewerId={currentViewer.id as string}
-        />
-      ))}
-      <div ref={newCommentRef}>
-        <NewComment
-          name={currentViewer.name}
-          email={currentViewer.email}
-          title={currentViewer.title}
-          projectID={id as string}
-          creatorID={currentViewer.id}
-          s3key={currentViewer.avatar?.key ?? ''}
-        />
-      </div>
-    </>
+      </>
+    </PageLayout>
   );
 };
 

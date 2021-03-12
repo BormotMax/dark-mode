@@ -6,10 +6,10 @@ $line-height: 36px;
 
 .nav {
   max-width: 50%;
+  margin-left: 40px;
 
   @media only screen and (max-width: variables.$breakpoint-md) {
     margin-right: auto;
-    margin-left: 40px;
   }
 }
 
@@ -50,6 +50,10 @@ $line-height: 36px;
 .divider {
   margin: 0 8px;
   color: colors.$steel;
+
+  & > svg {
+    width: 10px !important;
+  }
 }
 
 .firstPath {
