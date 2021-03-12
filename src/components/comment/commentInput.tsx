@@ -140,7 +140,7 @@ export const CommentInput = memo<NewCommentProps>(({
       isLast
       fluid
       noPaddings
-      showDetails={false}
+      hasDetails={false}
       s3key={s3key ?? ''}
       email={email}
     >

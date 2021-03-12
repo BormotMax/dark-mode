@@ -1,7 +1,6 @@
 @use 'src/colors' as colors;
 @use 'src/variables' as variables;
 @use 'src/mixins';
-@import '~bulma/sass/utilities/_all.sass';
 
 $text-left-padding: 24px;
 $info-padding-left: $text-left-padding + variables.$avatar-width + variables.$avatar-right-margin;
@@ -35,6 +34,7 @@ $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
 
 .contentWrapper {
   display: flex;
+  position: relative;
   align-items: center;
   max-width: 100%;
   border-radius: 20px;
@@ -42,23 +42,32 @@ $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
   box-shadow: variables.$card-shadow;
   @include mixins.useFont(14px, 21px);
   color: var(--color-text);
-}
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    font-weight: normal;
-    font-size: 16px;
-    flex-wrap: wrap;
+  --right-padding: 52px;
+  --vertical-padding: 8px;
+  padding: var(--vertical-padding) var(--right-padding) var(--vertical-padding) $text-left-padding;
+
+  &.contentWrapperPaddingsLarge {
+    --vertical-padding: 16px;
+    --right-padding: 43px;
+  }
+  &.noPaddings {
+    padding: 0;
   }
 
-.contentWrapperPaddings {
-  padding: 8px 40px 8px $text-left-padding;
-}
+  & .optionsButton {
+    display: none;
+    position: absolute;
+    margin-left: 21px;
+    color: colors.$gray-4;
+  }
 
-.contentWrapperPaddingsLarge {
-  padding: 16px 40px 16px $text-left-padding;
+  &:hover {
+    .optionsButton {
+      display: block;
+      right: 16px;
+    }
+  }
 }
 
 .fluid {
@@ -76,11 +85,6 @@ $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
 
 .lastComment {
   border-bottom-left-radius: 0;
-}
-
-.optionsButton {
-  margin-left: 13px;
-  color: colors.$gray-4;
 }
 
 .inputWrapper {
@@ -170,56 +174,3 @@ $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
 .resourceWrapper {
   width: 100%;
 }
-
-.commentText {
-    border: 1px solid var(--color-line);
-    background-color: var(--color-small-block);
-    border-radius: 4px 4px 0 0;
-    border-bottom: none;
-    vertical-align: top;
-    width: 100%;
-    padding: 5px;
-    resize: none;
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 24px;
-    color: var(--color-text);
-  }
-
-  .commentBar {
-    border-radius: 0 0 4px 4px;
-    background: var(--color-small-block);
-    border: 1px solid var(--color-line);
-    padding: 6px;
-    text-align: right;
-    color: var(--color-text);
-    
-    .isLoading {
-      position: relative;
-      pointer-events: none;
-      opacity: 0.5;
-      &:after {
-        @include mixins.spin-loader;
-        position: absolute;
-        top: calc(50% - 10px);
-        left: calc(50% - 10px);
-        width: 20px;
-        color: #4f4f4f;
-        height: 20px;
-        border-width: 0.25em;
-      }
-
-      * {
-        visibility: hidden;
-        pointer-events: none;
-      }
-    }
-
-    svg {
-      cursor: pointer;
-      font-size: 1.3em; // font awesome icon is too small
-      vertical-align: middle;
-    }
-  }

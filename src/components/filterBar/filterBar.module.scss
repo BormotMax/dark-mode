@@ -13,7 +13,7 @@ $active-underline-height: 3px;
   z-index: 1;
   @include mixins.useFont(16px, $line-height);
   color: colors.$gray-3;
-  background-color: var(--color-silver);
+  background-color: var(--background-silver);
   border-bottom: 1px solid var(--color-line);
   position: sticky;
   top: calc(#{variables.$header-height} + #{variables.$header-border-bottom-height});

@@ -31,7 +31,7 @@ type CommentProps = {
   s3key?: string,
   children: React.ReactNode,
   showInfo?: boolean,
-  showDetails?: boolean,
+  hasDetails?: boolean,
   fluid?: boolean,
   noPaddings?: boolean,
   isLast?: boolean,
@@ -45,7 +45,7 @@ const CommentLayout = memo<CommentProps>(({
   email = '',
   s3key = '',
   showInfo = false,
-  showDetails = false,
+  hasDetails = true,
   isLast = false,
   largeSize = false,
   fluid = false,
@@ -77,22 +77,22 @@ const CommentLayout = memo<CommentProps>(({
           {
             [styles.groupComment]: !isLast,
             [styles.lastComment]: isLast,
-            [styles.contentWrapperPaddings]: !noPaddings,
-            [styles.contentWrapperPaddingsLarge]: !noPaddings && largeSize,
+            [styles.contentWrapperPaddingsLarge]: largeSize,
+            [styles.noPaddings]: noPaddings,
             [styles.fluid]: fluid,
             [styles.fit]: !fluid,
           },
         )}
       >
         {children}
-        {showDetails && (
-        <button
-          className={classnames('defaultButton', styles.optionsButton)}
-          type="button"
-          tabIndex={0}
-        >
-          <FontAwesomeIcon size="1x" icon={faEllipsis} />
-        </button>
+        {hasDetails && (
+          <button
+            className={classnames('defaultButton', styles.optionsButton)}
+            type="button"
+            tabIndex={0}
+          >
+            <FontAwesomeIcon size="1x" icon={faEllipsis} />
+          </button>
         )}
       </div>
     </div>
