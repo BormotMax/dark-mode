@@ -5,10 +5,10 @@
 
   .tabList {
     border-bottom-width: 1px;
-    border-color: var(--color-steel);
+    border-color: var(--light-mode-1);
     .isActiveTab {
       a {
-        border-color: var(--color-border);
+        border-color: var(--color-right-menu);
         border-bottom-width: 3px;
         margin-bottom: -1px;
         color: var(--color-text);
@@ -22,18 +22,22 @@
     .tab {
 
       a {
-
+        color: var(--steel);
         margin-bottom: 2px;
         border-bottom: none;
 
+        svg {
+          color: var(--steel);
+        }
+        
         &:hover {
-          color: var(--color-text);
+          color: var(--color-right-menu);
         }
       }
 
       &:hover {
         svg {
-          color: var(--color-text);
+          color: var(--color-right-menu);
         }
       }
     }

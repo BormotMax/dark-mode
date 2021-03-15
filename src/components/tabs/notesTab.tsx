@@ -42,7 +42,7 @@ export const NotesTab: React.FC<NotesTabProps> = ({ refetchData, projectUser }) 
             button={
               <div role="button" tabIndex={0} className={classnames(modalStyles.modalPill)}>
                 <div className={classnames(modalStyles.icon)}>
-                  <FontAwesomeIcon color="#828282" icon={faClipboard} />
+                  <FontAwesomeIcon icon={faClipboard} />
                 </div>
                 <div>{text}</div>
               </div>

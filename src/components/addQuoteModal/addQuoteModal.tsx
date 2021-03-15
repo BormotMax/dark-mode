@@ -62,7 +62,7 @@ export const AddQuoteModal: React.FC<AddQuoteModalProps> = ({ projectID, refetch
                 onClick={() => {
                   setSelectedQuote(quote);
                 }}
-                className={classnames(modalStyles.modalPill)}
+                className={classnames(modalStyles.modalPill, styles.text)}
               >
                 <div className={classnames(modalStyles.icon)}>
                   <FontAwesomeIcon color="#828282" icon={faFileInvoiceDollar} />

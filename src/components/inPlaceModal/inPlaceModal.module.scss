@@ -205,10 +205,14 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
-  color: var(--color-text);
+  color: var(--color-right-menu);
   padding: 4px 16px 4px 4px;
   margin: variables.$modal-pill-vertical-margin 0;
   cursor: pointer;
+
+  svg {
+    color: var(--steel);
+  }
 
   .title {
     font-weight: normal;
@@ -284,4 +288,12 @@
     font-size: 16px;
     line-height: 24px;
   }
+}
+
+.imageButton {
+  border: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  color: var(--steel) !important;
 }
