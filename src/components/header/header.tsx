@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import classnames from 'classnames';
 import { faMoon } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
 
 import { Protected } from '../protected/protected';
 import { Features } from '../../permissions';
@@ -15,6 +16,7 @@ import DoubleArrow from '../svgIcons/DoubleArrow';
 
 import styles from './header.module.scss';
 import Button from '../button';
+import { toggleMode } from '../../helpers/util';
 
 const USER_AVATAR_SIZE = 48;
 
@@ -32,10 +34,6 @@ export const Header: React.FC<Props> = React.memo(({
   const { logger } = useLogger();
   const userId = currentUser?.attributes?.sub;
   const email = currentUser?.attributes?.email;
-
-  const toggleMode = () => {
-    document.body.classList.toggle('dark');
-  };
 
   const {
     data: userAvatarResponse,
@@ -80,15 +78,13 @@ export const Header: React.FC<Props> = React.memo(({
                   { [styles.arrowExpanded]: !navIsCollapsed },
                 )}
               />
-              <div className={styles.container}>
-                <Breadcrumbs />
-                <Button
-                  className={styles.imageButton}
-                  onClick={toggleMode}
-                >
-                  <FontAwesomeIcon icon={faMoon} />
-                </Button>
-              </div>
+              <Breadcrumbs />
+              <Button
+                className={classnames(modalStyles.imageButton, styles.button)}
+                onClick={toggleMode}
+              >
+                <FontAwesomeIcon icon={faMoon} />
+              </Button>
             </>
           )}
       </div>
