@@ -1,15 +1,19 @@
 import React, { memo } from 'react';
+import { faMoon } from '@fortawesome/pro-light-svg-icons';
 import { faBars, faEllipsisVertical, faXmark } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useReactiveVar, ReactiveVar } from '@apollo/client';
 
+import classnames from 'classnames';
 import Breadcrumbs from '../breadcrumbs';
-import { isClickOrEnter } from '../../helpers/util';
+import { isClickOrEnter, toggleMode } from '../../helpers/util';
 import { MouseOrKeyboardEvent } from '../../types/custom';
 import { Features } from '../../permissions';
 import { Protected } from '../protected/protected';
 
 import styles from './mobileHeader.module.scss';
+import modalStyles from '../inPlaceModal/inPlaceModal.module.scss';
+import Button from '../button';
 
 type MobileHeaderProps = {
   hasAlternateView?: boolean,
@@ -46,10 +50,16 @@ const MobileHeader = ({
           onClick={handleSwitchToNav}
           onKeyDown={handleSwitchToNav}
         >
-          <FontAwesomeIcon color="#595959" size="1x" icon={faBars} />
+          <FontAwesomeIcon size="1x" icon={faBars} />
         </div>
       </Protected>
       <Breadcrumbs />
+      <Button
+        className={classnames(modalStyles.imageButton, styles.moon)}
+        onClick={toggleMode}
+      >
+        <FontAwesomeIcon icon={faMoon} />
+      </Button>
       {hasAlternateView && (
         <div
           role="button"
@@ -59,8 +69,8 @@ const MobileHeader = ({
           className={styles.button}
         >
           {alternatePageView
-            ? <FontAwesomeIcon color="#595959" size="1x" icon={faXmark} />
-            : <FontAwesomeIcon color="#595959" size="1x" icon={faEllipsisVertical} />}
+            ? <FontAwesomeIcon size="1x" icon={faXmark} />
+            : <FontAwesomeIcon size="1x" icon={faEllipsisVertical} />}
         </div>
       )}
       {children}

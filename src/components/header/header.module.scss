@@ -23,14 +23,7 @@
   height: variables.$header-height;
   display: flex;
   align-items: center;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 70%;
+  position: relative;
 }
 
 .nav {
@@ -41,12 +34,12 @@
   padding-left: 27px;
 }
 
-.imageButton {
-  border: none !important;
-  width: 18px !important;
-  height: 18px !important;
-  padding: 0 !important;
-  color: var(--steel) !important;
+.button {
+  position: absolute;
+  right: 20%;
+  @media (max-width: 1100px) {
+    right: 50px;
+  }
 }
 
 .arrow {
