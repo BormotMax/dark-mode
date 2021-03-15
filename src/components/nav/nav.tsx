@@ -40,7 +40,7 @@ const Nav: React.FC<NavProps> = ({
   const [settingsModalIsOpen, setSettingsModalIsOpen] = React.useState(false);
 
   const handleLogout = (event: MouseOrKeyboardEvent) => {
-    if (isClickOrEnter(event)) return;
+    if (!isClickOrEnter(event)) return;
     signOut('/');
   };
 
@@ -50,9 +50,8 @@ const Nav: React.FC<NavProps> = ({
   };
 
   const openModal = (event) => {
-    if (isClickOrEnter(event)) {
-      setSettingsModalIsOpen(true);
-    }
+    if (!isClickOrEnter(event)) return;
+    setSettingsModalIsOpen(true);
   };
 
   const closeModal = React.useCallback(
@@ -140,7 +139,7 @@ const Nav: React.FC<NavProps> = ({
         </li>
         <li className={styles.community}>
           <a href="https://community.continuum.works/users/sign_in">
-            <FontAwesomeIcon size="1x" icon={faUsers}  />
+            <FontAwesomeIcon size="1x" icon={faUsers} />
             {!isCollapsed && 'Community'}
           </a>
         </li>
