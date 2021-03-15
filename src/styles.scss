@@ -39,6 +39,10 @@ body {
   --color-button: #{colors.$black};
   --color-progress: #{colors.$steel-blue};
   --color-line: #{colors.$silver};
+  --color-right-menu: #{colors.$black};
+  --color-comment: #{colors.$steel};
+  --color-quote: #{colors.$black};
+  --color-icon: #{colors.$background-silver};
 }
 
 .dark {
@@ -57,6 +61,10 @@ body {
   --color-button: #{colors.$purple};
   --color-progress: #{colors.$purple};
   --color-line: #{colors.$dark-mode-1};
+  --color-right-menu: #{colors.$soft-blue};
+  --color-comment: #{colors.$white};
+  --color-quote: #{colors.$silver};
+  --color-icon: #{colors.$dark-mode-1};
 }
 
 *,
