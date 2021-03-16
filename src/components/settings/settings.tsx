@@ -379,7 +379,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
         <div className={classnames(styles.left, 'column', 'is-narrow')}>
           <div className={styles.buttons_container}>
             <Button
-              inverted
+              inverted={tab === Tab.Profile}
               onClick={() => setTab(Tab.Profile)}
               icon={<FontAwesomeIcon icon={faUserAstronaut} />}
             >
@@ -387,6 +387,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
             </Button>
             <Protected feature={Features.Payments}>
               <Button
+                inverted={tab === Tab.Payments}
                 onClick={() => setTab(Tab.Payments)}
                 icon={<FontAwesomeIcon icon={faSackDollar} />}
               >
