@@ -8,6 +8,7 @@ import { MOBILE_LAYOUT_BREAKPOINT } from '../../helpers/constants';
 import DesktopLayout from './desktopLayout';
 import MobileLayout from './mobileLayout';
 import styles from './pageLayout.module.scss';
+import { toggleMode } from '../../helpers/util';
 
 type PageLayoutOneProps = {
   page: Page,
@@ -31,6 +32,16 @@ const PageLayout = ({
       }
     },
     [windowSize.width],
+  );
+
+  useEffect(
+    () => {
+      const mode = localStorage.getItem('mode');
+      if (mode === 'dark') {
+        document.body.classList.add('dark');
+      }
+    },
+    [],
   );
 
   if (windowSize.width <= MOBILE_LAYOUT_BREAKPOINT) {

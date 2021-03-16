@@ -64,4 +64,9 @@ export const getProjectTitle = (project: Project | FreelancerProject): string =>
 
 export const toggleMode = (): void => {
   document.body.classList.toggle('dark');
+  if (document.body.classList.contains('dark')) {
+    localStorage.setItem('mode', 'dark');
+  } else {
+    localStorage.setItem('mode', 'light');
+  }
 };
