@@ -1,4 +1,4 @@
-import React, { CSSProperties, useMemo } from 'react';
+import React, { CSSProperties, useMemo, memo } from 'react';
 import Storage from '@aws-amplify/storage';
 import classnames from 'classnames';
 
@@ -68,7 +68,7 @@ export const avatarPlaceholderName = (name: string): string => {
 };
 
 // Use the url if given, else use the email to get the gravatar, else show custom placeholder
-export const Avatar: React.FC<AvatarProps> = ({
+export const Avatar = memo<AvatarProps>(({
   s3AvatarIsLoading = false,
   s3key = '',
   className,
@@ -112,7 +112,13 @@ export const Avatar: React.FC<AvatarProps> = ({
   );
 
   const avatarStyle = useMemo(
-    () => ({ width, height, ...style }),
+    () => ({
+      width,
+      height,
+      minWidth: width,
+      minHeight: height,
+      ...style,
+    }),
     [width, height, style],
   );
   const avatarPlaceholderStyle = useMemo(
@@ -156,4 +162,6 @@ export const Avatar: React.FC<AvatarProps> = ({
       {avatarPlaceholderName(name || email)}
     </div>
   );
-};
+});
+
+Avatar.displayName = 'Avatar';

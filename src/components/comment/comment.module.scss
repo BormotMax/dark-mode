@@ -6,6 +6,7 @@ $text-left-padding: 24px;
 $info-padding-left: $text-left-padding + variables.$avatar-width + variables.$avatar-right-margin;
 $no-avatar-margin-left: variables.$avatar-width + variables.$avatar-right-margin;
 $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
+$emojis-modal-breakpoint: 480px;
 
 .info {
   display: flex;
@@ -47,17 +48,10 @@ $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
   }
 
   & .optionsButton {
-    display: none;
     position: absolute;
+    right: 16px;
     margin-left: 21px;
     color: colors.$gray-4;
-  }
-
-  &:hover {
-    .optionsButton {
-      display: block;
-      right: 16px;
-    }
   }
 }
 
@@ -129,6 +123,14 @@ $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
   & > section {
     border: none;
     border-radius: 8px;
+
+    @media (max-width: $emojis-modal-breakpoint) {
+      width: 100% !important;
+    }
+  }
+
+  @media (max-width: $emojis-modal-breakpoint) {
+    --left-offset: 90px;
   }
 
   &[data-popper-placement^='top'] > .arrow::before {
