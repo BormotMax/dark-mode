@@ -130,30 +130,40 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
     setFiles((oldFiles) => [...oldFiles, ...Array.from(filesToAdd)]);
   }
 
+  const uploadLink = async () => {
+    const createProjectAssetsInput: CreateProjectAssetsInput = {
+      projectID,
+      url: fileUrl,
+    };
+    try {
+      const response = await client.mutate({
+        mutation: gql(createProjectAssets),
+        variables: { input: createProjectAssetsInput },
+      });
+    } catch (error) {
+      setFlash("Something went wrong. We're looking into it");
+      logger.error('FilesTabModalContent: error creating ProjectAsset', { error, input: createProjectAssetsInput });
+    }
+  };
+
   const uploadFiles = async () => {
     setIsSaving(true);
     const uploadPromises = [];
     let createProjectAssetsInput: CreateProjectAssetsInput;
-
     for (const file of files) {
-      if (file.url) {
-        createProjectAssetsInput = {
-          projectID,
-          url: file.url,
-        };
-      } else {
-        const s3Key = `${uuid()}-${file.name}`;
-
-        createProjectAssetsInput = {
-          projectID,
-          asset: { key: s3Key },
-          fileName: file.name,
-        };
-
-        uploadPromises.push(
-          Storage.put(s3Key, file, { contentDisposition: `attachment;filename=${file.name}` }),
-        );
+      if (fileUrl) {
+        await uploadLink();
       }
+      const s3Key = `${uuid()}-${file.name}`;
+
+      createProjectAssetsInput = {
+        projectID,
+        asset: { key: s3Key },
+        fileName: file.name,
+      };
+      uploadPromises.push(
+        Storage.put(s3Key, file, { contentDisposition: `attachment;filename=${file.name}` }),
+      );
 
       try {
         await client.mutate({
@@ -164,6 +174,9 @@ const ModalContent: React.FC<ModalContentProps> = ({ close, projectID, refetchDa
         setFlash("Something went wrong. We're looking into it");
         logger.error('FilesTabModalContent: error creating ProjectAsset', { error, input: createProjectAssetsInput });
       }
+    }
+    if (fileUrl && uploadPromises.length === 0) {
+      await uploadLink();
     }
 
     try {
