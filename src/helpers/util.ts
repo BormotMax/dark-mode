@@ -62,6 +62,6 @@ export const getProjectTitle = (project: Project | FreelancerProject): string =>
   return project?.title || clientName || 'Title';
 };
 
-export const toggleMode = () => {
+export const toggleMode = (): void => {
   document.body.classList.toggle('dark');
 };
