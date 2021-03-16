@@ -1,25 +1,5 @@
-@font-face {
-  font-family: AvenirHeavy;
-  src: url('../../fonts/AvenirLTStd-Heavy.ttf') format('opentype');
-}
-
-@font-face {
-  font-family: AvenirBlack;
-  src: url('../../fonts/AvenirLTStd-Black.otf') format('opentype');
-}
-
-@font-face {
-  font-family: AvenirRoman;
-  src: url('../../fonts/AvenirLTStd-Roman.otf') format('opentype');
-}
-
-@font-face {
-  font-family: AvenirBook;
-  src: url('../../fonts/AvenirLTStd-Book.otf') format('opentype');
-}
-
 .home {
-  font-family: AvenirBook;
+  font-family: Poppins;
   overflow-x: hidden;
 
   .flex {
@@ -83,7 +63,7 @@
     background-repeat: no-repeat;
     background-position: center;
     display: block;
-    font-family: AvenirRoman;
+    font-family: Poppins;
   }
 
   .page-header .form-wrapper input {
@@ -95,7 +75,7 @@
     width: 276px;
     height: 40px;
     margin: 0 4px;
-    font-family: AvenirRoman;
+    font-family: Poppins;
     font-size: 16px;
     line-height: 22px;
     letter-spacing: 0.271875px;
@@ -148,7 +128,7 @@
   }
 
   .first-screen .first-screen-content .first-screen-title {
-    font-family: AvenirHeavy;
+    font-family: Poppins;
     font-weight: 900;
     font-size: 100px;
     line-height: 75px;
@@ -157,7 +137,7 @@
   }
 
   .first-screen .first-screen-content .first-screen-subtitle {
-    font-family: AvenirBook;
+    font-family: Poppins;
     font-size: 24px;
     line-height: 33px;
     text-align: center;
@@ -206,7 +186,7 @@
   }
 
   .second-screen .second-screen-content .second-screen-title {
-    font-family: AvenirHeavy;
+    font-family: Poppins;
     font-weight: 900;
     font-size: 56px;
     line-height: 120%;
@@ -248,7 +228,7 @@
   }
 
   .second-screen .second-screen-content .screen-tab-wrapper .tab-item .tab-title {
-    font-family: AvenirBlack;
+    font-family: Poppins;
     font-weight: 900;
     font-size: 32px;
     line-height: 44px;

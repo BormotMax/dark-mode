@@ -11,7 +11,7 @@ $portfolio-image-line-count: 3;
 $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image-line-count} + #{$portfolio-image-gap * $portfolio-image-line-count});
 
 .hire {
-  font-family: Roboto, sans-serif;
+  font-family: Poppins, sans-serif;
   font-weight: normal;
   font-size: 36px;
   line-height: 42px;
@@ -60,26 +60,26 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
     .name {
       color: colors.$gray-1;
       margin-bottom: 8px;
-      @include mixins.useFont(16px, 19px, bold, Roboto);
+      @include mixins.useFont(16px, 19px, bold, Poppins);
       letter-spacing: 1.61539px;
     }
 
     .title {
       color: colors.$black;
       margin-bottom: 24px;
-      @include mixins.useFont(36px, 42px, bold, Roboto);
+      @include mixins.useFont(36px, 42px, bold, Poppins);
     }
 
     .blurbText {
       color: colors.$gray-3;
-      @include mixins.useFont(30px, 35px, normal, Roboto);
+      @include mixins.useFont(30px, 35px, normal, Poppins);
     }
 
     .button {
       background: colors.$prussian-blue;
       color: colors.$white;
       border-radius: 8px;
-      @include mixins.useFont(18px, 33px, 500, Roboto);
+      @include mixins.useFont(18px, 33px, 500, Poppins);
       padding: 15px 30px;
       border: none;
       cursor: pointer;
@@ -232,7 +232,7 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
     margin: 0 10%;
     white-space: pre-wrap;
     color: colors.$gray-3;
-    @include mixins.useFont(30px, 35px, normal, Roboto);
+    @include mixins.useFont(30px, 35px, normal, Poppins);
   }
 
   .footer {
@@ -254,7 +254,7 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
 
     .copyright {
       margin-bottom: 38px;
-      @include mixins.useFont(16px, 24px, normal, Roboto);
+      @include mixins.useFont(16px, 24px, normal, Poppins);
       color: colors.$gray-3;
     }
 
@@ -281,6 +281,6 @@ $portfolio-images-wrapper-width: calc(#{$portfolio-image-size * $portfolio-image
 }
 
 .headerText {
-  @include mixins.useFont(24px, 28px, 400, Roboto);
+  @include mixins.useFont(24px, 28px, 400, Poppins);
   color: colors.$c-gray;
 }
