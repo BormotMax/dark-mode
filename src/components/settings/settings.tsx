@@ -534,7 +534,7 @@ export const Settings: React.FC<SettingsProps> = ({ close }) => {
           )}
           {tab === Tab.Payments && (
             <>
-              <div>Connect your payment gateway</div>
+              <div className={styles.connect}>Connect your payment gateway</div>
               {chooseStatusIndicator()}
             </>
           )}

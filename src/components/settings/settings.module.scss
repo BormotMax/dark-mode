@@ -3,13 +3,13 @@
 .settings {
   max-width: 668px;
   width: 100%;
-  background-color: white;
+  background-color: var(--color-block);
 
   font-family: Roboto, sans-serif;
   font-weight: normal;
   font-size: 14px;
   line-height: 16px;
-  color: #828282;
+  color: var(--steel);
   border-radius: 20px;
 
   label {
@@ -17,27 +17,27 @@
   }
 
   textarea {
-    background: colors.$background-silver;
-    border: 1px solid #eeeeee;
+    background: var(--color-small-block);
+    border: 1px solid var(--color-small-block);
     resize: none;
     margin-top: 4px;
-    color: colors.$black;
+    color: var(--color-text);
   }
 
   input {
-    background: colors.$background-silver;
+    background: var(--color-small-block);
     margin-top: 4px;
-    border: 1px solid #eeeeee;
+    border: 1px solid var(--color-small-block);
     box-sizing: border-box;
     border-radius: 4px;
     height: 32px;
-    color: colors.$black;
+    color: var(--color-text);
   }
 
   .header {
-    color: colors.$black;
+    color: var(--color-text);
     font-weight: 500;
-    border-bottom: 1px solid colors.$silver;
+    border-bottom: 1px solid var(--color-line);
   }
 
   .body {
@@ -137,7 +137,6 @@
             font-weight: normal;
             font-size: 14px;
             line-height: 16px;
-            color: #595959;
           }
         }
       }
@@ -184,5 +183,9 @@
 
 .buttonResetStyle {
   outline: 0;
+}
+
+.connect {
+  color: var(--color-text);
 }
 

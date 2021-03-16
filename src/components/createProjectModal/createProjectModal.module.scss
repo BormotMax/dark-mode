@@ -3,7 +3,7 @@
 
 .root {
   width: 332px;
-  background: colors.$white;
+  background: var(--color-block);
   box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   padding: 16px;
@@ -28,6 +28,6 @@
 
 .title {
   @include mixins.useFont(24px, 32px, 500);
-  color: colors.$black;
+  color: var(--color-text);
   margin-bottom: 16px;
 }

@@ -132,12 +132,10 @@ const ProjectsPage: React.FC<AuthProps> = ({ currentUser }) => {
             ref={referenceElementRef}
             onClick={openModal}
             height={40}
-            color="black"
             icon={(
               <FontAwesomeIcon
                 icon={faCirclePlus}
                 fontSize="18px"
-                color="black"
               />
             )}
           >

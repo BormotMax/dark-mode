@@ -10,6 +10,13 @@
   }
   textarea {
     color: #8093a6;
+    background-color: var(--color-form);
+    border: none;
+  }
+
+  input {
+    background-color: var(--color-form);
+    border: none;
   }
 
   .save {

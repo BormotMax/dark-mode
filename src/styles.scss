@@ -43,6 +43,7 @@ body {
   --color-comment: #{colors.$steel};
   --color-quote: #{colors.$black};
   --color-icon: #{colors.$background-silver};
+  --color-form: #{colors.$white};
 }
 
 .dark {
@@ -65,6 +66,7 @@ body {
   --color-comment: #{colors.$white};
   --color-quote: #{colors.$silver};
   --color-icon: #{colors.$dark-mode-1};
+  --color-form: #{colors.$dark-mode-2};
 }
 
 *,
