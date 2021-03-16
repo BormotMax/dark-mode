@@ -137,6 +137,15 @@ $emojis-modal-breakpoint: 480px;
     --left-offset: 90px;
   }
 
+  &[data-popper-placement^='top'] > .arrow::before {
+    bottom: var(--vertical-offset);
+    left: var(--left-offset);
+  }
+  &[data-popper-placement^='bottom'] > .arrow::before {
+    top: var(--vertical-offset);
+    left: var(--left-offset);
+  }
+
   .commentText {
     border: 1px solid var(--color-line);
     background-color: var(--color-small-block);
@@ -183,6 +192,23 @@ $emojis-modal-breakpoint: 480px;
         pointer-events: none;
       }
     }
+
+  &::before {
+    --size: 19px;
+    z-index: -1;
+    box-shadow: $emojis-modal-box-shadow;
+    position: absolute;
+    visibility: visible;
+    content: '';
+    transform: rotate(45deg);
+    width: var(--size);
+    height: var(--size);
+    background: colors.$white;
+  }
+}
+
+.arrow {
+  visibility: hidden;
 
   &::before {
     --size: 19px;
