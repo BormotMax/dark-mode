@@ -53,7 +53,7 @@ const CommentLayout = memo<CommentProps>(({
   contentClassName = '',
   children,
 }): JSX.Element => (
-  <div className={styles.container}>
+  <>
     {showInfo && (
       <div className={styles.info}>
         {`${name}, ${createdAt ? getDate(createdAt) : ''}`}
@@ -96,7 +96,7 @@ const CommentLayout = memo<CommentProps>(({
         )}
       </div>
     </div>
-  </div>
+  </>
 ));
 
 CommentLayout.displayName = 'CommentLayout';

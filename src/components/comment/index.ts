@@ -1,2 +1,2 @@
 export * from './comment';
-export * from './commentInput';
+export * from './commentInput/commentInput';

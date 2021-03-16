@@ -3,6 +3,8 @@ import React, { memo, useMemo, Fragment } from 'react';
 import { ProjectComment, ProjectRelatedClient, ProjectRelatedFreelancer } from '../../types/custom';
 import { Comment, CommentInput } from '../comment';
 
+import styles from './projectFeed.module.scss';
+
 const HOUR = 3600;
 const getCommentsGroups = (comments: ProjectComment[]) => {
   let groupCounter = 0;
@@ -59,7 +61,7 @@ const ProjectFeed = ({
   }
 
   return (
-    <>
+    <div className={styles.container}>
       {commentsGroups.map((commentsGroup) => (
         <Fragment key={commentsGroup[0].id}>
           {commentsGroup.map(((comment, index) => (
@@ -81,7 +83,7 @@ const ProjectFeed = ({
           s3key={currentViewer.avatar?.key ?? ''}
         />
       </div>
-    </>
+    </div>
   );
 };
 

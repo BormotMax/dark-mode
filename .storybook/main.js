@@ -1,9 +1,8 @@
-const { resolve } = require("path");
-
 module.exports = {
   addons: [
     `@storybook/addon-viewport`,
     '@storybook/addon-links',
+    '@storybook/preset-scss',
     {
       name: '@storybook/addon-essentials',
       options: {
@@ -12,5 +11,4 @@ module.exports = {
     },
   ],
   stories: [`../src/components/**/story.tsx`],
-  presets: [resolve(__dirname, "./next-preset.js")],
 };

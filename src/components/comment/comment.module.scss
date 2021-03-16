@@ -7,15 +7,6 @@ $info-padding-left: $text-left-padding + variables.$avatar-width + variables.$av
 $no-avatar-margin-left: variables.$avatar-width + variables.$avatar-right-margin;
 $emojis-modal-box-shadow: 4px 4px 24px rgba(0, 0, 0, 0.1);
 
-.container {
-  &:not(:last-child) {
-    margin-bottom: 8px;
-  }
-  &:nth-last-child(2) {
-    margin-bottom: 16px;
-  }
-}
-
 .info {
   display: flex;
   padding-left: $info-padding-left;

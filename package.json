@@ -69,12 +69,12 @@
     "react-popper": "^2.2.4",
     "react-textarea-autosize": "^8.3.2",
     "rollbar": "^2.19.3",
-    "sass": "^1.26.8",
     "tiny-slider": "^2.9.3",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@storybook/addon-viewport": "^6.1.20",
+    "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^6.1.20",
     "@types/classnames": "^2.2.10",
     "@types/node": "^14.0.14",
@@ -83,6 +83,7 @@
     "@types/uuid": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^3.5.0",
     "babel-plugin-inline-react-svg": "^1.1.1",
+    "css-loader": "^5.1.2",
     "cypress-file-upload": "^4.0.7",
     "eslint": "^7.3.1",
     "eslint-config-airbnb": "^18.2.0",
@@ -92,6 +93,9 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^2.5.1",
     "jest": "^26.1.0",
+    "sass": "^1.32.8",
+    "sass-loader": "10.1.1",
+    "style-loader": "^2.0.0",
     "typescript": "^3.9.6"
   },
   "jest": {

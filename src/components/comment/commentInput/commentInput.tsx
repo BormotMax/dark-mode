@@ -8,15 +8,15 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { Picker, BaseEmoji } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 
-import { useLogger } from '../../hooks';
-import { unauthClient } from '../../pages/_app';
-import { createComment } from '../../graphql/mutations';
-import { isClickOrEnter } from '../../helpers/util';
-import { MouseOrKeyboardEvent } from '../../types/custom';
-import Modal from '../modal';
+import { useLogger } from '../../../hooks';
+import { unauthClient } from '../../../pages/_app';
+import { createComment } from '../../../graphql/mutations';
+import { isClickOrEnter } from '../../../helpers/util';
+import { MouseOrKeyboardEvent } from '../../../types/custom';
+import Modal from '../../modal';
 
-import styles from './comment.module.scss';
-import CommentLayout from './commentLayout';
+import styles from '../comment.module.scss';
+import CommentLayout from '../commentLayout';
 
 const TEXT_AREA_HEIGHT = 36;
 const DEFAULT_MODAL_OFFSET_Y = TEXT_AREA_HEIGHT / 2;
@@ -60,7 +60,7 @@ export const CommentInput = memo<NewCommentProps>(({
   );
 
   const handleCreateComment = async (event: MouseOrKeyboardEvent) => {
-    if (!isClickOrEnter(event) || isSaving || content.trim() === '') return;
+    if (!isClickOrEnter(event) || isSaving || content.trim() === '' || !projectID || !creatorID) return;
 
     setIsSaving(true);
     const input = {
